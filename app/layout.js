@@ -1,6 +1,7 @@
 import { Newsreader } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import "./custom.css";
 import LenisProvider from "./components/LenisProvider";
 import Header from './components/SiteHeader';
 import Footer from './components/SiteFooter';
@@ -30,7 +31,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${aspekta.variable} ${newsreader.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <Header />
         <LenisProvider><main>{children}</main></LenisProvider>
         <Footer/>
