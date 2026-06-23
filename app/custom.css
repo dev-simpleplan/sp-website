@@ -208,6 +208,209 @@
   background-color: var(--sp-red);
   padding: 140px 0px;
 }
-.like-what-you-see h6{
+.like-what-you-see .heading h2{
   max-width: 30ch;
+  font-size: 32px;
+}
+.like-what-you-see .heading{
+  margin-bottom: 30px;
+}
+.like-what-you-see .counter-wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+  gap: 0;
+}
+
+.like-what-you-see .counter-block {
+  flex: 1;
+  position: relative;
+  padding: 0 48px;
+  overflow: hidden;
+}
+
+.like-what-you-see .counter-block:first-child {
+  padding-left: 0;
+}.like-what-you-see .counter-block:nth-child(2){
+  text-align: center;
+}
+.like-what-you-see .counter-block:last-child {
+  padding-right: 0;
+  text-align: end;
+}
+
+/* vertical divider between blocks */
+.like-what-you-see .counter-block:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 56px;
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+/* number */
+.like-what-you-see .counter-block h2 {
+  font-family: var(--newsreader);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(40px, 5.5vw, 88px);
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* label */
+.like-what-you-see .counter-block p {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+  text-transform: uppercase;
+  animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* stagger per block */
+.like-what-you-see .counter-block:nth-child(1) h2,
+.like-what-you-see .counter-block:nth-child(1) p { animation-delay: 0s; }
+
+.like-what-you-see .counter-block:nth-child(2) h2,
+.like-what-you-see .counter-block:nth-child(2) p { animation-delay: 0.25s; }
+
+.like-what-you-see .counter-block:nth-child(3) h2,
+.like-what-you-see .counter-block:nth-child(3) p { animation-delay: 0.5s; }
+
+@keyframes counter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .like-what-you-see .counter-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .like-what-you-see .counter-block {
+    padding: 0;
+    width: 100%;
+  }
+
+  .like-what-you-see .counter-block:not(:first-child)::before {
+    display: none;
+  }
+}
+.ready-to-build{
+  background-color: var(--sp-red);
+}
+.ready-to-build-in{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ready-to-build-in h2{
+  max-width: 18ch;
+}
+.ready-to-build-in p{
+  font-size: 20px;
+  max-width: 38ch;
+}
+.meet-the-simp {
+  background-color: var(--sp-red);
+  padding: 120px 0;
+}
+.meet-the-simp .heading {
+  margin-bottom: 60px;
+}
+.meet-the-simp .heading h2 {
+  font-style: italic;
+  margin-bottom: 16px;
+}
+.meet-the-simp-in {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* video container */
+.meet-simp-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+.meet-simp-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  border: none;
+  pointer-events: none;
+}
+.video-thumbnail-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.meet-simp-video .video-play-btn {
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  right: auto;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+}
+.meet-simp-video .video-play-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* right column */
+.meet-the-simp .right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.meet-the-simp .right p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+.know-more-cta {
+  margin-top: 16px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .meet-the-simp-in {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }

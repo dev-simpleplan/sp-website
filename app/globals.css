@@ -108,10 +108,11 @@ li {
   text-align: center;
   text-transform: uppercase;
   color: var(--sp-black);
-  padding: 15px 24px;
+  padding: 14px 24px;
   background-color: #ffffff;
   transition: .4s ease all;
   border: 1px solid #fff;
+  width: fit-content;
 }
 .custom-btn:hover{
 background-color: var(--sp-red);

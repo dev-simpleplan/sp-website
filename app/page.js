@@ -7,6 +7,8 @@ import TickerSection from "./components/TickerSection";
 import BringingClarity from './components/BringingClarity';
 import OurApproach from './components/OurApproach';
 import LikeWhatYouSee from './components/LikeWhatYouSee';
+import ReadyToBuild from './components/ReadyToBuid';
+import MeetTheSimp from './components/MeetTheSimp';
 
 export default function Home() {
 
@@ -46,6 +48,8 @@ export default function Home() {
       <BringingClarity />
       <OurApproach />
       <LikeWhatYouSee />
+      <ReadyToBuild />
+      <MeetTheSimp />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (
