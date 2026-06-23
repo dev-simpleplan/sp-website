@@ -6,6 +6,7 @@ import VideoAnimated from "./components/VideoAnimated";
 import TickerSection from "./components/TickerSection";
 import BringingClarity from './components/BringingClarity';
 import OurApproach from './components/OurApproach';
+import LikeWhatYouSee from './components/LikeWhatYouSee';
 
 export default function Home() {
 
@@ -44,6 +45,7 @@ export default function Home() {
       <VideoAnimated />
       <BringingClarity />
       <OurApproach />
+      <LikeWhatYouSee />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

@@ -189,6 +189,7 @@
   font-family: var(--font-aspekta);
   font-size: 24px;
   font-weight: 500;
+  font-style: normal;
 }
 .our-approach .block-box .dot{
   display: flex;
@@ -202,4 +203,11 @@
 }
 .our-approach .heading{
   margin-bottom: 120px;
+}
+.like-what-you-see{
+  background-color: var(--sp-red);
+  padding: 140px 0px;
+}
+.like-what-you-see h6{
+  max-width: 30ch;
 }

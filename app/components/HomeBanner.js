@@ -14,7 +14,7 @@ export default function HomeBanner() {
           </p>
           <div className="home-b-cta">
             <Link href="/contact" className="custom-btn">
-              Book A Call&nbsp;↗
+              Book A Call
             </Link>
             <Link href="/work" className="custom-cta-link">
               See Our Work
