@@ -1,15 +1,10 @@
-import { Newsreader } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./custom.css";
+import "./responsive.css";
 import LenisProvider from "./components/LenisProvider";
 import Header from './components/SiteHeader';
 import Footer from './components/SiteFooter';
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-});
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -29,8 +24,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${aspekta.variable} ${newsreader.variable}`}
+      className={`${aspekta.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet" />
+      </head>
       <body suppressHydrationWarning>
         <Header />
         <LenisProvider><main>{children}</main></LenisProvider>

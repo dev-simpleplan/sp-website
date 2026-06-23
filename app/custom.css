@@ -37,14 +37,17 @@
 }
 
 @keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ── Home Banner ──────────────────────────────────────────── */
 .home-banner {
   background-color: var(--sp-red);
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,7 +68,7 @@
   margin: 0 auto;
   margin-top: 20px;
 }
-.home-b-cta{
+.home-b-cta {
   display: flex;
   gap: 50px;
   align-items: center;
@@ -90,11 +93,27 @@
 .video-animated-frame {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   will-change: transform;
 }
 
-/* cover the frame at all aspect ratios */
-.video-animated-frame iframe {
+/* Container-bound video box — GSAP scales this */
+.video-animated-inner {
+  width: min(calc(100% - 120px), 1480px);
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  will-change: transform;
+  /* ensure equal space above and below */
+  max-height: 100vh;
+  width: min(calc(100% - 120px), calc(100vh * 16 / 9), 1480px);
+}
+
+/* cover the inner box at all aspect ratios */
+.video-animated-inner iframe {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
@@ -123,7 +142,9 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 .video-play-btn:hover {
   background: rgba(255, 255, 255, 0.28);
@@ -132,4 +153,53 @@
 .video-play-btn svg {
   width: 20px;
   height: 20px;
+}
+.bringing-clarity {
+  background-color: var(--sp-red);
+  padding: 194px 0px 150px 0px;
+}
+.bringing-clarity .heading h2 {
+  font-style: italic;
+  max-width: 24ch;
+}
+.bringing-clarity-in .list-wrap {
+  display: flex;
+  justify-content: end;
+  margin-top: 132px;
+}
+.our-approach{
+  background-color: var(--sp-red);
+}
+.our-approach .block-box-wrap{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.our-approach .block-box {
+  background-color: #ba0319;
+  border-right: .5px solid #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 150px;
+}
+.our-approach .block-box:last-child{
+  border: none;
+}
+.our-approach .block-box h4{
+  font-family: var(--font-aspekta);
+  font-size: 24px;
+  font-weight: 500;
+}
+.our-approach .block-box .dot{
+  display: flex;
+  gap: 4px;
+}
+.our-approach .block-box .bb-top{
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  min-height: 150px;
+}
+.our-approach .heading{
+  margin-bottom: 120px;
 }

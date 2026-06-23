@@ -4,6 +4,8 @@ import axios from 'axios';
 import HomeBanner from "./components/HomeBanner";
 import VideoAnimated from "./components/VideoAnimated";
 import TickerSection from "./components/TickerSection";
+import BringingClarity from './components/BringingClarity';
+import OurApproach from './components/OurApproach';
 
 export default function Home() {
 
@@ -40,6 +42,8 @@ export default function Home() {
       <HomeBanner />
       <TickerSection />
       <VideoAnimated />
+      <BringingClarity />
+      <OurApproach />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

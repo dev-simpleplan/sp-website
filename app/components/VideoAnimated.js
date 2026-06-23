@@ -8,7 +8,8 @@ const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop
 
 export default function VideoAnimated() {
   const sectionRef = useRef(null);
-  const frameRef = useRef(null);
+  const frameRef  = useRef(null);   // parallax target (whole frame)
+  const innerRef  = useRef(null);   // zoom target (container-sized box)
   const iframeRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -29,13 +30,29 @@ export default function VideoAnimated() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
+      // 1. Pre-pin parallax — frame rushes upward as section enters the viewport
+      //    starts when section bottom hits viewport bottom, ends when section pins
       gsap.fromTo(
         frameRef.current,
-        { scale: 0.45, y: "22vh", borderRadius: "20px" },
+        { y: "30vh" },
+        {
+          y: "0vh",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+        }
+      );
+
+      // 2. Zoom — once section is pinned, scale inner from small → container size
+      gsap.fromTo(
+        innerRef.current,
+        { scale: 0.62 },
         {
           scale: 1,
-          y: "0vh",
-          borderRadius: "0px",
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -54,29 +71,31 @@ export default function VideoAnimated() {
     <section ref={sectionRef} className="video-animated-section">
       <div className="video-animated-sticky">
         <div ref={frameRef} className="video-animated-frame">
-          <iframe
-            ref={iframeRef}
-            src={YT_SRC}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="SimplePlan Reel"
-          />
-          <button
-            className="video-play-btn"
-            onClick={togglePlay}
-            aria-label={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? (
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <rect x="6" y="4" width="4" height="16" rx="1" />
-                <rect x="14" y="4" width="4" height="16" rx="1" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            )}
-          </button>
+          <div ref={innerRef} className="video-animated-inner">
+            <iframe
+              ref={iframeRef}
+              src={YT_SRC}
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="SimplePlan Reel"
+            />
+            <button
+              className="video-play-btn"
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? (
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </section>
