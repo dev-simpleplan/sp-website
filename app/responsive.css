@@ -1,9 +1,13 @@
 @media screen and (max-width: 767px) {
-    .bringing-clarity-in .list-wrap{
-        margin-top: 30px;
-        justify-content: start;
-    }
-    .bringing-clarity{
-        padding: 60px 0px
-    }
+  .bringing-clarity-in .list-wrap {
+    margin-top: 30px;
+    justify-content: start;
+  }
+  .bringing-clarity {
+    padding: 60px 0px;
+  }
+  .meet-the-simp-in {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }

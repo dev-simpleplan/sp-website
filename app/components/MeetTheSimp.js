@@ -69,12 +69,12 @@ export default function MeetTheSimp() {
                 aria-label={isPlaying ? "Pause" : "Play"}
               >
                 {isPlaying ? (
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="#1A1A1A" aria-hidden="true">
                     <rect x="6" y="4" width="4" height="16" rx="1" />
                     <rect x="14" y="4" width="4" height="16" rx="1" />
                   </svg>
                 ) : (
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="#1A1A1A" aria-hidden="true">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 )}

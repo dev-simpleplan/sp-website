@@ -9,6 +9,9 @@ import OurApproach from './components/OurApproach';
 import LikeWhatYouSee from './components/LikeWhatYouSee';
 import ReadyToBuild from './components/ReadyToBuid';
 import MeetTheSimp from './components/MeetTheSimp';
+import WeAreProud from './components/WeAreProud';
+import WeDoStand from './components/WeDoStand';
+import ToolsToBuild from './components/ToolsToBuild';
 
 export default function Home() {
 
@@ -50,6 +53,9 @@ export default function Home() {
       <LikeWhatYouSee />
       <ReadyToBuild />
       <MeetTheSimp />
+      <WeAreProud />
+      <WeDoStand />
+      <ToolsToBuild />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (
