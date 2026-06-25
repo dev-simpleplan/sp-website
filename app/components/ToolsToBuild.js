@@ -1,25 +1,118 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ttbImg from "./images/ttb-img.png";
 
-export default function ToolsToBuild() {
+const VIDEO_ID = "a7yNYcLgU_8";
+const THUMBNAIL = `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
+
+const folds = [
+  {
+    type: "image",
+    text: "We've packaged everything we know into tools, templates, and SaaS products built for founders, freelancers, and agency owners. Whether you're building a brand from scratch or scaling an existing one, our products give you the thinking, the frameworks, and the tools to do it right.",
+    btnLabel: "Explore products",
+    btnHref: "#!",
+  },
+  {
+    type: "video",
+    text: "We create educational content for people who are figuring it out — freelancers, students, creative professionals, and early-stage founders. Free resources, paid courses, and real expertise, all designed to make branding and strategy feel less overwhelming.",
+    btnLabel: "Explore content",
+    btnHref: "#!",
+  },
+];
+
+function VideoFold() {
+  const [playing, setPlaying] = useState(false);
+  const iframeRef = useRef(null);
+
+  const handlePlay = () => {
+    setPlaying(true);
+    setTimeout(() => {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+        "*"
+      );
+    }, 100);
+  };
+
   return (
-    <section className="tools-to-build">
+    <div className="ttb-media ttb-video-wrap">
+      {!playing && (
+        <>
+          <img src={THUMBNAIL} alt="Video thumbnail" className="img" />
+          <button className="ttb-play-btn" onClick={handlePlay} aria-label="Play">
+            <svg viewBox="0 0 24 24" fill="#1A1A1A">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+        </>
+      )}
+      {playing && (
+        <iframe
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/${VIDEO_ID}?controls=1&rel=0&enablejsapi=1&autoplay=1`}
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          title="Video"
+        />
+      )}
+    </div>
+  );
+}
+
+export default function ToolsToBuild() {
+  const sectionRef = useRef(null);
+  const trackRef   = useRef(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const track = trackRef.current;
+
+      gsap.to(track, {
+        x: () => -(track.scrollWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          pin: true,
+          scrub: 1.2,
+          end: () => `+=${track.scrollWidth - window.innerWidth}`,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="tools-to-build">
       <div className="container">
         <div className="heading">
           <h2>Tools to build your brand</h2>
         </div>
-        <div className="tools-to-build-in">
-          <div className="ttb-fold">
-            <div className="left">
-              <div className="ttb-img">
-                <img src={ttbImg.src} alt="Image" className="img" />
-              </div>
+      </div>
+
+      <div ref={trackRef} className="ttb-track">
+        {folds.map((fold, i) => (
+          <div className="ttb-fold" key={i}>
+            <div className="ttb-left">
+              {fold.type === "image" ? (
+                <div className="ttb-media">
+                  <img src={ttbImg.src} alt="Tools" className="img" />
+                </div>
+              ) : (
+                <VideoFold />
+              )}
             </div>
-            <div className="right">
-                <p>We've packaged everything we know into tools, templates, and SaaS products built for founders, freelancers, and agency owners. Whether you're building a brand from scratch or scaling an existing one, our products give you the thinking, the frameworks, and the tools to do it right.</p>
-                <a href="#!" className="custom-btn">explore products</a>
+            <div className="ttb-right">
+              <p>{fold.text}</p>
+              <a href={fold.btnHref} className="custom-btn">{fold.btnLabel}</a>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
