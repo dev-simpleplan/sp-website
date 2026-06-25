@@ -1011,8 +1011,8 @@
 .testimonial-top {
   display: flex;
   align-items: center;
-  justify-content: end;
-  margin-bottom: 56px;
+  justify-content: center;
+  margin-top: 50px;
 }
 .testimonial-top h2 {
   color: #fff;

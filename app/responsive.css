@@ -16,4 +16,21 @@
   .like-what-you-see .counter-block:nth-child(3){
  text-align: start;
   }
+  .ts-quote{
+    font-size: 16px;
+  }
+  .author-name{
+    font-size: 14px;
+  }
+  .author-desig{
+    font-size: 14px;
+  }
+  .author-img{
+    width: 40px;
+    height: 40px;
+  }
+  .ts-nav-btn{
+    width: 38px;
+    height: 38px;
+  }
 }
