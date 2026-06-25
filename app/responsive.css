@@ -10,4 +10,10 @@
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .like-what-you-see .counter-block:nth-child(2){
+    text-align: start;
+  }
+  .like-what-you-see .counter-block:nth-child(3){
+ text-align: start;
+  }
 }

@@ -12,6 +12,9 @@ import MeetTheSimp from './components/MeetTheSimp';
 import WeAreProud from './components/WeAreProud';
 import WeDoStand from './components/WeDoStand';
 import ToolsToBuild from './components/ToolsToBuild';
+import YourBrandsLook from './components/YourBrandsLook';
+import ThinkBeforeBuild from './components/ThinkBeforeBuild';
+import TestimonialSection from './components/TestimonialSection';
 
 export default function Home() {
 
@@ -56,6 +59,9 @@ export default function Home() {
       <WeAreProud />
       <WeDoStand />
       <ToolsToBuild />
+      <YourBrandsLook />
+      <ThinkBeforeBuild />
+      <TestimonialSection />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

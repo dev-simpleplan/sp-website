@@ -169,11 +169,48 @@
 }
 .our-approach {
   background-color: var(--sp-red);
+  padding-bottom: 80px;
 }
-.our-approach .block-box-wrap {
+
+/* heading + nav row */
+.our-approach-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.our-approach .heading {
+  margin-bottom: 50;
+}
+.oa-nav {
+  display: none; /* hidden on desktop — shown on mobile via media query */
+  gap: 12px;
+}
+
+/* desktop grid */
+.block-box-wrap {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+
+/* slider container */
+.block-box-swiper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.block-box-swiper .swiper {
+  width: 100%;
+}
+.block-box-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+.block-box-swiper .swiper-slide {
+  height: auto;
+}
+
+/* shared card styles */
 .our-approach .block-box {
   background-color: #ba0319;
   border-right: 0.5px solid #fff;
@@ -181,9 +218,11 @@
   display: flex;
   flex-direction: column;
   gap: 150px;
+  height: 100%;
+  box-sizing: border-box;
 }
 .our-approach .block-box:last-child {
-  border: none;
+  border-right: none;
 }
 .our-approach .block-box h4 {
   font-family: var(--font-aspekta);
@@ -201,8 +240,25 @@
   gap: 70px;
   min-height: 150px;
 }
-.our-approach .heading {
-  margin-bottom: 120px;
+
+@media (max-width: 1199px) {
+  .our-approach-top {
+    margin-bottom: 40px;
+  }
+  .oa-nav {
+    display: flex;
+    gap: 12px;
+    padding: 0 60px;
+    justify-content: center;
+  }
+  .our-approach .block-box {
+    border-right: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    gap: 80px;
+    height: 100%;
+  }
 }
 .like-what-you-see {
   background-color: var(--sp-red);
@@ -389,17 +445,13 @@
 .wds-items-wrap {
   position: relative;
   overflow: hidden;
-  /* height is set by JS = height of one item */
 }
-
-/* items stacked absolutely, GSAP slides them in from below */
 .wds-item {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   padding: 40px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 .wds-item-top {
   display: flex;
@@ -419,14 +471,14 @@
 }
 .wds-year {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.55);
+  color: #fff;
   flex-shrink: 0;
   padding-left: 20px;
   padding-top: 6px;
 }
 .wds-desc {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.65);
+  color: #fff;
   line-height: 1.6;
   margin-top: 8px;
 }
@@ -734,7 +786,9 @@
   justify-content: center;
   cursor: pointer;
   z-index: 2;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 .ttb-play-btn:hover {
   transform: translate(-50%, -50%) scale(1.1);
@@ -756,4 +810,331 @@
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.75;
   font-size: 16px;
+}
+/* ── Your Brands Look ────────────────────────────────────── */
+.your-brands-look {
+  background-color: var(--sp-red);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* horizontal track — GSAP translates this */
+.ybl-track {
+  display: flex;
+  height: 100%;
+}
+
+/* each fold = one viewport wide */
+.your-brands-fold {
+  width: 100vw;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* vertical "Services" label on the left */
+.ybl-services-label {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.your-brands-fold h2 {
+  margin-bottom: 48px;
+  max-width: 24ch;
+}
+
+.your-brands-fold-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.ybf-img {
+  width: 300px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.ybf-img .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.your-brands-fold .right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  justify-content: end;
+  height: 100%;
+  padding-bottom: 48px;
+}
+.your-brands-fold .right .head {
+  font-family: var(--font-aspekta);
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 95%;
+  color: #fff;
+}
+.your-brands-fold .right .text {
+  font-size: 18px;
+  line-height: 150%;
+  max-width: 36ch;
+}
+.your-brands-fold .right .custom-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+/* ── Think Before You Build ──────────────────────────────── */
+.think-to-build {
+  background: var(--sp-red);
+  padding: 80px 0 100px;
+}
+
+.think-to-build .heading {
+  margin-bottom: 48px;
+}
+
+/* scrollable track — no scrollbar, drag to scroll */
+.think-to-build-in {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0 60px 0;
+  scrollbar-width: none;
+  cursor: none;
+  position: relative;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+.think-to-build-in::-webkit-scrollbar {
+  display: none;
+}
+
+/* custom drag cursor */
+.ttb-drag-cursor {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 113px;
+  height: 113px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ttb-drag-cursor span {
+  font-family: var(--font-aspekta);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #111111;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* each card */
+.ttb-card {
+  flex-shrink: 0;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ttb-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ttb-date {
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.ttb-title {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.45;
+  max-width: 28ch;
+}
+
+.ttb-card-img {
+  width: 100%;
+  height: 276px;
+  overflow: hidden;
+}
+.ttb-card-img .img {
+  display: flex;
+  pointer-events: none;
+}
+
+.ttb-read-more {
+  font-family: var(--font-aspekta);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  align-self: flex-start;
+}
+/* ── Testimonial Section ─────────────────────────────────── */
+.testimonial-section {
+  background-color: var(--sp-red);
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+/* heading row + nav side by side */
+.testimonial-top {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 56px;
+}
+.testimonial-top h2 {
+  color: #fff;
+}
+
+/* slider starts at container left edge, bleeds right — section clips the right */
+.testimonial-slider-wrap {
+  padding-left: 60px;
+  overflow: hidden;
+}
+.testimonial-slider-wrap .swiper {
+  overflow: visible;
+}
+
+/* card — no border, open layout */
+.testimonial-block {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.ts-platform {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ts-platform-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ts-reviewed-on {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.ts-stars {
+  display: flex;
+  gap: 2px;
+}
+.ts-rating {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.ts-brand-logo .icon {
+  height: 28px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.ts-quote {
+  font-size: 28px;
+  color: #fff;
+  line-height: 130%;
+  letter-spacing: 0px;
+}
+
+.testimonial-block .author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.author-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.author-img .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.author-name {
+  font-family: var(--font-aspekta);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 2px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color: #fff;
+}
+.author-desig {
+  font-size: 16px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+.testimonial-nav {
+  display: flex;
+  gap: 12px;
+}
+.ts-nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+.ts-nav-btn:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--sp-red);
+}
+.ts-nav-btn svg {
+  width: 20px;
+  height: 20px;
 }

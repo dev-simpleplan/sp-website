@@ -45,9 +45,9 @@ export default function WeDoStand() {
     const itemH = els[0].offsetHeight;
     wrap.style.height = itemH + "px";
 
-    // push items 1+ below the wrap (out of overflow:hidden)
+    // push items 1+ below the wrap — low opacity so they peek in dim
     els.forEach((el, i) => {
-      if (i > 0) gsap.set(el, { y: itemH + 60 });
+      if (i > 0) gsap.set(el, { y: itemH + 60, opacity: 0.25 });
     });
 
     const ctx = gsap.context(() => {
@@ -65,13 +65,13 @@ export default function WeDoStand() {
       items.forEach((_, i) => {
         if (i === items.length - 1) return;
 
-        // current item slides up and out
-        tl.to(els[i],      { y: -(itemH + 60), ease: "none" });
-        // next item slides in from below  (parallel)
-        tl.to(els[i + 1],  { y: 0,             ease: "none" }, "<");
-        // image crossfade                  (parallel)
-        tl.to(imgs[i],     { opacity: 0,        ease: "none" }, "<");
-        tl.to(imgs[i + 1], { opacity: 1,        ease: "none" }, "<");
+        // current item slides up and fades out
+        tl.to(els[i],      { y: -(itemH + 60), opacity: 0,    ease: "none" });
+        // next item slides in from below — opacity 0.25 → 1  (parallel)
+        tl.to(els[i + 1],  { y: 0,             opacity: 1,    ease: "none" }, "<");
+        // image crossfade                                      (parallel)
+        tl.to(imgs[i],     { opacity: 0,                       ease: "none" }, "<");
+        tl.to(imgs[i + 1], { opacity: 1,                       ease: "none" }, "<");
       });
     }, sectionRef);
 
