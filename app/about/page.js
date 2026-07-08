@@ -9,6 +9,6 @@ export default function About() {
       <p className="page__lead">
         This is the about page. Add your story here.
       </p>
-    </main>
+    </main> 
   );
 }
