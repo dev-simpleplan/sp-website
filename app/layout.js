@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <Header />
-        <LenisProvider><main>{children}</main></LenisProvider>
+        <LenisProvider><main>{children}</main></LenisProvider>  
         <Footer/>
       </body>
     </html>
