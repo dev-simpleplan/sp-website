@@ -44,7 +44,7 @@ const Card = ({ b }) => (
   </div>
 );
 
-export default function OurApproach() {
+export default function OurApproach({id}) {
   const swiperRef = useRef(null);
   const [isSlider, setIsSlider] = useState(false);
 
@@ -56,7 +56,7 @@ export default function OurApproach() {
   }, []);
 
   return (
-    <section className="our-approach">
+    <section className="our-approach" id={id}>
       <div className="container">
         <div className="our-approach-top">
           <div className="heading">

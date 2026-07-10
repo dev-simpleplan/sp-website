@@ -3,8 +3,8 @@ import "./globals.css";
 import "./custom.css";
 import "./responsive.css";
 import LenisProvider from "./components/LenisProvider";
-import Header from './components/SiteHeader';
-import Footer from './components/SiteFooter';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -27,13 +27,14 @@ export default function RootLayout({ children }) {
       className={`${aspekta.variable}`}
     >
       <head>
+        <link rel="shortcut icon" href="../public/images/favicon20.png" type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>
         <Header />
-        <LenisProvider><main>{children}</main></LenisProvider>  
+        <LenisProvider><main>{children}</main></LenisProvider>
         <Footer/>
       </body>
     </html>

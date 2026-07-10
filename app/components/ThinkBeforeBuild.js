@@ -31,7 +31,7 @@ const posts = [
   },
 ];
 
-export default function ThinkBeforeBuild() {
+export default function ThinkBeforeBuild({id}) {
   const trackRef   = useRef(null);
   const cursorRef  = useRef(null);
   const isDragging = useRef(false);
@@ -86,7 +86,7 @@ export default function ThinkBeforeBuild() {
   }, []);
 
   return (
-    <section className="think-to-build">
+    <section className="think-to-build" id={id}>
       <div className="container">
         <div className="heading">
           <h2>Think before you build</h2>

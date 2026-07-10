@@ -22,7 +22,7 @@ const folds = [
   },
 ];
 
-function VideoFold() {
+function VideoFold({id}) {
   const [playing, setPlaying] = useState(false);
   const iframeRef = useRef(null);
 
@@ -37,7 +37,7 @@ function VideoFold() {
   };
 
   return (
-    <div className="ttb-media ttb-video-wrap">
+    <div className="ttb-media ttb-video-wrap" id={id}>
       {!playing && (
         <>
           <img src={THUMBNAIL} alt="Video thumbnail" className="img" />

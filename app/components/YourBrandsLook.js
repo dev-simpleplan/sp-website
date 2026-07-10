@@ -30,7 +30,7 @@ const folds = [
   },
 ];
 
-export default function YourBrandsLook() {
+export default function YourBrandsLook({id}) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
 
@@ -57,7 +57,7 @@ export default function YourBrandsLook() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="your-brands-look">
+    <section ref={sectionRef} className="your-brands-look" id={id}>
       <div ref={trackRef} className="ybl-track">
         {folds.map((fold, i) => (
           <div className="your-brands-fold" key={i}>

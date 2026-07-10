@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const VIDEO_ID = "jGcetqbi53o";
 const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
 
-export default function VideoAnimated() {
+export default function VideoAnimated({id}) {
   const sectionRef = useRef(null);
   const frameRef  = useRef(null);   // parallax target (whole frame)
   const innerRef  = useRef(null);   // zoom target (container-sized box)
@@ -68,7 +68,7 @@ export default function VideoAnimated() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="video-animated-section">
+    <section ref={sectionRef} className="video-animated-section" id={id}>
       <div className="video-animated-sticky">
         <div ref={frameRef} className="video-animated-frame">
           <div ref={innerRef} className="video-animated-inner">

@@ -22,7 +22,7 @@ function runCounter(el, target, suffix, duration = 2500) {
   requestAnimationFrame(tick);
 }
 
-export default function LikeWhatYouSee() {
+export default function LikeWhatYouSee({id}) {
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function LikeWhatYouSee() {
   }, []);
 
   return (
-    <section className="like-what-you-see" ref={sectionRef}>
+    <section className="like-what-you-see" ref={sectionRef} id={id}>
       <div className="container">
         <div className="like-what-you-see-in">
           <div className="heading">

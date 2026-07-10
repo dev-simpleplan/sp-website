@@ -11,9 +11,9 @@ const logos = [
 // Duplicate for seamless infinite loop
 const track = [...logos, ...logos];
 
-export default function TickerSection() {
+export default function TickerSection({id}) {
   return (
-    <section className="ticker-section">
+    <section className="ticker-section" id={id}>
       <div className="ticker-inner">
         <div className="ticker-track">
           {track.map((logo, i) => (

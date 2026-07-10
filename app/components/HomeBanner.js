@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 
-export default function HomeBanner() {
+export default function HomeBanner({id}) {
   return (
-    <section className="home-banner">
+    <section className="home-banner" id={id}>
       <div className="container">
         <div className="home-banner-in">
           <h1>Your brand built to be unmissable</h1>

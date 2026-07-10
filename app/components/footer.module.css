@@ -1,0 +1,207 @@
+.spFooter {
+    position: relative;
+    overflow: hidden;
+    background-color: #BA0319;
+}
+
+.spFooterWatermark {
+    pointer-events: none;
+    width: 62%;
+    max-width: 62%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+}
+
+.spFooterInner {
+    position: relative;
+    z-index: 1;
+    padding: 96px 48px 25px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Hero */
+
+.spFooterHero {
+    max-width: 760px;
+    margin-bottom: 120px;
+    margin-left: 180px;
+}
+
+.spFooterHeading {
+    font-style: italic;
+    color: #ffffff;
+    font-size: 64px;
+    margin: 0 0 15px 0;
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -2%;
+}
+
+.spFooterSubtext {
+    color: #fff;
+    margin: 0 0 40px;
+    font-size: 20px;
+    line-height: 130%;
+    font-weight: 400;
+}
+
+.spBookCallBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 20px 28px;
+}
+
+.spBookCallIcon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Columns */
+
+.spFooterColumns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 64px;
+    margin-bottom: 96px;
+}
+
+.spFooterColumn {
+    min-width: 160px;
+    flex: 1;
+}
+
+.spFooterColumn:last-child {
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+
+.spFooterColumnTitle {
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.spFooterLinkList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.spFooterLink {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    line-height: 81%;
+    letter-spacing: 3.5%;
+    font-weight: 400;
+}
+
+.spFooterLink:hover {
+    text-decoration: underline;
+}
+
+/* Bottom bar */
+
+.spFooterBottom {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    display: flex;
+}
+
+.spFooterCopyright,
+.spFooterCredit {
+    color: #fff;
+    font-size: 14px;
+    display: inline-flex;
+    font-weight: 400;
+    line-height: 100%;
+    gap: 5px;
+}
+
+.spCopyrightIcon {
+    font-size: 13px;
+}
+
+.spHeart {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+    .spFooterHeading {
+        font-size: 48px;
+    }
+
+    .spFooterColumns {
+        gap: 40px;
+    }
+
+    .spFooterColumn:last-child {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .spFooterInner {
+        padding: 64px 24px 32px 24px;
+    }
+
+    .spFooterHero {
+        margin-bottom: 72px;
+    }
+
+    .spFooterHeading {
+        font-size: 36px;
+    }
+
+    .spFooterSubtext {
+        font-size: 16px;
+    }
+
+    .spFooterSubtext br {
+        display: none;
+    }
+
+    .spFooterColumns {
+        flex-direction: column;
+        gap: 40px;
+        margin-bottom: 56px;
+    }
+
+    .spFooterBottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .spFooterHeading {
+        font-size: 28px;
+    }
+
+    .spFooterHeading br {
+        display: none;
+    }
+}

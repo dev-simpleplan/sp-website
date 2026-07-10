@@ -32,11 +32,11 @@ const testimonials = [
   },
 ];
 
-export default function TestimonialSection() {
+export default function TestimonialSection({id}) {
   const swiperRef = useRef(null);
 
   return (
-    <section className="testimonial-section">
+    <section className="testimonial-section" id={id}>
   
 
       <div className="testimonial-slider-wrap">

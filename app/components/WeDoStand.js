@@ -25,7 +25,7 @@ const items = [
   },
 ];
 
-export default function WeDoStand() {
+export default function WeDoStand({id}) {
   const sectionRef  = useRef(null);
   const imgRefs     = useRef([]);
   const itemRefs    = useRef([]);
@@ -79,7 +79,7 @@ export default function WeDoStand() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="we-do-stand">
+    <section ref={sectionRef} className="we-do-stand" id={id}>
       {/* child of pinned element — overflow:hidden works here */}
       <div className="wds-viewport">
         <div className="container">

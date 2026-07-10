@@ -7,7 +7,7 @@ import weAreP2 from "./images/we-are-p2.png";
 import weAreP3 from "./images/we-are-p3.png";
 import weAreP4 from "./images/we-are-p4.png";
 
-export default function WeAreProud() {
+export default function WeAreProud({id}) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
 
@@ -81,7 +81,7 @@ export default function WeAreProud() {
   ];
 
   return (
-    <section ref={sectionRef} className="we-are-proud">
+    <section ref={sectionRef} className="we-are-proud" id={id}>
       <div className="container">
         <div className="heading">
           <h2>Work we are proud of</h2>

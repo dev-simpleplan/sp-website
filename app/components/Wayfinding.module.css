@@ -1,0 +1,87 @@
+/* Wayfinding.module.css
+   Fixed left-side scroll progress rail. No :root usage. */
+
+.spWayfinding {
+    position: fixed;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    /* Give the hover target some horizontal breathing room so users don't
+     have to hit the 1px line exactly. */
+    padding: 12px 24px 12px 4px;
+    height: 100%;
+}
+
+.spWayfindingLine {
+    background-color: #FF7B8B;
+    width: 1px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 4px;
+}
+
+.spWayfindingList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: relative;
+}
+
+.spWayfindingItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* Not a <button>/<a> on purpose — this rail is not interactive/clickable,
+     see comment in Wayfinding.jsx for why. */
+    cursor: default;
+}
+
+.spWayfindingDot {
+    flex-shrink: 0;
+    background: #FF7B8B;
+    width: 10px;
+    height: 1px;
+    transition: background-color .25s, transform .25s;
+}
+
+.spWayfindingDotActive {
+    background-color: #ffffff;
+    transform: scale(1.6);
+}
+
+.spWayfindingLabel {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.spWayfindingLabelVisible {
+    opacity: 0.65;
+    transform: translateX(0);
+}
+
+.spWayfindingLabelActive {
+    opacity: 1;
+}
+
+/* Hide on smaller screens — a side rail like this competes with content
+   on mobile and there's no room for it anyway. */
+@media (max-width: 900px) {
+    .spWayfinding {
+        display: none;
+    }
+}

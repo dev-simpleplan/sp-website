@@ -5,7 +5,7 @@ const VIDEO_ID = "a7yNYcLgU_8";
 const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
 const THUMBNAIL = `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
 
-export default function MeetTheSimp() {
+export default function MeetTheSimp({id}) {
   const iframeRef = useRef(null);
   const [started, setStarted]   = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,7 +32,7 @@ export default function MeetTheSimp() {
   };
 
   return (
-    <section className="meet-the-simp">
+    <section className="meet-the-simp" id={id}>
       <div className="container">
         <div className="heading">
           <h2>Meet the Simps</h2>

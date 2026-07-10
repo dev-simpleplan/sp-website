@@ -1,6 +1,6 @@
-export default function ReadyToBuild() {
+export default function ReadyToBuild({id}) {
   return (
-    <section className="ready-to-build">
+    <section className="ready-to-build" id={id}>
       <div className="container">
         <div className="ready-to-build-in">
             <h2>Ready to build your brand the right way?</h2>

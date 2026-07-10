@@ -15,6 +15,7 @@ import ToolsToBuild from './components/ToolsToBuild';
 import YourBrandsLook from './components/YourBrandsLook';
 import ThinkBeforeBuild from './components/ThinkBeforeBuild';
 import TestimonialSection from './components/TestimonialSection';
+import Wayfinding from "./components/Wayfinding";
 
 export default function Home() {
 
@@ -45,23 +46,41 @@ export default function Home() {
     return <Component data={sections[key]} />;
   };
 
+  const HOME_SECTIONS = [
+  { id: "hero", label: "Home" },
+  { id: "ticker", label: "Ticker" },
+  { id: "video", label: "Video" },
+  { id: "bringing-clarity", label: "Bringing Clarity" },
+  { id: "our-approach", label: "Our Approach" },
+  { id: "like-what-you-see", label: "Like What You See" },
+  { id: "ready-to-build", label: "Ready To Build" },
+  { id: "meet-the-simp", label: "Meet The Simp" },
+  { id: "we-are-proud", label: "We Are Proud" },
+  { id: "we-do-stand", label: "We Do Stand" },
+  { id: "tools-to-build", label: "Tools To Build" },
+  { id: "your-brands-look", label: "Your Brands Look" },
+  { id: "think-before-build", label: "Think Before Build" },
+  { id: "testimonial-section", label: "Testimonial Section" }
+];
+
   return (
     <>
       {/* Static sections — always render, no API needed */}
-      <HomeBanner />
-      <TickerSection />
-      <VideoAnimated />
-      <BringingClarity />
-      <OurApproach />
-      <LikeWhatYouSee />
-      <ReadyToBuild />
-      <MeetTheSimp />
-      <WeAreProud />
-      <WeDoStand />
-      <ToolsToBuild />
-      <YourBrandsLook />
-      <ThinkBeforeBuild />
-      <TestimonialSection />
+      <Wayfinding sections={HOME_SECTIONS} />
+      <HomeBanner id="hero" />
+      <TickerSection id="ticker" />
+      <VideoAnimated id="video" />
+      <BringingClarity id="bringing-clarity" />
+      <OurApproach  id="our-approach"/>
+      <LikeWhatYouSee id="like-what-you-see" />
+      <ReadyToBuild id="ready-to-build" />
+      <MeetTheSimp id="meet-the-simp" />
+      <WeAreProud id="we-are-proud" />
+      <WeDoStand id="we-do-stand" />
+      <ToolsToBuild id="tools-to-build" />
+      <YourBrandsLook id="your-brands-look" />
+      <ThinkBeforeBuild id="think-before-build" />
+      <TestimonialSection id="testimonial-section" />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

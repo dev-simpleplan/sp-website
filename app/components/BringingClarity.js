@@ -1,6 +1,6 @@
-export default function BringingClarity() {
+export default function BringingClarity({id}) {
   return (
-    <section className="bringing-clarity">
+    <section className="bringing-clarity" id={id}>
       <div className="container">
         <div className="bringing-clarity-in">
           <div className="heading">
