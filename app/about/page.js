@@ -7,7 +7,7 @@ export default function About() {
     <main className="page">
       <h1 className="page__title">About</h1>
       <p className="page__lead">
-        This is the about page. Add your story here.
+        This is the about page. Add your story here. this is my story.
       </p>
     </main>
   );
