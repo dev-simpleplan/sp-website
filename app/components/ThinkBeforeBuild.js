@@ -88,35 +88,34 @@ export default function ThinkBeforeBuild({id}) {
   return (
     <section className="think-to-build" id={id}>
       <div className="container">
-        <div className="heading">
+        <div className="heading gap-left">
           <h2>Think before you build</h2>
         </div>
-      </div>
-
-      <div className="think-to-build-in" ref={trackRef}>
-        {/* custom drag cursor */}
-        {cursorVisible && (
-          <div
-            ref={cursorRef}
-            className="ttb-drag-cursor"
-            style={{ left: cursorPos.x, top: cursorPos.y }}
-          >
-            <span>&lt; DRAG &gt;</span>
-          </div>
-        )}
-
-        {posts.map((post, i) => (
-          <div className="ttb-card" key={i}>
-            <div className="ttb-card-meta">
-              <span className="ttb-date">{post.date}</span>
-              <p className="ttb-title">{post.title}</p>
+        <div className="think-to-build-in gap-left" ref={trackRef}>
+          {/* custom drag cursor */}
+          {cursorVisible && (
+            <div
+              ref={cursorRef}
+              className="ttb-drag-cursor"
+              style={{ left: cursorPos.x, top: cursorPos.y }}
+            >
+              <span>&lt; DRAG &gt;</span>
             </div>
-            <div className="ttb-card-img">
-              <img src={post.image.src} alt={post.title} className="img" draggable="false" />
+          )}
+
+          {posts.map((post, i) => (
+            <div className="ttb-card" key={i}>
+              <div className="ttb-card-meta">
+                <span className="ttb-date">{post.date}</span>
+                <p className="ttb-title">{post.title}</p>
+              </div>
+              <div className="ttb-card-img">
+                <img src={post.image.src} alt={post.title} className="img" draggable="false" />
+              </div>
+              <a href={post.href} className="ttb-read-more">Read More</a>
             </div>
-            <a href={post.href} className="ttb-read-more">Read More</a>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -39,7 +39,7 @@ export default function TestimonialSection({id}) {
     <section className="testimonial-section" id={id}>
   
 
-      <div className="testimonial-slider-wrap">
+      <div className="testimonial-slider-wrap gap-left">
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1.15}
@@ -75,7 +75,7 @@ export default function TestimonialSection({id}) {
         </Swiper>
       </div>
           <div className="container">
-        <div className="testimonial-top">
+        <div className="testimonial-top gap-left">
           <div className="testimonial-nav">
             <button className="ts-nav-btn" onClick={() => swiperRef.current?.slidePrev()} aria-label="Previous">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

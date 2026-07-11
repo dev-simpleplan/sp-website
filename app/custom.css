@@ -9,6 +9,30 @@
   display: flex;
   width: 100%;
   overflow: hidden;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.ticker-inner::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  background: linear-gradient(90deg, #d8031d 0%, #d8031c00 100%);
+  z-index: 1;
+}
+.ticker-inner::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  background: linear-gradient(-90deg, #d8031d 0%, #d8031c00 100%);
+  z-index: 1;
+  right: 0;
 }
 
 .ticker-track {
@@ -114,6 +138,7 @@
   /* ensure equal space above and below */
   max-height: 100vh;
   width: min(calc(100% - 120px), calc(100vh * 16 / 9), 1480px);
+  width: 100%;
 }
 
 /* cover the inner box at all aspect ratios */
@@ -416,17 +441,19 @@
 .wds-viewport {
   height: 100vh;
   overflow: hidden;
-  padding: 60px 0;
+  padding: 60px 48px 60px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
+
 
 /* make container fill the available flex height */
 .we-do-stand .container {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0 60px 0 0;
 }
 
 .wds-top-heading {
@@ -525,6 +552,10 @@
 /* ── Ready to Build ─────────────────────────────────────── */
 .ready-to-build {
   background-color: var(--sp-red);
+  height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ready-to-build-in {
@@ -999,12 +1030,13 @@
   gap: 24px;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 0 60px 0;
+  /* padding: 0 60px 0 0; */
   scrollbar-width: none;
   cursor: none;
   position: relative;
   user-select: none;
   -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
 .think-to-build-in::-webkit-scrollbar {
@@ -1108,12 +1140,16 @@
 
 /* slider starts at container left edge, bleeds right — section clips the right */
 .testimonial-slider-wrap {
-  padding-left: 60px;
+  /* padding-left: 60px; */
   overflow: hidden;
+  padding-right: 42px;
+}
+.testimonial-slider-wrap.gap-left {
+    padding-left: 0;
 }
 
 .testimonial-slider-wrap .swiper {
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* card — no border, open layout */

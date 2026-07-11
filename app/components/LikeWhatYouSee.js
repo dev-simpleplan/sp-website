@@ -51,7 +51,7 @@ export default function LikeWhatYouSee({id}) {
   return (
     <section className="like-what-you-see" ref={sectionRef} id={id}>
       <div className="container">
-        <div className="like-what-you-see-in">
+        <div className="like-what-you-see-in gap-left">
           <div className="heading">
             <h2>Like what you see? Imagine what we could do for your brand.</h2>
           </div>
