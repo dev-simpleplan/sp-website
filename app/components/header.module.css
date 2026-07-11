@@ -625,6 +625,8 @@
 
     .spHamburgerBtn {
         display: inline-flex;
+        position: absolute;
+        right: 25px;
     }
 
     .spMegaMenu {
