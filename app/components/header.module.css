@@ -1,8 +1,17 @@
 .spHeader {
     z-index: 2;
     width: 100%;
-    position: relative;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.spHeaderScrolled.spHeader {
+    z-index: 100;
+}
+
+.spHeaderScrolled .spMegaMenu {
+    top: 73px;
 }
 
 .spHeaderBar {
@@ -13,9 +22,82 @@
     width: 100%;
     padding: 22px 48px;
     display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
+    transition: padding 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Sticky / scrolled state: header compacts a bit, nav shifts to the
+   center, and the Book a Call CTA becomes visible on the right. */
+.spHeaderScrolled .spHeaderBar {
+    padding: 14px 48px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 24px;
+    border-bottom: 1px solid #FF7B8B;
+}
+
+.spHeaderScrolled .spNav {
+    justify-self: center;
+}
+
+.spHeaderCta {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 12px 20px;
+    white-space: nowrap;
+}
+
+.spHeaderScrolled .spHeaderCta {
+    display: inline-flex;
+    justify-self: end;
+}
+
+.spHamburgerBtn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: 30px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.spHamburgerBar {
+    display: block;
+    width: 100%;
+    height: 1.8px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease, width 0.3s ease;
+}
+
+/* Morph into an X when open */
+.spHamburgerBtnOpen .spHamburgerBar:nth-child(1) {
+    transform: translateY(6.8px) rotate(45deg);
+}
+
+.spHamburgerBtnOpen .spHamburgerBar:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+
+.spHamburgerBtnOpen .spHamburgerBar:nth-child(3) {
+    transform: translateY(-6.8px) rotate(-45deg);
 }
 
 .spLogo {
@@ -57,7 +139,7 @@
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .spChevronOpen {
@@ -247,7 +329,7 @@
     letter-spacing: 0.5px;
 }
 
-.header-module__RYSdoq__spLogo img {
+.spLogo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -272,6 +354,245 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+/* Mobile menu overlay */
+
+.spMobileOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #d8011d;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-24px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.3s ease, visibility 0s linear 0.4s;
+}
+
+.spMobileOverlayOpen {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.35s ease, visibility 0s linear 0s;
+}
+
+.spMobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    flex-shrink: 0;
+}
+
+.spMobileClose {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 4px;
+    display: inline-flex;
+}
+
+.spMobileBackBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.spMobileBackIcon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.spMobileBody {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Root list */
+
+.spMobileList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.spMobileItem {
+    border-bottom: 1px solid #FF7B8B;
+}
+
+.spMobileItemNoBorder {
+    border-bottom: none;
+}
+
+.spMobileItemBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 20px 0;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.spMobileChevron {
+    display: inline-flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.spMobileCta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 24px;
+    margin-top: 40px;
+}
+
+/* Drill-down (What We Do / About Us) */
+
+.spMobileSubList {
+    display: flex;
+    flex-direction: column;
+    gap: 84px;
+    padding-top: 8px;
+}
+
+.spMobileGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.spMobileGroupTitle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 400;
+    text-decoration: none;
+    margin-bottom: 14px;
+}
+
+.spMobileGroupLinks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.spMobileGroupLink {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+/* Panel enter animation — replays every time `key` changes on .spMobileBody */
+.spMobileBody {
+    animation: spMobilePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes spMobilePanelIn {
+    from {
+        opacity: 0;
+        transform: translateX(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Stagger each root-list item and each drill-down group */
+.spMobileItem,
+.spMobileItemNoBorder,
+.spMobileGroup {
+    animation: spMobileItemIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.spMobileList>.spMobileItem:nth-child(1),
+.spMobileSubList>.spMobileGroup:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.spMobileList>.spMobileItem:nth-child(2),
+.spMobileSubList>.spMobileGroup:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.spMobileList>.spMobileItem:nth-child(3),
+.spMobileSubList>.spMobileGroup:nth-child(3) {
+    animation-delay: 0.19s;
+}
+
+.spMobileItemNoBorder {
+    animation-delay: 0.19s;
+}
+
+.spMobileCta {
+    animation: spMobileItemIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.26s;
+}
+
+@keyframes spMobileItemIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spMobileBackBtn {
+    margin-bottom: 24px;
+}
+
 /* Responsive */
 
 @media (max-width: 1024px) {
@@ -290,11 +611,24 @@
 
 @media (max-width: 900px) {
     .spHeaderBar {
-        padding: 18px 24px;
+        padding: 16px 24px;
     }
 
-    .spNav {
-        gap: 20px;
+    .spHeaderScrolled .spHeaderBar {
+        padding: 12px 24px;
+    }
+
+    .spNav,
+    .spHeaderCta {
+        display: none !important;
+    }
+
+    .spHamburgerBtn {
+        display: inline-flex;
+    }
+
+    .spMegaMenu {
+        display: none;
     }
 
     .spMegaMenuInner {
@@ -330,17 +664,77 @@
 }
 
 @media (max-width: 640px) {
-
-    .spNavItem span:first-child,
-    .spNavLink {
-        font-size: 11px;
-    }
-
-    .spNav {
-        gap: 14px;
-    }
-
     .spLogo {
-        font-size: 20px;
+        width: 130px;
+    }
+
+    .spMobileItemBtn {
+        font-size: 18px;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .spMobileGroupTitle {
+        font-size: 18px;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .header-module__Pd94da__spMobileGroupLink {
+        letter-spacing: 2%;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    .spMobileBody {
+        justify-content: flex-start;
+    }
+
+    .header-module__Pd94da__spMobileBackBtn {
+        letter-spacing: 3px;
+        gap: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    .spMobileBody {
+        padding: 0px 0px 32px;
+    }
+
+    .spMobileBackBtn {
+        margin-bottom: 24px;
+        background: #BA0319;
+        height: 58px;
+        padding: 15px;
+        font-size: 16px;
+        gap: 15px;
+        line-height: 150%;
+        letter-spacing: 3px;
+    }
+
+    .spMobileSubList {
+        padding: 40px 20px;
+    }
+
+    .spMobileList {
+        padding: 20px;
+    }
+
+    .spMobileCta {
+        margin: 20px
+    }
+
+    .spMobileChevron {
+        width: 12px;
+    }
+
+    .spMobileCta {
+        font-size: 14px;
+        color: #111111;
+        font-weight: 500;
+        letter-spacing: 2px;
     }
 }

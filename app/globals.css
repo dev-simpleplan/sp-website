@@ -230,12 +230,12 @@ img {
 }
 
 .gap-left {
-    max-width: 1250px;
-    margin-left: auto;
-    padding: 0 0 0 48px;
+  max-width: 1250px;
+  margin-left: auto;
+  padding: 0 0 0 48px;
 }
 
-.right_side_line{
+.right_side_line {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -276,5 +276,9 @@ img {
   .custom-btn {
     font-size: 12px;
     padding: 10px 15px;
+  }
+
+  .right_side_line {
+    display: none;
   }
 }

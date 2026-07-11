@@ -62,9 +62,10 @@ export default function Footer() {
             need to be reworked every time you grow.
           </p>
 
-          <Link href="/contact" className="custom-btn">
-                        Book A Call
-                      </Link>
+          <Link href="/contact" className={styles.spBookCallBtn}>
+            <span>Book a Call</span>
+            <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
+          </Link>
         </div>
 
         <div className={styles.spFooterColumns}>
@@ -109,8 +110,7 @@ export default function Footer() {
             {` ${year} SimplePlan Media`}
           </p>
           <p className={styles.spFooterCredit}>
-            Made With <span className={styles.spHeart}>❤️</span>
-            India
+            Made With <span className={styles.spHeart}>❤️</span> In India
           </p>
         </div>
       </div>

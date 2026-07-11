@@ -31,6 +31,12 @@
     margin-left: 180px;
 }
 
+@media (max-width: 1200px) {
+    .spFooterHero {
+        margin-left: 80px;
+    }
+}
+
 .spFooterHeading {
     font-style: italic;
     color: #ffffff;
@@ -154,6 +160,11 @@
         font-size: 48px;
     }
 
+    .spFooterHero {
+        margin-left: 0;
+        margin-bottom: 88px;
+    }
+
     .spFooterColumns {
         gap: 40px;
     }
@@ -161,47 +172,97 @@
     .spFooterColumn:last-child {
         margin-left: 0;
     }
+
+    .spFooterWatermark {
+        width: 80%;
+        max-width: 80%;
+    }
 }
 
 @media (max-width: 768px) {
     .spFooterInner {
-        padding: 64px 24px 32px 24px;
+        padding: 56px 24px 40px 24px;
     }
 
     .spFooterHero {
-        margin-bottom: 72px;
+        margin-bottom: 64px;
     }
 
     .spFooterHeading {
-        font-size: 36px;
+        font-size: 34px;
+        letter-spacing: -0.5px;
+    }
+
+    .spFooterHeading br {
+        display: none;
     }
 
     .spFooterSubtext {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .spFooterSubtext br {
         display: none;
     }
 
+    .spBookCallBtn {
+        padding: 16px 22px;
+    }
+
     .spFooterColumns {
         flex-direction: column;
-        gap: 40px;
-        margin-bottom: 56px;
+        gap: 48px;
+        margin-bottom: 64px;
+    }
+
+    .spFooterColumnTitle {
+        margin-bottom: 16px;
+    }
+
+    .spFooterLinkList {
+        gap: 18px;
     }
 
     .spFooterBottom {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 30px;
+        padding-top: 24px;
+    }
+
+    .spFooterWatermark {
+        width: 110%;
+        max-width: 110%;
+        height: 110vh;
     }
 }
 
 @media (max-width: 480px) {
-    .spFooterHeading {
-        font-size: 28px;
+    .spFooterInner {
+        padding: 48px 20px 28px 20px;
     }
 
-    .spFooterHeading br {
-        display: none;
+    .spFooterHeading {
+        font-size: 30px;
+    }
+
+    .spFooterSubtext {
+        font-size: 14px;
+    }
+
+    .spFooterHero {
+        margin-bottom: 56px;
+    }
+
+    .spFooterColumns {
+        gap: 40px;
+        margin-bottom: 56px;
+    }
+
+    .spBookCallBtn {
+        padding: 15px 20px;
+        font-size: 12px;
     }
 }

@@ -82,11 +82,40 @@ const ARROW_UP_RIGHT = (
   </svg>
 );
 
+const ARROW_LEFT = (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+    <path
+      d="M11 1L4 7L11 13"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const HAMBURGER_ICON = null;
+
+const CLOSE_ICON = (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path
+      d="M1 1L17 17M17 1L1 17"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 export default function Header() {
   const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
   const headerRef = useRef(null);
 
+  // Close desktop dropdowns on outside click / Escape
   useEffect(() => {
     function handleClickOutside(event) {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
@@ -98,6 +127,7 @@ export default function Header() {
       if (event.key === "Escape") {
         setIsWhatWeDoOpen(false);
         setIsAboutUsOpen(false);
+        setIsMobileMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -107,6 +137,36 @@ export default function Header() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  // Sticky header: toggle a "scrolled" state once the user scrolls past a
+  // small threshold. The header itself is always position:fixed (see CSS),
+  // this class just controls the compact layout (nav shifts to center,
+  // CTA button appears) + shadow.
+  useEffect(() => {
+    let ticking = false;
+
+    function handleScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 40);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Lock page scroll while the mobile menu overlay is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   function toggleWhatWeDo() {
     setIsWhatWeDoOpen((prev) => !prev);
@@ -118,13 +178,36 @@ export default function Header() {
     setIsWhatWeDoOpen(false);
   }
 
+  function openMobileMenu() {
+    setMobileView("root");
+    setIsMobileMenuOpen(true);
+  }
+
+  function closeMobileMenu() {
+    setIsMobileMenuOpen(false);
+    setMobileView("root");
+  }
+
+  const mobileSubHeading =
+    mobileView === "what-we-do"
+      ? "What We Do"
+      : mobileView === "about-us"
+      ? "About Us"
+      : null;
+
   return (
-    <header className={styles.spHeader} ref={headerRef}>
+    <header
+      className={`${styles.spHeader} ${
+        isScrolled ? styles.spHeaderScrolled : ""
+      }`}
+      ref={headerRef}
+    >
       <div className={styles.spHeaderBar}>
         <Link href="/" className={styles.spLogo}>
-  <Image src={MainLogo} alt="SimplePlan Logo" />
-</Link>
+          <Image src={MainLogo} alt="SimplePlan Logo" />
+        </Link>
 
+        {/* Desktop nav */}
         <nav className={styles.spNav} aria-label="Primary">
           <button
             type="button"
@@ -166,8 +249,33 @@ export default function Header() {
             Our Work
           </a>
         </nav>
+
+        {/* CTA — hidden until header is in its scrolled/sticky state */}
+
+        <Link
+  href="/contact"
+  className={`custom-btn ${styles.spHeaderCta}`}
+>
+  Book A Call
+</Link>
+
+        {/* Mobile hamburger trigger */}
+        <button
+  type="button"
+  className={`${styles.spHamburgerBtn} ${
+    isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""
+  }`}
+  aria-label="Open menu"
+  aria-expanded={isMobileMenuOpen}
+  onClick={openMobileMenu}
+>
+  <span className={styles.spHamburgerBar}></span>
+  <span className={styles.spHamburgerBar}></span>
+  <span className={styles.spHamburgerBar}></span>
+</button>
       </div>
 
+      {/* Desktop mega menu — What We Do */}
       <div
         className={`${styles.spMegaMenu} ${
           isWhatWeDoOpen ? styles.spMegaMenuOpen : ""
@@ -211,6 +319,7 @@ export default function Header() {
         <div className={styles.spMegaBg}></div>
       </div>
 
+      {/* Desktop mega menu — About Us */}
       <div
         className={`${styles.spMegaMenu} ${
           isAboutUsOpen ? styles.spMegaMenuOpen : ""
@@ -220,6 +329,128 @@ export default function Header() {
           <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
         </div>
         <div className={styles.spMegaBg}></div>
+      </div>
+
+      {/* Mobile menu overlay */}
+      <div
+        className={`${styles.spMobileOverlay} ${
+          isMobileMenuOpen ? styles.spMobileOverlayOpen : ""
+        }`}
+      >
+        <div className={styles.spMobileHeader}>
+  <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
+    <Image src={MainLogo} alt="SimplePlan Logo" />
+  </Link>
+
+  <button
+    type="button"
+    className={styles.spMobileClose}
+    aria-label="Close menu"
+    onClick={closeMobileMenu}
+  >
+    {CLOSE_ICON}
+  </button>
+</div>
+
+        {/* Root list: What We Do / About Us / Our Work */}
+        {mobileView === "root" && (
+          <div className={styles.spMobileBody} key="root">
+            <ul className={styles.spMobileList}>
+              <li className={styles.spMobileItem}>
+                <button
+                  type="button"
+                  className={styles.spMobileItemBtn}
+                  onClick={() => setMobileView("what-we-do")}
+                >
+                  <span>What We Do</span>
+                  <span className={styles.spMobileChevron}>
+                    {CHEVRON_RIGHT}
+                  </span>
+                </button>
+              </li>
+              <li className={styles.spMobileItem}>
+                <button
+                  type="button"
+                  className={styles.spMobileItemBtn}
+                  onClick={() => setMobileView("about-us")}
+                >
+                  <span>About Us</span>
+                  <span className={styles.spMobileChevron}>
+                    {CHEVRON_RIGHT}
+                  </span>
+                </button>
+              </li>
+              <li className={styles.spMobileItemNoBorder}>
+                <a
+                  href="/our-work"
+                  className={styles.spMobileItemBtn}
+                  onClick={closeMobileMenu}
+                >
+                  <span>Our Work</span>
+                </a>
+              </li>
+            </ul>
+
+            <a href="#" className={styles.spMobileCta}>
+              <span>Book a Call</span>
+              <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
+            </a>
+          </div>
+        )}
+
+        {/* What We Do drill-down */}
+        {mobileView === "what-we-do" && (
+          <div className={styles.spMobileBody} key="what-we-do">
+            <button
+      type="button"
+      className={styles.spMobileBackBtn}
+      onClick={() => setMobileView("root")}
+    >
+      <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
+      <span>What We Do</span>
+    </button>
+            <div className={styles.spMobileSubList}>
+              {MEGA_MENU_DATA.map((column) => (
+                <div className={styles.spMobileGroup} key={column.id}>
+                  <a href="#" className={styles.spMobileGroupTitle}>
+                    <span>{column.title}</span>
+                    <span className={styles.spMobileChevron}>
+                      {CHEVRON_RIGHT}
+                    </span>
+                  </a>
+                  <ul className={styles.spMobileGroupLinks}>
+                    {column.links.map((link) => (
+                      <li key={link}>
+                        <a
+                          href="#"
+                          className={styles.spMobileGroupLink}
+                          onClick={closeMobileMenu}
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* About Us drill-down */}
+        {mobileView === "about-us" && (
+          <div className={styles.spMobileBody} key="about-us">
+    <button
+      type="button"
+      className={styles.spMobileBackBtn}
+      onClick={() => setMobileView("root")}
+    >
+      <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
+      <span>About Us</span>
+    </button>
+            <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
+          </div>
+        )}
       </div>
     </header>
   );
