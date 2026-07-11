@@ -81,7 +81,7 @@ export default function WeDoStand({id}) {
   return (
     <section ref={sectionRef} className="we-do-stand" id={id}>
       {/* child of pinned element — overflow:hidden works here */}
-      <div className="wds-viewport">
+      <div className="wds-viewport gap-left">
         <div className="container">
           <div className="wds-top-heading">
             <h2>What We Do Stands Out</h2>

@@ -16,6 +16,7 @@ import YourBrandsLook from './components/YourBrandsLook';
 import ThinkBeforeBuild from './components/ThinkBeforeBuild';
 import TestimonialSection from './components/TestimonialSection';
 import Wayfinding from "./components/Wayfinding";
+import RightSideLine from "./components/RightSideLine";
 
 export default function Home() {
 
@@ -52,35 +53,37 @@ export default function Home() {
   { id: "video", label: "Video" },
   { id: "bringing-clarity", label: "Bringing Clarity" },
   { id: "our-approach", label: "Our Approach" },
-  { id: "like-what-you-see", label: "Like What You See" },
-  { id: "ready-to-build", label: "Ready To Build" },
-  { id: "meet-the-simp", label: "Meet The Simp" },
   { id: "we-are-proud", label: "We Are Proud" },
-  { id: "we-do-stand", label: "We Do Stand" },
-  { id: "tools-to-build", label: "Tools To Build" },
+  { id: "like-what-you-see", label: "Like What You See" },
   { id: "your-brands-look", label: "Your Brands Look" },
+  { id: "ready-to-build", label: "Ready To Build" },
+  { id: "testimonial-section", label: "Testimonial Section" },
+  { id: "we-do-stand", label: "We Do Stand" },
+  { id: "meet-the-simp", label: "Meet The Simp" },
+  { id: "tools-to-build", label: "Tools To Build" },
   { id: "think-before-build", label: "Think Before Build" },
-  { id: "testimonial-section", label: "Testimonial Section" }
+  
 ];
 
   return (
     <>
       {/* Static sections — always render, no API needed */}
       <Wayfinding sections={HOME_SECTIONS} />
+      <RightSideLine id="rightLine"/>
       <HomeBanner id="hero" />
       <TickerSection id="ticker" />
       <VideoAnimated id="video" />
       <BringingClarity id="bringing-clarity" />
       <OurApproach  id="our-approach"/>
-      <LikeWhatYouSee id="like-what-you-see" />
-      <ReadyToBuild id="ready-to-build" />
-      <MeetTheSimp id="meet-the-simp" />
       <WeAreProud id="we-are-proud" />
-      <WeDoStand id="we-do-stand" />
-      <ToolsToBuild id="tools-to-build" />
+      <LikeWhatYouSee id="like-what-you-see" />
       <YourBrandsLook id="your-brands-look" />
-      <ThinkBeforeBuild id="think-before-build" />
+      <ReadyToBuild id="ready-to-build" />
       <TestimonialSection id="testimonial-section" />
+      <WeDoStand id="we-do-stand" />
+      <MeetTheSimp id="meet-the-simp" />
+      <ToolsToBuild id="tools-to-build" />
+      <ThinkBeforeBuild id="think-before-build" />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

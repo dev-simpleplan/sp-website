@@ -34,14 +34,14 @@ export default function MeetTheSimp({id}) {
   return (
     <section className="meet-the-simp" id={id}>
       <div className="container">
-        <div className="heading">
+        <div className="heading gap-left">
           <h2>Meet the Simps</h2>
           <p>
             SimplePlan started in 2018 with a simple idea — that building a
             brand shouldn't be this hard.
           </p>
         </div>
-        <div className="meet-the-simp-in">
+        <div className="meet-the-simp-in gap-left">
           <div className="left">
             <div className="meet-simp-video">
               <iframe

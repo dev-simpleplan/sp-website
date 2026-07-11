@@ -2,7 +2,7 @@ export default function BringingClarity({id}) {
   return (
     <section className="bringing-clarity" id={id}>
       <div className="container">
-        <div className="bringing-clarity-in">
+        <div className="bringing-clarity-in gap-left">
           <div className="heading">
             <h2>Bringing clarity to the foundation your brand scales on</h2>
           </div>
