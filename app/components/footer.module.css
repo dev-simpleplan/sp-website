@@ -55,6 +55,7 @@
     font-weight: 400;
 }
 
+/* 
 .spBookCallBtn {
     display: inline-flex;
     align-items: center;
@@ -67,7 +68,7 @@
     text-transform: uppercase;
     text-decoration: none;
     padding: 20px 28px;
-}
+} */
 
 .spBookCallIcon {
     display: inline-flex;
@@ -205,9 +206,9 @@
         display: none;
     }
 
-    .spBookCallBtn {
+    /* .spBookCallBtn {
         padding: 16px 22px;
-    }
+    } */
 
     .spFooterColumns {
         flex-direction: column;
@@ -261,8 +262,8 @@
         margin-bottom: 56px;
     }
 
-    .spBookCallBtn {
+    /* .spBookCallBtn {
         padding: 15px 20px;
         font-size: 12px;
-    }
+    } */
 }

@@ -62,9 +62,8 @@ export default function Footer() {
             need to be reworked every time you grow.
           </p>
 
-          <Link href="/contact" className={styles.spBookCallBtn}>
+          <Link href="/contact" className={`custom-btn ${styles.spBookCallBtn}`}>
             <span>Book a Call</span>
-            <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
           </Link>
         </div>
 
