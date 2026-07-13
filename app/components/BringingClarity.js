@@ -4,7 +4,9 @@ export default function BringingClarity({id}) {
       <div className="container">
         <div className="bringing-clarity-in gap-left">
           <div className="heading">
-            <h2>Bringing clarity to the foundation your brand scales on</h2>
+            <div className="reveal-heading">
+              <h2>Bringing clarity to the foundation your brand scales on</h2>
+            </div>
           </div>
           <div className="list-wrap">
             <ul>

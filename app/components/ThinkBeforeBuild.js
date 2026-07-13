@@ -89,7 +89,7 @@ export default function ThinkBeforeBuild({id}) {
     <section className="think-to-build" id={id}>
       <div className="container">
         <div className="heading gap-left">
-          <h2>Think before you build</h2>
+          <h2 className="reveal-heading">Think before you build</h2>
         </div>
         <div className="think-to-build-in gap-left" ref={trackRef}>
           {/* custom drag cursor */}
