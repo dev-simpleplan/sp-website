@@ -84,7 +84,7 @@ export default function WeDoStand({id}) {
       <div className="wds-viewport gap-left">
         <div className="container">
           <div className="wds-top-heading">
-            <h2>What We Do Stands Out</h2>
+            <h2 className="reveal-heading">What We Do Stands Out</h2>
           </div>
 
           <div className="we-do-stand-in">

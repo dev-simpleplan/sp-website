@@ -60,7 +60,7 @@ export default function OurApproach({id}) {
       <div className="container">
         <div className="our-approach-top gap-left">
           <div className="heading">
-            <h2>Our approach is simple</h2>
+            <h2 className="reveal-heading">Our approach is simple</h2>
           </div>
         </div>
 

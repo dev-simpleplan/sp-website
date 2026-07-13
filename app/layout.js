@@ -5,6 +5,7 @@ import "./responsive.css";
 import LenisProvider from "./components/LenisProvider";
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AnimationProvider from "./components/AnimationProvider"
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -20,6 +21,8 @@ export const metadata = {
   description: "We build brands that stands the test of time - From Branding, Web Design and Development to Marketing, we do it all!",
 };
 
+
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -34,7 +37,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <Header />
-        <LenisProvider><main>{children}</main></LenisProvider>
+        <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider>
         <Footer/>
       </body>
     </html>

@@ -105,6 +105,8 @@
   flex-wrap: wrap;
 }
 
+/* @media screen and (max-width: ) */
+
 /* ── Video Animated ──────────────────────────────────────── */
 .video-animated-section {
   height: 300vh;

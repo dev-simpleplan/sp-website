@@ -91,7 +91,7 @@ export default function ToolsToBuild() {
     <section ref={sectionRef} className="tools-to-build">
       <div className="container">
         <div className="heading">
-          <h2>Tools to build your brand</h2>
+          <h2 className="reveal-heading">Tools to build your brand</h2>
         </div>
       </div>
 
@@ -109,7 +109,24 @@ export default function ToolsToBuild() {
             </div>
             <div className="ttb-right">
               <p>{fold.text}</p>
-              <a href={fold.btnHref} className="custom-btn">{fold.btnLabel}</a>
+              <a href={fold.btnHref} className="custom-btn">
+                <span>{fold.btnLabel}</span>
+                <span className="arrow-wrap">
+                      <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                          <path
+                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                                fill="currentColor" />
+                      </svg>
+
+                      <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                          <path
+                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                                fill="currentColor" />
+                      </svg>
+                  </span>
+              </a>
             </div>
           </div>
         ))}
