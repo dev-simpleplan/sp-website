@@ -41,6 +41,10 @@
     justify-self: center;
 }
 
+.spHeaderCta {
+    display: none;
+}
+
 .spHeaderScrolled .spHeaderCta {
     display: inline-flex;
     justify-self: end;
