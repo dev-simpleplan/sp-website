@@ -46,6 +46,16 @@ const MEGA_MENU_DATA = [
   },
 ];
 
+const CLIENT_LOGOS = [
+  "KEY LIST",
+  "Haldiram's",
+  "INVOGUE",
+  "JOSH TALKS",
+  "LumiRed",
+  "Makers Hive",
+  "AUX",
+];
+
 const CHEVRON_DOWN = (
   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
     <path
@@ -94,8 +104,6 @@ const ARROW_LEFT = (
   </svg>
 );
 
-const HAMBURGER_ICON = null;
-
 const CLOSE_ICON = (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
     <path
@@ -107,6 +115,11 @@ const CLOSE_ICON = (
   </svg>
 );
 
+// How long to wait before actually closing a hover-opened menu — gives the
+// user time to move the cursor from the nav button down into the panel
+// without it snapping shut in the gap between them.
+const CLOSE_DELAY_MS = 200;
+
 export default function Header() {
   const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
@@ -114,8 +127,13 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
   const headerRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
 
-  // Close desktop dropdowns on outside click / Escape
+  const isAnyDesktopMenuOpen = isWhatWeDoOpen || isAboutUsOpen;
+  const isAnyMenuOpen = isAnyDesktopMenuOpen || isMobileMenuOpen;
+
+  // Close desktop dropdowns on outside click / Escape (kept as a safety net
+  // alongside hover — useful for touch/keyboard users)
   useEffect(() => {
     function handleClickOutside(event) {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
@@ -139,9 +157,7 @@ export default function Header() {
   }, []);
 
   // Sticky header: toggle a "scrolled" state once the user scrolls past a
-  // small threshold. The header itself is always position:fixed (see CSS),
-  // this class just controls the compact layout (nav shifts to center,
-  // CTA button appears) + shadow.
+  // small threshold.
   useEffect(() => {
     let ticking = false;
 
@@ -168,14 +184,32 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  function toggleWhatWeDo() {
-    setIsWhatWeDoOpen((prev) => !prev);
-    setIsAboutUsOpen(false);
+  // Clear any pending close timer on unmount
+  useEffect(() => {
+    return () => clearTimeout(closeTimeoutRef.current);
+  }, []);
+
+  function openMenu(menu) {
+    clearTimeout(closeTimeoutRef.current);
+    if (menu === "what-we-do") {
+      setIsWhatWeDoOpen(true);
+      setIsAboutUsOpen(false);
+    } else {
+      setIsAboutUsOpen(true);
+      setIsWhatWeDoOpen(false);
+    }
   }
 
-  function toggleAboutUs() {
-    setIsAboutUsOpen((prev) => !prev);
-    setIsWhatWeDoOpen(false);
+  function scheduleClose() {
+    clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsWhatWeDoOpen(false);
+      setIsAboutUsOpen(false);
+    }, CLOSE_DELAY_MS);
+  }
+
+  function cancelScheduledClose() {
+    clearTimeout(closeTimeoutRef.current);
   }
 
   function openMobileMenu() {
@@ -188,18 +222,11 @@ export default function Header() {
     setMobileView("root");
   }
 
-  const mobileSubHeading =
-    mobileView === "what-we-do"
-      ? "What We Do"
-      : mobileView === "about-us"
-      ? "About Us"
-      : null;
-
   return (
     <header
       className={`${styles.spHeader} ${
         isScrolled ? styles.spHeaderScrolled : ""
-      }`}
+      } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""}`}
       ref={headerRef}
     >
       <div className={styles.spHeaderBar}>
@@ -207,7 +234,7 @@ export default function Header() {
           <Image src={MainLogo} alt="SimplePlan Logo" />
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — dropdowns open on hover */}
         <nav className={styles.spNav} aria-label="Primary">
           <button
             type="button"
@@ -215,7 +242,10 @@ export default function Header() {
               isWhatWeDoOpen ? styles.spNavItemActive : ""
             }`}
             aria-expanded={isWhatWeDoOpen}
-            onClick={toggleWhatWeDo}
+            onMouseEnter={() => openMenu("what-we-do")}
+            onMouseLeave={scheduleClose}
+            onFocus={() => openMenu("what-we-do")}
+            onBlur={scheduleClose}
           >
             <span>What We Do</span>
             <span
@@ -233,7 +263,10 @@ export default function Header() {
               isAboutUsOpen ? styles.spNavItemActive : ""
             }`}
             aria-expanded={isAboutUsOpen}
-            onClick={toggleAboutUs}
+            onMouseEnter={() => openMenu("about-us")}
+            onMouseLeave={scheduleClose}
+            onFocus={() => openMenu("about-us")}
+            onBlur={scheduleClose}
           >
             <span>About Us</span>
             <span
@@ -251,51 +284,61 @@ export default function Header() {
         </nav>
 
         {/* CTA — hidden until header is in its scrolled/sticky state */}
-
-        <Link
-  href="/contact"
-  className={`custom-btn ${styles.spHeaderCta}`}
->
-  <span>Book A Call</span>
-  <span className="arrow-wrap">
-                      <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                      </svg>
-
-                      <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                      </svg>
-                  </span>
-</Link>
+        <Link href="/contact" className={`custom-btn ${styles.spHeaderCta}`}>
+          <span>Book A Call</span>
+          <span className="arrow-wrap">
+            <svg
+              className="arrow arrow-1"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                fill="currentColor"
+              />
+            </svg>
+            <svg
+              className="arrow arrow-2"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </Link>
 
         {/* Mobile hamburger trigger */}
         <button
-  type="button"
-  className={`${styles.spHamburgerBtn} ${
-    isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""
-  }`}
-  aria-label="Open menu"
-  aria-expanded={isMobileMenuOpen}
-  onClick={openMobileMenu}
->
-  <span className={styles.spHamburgerBar}></span>
-  <span className={styles.spHamburgerBar}></span>
-  <span className={styles.spHamburgerBar}></span>
-</button>
+          type="button"
+          className={`${styles.spHamburgerBtn} ${
+            isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""
+          }`}
+          aria-label="Open menu"
+          aria-expanded={isMobileMenuOpen}
+          onClick={openMobileMenu}
+        >
+          <span className={styles.spHamburgerBar}></span>
+          <span className={styles.spHamburgerBar}></span>
+          <span className={styles.spHamburgerBar}></span>
+        </button>
       </div>
 
       {/* Desktop mega menu — What We Do */}
-      <div className="spMegaMenuRelative">
       <div
         className={`${styles.spMegaMenu} ${
           isWhatWeDoOpen ? styles.spMegaMenuOpen : ""
         }`}
+        onMouseEnter={cancelScheduledClose}
+        onMouseLeave={scheduleClose}
       >
         <div className={styles.spMegaMenuInner}>
           <div className={styles.spMegaMenuTop}>
@@ -332,23 +375,54 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <div className={styles.spMegaBg}></div>
-      </div>
+
+        {/* Bottom bar shown inside the overlay area below the dropdown,
+            matching the reference design (CTA + client logos) */}
+        <div className={styles.spMegaMenuBottom}>
+          <div className={styles.spMegaMenuCtas}>
+            <a href="/contact" className={styles.spBookCallBtn}>
+              <span>Book a Call</span>
+              <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
+            </a>
+            <a href="/our-work" className={styles.spSeeWorkLink}>
+              See Our Work
+            </a>
+          </div>
+
+          <ul className={styles.spClientLogos}>
+            {CLIENT_LOGOS.map((logo) => (
+              <li key={logo} className={styles.spClientLogo}>
+                {logo}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Desktop mega menu — About Us */}
-      <div className="spMegaMenuRelative">
       <div
         className={`${styles.spMegaMenu} ${
           isAboutUsOpen ? styles.spMegaMenuOpen : ""
         }`}
+        onMouseEnter={cancelScheduledClose}
+        onMouseLeave={scheduleClose}
       >
         <div className={styles.spMegaMenuInner}>
           <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
         </div>
-        <div className={styles.spMegaBg}></div>
       </div>
-      </div>
+
+      {/* Single shared dim overlay for BOTH desktop mega menus — replaces
+          the old per-menu overlay so only one exists in the DOM at a time */}
+      <div
+        className={`${styles.spMegaBg} ${
+          isAnyDesktopMenuOpen ? styles.spMegaBgOpen : ""
+        }`}
+        onClick={() => {
+          setIsWhatWeDoOpen(false);
+          setIsAboutUsOpen(false);
+        }}
+      ></div>
 
       {/* Mobile menu overlay */}
       <div
@@ -357,19 +431,19 @@ export default function Header() {
         }`}
       >
         <div className={styles.spMobileHeader}>
-  <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
-    <Image src={MainLogo} alt="SimplePlan Logo" />
-  </Link>
+          <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
+            <Image src={MainLogo} alt="SimplePlan Logo" />
+          </Link>
 
-  <button
-    type="button"
-    className={styles.spMobileClose}
-    aria-label="Close menu"
-    onClick={closeMobileMenu}
-  >
-    {CLOSE_ICON}
-  </button>
-</div>
+          <button
+            type="button"
+            className={styles.spMobileClose}
+            aria-label="Close menu"
+            onClick={closeMobileMenu}
+          >
+            {CLOSE_ICON}
+          </button>
+        </div>
 
         {/* Root list: What We Do / About Us / Our Work */}
         {mobileView === "root" && (
@@ -421,13 +495,13 @@ export default function Header() {
         {mobileView === "what-we-do" && (
           <div className={styles.spMobileBody} key="what-we-do">
             <button
-      type="button"
-      className={styles.spMobileBackBtn}
-      onClick={() => setMobileView("root")}
-    >
-      <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-      <span>What We Do</span>
-    </button>
+              type="button"
+              className={styles.spMobileBackBtn}
+              onClick={() => setMobileView("root")}
+            >
+              <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
+              <span>What We Do</span>
+            </button>
             <div className={styles.spMobileSubList}>
               {MEGA_MENU_DATA.map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
@@ -459,14 +533,14 @@ export default function Header() {
         {/* About Us drill-down */}
         {mobileView === "about-us" && (
           <div className={styles.spMobileBody} key="about-us">
-    <button
-      type="button"
-      className={styles.spMobileBackBtn}
-      onClick={() => setMobileView("root")}
-    >
-      <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-      <span>About Us</span>
-    </button>
+            <button
+              type="button"
+              className={styles.spMobileBackBtn}
+              onClick={() => setMobileView("root")}
+            >
+              <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
+              <span>About Us</span>
+            </button>
             <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
           </div>
         )}

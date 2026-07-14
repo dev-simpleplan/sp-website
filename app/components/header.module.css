@@ -10,6 +10,17 @@
     z-index: 100;
 }
 
+/* This is the actual fix for the wayfinding/right-line overlap: those are
+   separate fixed elements elsewhere on the page with their own z-index
+   (around 200). Nothing inside this header — however high its internal
+   z-index — can appear above them unless the <header> element ITSELF has
+   a higher z-index than they do. We only bump it while a menu/overlay is
+   actually open, so the rail is still allowed to sit over the plain
+   header bar the rest of the time. */
+.spHeaderMenuOpen.spHeader {
+    z-index: 260;
+}
+
 .spHeaderScrolled .spMegaMenu {
     top: 73px;
 }
@@ -17,7 +28,7 @@
 .spHeaderBar {
     z-index: 2;
     background-color: #d8011d;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     padding: 22px 48px;
@@ -26,23 +37,13 @@
     transition: padding 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Sticky / scrolled state: header compacts a bit, nav shifts to the
-   center, and the Book a Call CTA becomes visible on the right. */
 .spHeaderScrolled .spHeaderBar {
     padding: 14px 48px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    column-gap: 24px;
     border-bottom: 1px solid #FF7B8B;
 }
 
-.spHeaderScrolled .spNav {
-    justify-self: center;
-}
-
 .spHeaderCta {
-    display: none;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
     background-color: #ffffff;
@@ -53,13 +54,31 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 12px 20px;
     white-space: nowrap;
+    overflow: hidden;
+
+    /* Collapsed by default — zero width/padding, invisible, but still
+       present as a real flex item (unlike display:none), so it still
+       takes part in `space-between`'s math. */
+    max-width: 0;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+
+    transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .spHeaderScrolled .spHeaderCta {
-    display: inline-flex;
-    justify-self: end;
+    max-width: 240px;
+    padding: 12px 20px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.05s;
 }
 
 .spHamburgerBtn {
@@ -110,6 +129,7 @@
     display: flex;
     align-items: center;
     gap: 40px;
+    margin-left: auto;
 }
 
 .spNavItem {
@@ -160,14 +180,13 @@
 /* Mega menu */
 
 .spMegaMenu {
-    /* z-index: 1; */
+    position: relative;
+    z-index: 2;
     max-height: 0;
-    transition: max-height .35s;
-    /* position: absolute; */
+    transition: max-height 0.45s cubic-bezier(0.65, 0, 0.35, 1);
     overflow: hidden;
     background: #d8021d;
     width: 100%;
-    /* top: 80px; */
 }
 
 .spMegaMenuOpen {
@@ -178,8 +197,17 @@
 .spMegaMenuInner {
     padding: 44px 48px 58px;
     position: relative;
-    z-index: 999999;
+    z-index: 2;
     background: #d8021d;
+    opacity: 0;
+    transform: translateY(-14px);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spMegaMenuOpen .spMegaMenuInner {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.08s;
 }
 
 .spMegaMenuTop {
@@ -273,6 +301,15 @@
     flex-direction: column;
     align-items: center;
     gap: 48px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spMegaMenuOpen .spMegaMenuBottom {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.16s;
 }
 
 .spMegaMenuCtas {
@@ -336,23 +373,30 @@
     object-fit: cover;
 }
 
-.spMegaMenu .spMegaBg {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.spMegaMenuOpen .spMegaBg {
-    z-index: -1;
-    opacity: .5;
-    background-color: #000;
-    width: 100%;
-    height: 100vh;
+/* Single shared dim overlay behind BOTH mega menus (only one instance in
+   the DOM now, driven by isAnyDesktopMenuOpen, instead of one per menu).
+   It lives inside <header>, so it only needs to win locally — the header's
+   own z-index (bumped via .spHeaderMenuOpen above) is what keeps the whole
+   group above the wayfinding rail / right-side line. */
+.spMegaBg {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.spMegaBgOpen {
+    opacity: 0.5;
     visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: auto;
+    transition: opacity 0.35s ease, visibility 0s linear 0s;
 }
 
 /* Mobile menu overlay */
@@ -578,6 +622,10 @@
     animation-delay: 0.26s;
 }
 
+.spHeader.spHeaderScrolled .spNav {
+    margin-right: auto;
+}
+
 @keyframes spMobileItemIn {
     from {
         opacity: 0;
@@ -684,7 +732,7 @@
         gap: 10px;
     }
 
-    .header-module__Pd94da__spMobileGroupLink {
+    .spMobileGroupLink {
         letter-spacing: 2%;
         font-size: 15px;
         font-weight: 500;
@@ -695,7 +743,7 @@
         justify-content: flex-start;
     }
 
-    .header-module__Pd94da__spMobileBackBtn {
+    .spMobileBackBtn {
         letter-spacing: 3px;
         gap: 15px;
         font-size: 16px;

@@ -34,38 +34,7 @@ const CLOSE_ICON = (
   </svg>
 );
 
-/**
- * ServiceBanner
- * -------------
- * Intro-style split banner: tag label + serif heading + CTA on the left,
- * a video thumbnail with a play button on the right. Clicking play opens
- * the showreel (YouTube embed) in a modal that scales/fades in from the
- * thumbnail, inspired by the reveal feel at https://formstudio.site/studio
- * (a full canvas-morph transition like that page needs a dedicated
- * animation library — this gives the same "expand from the thumbnail,
- * fade the page back" sensation with plain CSS transitions).
- *
- * Usage:
- *   <ServiceBanner
- *     tagLabel="Intro"
- *     heading={["Branding Is Not", "What People See"]}
- *     subtext="It is what they experience over time"
- *     ctaText="Start a Branding Project"
- *     ctaHref="/contact"
- *     thumbnailSrc="/images/what-a-brand-is-thumb.jpg"
- *     overlayText="What a Brand Is?"
- *     videoId="dQw4w9WgXcQ"
- *   />
- */
-export default function ServiceBanner({
-  tagLabel = "Intro",
-  heading = ["Branding Is Not", "What People See"],
-  subtext = "It is what they expereince over time",
-  ctaText = "Start a Branding Project",
-  ctaHref = "/contact",
-  overlayText = "What a Brand Is?",
-  videoId
-}) {
+export default function ServiceBanner({data}) {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   function openVideo() {
@@ -91,19 +60,37 @@ export default function ServiceBanner({
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
+  const banner = data || {};
+
+const title = banner.title || "";
+
+const subtext =
+  banner.description?.[0]?.children?.[0]?.text || "";
+
+const ctaText = banner.cta_text || "";
+
+const ctaHref = banner.cta_link || "#";
+
+const overlayText = banner.tagline || "";
+
+const thumbnail = banner.video_thumbnail?.url
+  ? `${process.env.NEXT_PUBLIC_API_URL}${banner.video_thumbnail.url}`
+  : "/service-banner.png";
+
+const videoId = banner.videourl
+  ? banner.videourl.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/
+    )?.[1] || ""
+  : "";
+
   return (
     <section className={styles.spServiceBanner}>
 
       <div className={styles.spServiceBannerInner}>
         <div className={styles.spContent}>
           <h2 className={styles.spHeading}>
-            {heading.map((line, index) => (
-              <span className={styles.spHeadingLine} key={line}>
-                {line}
-                {index < heading.length - 1 && <br />}
-              </span>
-            ))}
-          </h2>
+  {title}
+</h2>
 
           <p className={styles.spSubtext}>{subtext}</p>
 
@@ -124,7 +111,7 @@ export default function ServiceBanner({
           </button>
 
             <Image
-              src="/service-banner.png"
+              src={thumbnail}
               alt={overlayText}
               fill
               className={styles.spThumbnail}
