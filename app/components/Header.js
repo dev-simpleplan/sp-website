@@ -291,6 +291,7 @@ export default function Header() {
       </div>
 
       {/* Desktop mega menu — What We Do */}
+      <div className="spMegaMenuRelative">
       <div
         className={`${styles.spMegaMenu} ${
           isWhatWeDoOpen ? styles.spMegaMenuOpen : ""
@@ -333,8 +334,10 @@ export default function Header() {
         </div>
         <div className={styles.spMegaBg}></div>
       </div>
+      </div>
 
       {/* Desktop mega menu — About Us */}
+      <div className="spMegaMenuRelative">
       <div
         className={`${styles.spMegaMenu} ${
           isAboutUsOpen ? styles.spMegaMenuOpen : ""
@@ -344,6 +347,7 @@ export default function Header() {
           <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
         </div>
         <div className={styles.spMegaBg}></div>
+      </div>
       </div>
 
       {/* Mobile menu overlay */}

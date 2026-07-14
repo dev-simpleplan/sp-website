@@ -16,7 +16,7 @@ import YourBrandsLook from './components/YourBrandsLook';
 import ThinkBeforeBuild from './components/ThinkBeforeBuild';
 import TestimonialSection from './components/TestimonialSection';
 import Wayfinding from "./components/Wayfinding";
-import RightSideLine from "./components/RightSideLine";
+
 
 export default function Home() {
 
@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   const HOME_SECTIONS = [
-  { id: "hero", label: "Home" },
+  { id: "hero", label: "Intro" },
   { id: "ticker", label: "Ticker" },
   { id: "video", label: "Video" },
   { id: "bringing-clarity", label: "Bringing Clarity" },
@@ -69,7 +69,6 @@ export default function Home() {
     <>
       {/* Static sections — always render, no API needed */}
       <Wayfinding sections={HOME_SECTIONS} />
-      <RightSideLine id="rightLine"/>
       <HomeBanner id="hero" />
       <TickerSection id="ticker" />
       <VideoAnimated id="video" />

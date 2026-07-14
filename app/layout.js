@@ -6,6 +6,7 @@ import LenisProvider from "./components/LenisProvider";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AnimationProvider from "./components/AnimationProvider"
+import RightSideLine from "./components/RightSideLine";
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <Header />
+        <RightSideLine id="rightLine"/>
         <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider>
         <Footer/>
       </body>

@@ -22,7 +22,7 @@ const folds = [
   },
 ];
 
-function VideoFold({id}) {
+function VideoFold() {
   const [playing, setPlaying] = useState(false);
   const iframeRef = useRef(null);
 
@@ -37,7 +37,7 @@ function VideoFold({id}) {
   };
 
   return (
-    <div className="ttb-media ttb-video-wrap" id={id}>
+    <div className="ttb-media ttb-video-wrap">
       {!playing && (
         <>
           <img src={THUMBNAIL} alt="Video thumbnail" className="img" />
@@ -61,7 +61,7 @@ function VideoFold({id}) {
   );
 }
 
-export default function ToolsToBuild() {
+export default function ToolsToBuild({id}) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
 
@@ -88,7 +88,7 @@ export default function ToolsToBuild() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="tools-to-build">
+    <section ref={sectionRef} className="tools-to-build" id={id}>
       <div className="container">
         <div className="heading">
           <h2 className="reveal-heading">Tools to build your brand</h2>

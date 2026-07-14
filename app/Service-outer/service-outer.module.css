@@ -1,0 +1,285 @@
+.spServiceBanner {
+    position: relative;
+    background-color: #d8011d;
+    overflow: hidden;
+}
+
+/* Vertical "Intro" tag bleeding off the left edge */
+.spTagLabel {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transform: translateY(-50%) rotate(-90deg) translateX(-50%);
+    transform-origin: left center;
+    pointer-events: none;
+}
+
+.spServiceBannerInner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 64px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px 48px 96px 80px;
+}
+
+/* Left content */
+
+.spContent {
+    max-width: 460px;
+}
+
+.spHeading {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 52px;
+    line-height: 1.15;
+    margin: 0 0 24px 0;
+}
+
+.spHeadingLine {
+    display: inline;
+}
+
+.spSubtext {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 36px 0;
+}
+
+.spCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 22px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spCta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.spCtaIcon {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.spCta:hover .spCtaIcon {
+    transform: translate(2px, -2px);
+}
+
+/* Right video thumbnail */
+
+.spVideoWrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 6;
+    max-height: 603px;
+    max-width: 521px;
+    overflow: hidden;
+    background-color: #8f0f22;
+}
+
+.spThumbnail {
+    object-fit: cover;
+}
+
+.spOverlayText {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.spPlayBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.spPlayBtn:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    background-color: #ffffff;
+}
+
+.spPlayBtn svg {
+    margin-left: 3px;
+}
+
+/* Video modal — scales/fades in from roughly the thumbnail position */
+
+.spVideoModalBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    visibility: hidden;
+    pointer-events: none;
+    transition: background-color 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.spVideoModalBackdropOpen {
+    background-color: rgba(0, 0, 0, 0.85);
+    visibility: visible;
+    pointer-events: auto;
+    transition: background-color 0.35s ease, visibility 0s linear 0s;
+}
+
+.spVideoModal {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    opacity: 0;
+    transform: scale(0.85) translateY(24px);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spVideoModalOpen {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.spVideoModalFrame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000000;
+}
+
+.spVideoModalIframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.spVideoModalClose {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 6px;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .spServiceBannerInner {
+        padding: 80px 40px 80px 64px;
+        gap: 48px;
+    }
+
+    .spHeading {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 900px) {
+    .spTagLabel {
+        display: none;
+    }
+
+    .spServiceBannerInner {
+        grid-template-columns: 1fr;
+        padding: 64px 24px;
+        gap: 40px;
+    }
+
+    .spContent {
+        max-width: none;
+        order: 1;
+    }
+
+    .spVideoWrap {
+        order: 2;
+        aspect-ratio: 4 / 3;
+        max-height: none;
+    }
+
+    .spHeading {
+        font-size: 34px;
+    }
+
+    .spSubtext {
+        font-size: 16px;
+    }
+
+    .spOverlayText {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .spServiceBannerInner {
+        padding: 48px 20px;
+    }
+
+    .spHeading {
+        font-size: 28px;
+    }
+
+    .spCta {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .spOverlayText {
+        font-size: 20px;
+        left: 16px;
+        bottom: 16px;
+    }
+
+    .spPlayBtn {
+        width: 52px;
+        height: 52px;
+    }
+
+    .spVideoModalClose {
+        top: -38px;
+    }
+}
