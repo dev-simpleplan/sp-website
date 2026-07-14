@@ -69,7 +69,7 @@ export default function Home() {
     <>
       {/* Static sections — always render, no API needed */}
       <Wayfinding sections={HOME_SECTIONS} />
-      <HomeBanner id="hero" />
+      <HomeBanner id="hero" data={sections.hero} />
       <TickerSection id="ticker" />
       <VideoAnimated id="video" />
       <BringingClarity id="bringing-clarity" />
