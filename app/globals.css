@@ -288,9 +288,19 @@ img {
 }
 
 .gap-left {
-  max-width: 1250px;
+  /* max-width: 1250px; */
   margin-left: auto;
-  padding: 0 0 0 48px;
+  padding: 0 10px 0 185px;
+}
+
+.wds-viewport.gap-left {
+  padding: 60px 48px 60px 245px;
+}
+.we-are-proud-in.gap-left{
+  padding-left: 245px;
+}
+.tools-to-build .heading.gap-left{
+  padding: 60px 0 40px 185px;
 }
 
 .right_side_line {
@@ -303,13 +313,26 @@ img {
   z-index: 9;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 991px) {
   .right_side_line {
     display: none;
   }
 
   .gap-left{
-    padding: 0;
+    padding-left: 0;
+  }
+
+  .wds-viewport.gap-left {
+    padding: 60px 48px 60px 60px;
+  }
+  .we-are-proud-in.gap-left{
+    padding-left: 60px;
+  }
+  .tools-to-build .heading.gap-left{
+    padding: 60px 0 40px 0px;
+  }
+  .your-brands-fold{
+    padding: 60px;
   }
 }
 

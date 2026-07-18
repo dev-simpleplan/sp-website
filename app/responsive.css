@@ -33,4 +33,221 @@
     width: 38px;
     height: 38px;
   }
+
+  .we-are-proud-in.gap-left{
+    padding-left: 0px;
+    /* width: 100vw; */
+  }
+
+  .we-are-proud-in .fold-wrap{
+    width: calc(100vw - 50px);
+    flex-direction: column;
+  }
+
+  .we-are-proud-in {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .we-are-proud .heading{
+    margin-bottom: 10px;
+  }
+
+  .we-are-proud-in > a {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 10px 20px 20px;
+  }
+
+  .fw-right-top h4{
+    font-size: 24px;
+  }
+  .fw-right-top h4 span{
+    font-size: 20px;
+    padding-left: 5px;
+  }
+  .fw-right-top p{
+    font-size: 14px;
+  }
+  .we-are-proud .wap-text h5{
+    font-size: 24px;
+  }
+  .we-are-proud .wap-text p{
+    font-size: 16px;
+  }
+  .we-are-proud .wap-text{
+    align-items: start;
+  }
+  .we-are-proud-in .fold-wrap .right{
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .like-what-you-see{
+    padding: 80px 0;
+  }
+
+  .your-brands-fold{
+    padding: 20px;
+  }
+
+  .testimonial-slider-wrap.gap-left {
+      padding-left: 20px;
+  }
+
+  .tb-heading{
+    font-size: 18px;
+    max-width: 400px;
+  }
+
+  .wds-viewport.gap-left {
+    padding: 60px 20px;
+  }
+  .we-do-stand-in{
+    gap: 20px;
+  }
+
+  .ttb-fold{
+    padding: 0 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+    gap: 0px;
+  }
+  .ttb-right{
+    gap: 10px;
+  }
+  .ttb-media{
+    height: 300px;
+  }
+
+  .your-brands-fold h2{
+    margin-bottom: 20px;
+  }
+  .your-brands-fold-wrap {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+  }
+  .ybf-img {
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    width: 300px;
+    overflow: hidden;
+  }
+  .your-brands-fold .right{
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .your-brands-fold .right .head{
+    font-size: 24px;
+  }
+  .your-brands-fold .right .text{
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-b-cta{
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .home-banner{
+    padding: 150px 0px 100px;
+  }
+
+  .video-animated-inner{
+    aspect-ratio: 9 / 16;
+  }
+  .bringing-clarity{
+    padding: 60px 0 30px;
+  }
+  .our-approach{
+    padding: 80px 0 30px;
+  }
+  .like-what-you-see{
+    padding: 30px 0 80px;
+  }
+  .ready-to-build{
+    height: 50vh;
+  }
+  .testimonial-section{
+    padding: 60px 0;
+  }
+
+  .tb-logos{
+    margin-top: 20px;
+  }
+  .trusted-brands{
+    padding: 60px 0px 30px;
+  }
+
+  .we-are-proud-in .fold-wrap .left .wap-img{
+    flex: 0;
+    min-height: 300px;
+    gap: 30px;
+  }
+  .we-are-proud-in .fold-wrap .left{
+    flex: 0;
+    min-height: fit-content;
+  }
+  .fw-points-wrap p{
+    font-size: 14px;
+  }
+  .we-do-stand .container{
+    padding: 0;
+  }
+  .wds-top-heading{
+    margin-bottom: 20px;
+  }
+  .we-do-stand-in{
+    grid-template-columns: 1fr;
+  }
+  .wds-left {
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .meet-the-simp {
+    padding: 20px 0 60px;
+  }
+  .meet-the-simp .heading {
+    margin-bottom: 20px;
+  }
+  .meet-the-simp-in{
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .meet-the-simp .right{
+    gap: 10px;
+  }
+  .meet-the-simp .right p{
+    font-size: 16px;
+  }
+
+  .tools-to-build .heading.gap-left{
+    padding: 60px 0 20px;
+  }
+  .ttb-fold {
+      grid-template-rows: repeat(2, max-content);
+      gap: 20px;
+  }
+  .ttb-media{
+    height: 260px;
+  }
+  .ttb-right{
+    gap: 20px;
+  }
+  .ttb-right p{
+    line-height: 1.55;
+  }
+
+  .think-to-build{
+    padding-top: 30px;
+  }
+
 }
