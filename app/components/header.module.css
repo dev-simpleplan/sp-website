@@ -21,10 +21,6 @@
     z-index: 260;
 }
 
-.spHeaderScrolled .spMegaMenu {
-    top: 73px;
-}
-
 .spHeaderBar {
     z-index: 2;
     background-color: #d8011d;

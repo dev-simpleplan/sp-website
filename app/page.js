@@ -72,7 +72,7 @@ export default function Home() {
       <HomeBanner id="hero" data={sections.hero} />
       <TickerSection id="ticker" />
       <VideoAnimated id="video" />
-      <BringingClarity id="bringing-clarity" />
+      <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
       <OurApproach  id="our-approach"/>
       <WeAreProud id="we-are-proud" />
       <LikeWhatYouSee id="like-what-you-see" />
