@@ -230,6 +230,80 @@ li {
   transform-origin: left;
 }
 
+.custom-cta-link {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+
+    font-family: var(--font-aspekta);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+}
+
+.text-wrap{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: 1.5em;
+}
+
+.text{
+    display:block;
+    transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+
+.text-2{
+    position:absolute;
+    left:0;
+    top:100%;
+}
+
+.custom-cta-link:hover .text-1{
+    transform:translateY(-100%);
+}
+
+.custom-cta-link:hover .text-2{
+    transform:translateY(-100%);
+}
+
+/* ---------- Underline ---------- */
+
+.custom-cta-link::before,
+.custom-cta-link::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:1px;
+    background:currentColor;
+}
+
+.custom-cta-link::before{
+    transform:scaleX(1);
+    transform-origin:right;
+    transition:transform .35s ease;
+}
+
+.custom-cta-link::after{
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .35s ease .18s;
+}
+
+.custom-cta-link:hover::before{
+    transform:scaleX(0);
+}
+
+.custom-cta-link:hover::after{
+    transform:scaleX(1);
+}
+
 /* .custom-cta-link:hover::after {
   animation: underline-slide 0.45s ease forwards;
 } */
@@ -348,6 +422,19 @@ img {
 .reveal-line > div {
     display: block;
     will-change: transform;
+}
+.split-reveal{
+    visibility:hidden;
+}
+
+.split-line{
+    overflow:hidden;
+    display:block;
+}
+
+.split-line-inner{
+    display:block;
+    will-change:transform;
 }
 
 @media screen and (max-width: 1100px) {
