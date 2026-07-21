@@ -148,6 +148,31 @@
   .your-brands-fold .right .text{
     font-size: 16px;
   }
+
+
+
+  /* --- HOW THIS SHOWS UP ------------------------- */
+  .how-this-shows-up{
+    padding: 30px 0 60px;
+  }
+  .htsu-content {
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  .htsu-text{
+    padding-top: 0;
+  }
+  .htsu-video {
+    width: 100%;
+    max-width: 100%;
+  }
+  .htsu-foot{
+    margin-top: 60px;
+  }
+  .htsu-quote{
+    font-size: 24px;
+  }
 }
 
 @media screen and (max-width: 480px) {
