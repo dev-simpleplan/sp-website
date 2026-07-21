@@ -127,6 +127,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
   const headerRef = useRef(null);
+  const [isInStickySection, setIsInStickySection] = useState(false);
+  const headerBarRef = useRef(null);
+  
   const closeTimeoutRef = useRef(null);
 
   const isAnyDesktopMenuOpen = isWhatWeDoOpen || isAboutUsOpen;
@@ -155,6 +158,58 @@ export default function Header() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+// Hide the header only once the sticky section's TOP edge has actually
+// reached the top of the viewport (i.e. it's about to start behaving
+// sticky) — not merely when it first enters view. Header comes back the
+// moment the section's bottom edge scrolls past the top (fully cleared).
+useEffect(() => {
+  let ticking = false;
+
+  function checkStickySections() {
+    // Never hide on/near the very top of the page — this is what was
+    // wrongly hiding the header over the home banner, since a section
+    // sitting at document y=0 has rect.top === 0 from the first frame,
+    // before the user has scrolled at all.
+    if (window.scrollY <= 0) {
+      setIsInStickySection(false);
+      return;
+    }
+
+    const stickyEls = document.querySelectorAll("[data-sticky-section]");
+    let anyActive = false;
+
+    stickyEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      // Section's top has reached (or passed) the viewport top, AND it
+      // hasn't fully scrolled past yet.
+      if (rect.top <= 0 && rect.bottom > 0) {
+        anyActive = true;
+      }
+    });
+
+    setIsInStickySection(anyActive);
+  }
+
+  function handleScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        checkStickySections();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  checkStickySections();
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("resize", handleScroll);
+  };
+}, []);
 
   // Sticky header: toggle a "scrolled" state once the user scrolls past a
   // small threshold.
@@ -224,113 +279,132 @@ export default function Header() {
 
   return (
     <header
-      className={`${styles.spHeader} ${
-        isScrolled ? styles.spHeaderScrolled : ""
-      } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""}`}
-      ref={headerRef}
+  className={`${styles.spHeader} ${
+    isScrolled ? styles.spHeaderScrolled : ""
+  } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""} ${
+    isInStickySection ? styles.spHeaderHidden : ""
+  }`}
+  ref={headerRef}
+>
+      <div className={styles.spHeaderBar} ref={headerBarRef}>
+  <Link href="/" className={styles.spLogo}>
+    <Image src={MainLogo} alt="SimplePlan Logo" />
+  </Link>
+
+  {/* Two crossfading layers occupying the exact same box — nothing here
+      ever changes width/margin/position via a toggled class, so there is
+      nothing for the browser to "snap". Only opacity/transform animate,
+      which is always smooth. */}
+  <div className={styles.spNavClusterWrap}>
+
+    {/* Layer 1 — default state: nav flush right, no CTA */}
+    <div
+      className={`${styles.spNavCluster} ${
+        !isScrolled ? styles.spNavClusterActive : ""
+      }`}
     >
-      <div className={styles.spHeaderBar}>
-        <Link href="/" className={styles.spLogo}>
-          <Image src={MainLogo} alt="SimplePlan Logo" />
-        </Link>
-
-        {/* Desktop nav — dropdowns open on hover */}
-        <nav className={styles.spNav} aria-label="Primary">
-          <button
-            type="button"
-            className={`${styles.spNavItem} ${
-              isWhatWeDoOpen ? styles.spNavItemActive : ""
-            }`}
-            aria-expanded={isWhatWeDoOpen}
-            onMouseEnter={() => openMenu("what-we-do")}
-            onMouseLeave={scheduleClose}
-            onFocus={() => openMenu("what-we-do")}
-            onBlur={scheduleClose}
-          >
-            <span>What We Do</span>
-            <span
-              className={`${styles.spChevron} ${
-                isWhatWeDoOpen ? styles.spChevronOpen : ""
-              }`}
-            >
-              {CHEVRON_DOWN}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            className={`${styles.spNavItem} ${
-              isAboutUsOpen ? styles.spNavItemActive : ""
-            }`}
-            aria-expanded={isAboutUsOpen}
-            onMouseEnter={() => openMenu("about-us")}
-            onMouseLeave={scheduleClose}
-            onFocus={() => openMenu("about-us")}
-            onBlur={scheduleClose}
-          >
-            <span>About Us</span>
-            <span
-              className={`${styles.spChevron} ${
-                isAboutUsOpen ? styles.spChevronOpen : ""
-              }`}
-            >
-              {CHEVRON_DOWN}
-            </span>
-          </button>
-
-          <a href="/our-work" className={styles.spNavLink}>
-            Our Work
-          </a>
-        </nav>
-
-        {/* CTA — hidden until header is in its scrolled/sticky state */}
-        <Link href="/contact" className={`custom-btn ${styles.spHeaderCta}`}>
-          <span>Book A Call</span>
-          <span className="arrow-wrap">
-            <svg
-              className="arrow arrow-1"
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                fill="currentColor"
-              />
-            </svg>
-            <svg
-              className="arrow arrow-2"
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </Link>
-
-        {/* Mobile hamburger trigger */}
+      <nav className={styles.spNav} aria-label="Primary">
         <button
           type="button"
-          className={`${styles.spHamburgerBtn} ${
-            isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""
-          }`}
-          aria-label="Open menu"
-          aria-expanded={isMobileMenuOpen}
-          onClick={openMobileMenu}
+          className={`${styles.spNavItem} ${isWhatWeDoOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isWhatWeDoOpen}
+          onMouseEnter={() => openMenu("what-we-do")}
+          onMouseLeave={scheduleClose}
+          onFocus={() => openMenu("what-we-do")}
+          onBlur={scheduleClose}
         >
-          <span className={styles.spHamburgerBar}></span>
-          <span className={styles.spHamburgerBar}></span>
-          <span className={styles.spHamburgerBar}></span>
+          <span>What We Do</span>
+          <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
+            {CHEVRON_DOWN}
+          </span>
         </button>
-      </div>
+
+        <button
+          type="button"
+          className={`${styles.spNavItem} ${isAboutUsOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isAboutUsOpen}
+          onMouseEnter={() => openMenu("about-us")}
+          onMouseLeave={scheduleClose}
+          onFocus={() => openMenu("about-us")}
+          onBlur={scheduleClose}
+        >
+          <span>About Us</span>
+          <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
+            {CHEVRON_DOWN}
+          </span>
+        </button>
+
+        <a href="/our-work" className={styles.spNavLink}>Our Work</a>
+      </nav>
+    </div>
+
+    {/* Layer 2 — scrolled/sticky state: nav centered, CTA visible on the right */}
+    <div
+      className={`${styles.spNavCluster} ${styles.spNavClusterSticky} ${
+        isScrolled ? styles.spNavClusterActive : ""
+      }`}
+    >
+      <nav className={styles.spNav} aria-label="Primary">
+        <button
+          type="button"
+          className={`${styles.spNavItem} ${isWhatWeDoOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isWhatWeDoOpen}
+          onMouseEnter={() => openMenu("what-we-do")}
+          onMouseLeave={scheduleClose}
+          onFocus={() => openMenu("what-we-do")}
+          onBlur={scheduleClose}
+        >
+          <span>What We Do</span>
+          <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
+            {CHEVRON_DOWN}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className={`${styles.spNavItem} ${isAboutUsOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isAboutUsOpen}
+          onMouseEnter={() => openMenu("about-us")}
+          onMouseLeave={scheduleClose}
+          onFocus={() => openMenu("about-us")}
+          onBlur={scheduleClose}
+        >
+          <span>About Us</span>
+          <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
+            {CHEVRON_DOWN}
+          </span>
+        </button>
+
+        <a href="/our-work" className={styles.spNavLink}>Our Work</a>
+      </nav>
+
+      <Link href="/contact" className={`custom-btn ${styles.spHeaderCta}`}>
+        <span>Book A Call</span>
+        <span className="arrow-wrap">
+          <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
+          </svg>
+          <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
+          </svg>
+        </span>
+      </Link>
+    </div>
+  </div>
+
+  {/* Mobile hamburger trigger */}
+  <button
+    type="button"
+    className={`${styles.spHamburgerBtn} ${isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""}`}
+    aria-label="Open menu"
+    aria-expanded={isMobileMenuOpen}
+    onClick={openMobileMenu}
+  >
+    <span className={styles.spHamburgerBar}></span>
+    <span className={styles.spHamburgerBar}></span>
+    <span className={styles.spHamburgerBar}></span>
+  </button>
+</div>
 
       {/* Desktop mega menu — What We Do */}
       <div

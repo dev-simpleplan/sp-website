@@ -81,7 +81,7 @@ export default function WeAreProud({id}) {
   ];
 
   return (
-    <section ref={sectionRef} className="we-are-proud" id={id}>
+    <section ref={sectionRef} className="we-are-proud" id={id} data-sticky-section>
       <div className="container">
         <div className="heading">
           <h2>Work we are proud of</h2>

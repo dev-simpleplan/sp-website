@@ -49,7 +49,7 @@ export default function LikeWhatYouSee({id}) {
   }, []);
 
   return (
-    <section className="like-what-you-see" ref={sectionRef} id={id}>
+    <section className="like-what-you-see" ref={sectionRef} id={id} data-sticky-section>
       <div className="container">
         <div className="like-what-you-see-in gap-left">
           <div className="heading">
