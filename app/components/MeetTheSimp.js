@@ -82,11 +82,11 @@ export default function MeetTheSimp({id}) {
             </div>
           </div>
           <div className="right">
-            <p>
+            <p className="split-reveal">
               We work with founders to cut through the noise & find what makes
               them different.
             </p>
-            <p>
+            <p className="split-reveal">
               Strategy, identity, websites, and marketing — all under one roof,
               all pointing in the same direction.
             </p>

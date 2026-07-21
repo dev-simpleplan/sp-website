@@ -66,7 +66,7 @@ export default function useSplitReveal() {
           scrollTrigger: {
             id: "splitReveal",
             trigger: element,
-            start: "top 70%",
+            start: "top 80%",
             once: true,
           },
         });

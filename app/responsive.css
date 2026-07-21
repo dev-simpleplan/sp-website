@@ -110,7 +110,9 @@
   .we-do-stand-in{
     gap: 20px;
   }
-
+  .ttb-track{
+    padding-bottom: 0;
+  }
   .ttb-fold{
     padding: 0 20px;
     grid-template-columns: 1fr;
