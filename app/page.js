@@ -16,6 +16,7 @@ import YourBrandsLook from './components/YourBrandsLook';
 import ThinkBeforeBuild from './components/ThinkBeforeBuild';
 import TestimonialSection from './components/TestimonialSection';
 import Wayfinding from "./components/Wayfinding";
+import TrustedBrands from './components/TrustedBrands';
 
 
 export default function Home() {
@@ -60,6 +61,17 @@ export default function Home() {
   { id: "tools-to-build", label: "Tools" },
   { id: "think-before-build", label: "Blogs" },
   
+  { id: "we-are-proud", label: "We Are Proud" },
+  { id: "like-what-you-see", label: "Like What You See" },
+  { id: "your-brands-look", label: "Your Brands Look" },
+  { id: "ready-to-build", label: "Ready To Build" },
+  { id: "testimonial-section", label: "Testimonial Section" },
+  { id: "trustedBy-section", label: "Trusted Brands" },
+  { id: "we-do-stand", label: "We Do Stand" },
+  { id: "meet-the-simp", label: "Meet The Simp" },
+  { id: "tools-to-build", label: "Tools To Build" },
+  { id: "think-before-build", label: "Think Before Build" },
+
 ];
 
   return (
@@ -76,6 +88,7 @@ export default function Home() {
       <YourBrandsLook id="your-brands-look" />
       <ReadyToBuild id="ready-to-build" />
       <TestimonialSection id="testimonial-section" />
+      <TrustedBrands id="trustedBy-section" />
       <WeDoStand id="we-do-stand" />
       <MeetTheSimp id="meet-the-simp" />
       <ToolsToBuild id="tools-to-build" />

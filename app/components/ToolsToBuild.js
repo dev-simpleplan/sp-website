@@ -90,12 +90,12 @@ export default function ToolsToBuild({id}) {
   return (
     <section ref={sectionRef} className="tools-to-build" id={id} data-sticky-section>
       <div className="container">
-        <div className="heading">
+        <div className="heading gap-left">
           <h2 className="reveal-heading">Tools to build your brand</h2>
         </div>
       </div>
 
-      <div ref={trackRef} className="ttb-track">
+      <div ref={trackRef} className="ttb-track gap-left">
         {folds.map((fold, i) => (
           <div className="ttb-fold" key={i}>
             <div className="ttb-left">
