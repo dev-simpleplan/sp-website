@@ -60,17 +60,6 @@ export default function Home() {
   { id: "meet-the-simp", label: "About" },
   { id: "tools-to-build", label: "Tools" },
   { id: "think-before-build", label: "Blogs" },
-  
-  { id: "we-are-proud", label: "We Are Proud" },
-  { id: "like-what-you-see", label: "Like What You See" },
-  { id: "your-brands-look", label: "Your Brands Look" },
-  { id: "ready-to-build", label: "Ready To Build" },
-  { id: "testimonial-section", label: "Testimonial Section" },
-  { id: "trustedBy-section", label: "Trusted Brands" },
-  { id: "we-do-stand", label: "We Do Stand" },
-  { id: "meet-the-simp", label: "Meet The Simp" },
-  { id: "tools-to-build", label: "Tools To Build" },
-  { id: "think-before-build", label: "Think Before Build" },
 
 ];
 
@@ -81,7 +70,11 @@ export default function Home() {
       <HomeBanner id="hero" data={sections.hero} />
       <TickerSection/>
       <VideoAnimated data={sections.video_section} />
-      <BringingClarity id="bringing-clarity" data={sections.struggle} bulletItems={sections.struggle?.bullet_item}/>
+      <BringingClarity
+  id="bringing-clarity"
+  data={sections.struggle}
+          bulletItems={sections.struggle?.bullet_item || sections.struggle?.bullet_items || sections.struggle?.bulletItems}
+/>
       <OurApproach  id="our-approach" data={sections.our_approach}/>
       <WeAreProud id="we-are-proud" />
       <LikeWhatYouSee id="like-what-you-see" />
