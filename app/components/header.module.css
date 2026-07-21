@@ -4,11 +4,13 @@
     position: fixed;
     top: 0;
     left: 0;
+    transform: translateY(0);
+    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.spHeaderScrolled.spHeader {
+/* .spHeaderScrolled.spHeader {
     z-index: 100;
-}
+} */
 
 /* This is the actual fix for the wayfinding/right-line overlap: those are
    separate fixed elements elsewhere on the page with their own z-index
@@ -17,9 +19,9 @@
    a higher z-index than they do. We only bump it while a menu/overlay is
    actually open, so the rail is still allowed to sit over the plain
    header bar the rest of the time. */
-.spHeaderMenuOpen.spHeader {
+/* .spHeaderMenuOpen.spHeader {
     z-index: 260;
-}
+} */
 
 .spHeaderBar {
     z-index: 2;
@@ -27,15 +29,14 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding: 22px 48px;
+    padding: 18px 48px;
     display: flex;
     position: relative;
-    transition: padding 0.25s ease, box-shadow 0.25s ease;
 }
 
 .spHeaderScrolled .spHeaderBar {
-    padding: 14px 48px;
-    border-bottom: 1px solid #FF7B8B;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
 }
 
 .spHeaderCta {
@@ -51,30 +52,8 @@
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
-    overflow: hidden;
-
-    /* Collapsed by default — zero width/padding, invisible, but still
-       present as a real flex item (unlike display:none), so it still
-       takes part in `space-between`'s math. */
-    max-width: 0;
-    padding: 0;
-    opacity: 0;
-    transform: translateY(-6px);
-    pointer-events: none;
-
-    transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s ease,
-        transform 0.3s ease;
-}
-
-.spHeaderScrolled .spHeaderCta {
-    max-width: 240px;
     padding: 12px 20px;
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    transition-delay: 0.05s;
+    flex-shrink: 0;
 }
 
 .spHamburgerBtn {
@@ -116,16 +95,53 @@
     transform: translateY(-6.8px) rotate(-45deg);
 }
 
+.spNavClusterWrap {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    min-height: 40px;
+    margin-left: 32px;
+}
+
+.spNavCluster {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.spNavClusterActive {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.spNavClusterSticky {
+    justify-content: center;
+    gap: 32px;
+}
+
 .spLogo {
     width: 170px;
     height: auto;
 }
 
 .spNav {
-    display: flex;
+    max-width: 100%;
+    width: 100%;
     align-items: center;
     gap: 40px;
-    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.spNavClusterSticky .spNav {
+    justify-content: center;
 }
 
 .spNavItem {
@@ -570,6 +586,10 @@
     text-decoration: none;
 }
 
+.spHeaderHidden {
+    transform: translateY(-110%);
+}
+
 /* Panel enter animation — replays every time `key` changes on .spMobileBody */
 .spMobileBody {
     animation: spMobilePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -618,10 +638,6 @@
     animation-delay: 0.26s;
 }
 
-.spHeader.spHeaderScrolled .spNav {
-    margin-right: auto;
-}
-
 @keyframes spMobileItemIn {
     from {
         opacity: 0;
@@ -663,8 +679,7 @@
         padding: 12px 24px;
     }
 
-    .spNav,
-    .spHeaderCta {
+    .spNavClusterWrap {
         display: none !important;
     }
 

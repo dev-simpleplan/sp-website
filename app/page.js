@@ -50,10 +50,17 @@ export default function Home() {
 
   const HOME_SECTIONS = [
   { id: "hero", label: "Intro" },
-  { id: "ticker", label: "Ticker" },
-  { id: "video", label: "Video" },
-  { id: "bringing-clarity", label: "Bringing Clarity" },
+  { id: "bringing-clarity", label: "The Struggle" },
   { id: "our-approach", label: "Our Approach" },
+  { id: "we-are-proud", label: "Our Work" },
+  { id: "your-brands-look", label: "Services" },
+  { id: "ready-to-build", label: "Get In Touch" },
+  { id: "testimonial-section", label: "Testimonials" },
+  { id: "we-do-stand", label: "Awards" },
+  { id: "meet-the-simp", label: "About" },
+  { id: "tools-to-build", label: "Tools" },
+  { id: "think-before-build", label: "Blogs" },
+  
   { id: "we-are-proud", label: "We Are Proud" },
   { id: "like-what-you-see", label: "Like What You See" },
   { id: "your-brands-look", label: "Your Brands Look" },
@@ -72,10 +79,10 @@ export default function Home() {
       {/* Static sections — always render, no API needed */}
       <Wayfinding sections={HOME_SECTIONS} />
       <HomeBanner id="hero" data={sections.hero} />
-      <TickerSection id="ticker" />
-      <VideoAnimated id="video" />
-      <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
-      <OurApproach  id="our-approach"/>
+      <TickerSection/>
+      <VideoAnimated data={sections.video_section} />
+      <BringingClarity id="bringing-clarity" data={sections.struggle} bulletItems={sections.struggle?.bullet_item}/>
+      <OurApproach  id="our-approach" data={sections.our_approach}/>
       <WeAreProud id="we-are-proud" />
       <LikeWhatYouSee id="like-what-you-see" />
       <YourBrandsLook id="your-brands-look" />

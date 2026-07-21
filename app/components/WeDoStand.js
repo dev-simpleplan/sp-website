@@ -79,7 +79,7 @@ export default function WeDoStand({id}) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="we-do-stand" id={id}>
+    <section ref={sectionRef} className="we-do-stand" id={id} data-sticky-section>
       {/* child of pinned element — overflow:hidden works here */}
       <div className="wds-viewport gap-left">
         <div className="container">
