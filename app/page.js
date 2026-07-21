@@ -63,6 +63,8 @@ export default function Home() {
 
 ];
 
+console.log(sections?.struggle);
+
   return (
     <>
       {/* Static sections — always render, no API needed */}
@@ -72,15 +74,14 @@ export default function Home() {
       <VideoAnimated data={sections.video_section} />
       <BringingClarity
   id="bringing-clarity"
-  data={sections.struggle}
-          bulletItems={sections.struggle?.bullet_item || sections.struggle?.bullet_items || sections.struggle?.bulletItems}
+  data={sections?.struggle}
 />
       <OurApproach  id="our-approach" data={sections.our_approach}/>
       <WeAreProud id="we-are-proud" />
       <LikeWhatYouSee id="like-what-you-see" />
       <YourBrandsLook id="your-brands-look" />
       <ReadyToBuild id="ready-to-build" />
-      <TestimonialSection id="testimonial-section" />
+      <TestimonialSection id="testimonial-section" data={sections.testimonial_section} />
       <TrustedBrands id="trustedBy-section" />
       <WeDoStand id="we-do-stand" />
       <MeetTheSimp id="meet-the-simp" />
