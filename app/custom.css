@@ -842,6 +842,7 @@
   flex: 1;
   min-height: 0;
   display: flex;
+  padding-bottom: 40px;
 }
 
 /* each fold is exactly one viewport wide */
@@ -851,10 +852,13 @@
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
   align-items: center;
   padding: 0 60px;
   box-sizing: border-box;
+
+  display: flex;
+  gap: 60px;
+  align-items: end;
 }
 
 /* LEFT — portrait media box */
