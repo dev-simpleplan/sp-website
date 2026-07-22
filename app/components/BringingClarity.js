@@ -2,6 +2,7 @@ export default function BringingClarity({ id, data }) {
   if (!data) return null;
 
   console.log("bullet_item:", data?.bullet_item);
+  console.log("bullet_item:", data);
 
   return (
     <section className="bringing-clarity" id={id}>
