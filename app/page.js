@@ -85,7 +85,7 @@ export default function Home() {
     return <div>Error: {error.message}</div>;
   }
 
-  // console.log("WeAreProud",sections?.blog_section);
+  console.log(sections.testimonials);
 
   return (
     <>
@@ -95,12 +95,12 @@ export default function Home() {
       <VideoAnimated data={sections.video_section} />
       <BringingClarity id="bringing-clarity" data={sections?.struggle}/>
       <OurApproach  id="our-approach" data={sections.our_approach}/>
-      <WeAreProud id="we-are-proud" />
-      <LikeWhatYouSee id="like-what-you-see" />
-      <YourBrandsLook id="your-brands-look" />
-      <ReadyToBuild id="ready-to-build" />
-      <TestimonialSection id="testimonial-section" data={sections.testimonial_section} />
-      <TrustedBrands id="trustedBy-section" />
+      <WeAreProud id="we-are-proud" data={sections.case_study}/>
+      <LikeWhatYouSee id="like-what-you-see" data={sections.offer_section} stats={sections.stats}/>
+      <YourBrandsLook id="your-brands-look" data={sections.service}/>
+      <ReadyToBuild id="ready-to-build" data={sections.ready_to_build}/>
+      <TestimonialSection id="testimonial-section" data={sections.testimonials} />
+      <TrustedBrands id="trustedBy-section" data={sections.trusted_section}/>
       <WeDoStand id="we-do-stand" />
       <MeetTheSimp id="meet-the-simp" />
       <ToolsToBuild id="tools-to-build" />

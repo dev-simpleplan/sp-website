@@ -159,57 +159,68 @@ export default function Header() {
     };
   }, []);
 
-// Hide the header only once the sticky section's TOP edge has actually
-// reached the top of the viewport (i.e. it's about to start behaving
-// sticky) — not merely when it first enters view. Header comes back the
-// moment the section's bottom edge scrolls past the top (fully cleared).
-useEffect(() => {
-  let ticking = false;
+  // Single source of truth for isInStickySection: combines
+  // (a) GSAP-pinned sections, tracked via the "sticky-section-active"
+  //     custom event (rect-based detection can't reliably track pinned
+  //     elements since their rect stops changing naturally while pinned)
+  // (b) normal (non-pinned) sticky sections, tracked via rect polling
+  // These used to be two separate useEffects each calling
+  // setIsInStickySection independently — the rect-based one would run on
+  // the next scroll frame and silently overwrite the pinned "true" back to
+  // false. Merged here so neither system can stomp on the other.
+  useEffect(() => {
+    let ticking = false;
+    let pinnedActive = false;
 
-  function checkStickySections() {
-    // Never hide on/near the very top of the page — this is what was
-    // wrongly hiding the header over the home banner, since a section
-    // sitting at document y=0 has rect.top === 0 from the first frame,
-    // before the user has scrolled at all.
-    if (window.scrollY <= 0) {
-      setIsInStickySection(false);
-      return;
-    }
-
-    const stickyEls = document.querySelectorAll("[data-sticky-section]");
-    let anyActive = false;
-
-    stickyEls.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      // Section's top has reached (or passed) the viewport top, AND it
-      // hasn't fully scrolled past yet.
-      if (rect.top <= 0 && rect.bottom > 0) {
-        anyActive = true;
+    function checkStickySections() {
+      if (window.scrollY <= 0) {
+        setIsInStickySection(pinnedActive);
+        return;
       }
-    });
 
-    setIsInStickySection(anyActive);
-  }
+      // Exclude elements marked data-pinned-section — those are tracked
+      // exclusively via the GSAP event, not rect calculation.
+      const stickyEls = document.querySelectorAll(
+        "[data-sticky-section]:not([data-pinned-section])"
+      );
+      let anyActive = false;
 
-  function handleScroll() {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        checkStickySections();
-        ticking = false;
+      stickyEls.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 0 && rect.bottom > 0) {
+          anyActive = true;
+        }
       });
-      ticking = true;
+
+      setIsInStickySection(pinnedActive || anyActive);
     }
-  }
 
-  checkStickySections();
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  window.addEventListener("resize", handleScroll);
+    function handleScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          checkStickySections();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
 
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-    window.removeEventListener("resize", handleScroll);
-  };
-}, []);
+    function handlePinnedEvent(e) {
+      pinnedActive = e.detail;
+      checkStickySections();
+    }
+
+    checkStickySections();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    window.addEventListener("sticky-section-active", handlePinnedEvent);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("sticky-section-active", handlePinnedEvent);
+    };
+  }, []);
 
   // Sticky header: toggle a "scrolled" state once the user scrolls past a
   // small threshold.
@@ -277,6 +288,7 @@ useEffect(() => {
     setMobileView("root");
   }
 
+  
   return (
     <header
   className={`${styles.spHeader} ${
