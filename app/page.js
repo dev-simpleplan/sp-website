@@ -42,7 +42,7 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
-
+ 
   const renderSection = (key, Component) => {
     if (!sections || !sections[key]) return null;
     return <Component data={sections[key]} />;
