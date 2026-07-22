@@ -63,8 +63,6 @@ export default function Home() {
 
 ];
 
-console.log(sections?.struggle);
-
   return (
     <>
       {/* Static sections — always render, no API needed */}

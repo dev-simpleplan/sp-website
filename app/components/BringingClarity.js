@@ -1,6 +1,8 @@
 export default function BringingClarity({ id, data }) {
   if (!data) return null;
 
+  console.log("bullet_item:", data?.bullet_item);
+
   return (
     <section className="bringing-clarity" id={id}>
       <div className="container">
