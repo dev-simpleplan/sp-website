@@ -38,9 +38,9 @@ const Card = ({ b }) => (
       <div className="dot">
         {[...Array(b.dots)].map((_, d) => <Dot key={d} />)}
       </div>
-      <h4>{b.title}</h4>
+      <h4 className="reveal-heading">{b.title}</h4>
     </div>
-    <p>{b.text}</p>
+    <p className="split-reveal">{b.text}</p>
   </div>
 );
 
@@ -58,13 +58,13 @@ export default function OurApproach({id}) {
   return (
     <section className="our-approach" id={id}>
       <div className="container">
-        <div className="our-approach-top">
+        <div className="our-approach-top gap-left">
           <div className="heading">
             <h2>Our approach is simple</h2>
           </div>
         </div>
 
-        <div className="our-approach-in">
+        <div className="our-approach-in gap-left">
           {isSlider ? (
             <div className="block-box-swiper">
               <Swiper

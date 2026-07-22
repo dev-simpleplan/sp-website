@@ -110,7 +110,9 @@
   .we-do-stand-in{
     gap: 20px;
   }
-
+  .ttb-track{
+    padding-bottom: 0;
+  }
   .ttb-fold{
     padding: 0 20px;
     grid-template-columns: 1fr;
@@ -147,6 +149,31 @@
   }
   .your-brands-fold .right .text{
     font-size: 16px;
+  }
+
+
+
+  /* --- HOW THIS SHOWS UP ------------------------- */
+  .how-this-shows-up{
+    padding: 30px 0 60px;
+  }
+  .htsu-content {
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  .htsu-text{
+    padding-top: 0;
+  }
+  .htsu-video {
+    width: 100%;
+    max-width: 100%;
+  }
+  .htsu-foot{
+    margin-top: 60px;
+  }
+  .htsu-quote{
+    font-size: 24px;
   }
 }
 

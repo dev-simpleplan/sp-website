@@ -32,7 +32,10 @@ export default function HomeBanner({ id, data }) {
               </span>
             </Link>
             <Link href={data.secondary_cta_link} className="custom-cta-link">
-              {data.secondary_cta_text}
+              <span className="text-wrap">
+                <span className="text text-1">{data.secondary_cta_text}</span>
+                <span className="text text-2">{data.secondary_cta_text}</span>
+            </span>
             </Link>
           </div>
         </div>

@@ -9,7 +9,7 @@ import LikeWhatYouSee from '../components/LikeWhatYouSee';
 import BringingClarity from '../components/BringingClarity';
 import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/WeAreProud';
-// import HowThisShowUp from './HowThisShowsUp';
+import HowThisShowUp from '../components/service/HowThisShowsUp';
 
 export default function BrandingServicePage(){
 
@@ -53,7 +53,7 @@ const [sections, setSections] = useState({});
       <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
       <OurApproach  id="our-approach"/>
       <WeAreProud id="we-are-proud" />
-      {/* <HowThisShowUp id="how-this-show-up" /> */}
+      <HowThisShowUp id="how-this-show-up" />
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (
@@ -72,7 +72,7 @@ const [sections, setSections] = useState({});
         </div>
       )}
 
-      {error && <div>Error: {error.message}</div>}
+      {/* {error && <div>Error: {error.message}</div>} */}
 
       {!loading && !error && (
         <>

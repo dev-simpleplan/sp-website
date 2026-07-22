@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../Service-outer/service-outer.module.css";
+import customStyle from "../globals.css";
 
 const ARROW_UP_RIGHT = (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -62,12 +63,12 @@ export default function ServiceBanner({data}) {
 
   const banner = data || {};
 
-const title = banner.title || "";
+const title = banner.title || "Branding is not what people see";
 
 const subtext =
-  banner.description?.[0]?.children?.[0]?.text || "";
+  banner.description?.[0]?.children?.[0]?.text || "It is what they expereince over time";
 
-const ctaText = banner.cta_text || "";
+const ctaText = banner.cta_text || "Start A Branding Project";
 
 const ctaHref = banner.cta_link || "#";
 
@@ -85,8 +86,8 @@ const videoId = banner.videourl
 
   return (
     <section className={styles.spServiceBanner}>
-
-      <div className={styles.spServiceBannerInner}>
+      <div className="container">
+        <div className={styles.spServiceBannerInner}>
         <div className={styles.spContent}>
           <h2 className={styles.spHeading}>
   {title}
@@ -94,9 +95,23 @@ const videoId = banner.videourl
 
           <p className={styles.spSubtext}>{subtext}</p>
 
-          <Link href={ctaHref} className={styles.spCta}>
+          <Link href={ctaHref} className="custom-btn">
             <span>{ctaText}</span>
-            <span className={styles.spCtaIcon}>{ARROW_UP_RIGHT}</span>
+            <span className="arrow-wrap">
+                  <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                      <path
+                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" 
+                            fill="currentColor" />
+                  </svg>
+
+                  <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                      <path
+                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                            fill="currentColor" />
+                  </svg>
+              </span>
           </Link>
         </div>
 
@@ -118,9 +133,9 @@ const videoId = banner.videourl
               sizes="(max-width: 900px) 100vw, 50vw"
             />
 
-          {overlayText && (
+          {/* {overlayText && (
             <span className={styles.spOverlayText}>{overlayText}</span>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -157,6 +172,7 @@ const videoId = banner.videourl
             )}
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

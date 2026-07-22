@@ -4,7 +4,7 @@ export default function ReadyToBuild({id}) {
       <div className="container">
         <div className="ready-to-build-in gap-left">
             <h2 className="reveal-heading">Ready to build your brand the right way?</h2>
-            <p>Start with clarity, then build a brand that doesn’t need to be reworked every time you grow.</p>
+            <p className="split-reveal">Start with clarity, then build a brand that doesn’t need to be reworked every time you grow.</p>
             <a href="#!" className="custom-btn">
               <span>Book a Call</span>
               <span className="arrow-wrap">
