@@ -63,17 +63,37 @@ export default function Home() {
 
 ];
 
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="loadingIn">
+          <div className="loadingText">
+            <span data-text="L">L</span>
+            <span data-text="O">O</span>
+            <span data-text="A">A</span>
+            <span data-text="D">D</span>
+            <span data-text="I">I</span>
+            <span data-text="N">N</span>
+            <span data-text="G">G</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // console.log("WeAreProud",sections?.blog_section);
+
   return (
     <>
-      {/* Static sections — always render, no API needed */}
       <Wayfinding sections={HOME_SECTIONS} />
       <HomeBanner id="hero" data={sections.hero} />
       <TickerSection/>
       <VideoAnimated data={sections.video_section} />
-      <BringingClarity
-  id="bringing-clarity"
-  data={sections?.struggle}
-/>
+      <BringingClarity id="bringing-clarity" data={sections?.struggle}/>
       <OurApproach  id="our-approach" data={sections.our_approach}/>
       <WeAreProud id="we-are-proud" />
       <LikeWhatYouSee id="like-what-you-see" />
@@ -85,31 +105,6 @@ export default function Home() {
       <MeetTheSimp id="meet-the-simp" />
       <ToolsToBuild id="tools-to-build" />
       <ThinkBeforeBuild id="think-before-build" />
-
-      {/* API-dependent sections — show loader until data arrives */}
-      {loading && (
-        <div className="loading">
-          <div className="loadingIn">
-            <div className="loadingText">
-              <span data-text="L">L</span>
-              <span data-text="O">O</span>
-              <span data-text="A">A</span>
-              <span data-text="D">D</span>
-              <span data-text="I">I</span>
-              <span data-text="N">N</span>
-              <span data-text="G">G</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {error && <div>Error: {error.message}</div>}
-
-      {!loading && !error && (
-        <>
-          {/* Add API sections here via renderSection() */}
-        </>
-      )}
     </>
   );
 }
