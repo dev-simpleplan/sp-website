@@ -5,32 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bl1 from "./images/bl1.png";
 import bl2 from "./images/bl2.png";
 import bl3 from "./images/bl3.png";
+import { getImageUrl } from "./getImageUrl";
 
-const folds = [
-  {
-    image: bl1,
-    heading: "If Your Brand Looks Like Everyone Else In The Room",
-    service: "Branding & Identity",
-    text: "The foundation. Before anything looks like anything, we make sure the thinking is solid.",
-    href: "#!",
-  },
-  {
-    image: bl2,
-    heading: "If Your Website Is Losing You Customers The Moment They Land",
-    service: "Website & Development",
-    text: "Your brand on the internet. Clean, intuitive, and built to actually work.",
-    href: "#!",
-  },
-  {
-    image: bl3,
-    heading: "If Your Website Is Losing You Customers The Moment They Land",
-    service: "Marketing & Content",
-    text: "Getting your brand in front of the right people in the right way.",
-    href: "#!",
-  },
-];
-
-export default function YourBrandsLook({id}) {
+export default function YourBrandsLook({ id, data }) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
 
@@ -56,23 +33,29 @@ export default function YourBrandsLook({id}) {
     return () => ctx.revert();
   }, []);
 
+  const folds = data || [];
+
   return (
-    <section ref={sectionRef} className="your-brands-look" id={id}>
+    <section ref={sectionRef} className="your-brands-look" id={id} data-sticky-section>
       <div ref={trackRef} className="ybl-track">
-        {folds.map((fold, i) => (
-          <div className="your-brands-fold" key={i}>
-            <h2 className="reveal-heading">{fold.heading}</h2>
+        {folds.map((fold) => (
+          <div className="your-brands-fold" key={fold.id}>
+            <h2 className="reveal-heading">{fold.title?.[0]?.children?.[0]?.text}</h2>
             <div className="your-brands-fold-wrap">
               <div className="left">
                 <div className="ybf-img">
-                  <img src={fold.image.src} alt={fold.service} className="img" />
+                  <img
+                      src={getImageUrl(fold?.featured_image)}
+                      alt={fold.service_name}
+                      className="img"
+                    />
                 </div>
               </div>
               <div className="right">
-                <p className="head">{fold.service}</p>
-                <p className="text">{fold.text}</p>
-                <a href={fold.href} className="custom-btn">
-                  <span>learn more</span>
+                <p className="head">{fold.service_name}</p>
+                <p className="text">{fold.description?.[0]?.children?.[0]?.text}</p>
+                <a href={fold.cta_link} className="custom-btn">
+                  <span>{fold.cta_text}</span>
                   <span className="arrow-wrap">
                       <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

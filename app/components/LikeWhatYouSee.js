@@ -1,12 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-const COUNTERS = [
-  { target: 200, suffix: "+" },
-  { target: 100, suffix: "M+" },
-  { target: 20,  suffix: "+" },
-];
-
 function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -22,8 +16,18 @@ function runCounter(el, target, suffix, duration = 2500) {
   requestAnimationFrame(tick);
 }
 
-export default function LikeWhatYouSee({id}) {
+export default function LikeWhatYouSee({ id, data, stats }) {
   const sectionRef = useRef(null);
+
+const COUNTERS =
+  stats?.map((item) => {
+    const match = item.numbertext.match(/^(\d+(?:\.\d+)?)(.*)$/);
+
+    return {
+      target: Number(match?.[1] || 0),
+      suffix: (match?.[2] || "").replace(/\s+/g, "")
+    };
+  }) || [];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -53,10 +57,10 @@ export default function LikeWhatYouSee({id}) {
       <div className="container">
         <div className="like-what-you-see-in gap-left">
           <div className="heading">
-            <h2 className="reveal-heading">Like what you see? Imagine what we could do for your brand.</h2>
+            <h2 className="reveal-heading">{data.offer_title?.[0]?.children?.[0]?.text}</h2>
           </div>
-          <a href="#!" className="custom-btn">
-            <span>view all case studies</span>
+          <a href={data.cta_link} className="custom-btn">
+            <span>{data.cta_text}</span>
               <span className="arrow-wrap">
                   <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -74,21 +78,13 @@ export default function LikeWhatYouSee({id}) {
               </span>
           </a>
           <div className="counter-wrap">
-            <div className="counter-block">
-              <h2>200+</h2>
-              <p>Brands Launched</p>
+              {stats?.map((item) => (
+                <div className="counter-block" key={item.id}>
+                  <h2>{item.numbertext}</h2>
+                  <p>{item.textbelownumber}</p>
+                </div>
+              ))}
             </div>
-
-            <div className="counter-block">
-              <h2>100M+</h2>
-              <p>Revenue Moved</p>
-            </div>
-
-            <div className="counter-block">
-              <h2>20+</h2>
-              <p>Awards Won</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>

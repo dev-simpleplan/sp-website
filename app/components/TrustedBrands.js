@@ -1,13 +1,25 @@
-import trustedImg from "./images/trustedBrand.svg";
+"use client";
+
+import { getImageUrl } from "./getImageUrl";
 
 export default function TrustedBrands({ id, data }) {
   return (
     <section className="trusted-brands" id={id}>
       <div className="container">
         <div className="trusted-brands-in gap-left">
-          <p className="tb-heading">Trusted by 200+ brands across fashion, beauty, fitness & wellness</p>
+          <p className="tb-heading">
+            {data?.description}
+          </p>
+
           <div className="tb-logos">
-            <img src={trustedImg.src} alt="Trusted brands" />
+            <img
+              src={getImageUrl(data?.brand_logos)}
+              alt={
+                data?.brand_logos?.alternativeText ||
+                data?.brand_logos?.name ||
+                "Trusted brands"
+              }
+            />
           </div>
         </div>
       </div>

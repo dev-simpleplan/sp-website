@@ -135,12 +135,9 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import weAreP from "./images/we-are-p.png";
-import weAreP2 from "./images/we-are-p2.png";
-import weAreP3 from "./images/we-are-p3.png";
-import weAreP4 from "./images/we-are-p4.png";
+import { getImageUrl } from "./getImageUrl";
 
-export default function WeAreProud({id}) {
+export default function WeAreProud({ id, data }) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
 
@@ -148,6 +145,15 @@ export default function WeAreProud({id}) {
     gsap.registerPlugin(ScrollTrigger);
 
     const mm = gsap.matchMedia();
+
+    // helper to notify the global sticky-header logic, since this section
+    // uses GSAP pinning instead of normal scroll flow, and rect-based
+    // detection can't reliably track pinned elements.
+    const notifyStickyState = (active) => {
+      window.dispatchEvent(
+        new CustomEvent("sticky-section-active", { detail: active })
+      );
+    };
 
     mm.add(
       {
@@ -170,6 +176,10 @@ export default function WeAreProud({id}) {
               scrub: 1.2,
               end: () => `+=${track.scrollWidth - window.innerWidth}`,
               invalidateOnRefresh: true,
+              onEnter: () => notifyStickyState(true),
+              onLeave: () => notifyStickyState(false),
+              onEnterBack: () => notifyStickyState(true),
+              onLeaveBack: () => notifyStickyState(false),
             },
           });
         }
@@ -187,6 +197,10 @@ export default function WeAreProud({id}) {
               scrub: 1,
               pin: true,
               invalidateOnRefresh: true,
+              onEnter: () => notifyStickyState(true),
+              onLeave: () => notifyStickyState(false),
+              onEnterBack: () => notifyStickyState(true),
+              onLeaveBack: () => notifyStickyState(false),
             },
           });
 
@@ -203,75 +217,36 @@ export default function WeAreProud({id}) {
     return () => mm.revert();
   }, []);
 
-  const cards = [
-    {
-      image: weAreP,
-      title: "Invouge",
-      subtitle: "Rewriting rules of beauty and shapewear",
-      year: "2026",
-      metric: "3.2",
-      metricSuffix: "x",
-      metricLabel: "Revenue Growth",
-      services: ["Brand Positioning", "Brand Messaging", "Content"],
-      href: "#!",
-    },
-    {
-      image: weAreP2,
-      title: "aukera",
-      subtitle: "Rewriting rules of beauty and shapewear",
-      year: "2025",
-      metric: "10.5",
-      metricSuffix: "Cr",
-      metricLabel: "Funding Raised",
-            services: ["Brand Positioning", "Brand Messaging", "Content"],
-      href: "#!",
-    },
-    {
-      image: weAreP3,
-      title: "crawford",
-      subtitle: "Rewriting rules of beauty and shapewear",
-      year: "2025",
-      metric: "1.2",
-      metricSuffix: "x",
-      metricLabel: "Revenue Growth",
-      services: ["Brand Positioning", "Brand Messaging", "Content"],
-      href: "#!",
-    },
-    {
-      image: weAreP4,
-      title: "Gutly",
-      subtitle: "Rewriting rules of beauty and shapewear",
-      year: "2025",
-      metric: "2.6",
-      metricSuffix: "x",
-      metricLabel: "Funding Raised",
-      services: ["Brand Positioning", "Brand Messaging", "Content"],
-      href: "#!",
-    },
-  ];
+  if (!data) return null;
+
+  const cards = data.case_study_cards || [];
 
   return (
-    <section ref={sectionRef} className="we-are-proud" id={id} data-sticky-section>
+    <section ref={sectionRef} className="we-are-proud" id={id} data-sticky-section data-pinned-section>
       <div className="container">
         <div className="we-are-proud-head gap-left">
           <div className="heading">
-            <h2>Work we are proud of</h2>
+            <h2>{data?.title}</h2>
           </div>
         </div>
       </div>
 
       <div ref={trackRef} className="we-are-proud-in gap-left">
-        {cards.map((card, i) => (
-          <a href={card.href} key={i}>
+        {cards.map((card) => (
+          <a href={card.href} key={card.id}>
             <div className="fold-wrap">
               <div className="left">
                 <div className="wap-img">
-                  <img src={card.image.src} alt={card.title} className="img" />
+                  <img
+                      src={getImageUrl(card.featured_image)}
+                      alt={card.client_name}
+                      className="img"
+                    />
                 </div>
                 <div className="wap-text">
                   <div className="wap-text-left">
-                    <h5>{card.title}</h5>
-                    <p>{card.subtitle}</p>
+                    <h5>{card.client_name}</h5>
+                    <p>{card.client_descritpion?.[0]?.children?.[0]?.text}</p>
                   </div>
                   <div className="ap-text-right">
                     <p>{card.year}</p>
@@ -280,17 +255,18 @@ export default function WeAreProud({id}) {
               </div>
               <div className="right">
                 <div className="fw-right-top">
-                  <h4>{card.metric}<span>{card.metricSuffix}</span></h4>
-                  <p>{card.metricLabel}</p>
+                  <h4>{card.reach_text?.split(" ")[0]}
+                      <span>{card.reach_text?.split(" ").slice(1).join(" ")}</span></h4>
+                  <p>{card.below_reach_text}</p>
                 </div>
                 <div className="fw-right-bottom">
-                  <p className="eye-head">What we did</p>
+                  <p className="eye-head">{card.services_we_done_text?.[0]?.children?.[0]?.text}</p>
                   <div className="fw-points-wrap">
-                    {card.services.map((s, j) => (
-                      <p key={j}>{s}</p>
-                    ))}
+                   {card.services_we_done_text?.slice(1).map((item, j) => (
+                       <p key={j}>{item.children?.[0]?.text}</p>
+                     ))}
                   </div>
-                </div>
+                 </div>
               </div>
             </div>
           </a>

@@ -2,38 +2,16 @@
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import authorImg from "./images/test-author-img.jpg";
 import brandImg from "./images/test-brand-img.svg";
+import { getImageUrl } from "./getImageUrl";
 
-const testimonials = [
-  {
-    brand: brandImg,
-    rating: "5.0 Rating",
-    quote: "We support today's innovators to create tomorrow's products, services and solutions by implementing tailor-made Talent Management solutions. With our support your company is fully fledged for a healthy and sustainable growth.",
-    author: authorImg,
-    name: "John Doe",
-    designation: "Gravette",
-  },
-  {
-    brand: brandImg,
-    rating: "5.0 Rating",
-    quote: "We support today's innovators to create tomorrow's products, services and solutions by implementing tailor-made Talent Management solutions. With our support your company is fully fledged for a healthy and sustainable growth.",
-    author: authorImg,
-    name: "John Doe",
-    designation: "Gravette",
-  },
-  {
-    brand: brandImg,
-    rating: "5.0 Rating",
-    quote: "We support today's innovators to create tomorrow's products, services and solutions by implementing tailor-made Talent Management solutions. With our support your company is fully fledged for a healthy and sustainable growth.",
-    author: authorImg,
-    name: "John Doe",
-    designation: "Gravette",
-  },
-];
 
-export default function TestimonialSection({id}) {
+export default function TestimonialSection({ id, data }) {
   const swiperRef = useRef(null);
+
+  if (!data) return null;
+
+  const testimonials = data?.Testimonials || [];
 
   return (
     <section className="testimonial-section" id={id}>
@@ -51,22 +29,26 @@ export default function TestimonialSection({id}) {
             1024: { slidesPerView: 2.2, spaceBetween: 56 },
           }}
         >
-          {testimonials.map((t, i) => (
-            <SwiperSlide key={i}>
+          {testimonials.map((t) => (
+            <SwiperSlide key={t.id}>
               <div className="testimonial-block">
                 <div className="ts-platform">
                   <div className="ts-brand-logo">
-                    <img src={t.brand.src} alt="Platform" className="icon" />
+                    <img src={brandImg.src} alt="Platform" className="icon" />
                   </div>
                 </div>
-                <p className="ts-quote">{t.quote}</p>
+                <p className="ts-quote">{t.testimonial_text?.[0]?.children?.[0]?.text}</p>
                 <div className="author">
                   <div className="author-img">
-                    <img src={t.author.src} alt={t.name} className="img" />
+                    <img
+                      src={getImageUrl(t.user_image)}
+                      alt={t.user_name}
+                      className="img"
+                    />
                   </div>
                   <div className="author-details">
-                    <p className="author-name">{t.name}</p>
-                    <p className="author-desig">{t.designation}</p>
+                    <p className="author-name">{t.user_name}</p>
+                    <p className="author-desig">{t.user_designation}</p>
                   </div>
                 </div>
               </div>
