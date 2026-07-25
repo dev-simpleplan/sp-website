@@ -11,7 +11,7 @@ export default function TestimonialSection({ id, data }) {
 
   if (!data) return null;
 
-  const testimonials = data?.Testimonials || [];
+  const testimonials = data?.testimonial_data || [];
 
   return (
     <section className="testimonial-section" id={id}>

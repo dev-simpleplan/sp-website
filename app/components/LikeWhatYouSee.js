@@ -57,10 +57,10 @@ const COUNTERS =
       <div className="container">
         <div className="like-what-you-see-in gap-left">
           <div className="heading">
-            <h2 className="reveal-heading">{data.offer_title?.[0]?.children?.[0]?.text}</h2>
+            <h2 className="reveal-heading">{data?.offer_title?.[0]?.children?.[0]?.text}</h2>
           </div>
-          <a href={data.cta_link} className="custom-btn">
-            <span>{data.cta_text}</span>
+          <a href={data?.cta_link} className="custom-btn">
+            <span>{data?.cta_text}</span>
               <span className="arrow-wrap">
                   <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -80,8 +80,8 @@ const COUNTERS =
           <div className="counter-wrap">
               {stats?.map((item) => (
                 <div className="counter-block" key={item.id}>
-                  <h2>{item.numbertext}</h2>
-                  <p>{item.textbelownumber}</p>
+                  <h2>{item?.numbertext}</h2>
+                  <p>{item?.textbelownumber}</p>
                 </div>
               ))}
             </div>

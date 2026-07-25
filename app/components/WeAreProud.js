@@ -164,7 +164,7 @@ export default function WeAreProud({ id, data }) {
         const { isDesktop, isMobile } = context.conditions;
         const track = trackRef.current;
         // each direct child of the track is one <a className="fold-wrap"...> card
-        const cardEls = gsap.utils.toArray(track.children);
+        const cardEls = gsap.utils.toArray(track?.children);
 
         if (isDesktop) {
           gsap.to(track, {
@@ -174,7 +174,7 @@ export default function WeAreProud({ id, data }) {
               trigger: sectionRef.current,
               pin: true,
               scrub: 1.2,
-              end: () => `+=${track.scrollWidth - window.innerWidth}`,
+              end: () => `+=${track?.scrollWidth - window.innerWidth}`,
               invalidateOnRefresh: true,
               onEnter: () => notifyStickyState(true),
               onLeave: () => notifyStickyState(false),
