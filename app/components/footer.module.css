@@ -26,9 +26,9 @@
 /* Hero */
 
 .spFooterHero {
-    max-width: 760px;
+    /* max-width: 760px; */
     margin-bottom: 120px;
-    margin-left: 180px;
+    /* margin-left: 180px; */
 }
 
 @media (max-width: 1200px) {
@@ -82,6 +82,7 @@
     flex-wrap: wrap;
     gap: 64px;
     margin-bottom: 96px;
+    margin-top: 140px;
 }
 
 .spFooterColumn {
@@ -98,7 +99,7 @@
     color: #fff;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin: 0 0 10px;
+    margin: 0 0 16px;
     font-size: 12px;
     font-weight: 600;
 }
@@ -116,13 +117,48 @@
     color: #fff;
     font-size: 16px;
     text-decoration: none;
-    line-height: 81%;
     letter-spacing: 3.5%;
     font-weight: 400;
 }
 
-.spFooterLink:hover {
+/* .spFooterLink:hover {
     text-decoration: underline;
+} */
+
+.spFooterLink{
+    display:inline-block;
+    overflow:hidden;
+    text-decoration:none;
+    color:#fff;
+}
+
+.spFooterTextWrap{
+    display:block;
+    position:relative;
+    overflow:hidden;
+    height:1.15em;
+    /* border: 1px solid white; */
+}
+
+.spFooterText1,
+.spFooterText2{
+    display:block;
+    transition:transform .45s cubic-bezier(.22,1,.36,1);
+    line-height: 1.15em;
+}
+
+.spFooterText2{
+    position:absolute;
+    left:0;
+    top:100%;
+}
+
+.spFooterLink:hover .spFooterText1{
+    transform:translateY(-100%);
+}
+
+.spFooterLink:hover .spFooterText2{
+    transform:translateY(-100%);
 }
 
 /* Bottom bar */
@@ -214,6 +250,7 @@
         flex-direction: column;
         gap: 48px;
         margin-bottom: 64px;
+        margin-top: 70px;
     }
 
     .spFooterColumnTitle {
@@ -222,6 +259,9 @@
 
     .spFooterLinkList {
         gap: 18px;
+    }
+    .spFooterLinkList li{
+        height: 1.15em;
     }
 
     .spFooterBottom {

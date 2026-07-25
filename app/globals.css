@@ -28,6 +28,11 @@
   padding: 0;
 }
 
+*::selection{
+  background-color: var(--sp-white);
+  color: var(--sp-black);
+}
+
 html {
   height: 100%;
 }
@@ -377,6 +382,10 @@ img {
   padding: 60px 0 40px 185px;
 }
 
+.spFooterHero.gap-left {
+    padding-left: calc(185px - 48px);
+}
+
 .right_side_line {
   position: fixed;
   top: 0;
@@ -407,6 +416,9 @@ img {
   }
   .your-brands-fold{
     padding: 60px;
+  }
+  .spFooterHero.gap-left {
+    padding-left: 0;
   }
 }
 
