@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Wayfinding from "../components/Wayfinding";
-import ServiceBanner from "../components/ServiceBanner";
-import LikeWhatYouSee from '../components/LikeWhatYouSee';
+import CompanyBanner from "../components/CompanyBanner";
 import ApproachBranding from '../components/service/ApproachBranding';
+import Ethos from '../components/company/Ethos';
+// import YourBrandsLook from '../components/YourBrandsLook';
+import LikeWhatYouSee from '../components/LikeWhatYouSee';
+import BringingClarity from '../components/BringingClarity';
 import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/WeAreProud';
 import HowThisShowUp from '../components/service/HowThisShowsUp';
@@ -48,9 +51,12 @@ const [sections, setSections] = useState({});
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
-      <ServiceBanner data={sections.branding_outer_banner} />
-      <LikeWhatYouSee id="like-what-you-see" />
+      <CompanyBanner />
       <ApproachBranding />
+      <Ethos />
+      {/* <YourBrandsLook id="your-brands-look"/> */}
+      <LikeWhatYouSee id="like-what-you-see" />
+      <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
       <OurApproach  id="our-approach"/>
       <WeAreProud id="we-are-proud" />
       <HowThisShowUp id="how-this-show-up" />

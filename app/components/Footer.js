@@ -49,7 +49,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.spFooterInner}>
-        <div className={styles.spFooterHero}>
+        <div className="spFooterHero gap-left">
           <h2 className={styles.spFooterHeading}>
             Ready To Build Your Brand
             <br />
@@ -90,7 +90,11 @@ export default function Footer() {
                 {column.links.map((link) => (
                   <li key={link}>
                     <a href="#" className={styles.spFooterLink}>
-                      {link}
+                      {/* {link} */}
+                      <span className={styles.spFooterTextWrap}>
+                        <span className={styles.spFooterText1}>{link}</span>
+                        <span className={styles.spFooterText2}>{link}</span>
+                    </span>
                     </a>
                   </li>
                 ))}

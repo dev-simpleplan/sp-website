@@ -1316,6 +1316,29 @@
 
 
 
+/* APPROACH BRANDING -------------------------------- */
+
+.approach-section{
+  background-color: var(--sp-red);
+  padding: 50px 0 150px;
+}
+
+.approach-sec-in{
+  display: flex;
+  flex-direction: column;
+  gap: 190px;
+}
+
+.approach-sec-in .heading{
+  max-width: 670px;
+}
+
+.approach-sec-in .approach-description{
+  max-width: 320px;
+  margin-left: auto;
+}
+
+
 
 
 
@@ -1597,3 +1620,57 @@
     cursor: pointer;
     padding: 6px;
 }
+
+
+
+
+
+/* =============================== */
+/* COMPANY PAGE STYLE START ------ */
+/* =============================== */
+
+
+/* COMPANY BANNER ---------------------- */
+.company-banner{
+  background-color: var(--sp-red);
+  padding-bottom: 100px;
+}
+
+.company-banner-in{
+  width: 100%;
+  height: 100vh;
+  max-height: 720px;
+}
+
+
+/* ETHOS SECTION ------------------------- */
+
+.ethos-section{
+  background-color: var(--sp-red);
+  padding: 50px 0 150px;
+}
+.ethos-wrap{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 80px;
+}
+.ethos-card{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 350px;
+}
+.ethos-card-title{
+  font: 600 28px var(--font-aspekta);
+  text-transform: uppercase;
+  letter-spacing: -2%;
+  color: var(--sp-white);
+}
+
+
+
+
+/* =============================== */
+/* COMPANY PAGE STYLE END --------- */
+/* =============================== */

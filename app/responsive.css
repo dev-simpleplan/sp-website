@@ -153,6 +153,24 @@
 
 
 
+
+  /* --- APPROACH BRANDING ------------------------ */
+  .approach-section{
+    background-color: var(--sp-red);
+    padding: 50px 0 50px;
+  }
+  .approach-sec-in{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .approach-sec-in .approach-description{
+    margin-left: unset;
+  }
+
+
+
+
   /* --- HOW THIS SHOWS UP ------------------------- */
   .how-this-shows-up{
     padding: 30px 0 60px;
@@ -174,6 +192,32 @@
   }
   .htsu-quote{
     font-size: 24px;
+  }
+
+
+
+
+  /* COMPANY BANNER ---------------------- */
+  .company-banner{
+    padding-bottom: 50px;
+  }
+
+
+
+
+
+  /* ETHOS SECTION --------------------- */
+  .ethos-section{
+    padding: 100px 0;
+  }
+  .ethos-wrap{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .ethos-card-title{
+    font: 600 18px var(--font-aspekta);
   }
 }
 
