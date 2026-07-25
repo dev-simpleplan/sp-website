@@ -49,10 +49,10 @@ const [sections, setSections] = useState({});
     <>
       <Wayfinding sections={HOME_SECTIONS} />
       <ServiceBanner data={sections.branding_outer_banner} />
-      <LikeWhatYouSee id="like-what-you-see" />
+      <LikeWhatYouSee id="like-what-you-see" data={sections.offer_section} stats={sections.stats}/>
       <ApproachBranding />
-      <OurApproach  id="our-approach"/>
-      <WeAreProud id="we-are-proud" />
+      <OurApproach  id="our-approach" data={sections.our_approach}/>
+      <WeAreProud id="we-are-proud" data={sections.case_study}/>
       <HowThisShowUp id="how-this-show-up" />
 
       {/* API-dependent sections — show loader until data arrives */}
