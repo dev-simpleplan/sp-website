@@ -49,7 +49,7 @@ const [sections, setSections] = useState({});
     <>
       <Wayfinding sections={HOME_SECTIONS} />
       <ServiceBanner data={sections.branding_outer_banner} />
-      <LikeWhatYouSee id="like-what-you-see" data={sections.offer_section} stats={sections.stats}/>
+      <LikeWhatYouSee id="like-what-you-see" data={sections.stats} stats={sections.stats}/>
       <ApproachBranding />
       <OurApproach  id="our-approach" data={sections.our_approach}/>
       <WeAreProud id="we-are-proud" data={sections.case_study}/>
