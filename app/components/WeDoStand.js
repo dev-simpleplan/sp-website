@@ -2,81 +2,57 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import img826 from "./images/826.png";
+import { getImageUrl } from "./getImageUrl";
 
-const items = [
-  {
-    image: img826,
-    title: "826 Digital",
-    year: "2023",
-    description: "Gold Winner in websites Design for Social Change",
-  },
-  {
-    image: img826,
-    title: "Willow Tree Kids",
-    year: "2022",
-    description: "Silver Winner in Branding for Social Change",
-  },
-  {
-    image: img826,
-    title: "Client Three",
-    year: "2021",
-    description: "Award or achievement description goes here",
-  },
-];
-
-export default function WeDoStand({id}) {
+export default function WeDoStand({ id, data }) {
   const sectionRef  = useRef(null);
   const imgRefs     = useRef([]);
   const itemRefs    = useRef([]);
   const wrapRef     = useRef(null);
+  const items = data?.projects || [];
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  if (!items.length) return;
 
-    const imgs = imgRefs.current;
-    const els  = itemRefs.current;
-    const wrap = wrapRef.current;
+  gsap.registerPlugin(ScrollTrigger);
 
-    // first image visible, others hidden
-    imgs.forEach((el, i) => gsap.set(el, { opacity: i === 0 ? 1 : 0 }));
+  const imgs = imgRefs.current;
+  const els = itemRefs.current;
+  const wrap = wrapRef.current;
 
-    // measure one item's height, then set wrap to that size
-    const itemH = els[0].offsetHeight;
-    wrap.style.height = itemH + "px";
+  imgs.forEach((el, i) => gsap.set(el, { opacity: i === 0 ? 1 : 0 }));
 
-    // push items 1+ below the wrap — low opacity so they peek in dim
-    els.forEach((el, i) => {
-      if (i > 0) gsap.set(el, { y: itemH + 60, opacity: 0.25 });
+  const itemH = els[0].offsetHeight;
+  wrap.style.height = itemH + "px";
+
+  els.forEach((el, i) => {
+    if (i > 0) gsap.set(el, { y: itemH + 60, opacity: 0.25 });
+  });
+
+  const ctx = gsap.context(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        pin: true,
+        scrub: 1,
+        start: "top top",
+        end: `+=${(items.length - 1) * (itemH + 60) * 2}`,
+        invalidateOnRefresh: true,
+      },
     });
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          scrub: 1,
-          start: "top top",
-          end: `+=${(items.length - 1) * (itemH + 60) * 2}`,
-          invalidateOnRefresh: true,
-        },
-      });
+    items.forEach((_, i) => {
+      if (i === items.length - 1) return;
 
-      items.forEach((_, i) => {
-        if (i === items.length - 1) return;
+      tl.to(els[i], { y: -(itemH + 60), opacity: 0, ease: "none" });
+      tl.to(els[i + 1], { y: 0, opacity: 1, ease: "none" }, "<");
+      tl.to(imgs[i], { opacity: 0, ease: "none" }, "<");
+      tl.to(imgs[i + 1], { opacity: 1, ease: "none" }, "<");
+    });
+  }, sectionRef);
 
-        // current item slides up and fades out
-        tl.to(els[i],      { y: -(itemH + 60), opacity: 0,    ease: "none" });
-        // next item slides in from below — opacity 0.25 → 1  (parallel)
-        tl.to(els[i + 1],  { y: 0,             opacity: 1,    ease: "none" }, "<");
-        // image crossfade                                      (parallel)
-        tl.to(imgs[i],     { opacity: 0,                       ease: "none" }, "<");
-        tl.to(imgs[i + 1], { opacity: 1,                       ease: "none" }, "<");
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  return () => ctx.revert();
+}, [items]);
 
   return (
     <section ref={sectionRef} className="we-do-stand" id={id} data-sticky-section>
@@ -84,7 +60,7 @@ export default function WeDoStand({id}) {
       <div className="wds-viewport gap-left">
         <div className="container">
           <div className="wds-top-heading">
-            <h2 className="reveal-heading">What We Do Stands Out</h2>
+            <h2 className="reveal-heading">{data?.title}</h2>
           </div>
 
           <div className="we-do-stand-in">
@@ -97,7 +73,17 @@ export default function WeDoStand({id}) {
                     className="wds-img-slide"
                     ref={el => (imgRefs.current[i] = el)}
                   >
-                    <img src={item.image.src} alt={item.title} className="img" />
+                    <img
+  src={getImageUrl(item?.image, "small")}
+  srcSet={`
+    ${getImageUrl(item?.image, "thumbnail")} 125w,
+    ${getImageUrl(item?.image, "small")} 399w,
+    ${getImageUrl(item?.image)} 449w
+  `}
+  sizes="(max-width: 767px) 100vw, 449px"
+  alt={item?.image?.alternativeText || item?.title}
+  className="img"
+/>
                   </div>
                 ))}
               </div>
@@ -113,10 +99,10 @@ export default function WeDoStand({id}) {
                     ref={el => (itemRefs.current[i] = el)}
                   >
                     <div className="wds-item-top">
-                      <h3>{item.title}</h3>
-                      <span className="wds-year">{item.year}</span>
+                      <h3>{item?.title}</h3>
+                      <span className="wds-year">{item?.year}</span>
                     </div>
-                    <p className="wds-desc">{item.description}</p>
+                    <p className="wds-desc">{item?.description}</p>
                   </div>
                 ))}
               </div>
