@@ -74,9 +74,9 @@ const ctaHref = banner.cta_link || "#";
 
 const overlayText = banner.tagline || "";
 
-const thumbnail = banner.video_thumbnail?.url
-  ? `${process.env.NEXT_PUBLIC_API_URL}${banner.video_thumbnail.url}`
-  : "/service-banner.png";
+//const thumbnail = banner.video_thumbnail?.url
+//  ? `${process.env.NEXT_PUBLIC_API_URL}${banner.video_thumbnail.url}`
+//  : "/service-banner.png";
 
 const videoId = banner.videourl
   ? banner.videourl.match(
@@ -126,11 +126,11 @@ const videoId = banner.videourl
           </button>
 
             <Image
-              src={thumbnail}
+              src="/service-banner.png"
               alt={overlayText}
               fill
               className={styles.spThumbnail}
-              sizes="(max-width: 900px) 100vw, 50vw"
+              //sizes="(max-width: 900px) 100vw, 50vw"
             />
 
           {/* {overlayText && (

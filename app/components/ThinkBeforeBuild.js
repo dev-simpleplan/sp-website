@@ -1,37 +1,18 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import tbb1 from "./images/tbb1.png";
-import tbb2 from "./images/tbb2.png";
-import tbb3 from "./images/tbb3.png";
+import { getImageUrl } from "./getImageUrl";
 
-const posts = [
-  {
-    date: "03/05/2026",
-    title: "What Is Brand's: Tone of Voice (and how to derive it)",
-    image: tbb1,
-    href: "#!",
-  },
-  {
-    date: "03/05/2026",
-    title: "What Is Brand's: Tone of Voice (and how to derive it)",
-    image: tbb2,
-    href: "#!",
-  },
-  {
-    date: "03/05/2026",
-    title: "What Is Brand's: Tone of Voice (and how to derive it)",
-    image: tbb3,
-    href: "#!",
-  },
-  {
-    date: "03/05/2026",
-    title: "What Is Brand's: Tone of Voice (and how to derive it)",
-    image: tbb2,
-    href: "#!",
-  },
-];
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const d = new Date(dateString);
+  if (isNaN(d)) return "";
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+};
 
-export default function ThinkBeforeBuild({id}) {
+export default function ThinkBeforeBuild({ id, data }) {
   const trackRef   = useRef(null);
   const cursorRef  = useRef(null);
   const isDragging = useRef(false);
@@ -41,8 +22,11 @@ export default function ThinkBeforeBuild({id}) {
   const [cursorVisible, setCursorVisible] = useState(false);
   const [cursorPos, setCursorPos]         = useState({ x: 0, y: 0 });
 
+  const posts = data?.blog_posts || [];
+
   useEffect(() => {
     const track = trackRef.current;
+    if (!track) return;
 
     const onMouseMove = (e) => {
       const rect = track.getBoundingClientRect();
@@ -83,13 +67,15 @@ export default function ThinkBeforeBuild({id}) {
       track.removeEventListener("mouseenter", onMouseEnter);
       track.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, []);
+  }, [posts.length]);
+
+  if (!data) return null;
 
   return (
     <section className="think-to-build" id={id}>
       <div className="container">
         <div className="heading gap-left">
-          <h2 className="reveal-heading">Think before you build</h2>
+          <h2 className="reveal-heading">{data?.title}</h2>
         </div>
         <div className="think-to-build-in gap-left" ref={trackRef}>
           {/* custom drag cursor */}
@@ -103,16 +89,21 @@ export default function ThinkBeforeBuild({id}) {
             </div>
           )}
 
-          {posts.map((post, i) => (
-            <div className="ttb-card" key={i}>
+          {posts.map((post) => (
+            <div className="ttb-card" key={post.id}>
               <div className="ttb-card-meta">
-                <span className="ttb-date">{post.date}</span>
+                <span className="ttb-date">{formatDate(post.publishing_date)}</span>
                 <p className="ttb-title">{post.title}</p>
               </div>
               <div className="ttb-card-img">
-                <img src={post.image.src} alt={post.title} className="img" draggable="false" />
+                <img
+                  src={getImageUrl(post.featured_image)}
+                  alt={post.featured_image?.alternativeText || post.title}
+                  className="img"
+                  draggable="false"
+                />
               </div>
-              <a href={post.href} className="ttb-read-more">Read More</a>
+              <a href={`/blog/${post.slug}`} className="ttb-read-more">Read More</a>
             </div>
           ))}
         </div>
