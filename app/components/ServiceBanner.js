@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../Service-outer/service-outer.module.css";
+import styles from "./service-outer.module.css";
 
 const PLAY_ICON = (
   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">

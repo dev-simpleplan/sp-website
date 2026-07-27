@@ -58,7 +58,7 @@ export default function Home() {
       }
     };
 
-    requestAnimationFrame(notifyReady);
+    notifyReady();
 
     // Images loading after mount change section heights, which shifts
     // every pinned trigger below them — re-notify once any images that

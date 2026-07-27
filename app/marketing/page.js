@@ -11,7 +11,9 @@ import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/WeAreProud';
 import HowThisShowUp from '../components/service/HowThisShowsUp';
 
-export default function BrandingServicePage(){
+// TODO: point this at the marketing-specific API endpoint once it exists —
+// using the branding endpoint as a placeholder for now.
+export default function MarketingServicePage(){
 
 const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
@@ -35,13 +37,50 @@ const [sections, setSections] = useState({});
       });
   }, []);
 
+  useEffect(() => {
+    if (loading) return;
+
+    // Only safe to refresh GSAP's pinned-section measurements while the
+    // user hasn't scrolled meaningfully yet — ScrollTrigger.refresh()
+    // briefly un-pins/re-pins everything, which visibly flashes/jumps if
+    // it fires while a pinned section is already active mid-scroll.
+    const isSafeToRefresh = () => window.scrollY < 200;
+
+    const notifyReady = () => {
+      if (isSafeToRefresh()) {
+        window.dispatchEvent(new Event("app:content-ready"));
+      }
+    };
+
+    notifyReady();
+
+    const pendingImages = Array.from(document.images).filter((img) => !img.complete);
+
+    if (pendingImages.length === 0) return;
+
+    let remaining = pendingImages.length;
+    const handleImageSettled = () => {
+      remaining -= 1;
+      if (remaining === 0) notifyReady();
+    };
+
+    pendingImages.forEach((img) => {
+      img.addEventListener("load", handleImageSettled, { once: true });
+      img.addEventListener("error", handleImageSettled, { once: true });
+    });
+
+    return () => {
+      pendingImages.forEach((img) => {
+        img.removeEventListener("load", handleImageSettled);
+        img.removeEventListener("error", handleImageSettled);
+      });
+    };
+  }, [loading]);
+
   const renderSection = (key, Component) => {
     if (!sections || !sections[key]) return null;
     return <Component data={sections[key]} />;
   };
-
-  console.log("Branding Service Page Sections:", sections.scope_work);
-  
 
   const HOME_SECTIONS = [
     { id: "service-banner", label: "Intro" },
@@ -50,6 +89,28 @@ const [sections, setSections] = useState({});
     { id: "we-are-proud", label: "Transformation" },
     { id: "how-this-show-up", label: "Content" },
   ];
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="loadingIn">
+          <div className="loadingText">
+            <span data-text="L">L</span>
+            <span data-text="O">O</span>
+            <span data-text="A">A</span>
+            <span data-text="D">D</span>
+            <span data-text="I">I</span>
+            <span data-text="N">N</span>
+            <span data-text="G">G</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
@@ -60,31 +121,6 @@ const [sections, setSections] = useState({});
       <OurApproach  id="our-approach" data={sections?.scope_work}/>
       <WeAreProud id="we-are-proud" data={sections?.transformation}/>
       <HowThisShowUp id="how-this-show-up" data={sections?.work_shows_up}/>
-
-      {/* API-dependent sections — show loader until data arrives */}
-      {loading && (
-        <div className="loading">
-          <div className="loadingIn">
-            <div className="loadingText">
-              <span data-text="L">L</span>
-              <span data-text="O">O</span>
-              <span data-text="A">A</span>
-              <span data-text="D">D</span>
-              <span data-text="I">I</span>
-              <span data-text="N">N</span>
-              <span data-text="G">G</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* {error && <div>Error: {error.message}</div>} */}
-
-      {!loading && !error && (
-        <>
-          {/* Add API sections here via renderSection() */}
-        </>
-        )}
     </>
   );
 }
