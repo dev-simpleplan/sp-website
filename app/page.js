@@ -101,10 +101,10 @@ export default function Home() {
       <ReadyToBuild id="ready-to-build" data={sections.ready_to_build}/>
       <TestimonialSection id="testimonial-section" data={sections.testimonials} />
       <TrustedBrands id="trustedBy-section" data={sections.trusted_section}/>
-      <WeDoStand id="we-do-stand" />
-      <MeetTheSimp id="meet-the-simp" />
-      <ToolsToBuild id="tools-to-build" />
-      <ThinkBeforeBuild id="think-before-build" />
+      <WeDoStand id="we-do-stand" data={sections.awards_section}/>
+      <MeetTheSimp id="meet-the-simp" data={sections.about_section}/>
+      <ToolsToBuild id="tools-to-build" data={sections.tools_section}/>
+      <ThinkBeforeBuild id="think-before-build" data={sections.blog_section}/>
     </>
   );
 }

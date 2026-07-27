@@ -46,16 +46,6 @@ const MEGA_MENU_DATA = [
   },
 ];
 
-const CLIENT_LOGOS = [
-  "KEY LIST",
-  "Haldiram's",
-  "INVOGUE",
-  "JOSH TALKS",
-  "LumiRed",
-  "Makers Hive",
-  "AUX",
-];
-
 const CHEVRON_DOWN = (
   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
     <path
@@ -462,27 +452,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Bottom bar shown inside the overlay area below the dropdown,
-            matching the reference design (CTA + client logos) */}
-        <div className={styles.spMegaMenuBottom}>
-          <div className={styles.spMegaMenuCtas}>
-            <a href="/contact" className={styles.spBookCallBtn}>
-              <span>Book a Call</span>
-              <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
-            </a>
-            <a href="/our-work" className={styles.spSeeWorkLink}>
-              See Our Work
-            </a>
-          </div>
-
-          <ul className={styles.spClientLogos}>
-            {CLIENT_LOGOS.map((logo) => (
-              <li key={logo} className={styles.spClientLogo}>
-                {logo}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       {/* Desktop mega menu — About Us */}

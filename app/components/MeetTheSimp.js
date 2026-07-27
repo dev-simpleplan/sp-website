@@ -1,11 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
+import { getImageUrl } from "./getImageUrl";
 
-const VIDEO_ID = "a7yNYcLgU_8";
-const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
-const THUMBNAIL = `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
-
-export default function MeetTheSimp({id}) {
+export default function MeetTheSimp({ id, data }) {
   const iframeRef = useRef(null);
   const [started, setStarted]   = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,14 +28,31 @@ export default function MeetTheSimp({id}) {
     setIsPlaying(next);
   };
 
+  const getText = (field) =>
+  field?.map(item =>
+    item.children?.map(child => child.text).join("")
+  ).join(" ") || "";
+
+  const videoUrl = data?.videourl || "";
+
+const VIDEO_ID =
+  videoUrl.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/
+  )?.[1] || "";
+
+const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
+
+const THUMBNAIL =
+  getImageUrl(data?.thumbnail, "small") ||
+  `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
+
   return (
     <section className="meet-the-simp" id={id}>
       <div className="container">
         <div className="heading gap-left">
-          <h2 className="reveal-heading">Meet the Simps</h2>
+          <h2 className="reveal-heading">{data?.title}</h2>
           <p>
-            SimplePlan started in 2018 with a simple idea — that building a
-            brand shouldn't be this hard.
+            {getText(data?.description)}
           </p>
         </div>
         <div className="meet-the-simp-in gap-left">
@@ -82,17 +96,17 @@ export default function MeetTheSimp({id}) {
             </div>
           </div>
           <div className="right">
-            <p className="split-reveal">
-              We work with founders to cut through the noise & find what makes
-              them different.
-            </p>
-            <p className="split-reveal">
-              Strategy, identity, websites, and marketing — all under one roof,
-              all pointing in the same direction.
-            </p>
+            {data?.right_side_description?.map((item, index) => (
+  <p key={index} className="split-reveal">
+    {item.children?.map(child => child.text).join("")}
+  </p>
+))}
             <div className="know-more-cta">
-              <a href="#!" className="custom-btn">
-                <span>know more about us</span>
+             <a
+  href={data?.cta_link || "#!"}
+  className="custom-btn"
+>
+                <span>{data?.cta_text}</span>
                 <span className="arrow-wrap">
                       <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

@@ -2,31 +2,29 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ttbImg from "./images/ttb-img.png";
+import { getImageUrl } from "./getImageUrl";
 
-const VIDEO_ID = "a7yNYcLgU_8";
-const THUMBNAIL = `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
+// Temporary fallback until the backend adds a dedicated video URL field on
+// tools_section cards (fold?.video_url). Once that field exists in the API
+// response, it will automatically take priority over this fallback.
+const FALLBACK_VIDEO_URL = "https://www.youtube.com/watch?v=a7yNYcLgU_8";
 
-const folds = [
-  {
-    type: "image",
-    text: "We've packaged everything we know into tools, templates, and SaaS products built for founders, freelancers, and agency owners. Whether you're building a brand from scratch or scaling an existing one, our products give you the thinking, the frameworks, and the tools to do it right.",
-    btnLabel: "Explore products",
-    btnHref: "#!",
-  },
-  {
-    type: "video",
-    text: "We create educational content for people who are figuring it out — freelancers, students, creative professionals, and early-stage founders. Free resources, paid courses, and real expertise, all designed to make branding and strategy feel less overwhelming.",
-    btnLabel: "Explore content",
-    btnHref: "#!",
-  },
-];
-
-function VideoFold() {
+function VideoFold({ videoUrl, thumbnail }) {
   const [playing, setPlaying] = useState(false);
   const iframeRef = useRef(null);
 
+  const getYoutubeId = (url) => {
+    if (!url) return "";
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&]+)/
+    );
+    return match ? match[1] : "";
+  };
+
+  const videoId = getYoutubeId(videoUrl);
+
   const handlePlay = () => {
+    if (!videoId) return;
     setPlaying(true);
     setTimeout(() => {
       iframeRef.current?.contentWindow?.postMessage(
@@ -40,7 +38,7 @@ function VideoFold() {
     <div className="ttb-media ttb-video-wrap">
       {!playing && (
         <>
-          <img src={THUMBNAIL} alt="Video thumbnail" className="img" />
+          <img src={thumbnail} alt="Video thumbnail" className="img" />
           <button className="ttb-play-btn" onClick={handlePlay} aria-label="Play">
             <svg viewBox="0 0 24 24" fill="#1A1A1A">
               <path d="M8 5v14l11-7z" />
@@ -48,10 +46,10 @@ function VideoFold() {
           </button>
         </>
       )}
-      {playing && (
+      {playing && videoId && (
         <iframe
           ref={iframeRef}
-          src={`https://www.youtube.com/embed/${VIDEO_ID}?controls=1&rel=0&enablejsapi=1&autoplay=1`}
+          src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&enablejsapi=1&autoplay=1`}
           allow="autoplay; encrypted-media"
           allowFullScreen
           title="Video"
@@ -61,71 +59,108 @@ function VideoFold() {
   );
 }
 
-export default function ToolsToBuild({id}) {
+export default function ToolsToBuild({ id, data }) {
   const sectionRef = useRef(null);
   const trackRef   = useRef(null);
+  const folds = data?.tools || [];
 
   useEffect(() => {
+    if (!folds.length) return;
+
     gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      const track = trackRef.current;
+    const mm = gsap.matchMedia();
 
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth),
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          scrub: 1.2,
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          invalidateOnRefresh: true,
-        },
-      });
-    }, sectionRef);
+    const notifyStickyState = (active) => {
+      window.dispatchEvent(
+        new CustomEvent("sticky-section-active", { detail: active })
+      );
+    };
 
-    return () => ctx.revert();
-  }, []);
+    mm.add(
+      {
+        isDesktop: "(min-width: 768px)",
+      },
+      (context) => {
+        const { isDesktop } = context.conditions;
+        const track = trackRef.current;
+
+        if (isDesktop) {
+          gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              pin: true,
+              scrub: 1.2,
+              end: () => `+=${track.scrollWidth - window.innerWidth}`,
+              invalidateOnRefresh: true,
+              onEnter: () => notifyStickyState(true),
+              onLeave: () => notifyStickyState(false),
+              onEnterBack: () => notifyStickyState(true),
+              onLeaveBack: () => notifyStickyState(false),
+            },
+          });
+        }
+      }
+    );
+
+    return () => mm.revert();
+  }, [folds.length]);
+
+  if (!data) return null;
 
   return (
-    <section ref={sectionRef} className="tools-to-build" id={id} data-sticky-section>
+    <section
+      ref={sectionRef}
+      className="tools-to-build"
+      id={id}
+      data-sticky-section
+      data-pinned-section
+    >
       <div className="container">
         <div className="heading gap-left">
-          <h2 className="reveal-heading">Tools to build your brand</h2>
+          <h2 className="reveal-heading">{folds?.[0]?.title || ""}</h2>
         </div>
       </div>
 
       <div ref={trackRef} className="ttb-track gap-left">
         {folds.map((fold, i) => (
-          <div className="ttb-fold" key={i}>
+          <div className="ttb-fold" key={fold.id ?? i}>
             <div className="ttb-left">
-              {fold.type === "image" ? (
+              {i === 0 ? (
                 <div className="ttb-media">
-                  <img src={ttbImg.src} alt="Tools" className="img" />
+                  <img
+                    src={getImageUrl(fold?.image)}
+                    alt={fold?.title}
+                    className="img"
+                  />
                 </div>
               ) : (
-                <VideoFold />
+                <VideoFold
+                  videoUrl={fold?.video_url || FALLBACK_VIDEO_URL}
+                  thumbnail={getImageUrl(fold?.image)}
+                />
               )}
             </div>
             <div className="ttb-right">
-              <p>{fold.text}</p>
-              <a href={fold.btnHref} className="custom-btn">
-                <span>{fold.btnLabel}</span>
+              <p>{fold?.description?.[0]?.children?.[0]?.text}</p>
+              <a href={fold?.cta_link} className="custom-btn">
+                <span>{fold?.cta_text}</span>
                 <span className="arrow-wrap">
-                      <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                      </svg>
-
-                      <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                      </svg>
-                  </span>
+                  <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                    <path
+                          d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                          fill="currentColor" />
+                  </svg>
+                  <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                    <path
+                          d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                          fill="currentColor" />
+                  </svg>
+                </span>
               </a>
             </div>
           </div>
