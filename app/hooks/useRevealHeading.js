@@ -1,5 +1,4 @@
 "use client";
-console.log("Reveal Heading Hook Running");
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -62,10 +61,19 @@ export default function useRevealHeading() {
 
             initRevealHeadings();
 
-            window.addEventListener("resize", () => {
+            function handleRefresh() {
                 ScrollTrigger.refresh();
                 initRevealHeadings();
-            });
+            }
+
+            window.addEventListener("resize", handleRefresh);
+            window.addEventListener("app:content-ready", handleRefresh);
+
+            return () => {
+                window.removeEventListener("resize", handleRefresh);
+                window.removeEventListener("app:content-ready", handleRefresh);
+                splitInstances.forEach(instance => instance.revert());
+            };
 
     }, []);
 }

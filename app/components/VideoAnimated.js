@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getImageUrl } from "./getImageUrl";
 
 export default function VideoAnimated({ id, data }) {
   const sectionRef = useRef(null);
@@ -11,6 +12,7 @@ export default function VideoAnimated({ id, data }) {
   const iframeRef = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
   // ===============================
   // API DATA
@@ -20,7 +22,7 @@ export default function VideoAnimated({ id, data }) {
   const sectionLabel = section.section_label || "";
 
   const thumbnail = section.thumbnail?.url
-    ? `${process.env.NEXT_PUBLIC_API_URL}${section.thumbnail.url}`
+    ? getImageUrl(section.thumbnail)
     : "";
 
   const videoId = section.videourl
@@ -47,6 +49,28 @@ export default function VideoAnimated({ id, data }) {
     postCmd(next ? "playVideo" : "pauseVideo");
     setIsPlaying(next);
   };
+
+  // Defer mounting the (heavy, autoplaying) YouTube iframe until the section
+  // is actually near the viewport — loading it eagerly on page mount competes
+  // with initial ScrollTrigger/image setup for the main thread and shows up
+  // as scroll jank/jumping in this and other sticky sections.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -112,13 +136,15 @@ export default function VideoAnimated({ id, data }) {
                 : {}
             }
           >
-            <iframe
-              ref={iframeRef}
-              src={YT_SRC}
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title={sectionLabel || "SimplePlan Reel"}
-            />
+            {shouldLoadVideo && (
+              <iframe
+                ref={iframeRef}
+                src={YT_SRC}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title={sectionLabel || "SimplePlan Reel"}
+              />
+            )}
 
             <button
               className="video-play-btn"

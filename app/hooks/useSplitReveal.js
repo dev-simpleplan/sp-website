@@ -89,11 +89,13 @@ export default function useSplitReveal() {
     };
 
     window.addEventListener("resize", handleResize);
+    window.addEventListener("app:content-ready", initSplitReveal);
 
     return () => {
       splitInstances.forEach((instance) => instance.revert());
 
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("app:content-ready", initSplitReveal);
 
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.id === "splitReveal") {

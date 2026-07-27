@@ -42,7 +42,50 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
- 
+
+  useEffect(() => {
+    if (loading) return;
+
+    // Only safe to refresh GSAP's pinned-section measurements while the
+    // user hasn't scrolled meaningfully yet — ScrollTrigger.refresh()
+    // briefly un-pins/re-pins everything, which visibly flashes/jumps if
+    // it fires while a pinned section is already active mid-scroll.
+    const isSafeToRefresh = () => window.scrollY < 200;
+
+    const notifyReady = () => {
+      if (isSafeToRefresh()) {
+        window.dispatchEvent(new Event("app:content-ready"));
+      }
+    };
+
+    requestAnimationFrame(notifyReady);
+
+    // Images loading after mount change section heights, which shifts
+    // every pinned trigger below them — re-notify once any images that
+    // were still loading at mount time finish, but only if still safe.
+    const pendingImages = Array.from(document.images).filter((img) => !img.complete);
+
+    if (pendingImages.length === 0) return;
+
+    let remaining = pendingImages.length;
+    const handleImageSettled = () => {
+      remaining -= 1;
+      if (remaining === 0) notifyReady();
+    };
+
+    pendingImages.forEach((img) => {
+      img.addEventListener("load", handleImageSettled, { once: true });
+      img.addEventListener("error", handleImageSettled, { once: true });
+    });
+
+    return () => {
+      pendingImages.forEach((img) => {
+        img.removeEventListener("load", handleImageSettled);
+        img.removeEventListener("error", handleImageSettled);
+      });
+    };
+  }, [loading]);
+
   const renderSection = (key, Component) => {
     if (!sections || !sections[key]) return null;
     return <Component data={sections[key]} />;
