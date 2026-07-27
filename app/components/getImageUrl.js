@@ -4,13 +4,21 @@ export const getImageUrl = (image) => {
       return "/fallback-image.jpg";
     }
 
-    // Ensure the URL is properly formatted
-    const baseUrl = "http://72.61.235.119:1337"; // Change this to HTTPS if needed
-    let imageUrl = image.url.startsWith("/") ? `${baseUrl}${image.url}` : image.url;
+    if (image.url.startsWith("/")) {
+      // Proxy through our own https origin so the browser never has to
+      // fetch mixed content from the http-only Strapi backend.
+      return `/api/image-proxy?path=${encodeURIComponent(image.url)}`;
+    }
 
-    return new URL(imageUrl).href; // Ensure the URL is valid
+    const parsed = new URL(image.url);
+
+    if (parsed.protocol === "https:") {
+      return parsed.href;
+    }
+
+    return `/api/image-proxy?path=${encodeURIComponent(parsed.pathname + parsed.search)}`;
   } catch (error) {
     console.error("Error generating image URL:", error);
-    return "/fallback-image.jpg"; // Return fallback image on error
+    return "/fallback-image.jpg";
   }
 };
