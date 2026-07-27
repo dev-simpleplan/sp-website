@@ -416,6 +416,7 @@ export default function Header() {
         onMouseEnter={cancelScheduledClose}
         onMouseLeave={scheduleClose}
       >
+      <div className={styles.spMegaMenuMain}>
         <div className={styles.spMegaMenuInner}>
           <div className={styles.spMegaMenuTop}>
             <div className={styles.spMegaMenuColumns}>
@@ -450,6 +451,7 @@ export default function Header() {
               />
             </div>
           </div>
+        </div>
         </div>
 
       </div>

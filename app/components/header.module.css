@@ -1,5 +1,5 @@
 .spHeader {
-    z-index: 2;
+    z-index: 99;
     width: 100%;
     position: fixed;
     top: 0;
@@ -652,6 +652,12 @@
 
 .spMobileBackBtn {
     margin-bottom: 24px;
+}
+
+.spMegaMenuMain {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 /* Responsive */

@@ -1,68 +1,87 @@
 "use client";
+
 import Link from "next/link";
-import htsuVideoThumb from "../images/htsu-video-thumb.jpg";
-import styles from "../../custom.css";
+import { getImageUrl } from "../getImageUrl";
 
-// Static for now — content will move to API-driven props later.
-// Kept in one object so swapping to `data` props is a quick refactor.
-const content = {
-  label: "Content",
-  heading: ["How This Shows Up", "In Work"],
-  description:
-    "Across categories and stages, the focus stays the same: clarity in direction and consistency in how the brand is built and expressed to create something unique.",
-  videoThumb: htsuVideoThumb,
-  videoAlt: "Brand build teaser",
-  videoCaption: "TEASER",
-  videoHref: "#!",
-  quote:
-    "See How The Work Actually Unfolds In Our Series Building A Brand, Where We Document The Process As It Happens.",
-  ctaText: "Watch the process",
-  ctaLink: "#!",
-};
+export default function HowThisShowsUp({ id, data }) {
+  if (!data) return null;
 
-export default function HowThisShowsUp({ id }) {
+  const heading = data?.title?.split(" in ") || [data?.title];
+
   return (
     <section className="how-this-shows-up" id={id}>
       <div className="container">
         <div className="htsu-in gap-left">
-          {/* <p className="sec-label">{content.label}</p> */}
+          {/* <p className="sec-label">{data?.tagline}</p> */}
 
           <h2 className="reveal-heading htsu-heading">
-            {content.heading.map((line, i) => (
+            {heading.map((line, i) => (
               <span key={i}>
                 {line}
-                {i < content.heading.length - 1 && <br />}
+                {i < heading.length - 1 && <br />}
               </span>
             ))}
           </h2>
 
           <div className="htsu-content">
-            <a href={content.videoHref} className="htsu-video">
+            <a
+              href={data?.cta_link || "#!"}
+              className="htsu-video"
+            >
               <img
-                src={content.videoThumb.src}
-                alt={content.videoAlt}
+                src={getImageUrl(data?.image)}
+                alt={
+                  data?.image?.alternativeText ||
+                  data?.image?.name ||
+                  data?.title
+                }
                 className="img"
               />
+
               <span className="htsu-play-btn" aria-hidden="true">
-                <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13.5 8L0.75 15.3971L0.75 0.602886L13.5 8Z" fill="currentColor" />
+                <svg
+                  width="14"
+                  height="16"
+                  viewBox="0 0 14 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.5 8L0.75 15.3971L0.75 0.602886L13.5 8Z"
+                    fill="currentColor"
+                  />
                 </svg>
               </span>
-              <span className="htsu-video-caption">{content.videoCaption}</span>
+
+              <span className="htsu-video-caption">
+                {data?.tagline}
+              </span>
             </a>
 
             <div className="htsu-text">
-              <p className="split-reveal">{content.description}</p>
+              <p className="split-reveal">
+                {data?.description?.[0]?.children?.[0]?.text}
+              </p>
             </div>
           </div>
 
           <div className="htsu-foot">
-            <h6 className="reveal-heading htsu-quote">{content.quote}</h6>
-            <Link href={content.ctaLink} className="custom-cta-link">
+            <h6 className="reveal-heading htsu-quote">
+              {data?.below_title}
+            </h6>
+
+            <Link
+              href={data?.cta_link || "#!"}
+              className="custom-cta-link"
+            >
               <span className="text-wrap">
-                <span className="text text-1">{content.ctaText}</span>
-                <span className="text text-2">{content.ctaText}</span>
-            </span>
+                <span className="text text-1">
+                  {data?.cta_text}
+                </span>
+                <span className="text text-2">
+                  {data?.cta_text}
+                </span>
+              </span>
             </Link>
           </div>
         </div>
