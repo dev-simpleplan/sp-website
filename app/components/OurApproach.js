@@ -9,21 +9,33 @@ const Dot = () => (
   </svg>
 );
 
-const Card = ({ b }) => (
-  <div className="block-box">
-    <div className="bb-top">
-      <div className="dot">
-        {[...Array(b.step_number)].map((_, d) => (
-          <Dot key={d} />
-        ))}
+const Card = ({ b }) => {
+  const content = (
+    <>
+      <div className="bb-top">
+        <div className="dot">
+          {[...Array(b.step_number)].map((_, d) => (
+            <Dot key={d} />
+          ))}
+        </div>
+
+        <h4>{b.title}</h4>
       </div>
 
-      <h4>{b.title}</h4>
-    </div>
+      <p>{b.description?.[0]?.children?.[0]?.text}</p>
+    </>
+  );
 
-    <p>{b.description?.[0]?.children?.[0]?.text}</p>
-  </div>
-);
+  if (b.cta_link) {
+    return (
+      <a href={b.cta_link} className="block-box">
+        {content}
+      </a>
+    );
+  }
+
+  return <div className="block-box">{content}</div>;
+};
 
 export default function OurApproach({ id, data }) {
   const swiperRef = useRef(null);
@@ -91,81 +103,7 @@ export default function OurApproach({ id, data }) {
     };
   }, [updateCursorPosition, showDragCursor]);
 
-  // const blocks = section.cards;
-
-  // const blocks = section.cards;
-const blocks = [
-{
-id: 1,
-step_number: 1,
-title: "Discovery first",
-description: [
-{
-children: [
-{
-text: "We get to know your business, your goals, and the gap between where you are and where you want to be.",
-},
-],
-},
-],
-},
-{
-id: 2,
-step_number: 2,
-title: "Strategy before creative",
-description: [
-{
-children: [
-{
-text: "Before anything looks like anything, we make sure the thinking is solid. Positioning, messaging, and clarity come first.",
-},
-],
-},
-],
-},
-{
-id: 3,
-step_number: 3,
-title: "Build for consistency",
-description: [
-{
-children: [
-{
-text: "A brand that shows up consistently builds trust across every touchpoint and every interaction.",
-},
-],
-},
-],
-},
-{
-id: 4,
-step_number: 4,
-title: "Work with you",
-description: [
-{
-children: [
-{
-text: "We work collaboratively so the strategy reflects your business and not just our assumptions.",
-},
-],
-},
-],
-},
-{
-id: 5,
-step_number: 5,
-title: "Launch & Grow",
-description: [
-{
-children: [
-{
-text: "After launch, we continue refining and improving the brand based on real-world performance.",
-},
-],
-},
-],
-},
-];
+  const blocks = section.cards;
 
     useEffect(() => {
   const check = () => {

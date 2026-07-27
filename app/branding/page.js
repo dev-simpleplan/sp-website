@@ -18,7 +18,7 @@ const [sections, setSections] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/branding-service-outer?populate=*')
+    axios.get('/api/branding-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*')
       .then(response => {
         if (response.data && response.data.data) {
           setSections(response.data.data);

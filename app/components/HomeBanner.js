@@ -8,7 +8,7 @@ export default function HomeBanner({ id, data }) {
     <section className="home-banner" id={id}>
       <div className="container">
         <div className="home-banner-in">
-          <h1>{data.headline}</h1>
+          <h1 className="reveal-heading">{data.headline}</h1>
           <p>
             {data.subtext}
           </p>

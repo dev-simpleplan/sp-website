@@ -116,7 +116,7 @@ export default function ServiceBanner({ data }) {
 
         <div className={styles.spServiceBannerInner}>
           <div className={styles.spContent}>
-            <h2 className={styles.spHeading}>{title}</h2>
+            <h2 className={`${styles.spHeading} reveal-heading`}>{title}</h2>
 
             <p className={styles.spSubtext}>{subtext}</p>
 
