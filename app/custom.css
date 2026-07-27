@@ -14,7 +14,7 @@
   position: relative;
 }
 
-.ticker-inner::before{
+.ticker-inner::before {
   content: "";
   position: absolute;
   top: 0;
@@ -24,7 +24,8 @@
   background: linear-gradient(90deg, #d8031d 0%, #d8031c00 100%);
   z-index: 1;
 }
-.ticker-inner::after{
+
+.ticker-inner::after {
   content: "";
   position: absolute;
   top: 0;
@@ -423,12 +424,14 @@
     margin-top: 40px;
   }
 
-  .our-approach{
+  .our-approach {
     padding: 80px 0;
   }
+
   .our-approach-top {
     margin-bottom: 0px;
   }
+
   .our-approach .heading {
     margin-bottom: 20px;
   }
@@ -565,9 +568,9 @@
 .ready-to-build {
   background-color: var(--sp-red);
   height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ready-to-build-in {
@@ -960,8 +963,9 @@
   box-sizing: border-box;
   position: relative;
 }
+
 @media screen and (max-width: 991px) {
-  .your-brands-fold{
+  .your-brands-fold {
     padding: 60px 60px 60px 60px;
   }
 }
@@ -1137,7 +1141,6 @@
   color: #fff;
   text-decoration: underline;
   text-underline-offset: 4px;
-  align-self: flex-start;
 }
 
 /* ── Testimonial Section ─────────────────────────────────── */
@@ -1165,8 +1168,9 @@
   overflow: hidden;
   padding-right: 42px;
 }
+
 .testimonial-slider-wrap.gap-left {
-    padding-left: 245px;
+  padding-left: 245px;
 }
 
 .testimonial-slider-wrap .swiper {
@@ -1299,16 +1303,16 @@
 
 
 /* TRUSTED BRAND --------------------------------------- */
-.trusted-brands{
+.trusted-brands {
   background-color: var(--sp-red);
   padding: 60px 0 100px;
 }
 
-.tb-logos{
+.tb-logos {
   margin-top: 40px;
 }
 
-.tb-heading{
+.tb-heading {
   font-size: 24px;
   max-width: 528px;
 }
@@ -1318,22 +1322,22 @@
 
 /* APPROACH BRANDING -------------------------------- */
 
-.approach-section{
+.approach-section {
   background-color: var(--sp-red);
   padding: 50px 0 150px;
 }
 
-.approach-sec-in{
+.approach-sec-in {
   display: flex;
   flex-direction: column;
   gap: 190px;
 }
 
-.approach-sec-in .heading{
+.approach-sec-in .heading {
   max-width: 670px;
 }
 
-.approach-sec-in .approach-description{
+.approach-sec-in .approach-description {
   max-width: 320px;
   margin-left: auto;
 }
@@ -1344,9 +1348,9 @@
 
 /* HOW THIS SHOWS UP -------------------------------- */
 
-.how-this-shows-up{
-    background: var(--sp-red);
-    padding: 150px 0;
+.how-this-shows-up {
+  background: var(--sp-red);
+  padding: 150px 0;
 }
 
 .htsu-content {
@@ -1414,211 +1418,211 @@
 
 
 .spServiceBanner {
-    position: relative;
-    background-color: #d8011d;
-    overflow: hidden;
+  position: relative;
+  background-color: #d8011d;
+  overflow: hidden;
 }
 
 /* Vertical "Intro" tag bleeding off the left edge */
 .spTagLabel {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    transform: translateY(-50%) rotate(-90deg) translateX(-50%);
-    transform-origin: left center;
-    pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  transform: translateY(-50%) rotate(-90deg) translateX(-50%);
+  transform-origin: left center;
+  pointer-events: none;
 }
 
 .spServiceBannerInner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 64px;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 96px 48px 96px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 64px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 96px 48px 96px 80px;
 }
 
 /* Left content */
 
 .spContent {
-    max-width: 460px;
+  max-width: 460px;
 }
 
 .spHeading {
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    font-weight: 400;
-    color: #ffffff;
-    font-size: 52px;
-    line-height: 1.15;
-    margin: 0 0 24px 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 52px;
+  line-height: 1.15;
+  margin: 0 0 24px 0;
 }
 
 .spHeadingLine {
-    display: inline;
+  display: inline;
 }
 
 .spSubtext {
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 18px;
-    line-height: 1.5;
-    margin: 0 0 36px 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0 0 36px 0;
 }
 
 .spCta {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #ffffff;
-    color: #1a1a1a;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 16px 22px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .spCta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .spCtaIcon {
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease;
 }
 
 .spCta:hover .spCtaIcon {
-    transform: translate(2px, -2px);
+  transform: translate(2px, -2px);
 }
 
 /* Right video thumbnail */
 
 .spVideoWrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 5 / 6;
-    max-height: 603px;
-    max-width: 521px;
-    overflow: hidden;
-    background-color: #8f0f22;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 6;
+  max-height: 603px;
+  max-width: 521px;
+  overflow: hidden;
+  background-color: #8f0f22;
 }
 
 .spThumbnail {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .spOverlayText {
-    position: absolute;
-    left: 24px;
-    bottom: 24px;
-    z-index: 2;
-    color: #ffffff;
-    font-size: 34px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
 .spPlayBtn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.95);
-    color: #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.25s ease, background-color 0.25s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 .spPlayBtn:hover {
-    transform: translate(-50%, -50%) scale(1.08);
-    background-color: #ffffff;
+  transform: translate(-50%, -50%) scale(1.08);
+  background-color: #ffffff;
 }
 
 .spPlayBtn svg {
-    margin-left: 3px;
+  margin-left: 3px;
 }
 
 /* Video modal — scales/fades in from roughly the thumbnail position */
 
 .spVideoModalBackdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    background-color: rgba(0, 0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    visibility: hidden;
-    pointer-events: none;
-    transition: background-color 0.35s ease, visibility 0s linear 0.35s;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  visibility: hidden;
+  pointer-events: none;
+  transition: background-color 0.35s ease, visibility 0s linear 0.35s;
 }
 
 .spVideoModalBackdropOpen {
-    background-color: rgba(0, 0, 0, 0.85);
-    visibility: visible;
-    pointer-events: auto;
-    transition: background-color 0.35s ease, visibility 0s linear 0s;
+  background-color: rgba(0, 0, 0, 0.85);
+  visibility: visible;
+  pointer-events: auto;
+  transition: background-color 0.35s ease, visibility 0s linear 0s;
 }
 
 .spVideoModal {
-    position: relative;
-    width: 100%;
-    max-width: 960px;
-    opacity: 0;
-    transform: scale(0.85) translateY(24px);
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  opacity: 0;
+  transform: scale(0.85) translateY(24px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .spVideoModalOpen {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .spVideoModalFrame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #000000;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000000;
 }
 
 .spVideoModalIframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .spVideoModalClose {
-    position: absolute;
-    top: -44px;
-    right: 0;
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 6px;
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 6px;
 }
 
 
@@ -1631,12 +1635,12 @@
 
 
 /* COMPANY BANNER ---------------------- */
-.company-banner{
+.company-banner {
   background-color: var(--sp-red);
   padding-bottom: 100px;
 }
 
-.company-banner-in{
+.company-banner-in {
   width: 100%;
   height: 100vh;
   max-height: 720px;
@@ -1645,31 +1649,95 @@
 
 /* ETHOS SECTION ------------------------- */
 
-.ethos-section{
+.ethos-section {
   background-color: var(--sp-red);
   padding: 50px 0 150px;
 }
-.ethos-wrap{
+
+.ethos-wrap {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-top: 80px;
 }
-.ethos-card{
+
+.ethos-card {
   display: flex;
   flex-direction: column;
   gap: 6px;
   max-width: 350px;
 }
-.ethos-card-title{
+
+.ethos-card-title {
   font: 600 28px var(--font-aspekta);
   text-transform: uppercase;
   letter-spacing: -2%;
   color: var(--sp-white);
 }
 
+.project-delievered-slider {
+  position: relative;
+}
 
+.ttb-drag-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99999;
 
+  transform: translate(-9999px, -9999px);
+
+  transition:
+    opacity .25s,
+    visibility .25s;
+}
+
+.ttb-drag-cursor.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ttb-drag-cursor {
+  transform: translate(-50%, -50%);
+}
+
+.ttb-drag-cursor {
+  left: 0;
+  top: 0;
+}
+
+.custom-cursor {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  width: 113px;
+  height: 113px;
+  object-fit: cover;
+  /* border-radius: 50%;
+  background: rgba(217, 217, 217, .1);
+  backdrop-filter: blur(75px);
+  -webkit-backdrop-filter: blur(75px);
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: underline;
+  letter-spacing: 1.08px;
+  font-size: 12px; */
+}
+
+.project-delievered-slider .swiper,
+.project-delievered-slider .swiper-wrapper,
+.project-delievered-slider .swiper-slide {
+  cursor: auto !important;
+}
+
+.project-delievered-slider.has-custom-cursor .swiper,
+.project-delievered-slider.has-custom-cursor .swiper-wrapper,
+.project-delievered-slider.has-custom-cursor .swiper-slide {
+  cursor: none !important;
+}
 
 /* =============================== */
 /* COMPANY PAGE STYLE END --------- */

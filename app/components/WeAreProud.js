@@ -219,7 +219,11 @@ export default function WeAreProud({ id, data }) {
 
   if (!data) return null;
 
-  const cards = data.case_study_cards || [];
+  const cards =
+  data.case_study_cards ||
+  data.cards ||
+  data.items ||
+  [];
 
   return (
     <section ref={sectionRef} className="we-are-proud" id={id} data-sticky-section data-pinned-section>
@@ -246,7 +250,7 @@ export default function WeAreProud({ id, data }) {
                 <div className="wap-text">
                   <div className="wap-text-left">
                     <h5>{card.client_name}</h5>
-                    <p>{card.client_descritpion?.[0]?.children?.[0]?.text}</p>
+                    <p>{card.client_description?.[0]?.children?.[0]?.text}</p>
                   </div>
                   <div className="ap-text-right">
                     <p>{card.year}</p>

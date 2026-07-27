@@ -39,21 +39,27 @@ const [sections, setSections] = useState({});
     if (!sections || !sections[key]) return null;
     return <Component data={sections[key]} />;
   };
+
+  console.log("Branding Service Page Sections:", sections.scope_work);
   
 
   const HOME_SECTIONS = [
-    
+    { id: "service-banner", label: "Intro" },
+    { id: "approach-branding", label: "Approach" },
+    { id: "our-approach", label: "Services" },
+    { id: "we-are-proud", label: "Transformation" },
+    { id: "how-this-show-up", label: "Content" },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
-      <ServiceBanner data={sections.branding_outer_banner} />
-      <LikeWhatYouSee id="like-what-you-see" data={sections.stats} stats={sections.stats}/>
-      <ApproachBranding />
-      <OurApproach  id="our-approach" data={sections.our_approach}/>
-      <WeAreProud id="we-are-proud" data={sections.case_study}/>
-      <HowThisShowUp id="how-this-show-up" />
+      <ServiceBanner data={sections?.branding_outer_banner} id="service-banner"/>
+      <LikeWhatYouSee id="like-what-you-see" data={sections?.stats} stats={sections?.stats}/>
+      <ApproachBranding data={sections?.branding_approach} id="approach-branding"/>
+      <OurApproach  id="our-approach" data={sections?.scope_work}/>
+      <WeAreProud id="we-are-proud" data={sections?.transformation}/>
+      <HowThisShowUp id="how-this-show-up" data={sections?.work_shows_up}/>
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

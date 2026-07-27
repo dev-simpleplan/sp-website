@@ -1,4 +1,4 @@
-// app/api/home-page/route.js
+// app/api/branding-service-outer/route.js
 
 export async function GET() {
   try {
