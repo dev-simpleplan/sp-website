@@ -1,22 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../Service-outer/service-outer.module.css";
-import customStyle from "../globals.css";
-
-const ARROW_UP_RIGHT = (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-    <path
-      d="M3 11L11 3M11 3H4M11 3V10"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 const PLAY_ICON = (
   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -24,155 +11,169 @@ const PLAY_ICON = (
   </svg>
 );
 
-const CLOSE_ICON = (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-    <path
-      d="M1 1L19 19M19 1L1 19"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
+// Loads the YouTube IFrame Player API script once and shares the same
+// promise across every ServiceBanner instance on the page.
+let ytApiPromise = null;
+function loadYouTubeIframeApi() {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (ytApiPromise) return ytApiPromise;
 
-export default function ServiceBanner({data}) {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-  function openVideo() {
-    setIsVideoOpen(true);
-  }
-
-  function closeVideo() {
-    setIsVideoOpen(false);
-  }
-
-  useEffect(() => {
-    document.body.style.overflow = isVideoOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
+  ytApiPromise = new Promise((resolve) => {
+    const prevCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prevCallback?.();
+      resolve();
     };
-  }, [isVideoOpen]);
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
 
-  useEffect(() => {
-    function handleEscape(event) {
-      if (event.key === "Escape") closeVideo();
-    }
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, []);
+  return ytApiPromise;
+}
+
+export default function ServiceBanner({ data }) {
+  const iframeRef = useRef(null);
+  const playerRef = useRef(null);
+  const [started, setStarted] = useState(false);
 
   const banner = data || {};
 
-const title = banner.title || "Branding is not what people see";
+  const tagLabel = banner.tagline || "";
+  const title = banner.title || "";
+  const subtext = banner.description?.[0]?.children?.[0]?.text || "";
+  const ctaText = banner.cta_text || "Start A Branding Project";
+  const ctaHref = banner.cta_link || "#";
 
-const subtext =
-  banner.description?.[0]?.children?.[0]?.text || "It is what they expereince over time";
+  const rawThumbUrl = banner.video_thumbnail?.url || "";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
-const ctaText = banner.cta_text || "Start A Branding Project";
+  let thumbnail = "/service-banner.png"; // fallback
+  if (rawThumbUrl) {
+    if (rawThumbUrl.startsWith("http")) {
+      // Strapi already returned a full URL
+      thumbnail = rawThumbUrl;
+    } else if (apiUrl) {
+      thumbnail = `${apiUrl}${rawThumbUrl}`;
+    } else {
+      console.warn(
+        "NEXT_PUBLIC_API_URL is not set — falling back to placeholder thumbnail. Check .env.local."
+      );
+    }
+  }
 
-const ctaHref = banner.cta_link || "#";
+  const thumbnailAlt = banner.video_thumbnail?.alternativeText || title || "Video thumbnail";
 
-const overlayText = banner.tagline || "";
+  const videoId = banner.videourl
+    ? banner.videourl.match(
+        /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/
+      )?.[1] || ""
+    : "";
 
-//const thumbnail = banner.video_thumbnail?.url
-//  ? `${process.env.NEXT_PUBLIC_API_URL}${banner.video_thumbnail.url}`
-//  : "/service-banner.png";
+  // Create the real YouTube player once, when the iframe first mounts.
+  // We never destroy() it on end/replay — destroy() removes the <iframe>
+  // from the DOM directly, which fights with React's reconciliation and
+  // breaks the next render. We only destroy on unmount.
+  useEffect(() => {
+    if (!videoId) return;
 
-const videoId = banner.videourl
-  ? banner.videourl.match(
-      /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/
-    )?.[1] || ""
-  : "";
+    let cancelled = false;
+
+    loadYouTubeIframeApi().then(() => {
+      if (cancelled || !iframeRef.current) return;
+
+      playerRef.current = new window.YT.Player(iframeRef.current, {
+        events: {
+          onStateChange: (e) => {
+            if (e.data === window.YT.PlayerState.ENDED) {
+              // stopVideo() resets the player to its unstarted state
+              // without touching the DOM node — safe to call repeatedly.
+              playerRef.current?.stopVideo?.();
+              setStarted(false); // back to default: thumbnail + play button
+            }
+          },
+        },
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      playerRef.current?.destroy?.();
+      playerRef.current = null;
+    };
+  }, [videoId]);
+
+  function handlePlayClick() {
+    setStarted(true); // hides thumbnail + play button immediately
+    playerRef.current?.playVideo?.();
+  }
 
   return (
     <section className={styles.spServiceBanner}>
       <div className="container">
+        {tagLabel && <span className={styles.spTagLabel}>{tagLabel}</span>}
+
         <div className={styles.spServiceBannerInner}>
-        <div className={styles.spContent}>
-          <h2 className={styles.spHeading}>
-  {title}
-</h2>
+          <div className={styles.spContent}>
+            <h2 className={styles.spHeading}>{title}</h2>
 
-          <p className={styles.spSubtext}>{subtext}</p>
+            <p className={styles.spSubtext}>{subtext}</p>
 
-          <Link href={ctaHref} className="custom-btn">
-            <span>{ctaText}</span>
-            <span className="arrow-wrap">
-                  <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                      <path
-                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" 
-                            fill="currentColor" />
-                  </svg>
+            <Link href={ctaHref} className="custom-btn">
+              <span>{ctaText}</span>
+              <span className="arrow-wrap">
+                <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                    <path
+                          d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" 
+                          fill="currentColor" />
+                </svg>
 
-                  <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                      <path
-                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                            fill="currentColor" />
-                  </svg>
+                <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                    <path
+                          d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                          fill="currentColor" />
+                </svg>
               </span>
-          </Link>
-        </div>
+            </Link>
+          </div>
 
-        <div className={styles.spVideoWrap}>
-          <button
-            type="button"
-            className={styles.spPlayBtn}
-            aria-label="Play showreel"
-            onClick={openVideo}
-          >
-            {PLAY_ICON}
-          </button>
-
-            <Image
-              src="/service-banner.png"
-              alt={overlayText}
-              fill
-              className={styles.spThumbnail}
-              //sizes="(max-width: 900px) 100vw, 50vw"
-            />
-
-          {/* {overlayText && (
-            <span className={styles.spOverlayText}>{overlayText}</span>
-          )} */}
-        </div>
-      </div>
-
-      <div
-        className={`${styles.spVideoModalBackdrop} ${
-          isVideoOpen ? styles.spVideoModalBackdropOpen : ""
-        }`}
-        onClick={closeVideo}
-      >
-        <div
-          className={`${styles.spVideoModal} ${
-            isVideoOpen ? styles.spVideoModalOpen : ""
-          }`}
-          onClick={(event) => event.stopPropagation()}
-        >
-          <button
-            type="button"
-            className={styles.spVideoModalClose}
-            aria-label="Close video"
-            onClick={closeVideo}
-          >
-            {CLOSE_ICON}
-          </button>
-
-          <div className={styles.spVideoModalFrame}>
-            {isVideoOpen && videoId && (
+          <div className={styles.spVideoWrap}>
+            {videoId && (
               <iframe
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
-                title="Showreel"
+                ref={iframeRef}
+                src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0`}
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
-                className={styles.spVideoModalIframe}
+                title={title || "Showreel"}
+                className={styles.spVideoIframe}
               />
+            )}
+
+            {!started && (
+              <>
+                <Image
+                  src={thumbnail}
+                  alt={thumbnailAlt}
+                  fill
+                  className={styles.spThumbnail}
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  priority
+                />
+                <button
+                  type="button"
+                  className={styles.spPlayBtn}
+                  aria-label="Play showreel"
+                  onClick={handlePlayClick}
+                >
+                  {PLAY_ICON}
+                </button>
+              </>
             )}
           </div>
         </div>
-      </div>
       </div>
     </section>
   );
