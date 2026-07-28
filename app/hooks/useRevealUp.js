@@ -8,6 +8,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function useRevealUp() {
     useEffect(() => {
+        // Track wrappers we create so we can unwrap them again on cleanup —
+        // otherwise GSAP-created DOM structure stays behind after React
+        // re-renders/unmounts the underlying elements, and React's next
+        // reconciliation can try to insertBefore against a node that's no
+        // longer where React thinks it is.
+        const createdWrappers = [];
 
         function initRevealUp() {
             document.querySelectorAll(".reveal-up").forEach((element) => {
@@ -23,6 +29,7 @@ export default function useRevealUp() {
                 }
 
                 element.appendChild(inner);
+                createdWrappers.push({ element, inner });
 
                 gsap.set(inner, {
                     yPercent: 100
@@ -42,12 +49,34 @@ export default function useRevealUp() {
             });
         }
 
-        initRevealUp();
+        function unwrapAll() {
+            createdWrappers.forEach(({ element, inner }) => {
+                if (!inner.parentNode) return; // already removed
+                while (inner.firstChild) {
+                    element.appendChild(inner.firstChild);
+                }
+                inner.remove();
+            });
+            createdWrappers.length = 0;
+        }
 
-        window.addEventListener("app:content-ready", initRevealUp);
+        const ctx = gsap.context(() => {
+            // Wait a frame so this only runs after React has committed the
+            // current DOM, instead of racing a render that's still in flight.
+            requestAnimationFrame(initRevealUp);
+        });
+
+        const handleContentReady = () => {
+            unwrapAll();
+            initRevealUp();
+        };
+
+        window.addEventListener("app:content-ready", handleContentReady);
 
         return () => {
-            window.removeEventListener("app:content-ready", initRevealUp);
+            window.removeEventListener("app:content-ready", handleContentReady);
+            unwrapAll();
+            ctx.revert(); // kills any ScrollTriggers/tweens this context created
         };
 
     }, []);

@@ -12,7 +12,8 @@ export default function useSplitReveal() {
     const splitInstances = [];
 
     function initSplitReveal() {
-      // Cleanup previous split
+      // Cleanup previous split — revert BEFORE querying for new targets,
+      // so we're never re-splitting on top of leftover wrapper divs.
       splitInstances.forEach((instance) => instance.revert());
       splitInstances.length = 0;
 
@@ -24,6 +25,10 @@ export default function useSplitReveal() {
       });
 
       document.querySelectorAll(".split-reveal").forEach((element) => {
+        // Dedupe guard, just in case initSplitReveal fires again before
+        // a previous split's revert has settled.
+        if (element.querySelector(".split-line")) return;
+
         // Create SplitText
         const split = SplitText.create(element, {
           type: "lines",
@@ -75,8 +80,10 @@ export default function useSplitReveal() {
       ScrollTrigger.refresh();
     }
 
-    // Wait one frame so DOM is fully rendered
-    requestAnimationFrame(initSplitReveal);
+    const ctx = gsap.context(() => {
+      // Wait one frame so DOM is fully rendered
+      requestAnimationFrame(initSplitReveal);
+    });
 
     let resizeTimer;
 
@@ -92,6 +99,7 @@ export default function useSplitReveal() {
     window.addEventListener("app:content-ready", initSplitReveal);
 
     return () => {
+      clearTimeout(resizeTimer);
       splitInstances.forEach((instance) => instance.revert());
 
       window.removeEventListener("resize", handleResize);
@@ -102,6 +110,8 @@ export default function useSplitReveal() {
           trigger.kill();
         }
       });
+
+      ctx.revert();
     };
   }, []);
 }
