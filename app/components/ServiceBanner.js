@@ -112,8 +112,6 @@ export default function ServiceBanner({ data }) {
   return (
     <section className={styles.spServiceBanner}>
       <div className="container">
-        {tagLabel && <span className={styles.spTagLabel}>{tagLabel}</span>}
-
         <div className={styles.spServiceBannerInner}>
           <div className={styles.spContent}>
             <h2 className={`${styles.spHeading} reveal-heading`}>{title}</h2>

@@ -1,0 +1,115 @@
+/* Service Banner Component css start */
+
+.home-banner-in.service-inner h1 {
+    font-weight: 300;
+    letter-spacing: -2%;
+    max-width: 15ch;
+}
+
+section.video-animated-section.service-inner {
+    height: 100%;
+    padding-bottom: 140px;
+}
+
+section.video-animated-section.service-inner .video-animated-frame {
+    position: unset;
+}
+
+section.video-animated-section.service-inner .video-animated-inner {
+    aspect-ratio: 11.86 / 6.03;
+    will-change: transform;
+    flex-shrink: 0;
+    width: 95%;
+    max-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+section.video-animated-section.service-inner .video-play-btn {
+    z-index: 10;
+    -webkit-backdrop-filter: blur(10px);
+    color: #1A1A1A;
+    cursor: pointer;
+    background: #fff;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    transition: background .2s, transform .2s;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.video-play-btn svg {
+    width: 25px;
+    height: 25px;
+}
+
+.approach-sec-in .heading {
+    max-width: 80ch;
+}
+
+section.what-we-deliver {
+    background-color: var(--sp-red);
+}
+
+.bb-top img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.project-delievered-slider {
+    overflow: hidden;
+}
+
+.project-delievered-slider .swiper {
+    overflow: visible;
+}
+
+.project-delievered-slider .swiper-wrapper {
+    align-items: stretch;
+}
+
+.what-we-deliver .block-box {
+    background: none;
+    padding: 0;
+    gap: 10px;
+}
+
+.what-we-deliver .bb-top img {
+    border-radius: 0px;
+}
+
+.what-we-deliver .block-box .bb-top {
+    margin-bottom: 20px;
+}
+
+.what-we-deliver .block-box h4 {
+    text-transform: uppercase;
+    letter-spacing: -2%;
+}
+
+section.our-proud-work {
+    background-color: var(--sp-red);
+}
+
+.we-are-proud-pin {
+    height: 100vh;
+}
+
+.we-are-proud {
+    background-color: var(--sp-red);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: hidden;
+}
+
+/* Service Banner Component css end */
