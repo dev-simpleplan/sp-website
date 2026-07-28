@@ -8,7 +8,7 @@ import ServiceBanner from "../ServiceInner/ServiceInnerBanner";
 import VideoSection from "../ServiceInner/VideoSection";
 import ApproachBranding from '../service/ApproachBranding';
 import WhatWeDeliver from "../ServiceInner/WhatWeDeliver";
-import OurProudWork from "../ServiceInner/OurProudWork";
+// import OurProudWork from "../ServiceInner/OurProudWork";
 
 const SERVICE_SECTIONS = [
   { id: "service-banner", label: "Intro" },
@@ -134,7 +134,7 @@ export default function ServicePageTemplate({ slug }) {
       <VideoSection data={sections.video_section} />
       <ApproachBranding data={sections.philosphy} />
       <WhatWeDeliver data={sections.what_we_deliver} />
-      <OurProudWork data={sections.our_proud_work} />
+      {/* <OurProudWork data={sections.our_proud_work} /> */}
     </>
   );
 }
