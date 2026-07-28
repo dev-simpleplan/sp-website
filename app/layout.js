@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Newsreader } from "next/font/google";
 import "./globals.css";
 import "./custom.css";
 import "./responsive.css";
@@ -17,6 +18,13 @@ const aspekta = localFont({
   ],
 });
 
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
 export const metadata = {
   title: "SimplePlan Media | Award-Winning Branding &amp; Design Agency",
   description: "We build brands that stands the test of time - From Branding, Web Design and Development to Marketing, we do it all!",
@@ -28,13 +36,10 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${aspekta.variable}`}
+      className={`${aspekta.variable} ${newsreader.variable}`}
     >
       <head>
         <link rel="shortcut icon" href="../public/images/favicon20.png" type="image/x-icon" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>
         <Header />

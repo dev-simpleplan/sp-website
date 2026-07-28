@@ -82,7 +82,7 @@ export default function ThinkBeforeBuild({ id, data }) {
           {cursorVisible && (
             <div
               ref={cursorRef}
-              className="ttb-drag-cursor"
+              className="think-drag-cursor"
               style={{ left: cursorPos.x, top: cursorPos.y }}
             >
               <span>&lt; DRAG &gt;</span>

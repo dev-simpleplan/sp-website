@@ -1069,7 +1069,7 @@
 }
 
 /* custom drag cursor */
-.ttb-drag-cursor {
+.think-drag-cursor {
   position: absolute;
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -1083,7 +1083,7 @@
   justify-content: center;
 }
 
-.ttb-drag-cursor span {
+.think-drag-cursor span {
   font-family: var(--font-aspekta);
   font-size: 14px;
   font-weight: 500;

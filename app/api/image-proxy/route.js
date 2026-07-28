@@ -22,7 +22,7 @@ export async function GET(request) {
     return new Response(upstream.body, {
       headers: {
         "Content-Type": upstream.headers.get("content-type") || "application/octet-stream",
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
   } catch (error) {

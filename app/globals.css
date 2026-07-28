@@ -9,8 +9,8 @@
   --sub-text: #6a6a6a;
   --border: rgba(0, 0, 0, 0.08);
   --body-font: var(--font-aspekta), Arial, Helvetica, sans-serif;
-  --heading-font: "Newsreader", Georgia, serif;
-  --newsreader: "Newsreader", Georgia, serif;
+  --heading-font: var(--font-newsreader), Georgia, serif;
+  --newsreader: var(--font-newsreader), Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
