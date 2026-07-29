@@ -24,8 +24,8 @@ export default function AwardsTicker({ id, data }) {
         repeat: -1,
         });
 
-        ticker.addEventListener("mouseenter", () => tween.pause());
-        ticker.addEventListener("mouseleave", () => tween.resume());
+        // ticker.addEventListener("mouseenter", () => tween.pause());
+        // ticker.addEventListener("mouseleave", () => tween.resume());
 
         return () => tween.kill();
     }, []);
@@ -33,7 +33,7 @@ export default function AwardsTicker({ id, data }) {
     const awards =
     data?.best_awards?.map((award) => ({
         id: award.id,
-        title: award.award_name,
+        award_title: award.award_name,
         year: award.award_year,
         image: award.award_image,
     })) || [];
@@ -50,13 +50,6 @@ export default function AwardsTicker({ id, data }) {
                 {[...awards, ...awards].map((award, index) => (
                     <div className="award-card" key={index}>
                         {award.image && (
-                            // <Image
-                            //     src={award.image}
-                            //     width={80}
-                            //     height={90}
-                            //     alt={award.title}
-                            //     className="award-img"
-                            // />
                             <img
                                 src={getImageUrl(award.image)}
                                 alt={award?.title}
@@ -65,7 +58,7 @@ export default function AwardsTicker({ id, data }) {
                         )}
 
                         <div className="award-info">
-                            <p className="award-title">{award?.title}</p>
+                            <p className="award-title">{award?.award_title}</p>
                             <p className="award-year">{award?.year}</p>
                         </div>
                     </div>  
