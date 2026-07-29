@@ -9,11 +9,11 @@ import Founders from '../components/company/Founders';
 import Awards from '../components/company/Awards';
 import HowWeDoIt from '../components/company/HowWeDoIt';
 import Initiatives from "../components/company/Initiatives";
-
-// import LikeWhatYouSee from '../components/LikeWhatYouSee';
+import LikeWhatYouSee from '../components/LikeWhatYouSee';
 // import BringingClarity from '../components/BringingClarity';
 // import OurApproach from '../components/OurApproach';
-// import WeAreProud from '../components/WeAreProud';
+import WeAreProud from '../components/company/WeAreProud_headingScroll';
+import ReadyToBuild from "../components/ReadyToBuid";
 // import HowThisShowUp from '../components/service/HowThisShowsUp';
 
 
@@ -91,24 +91,31 @@ export default function BrandingServicePage(){
   
 
   const HOME_SECTIONS = [
-    
+    // { id: "company_apprch", label: "About" },
+    // { id: "ethos", label: "Ethos" },
+    // { id: "founders-sec", label: "Founder" },
+    // { id: "best_awards", label: "Awards" },
+    // { id: "we-are-proud", label: "Testimonials" },
+    // { id: "ReadyToBuild", label: "Get In Touch" },
+    // { id: "we_do_differently", label: "Standards" },
+    // { id: "initiative_section", label: "Initiatives" },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
-      <CompanyBanner />
+      <CompanyBanner id="company-hero" data={sections.company_banner} />
       <ApproachBranding id="company_apprch" data={sections.company_about} />
       <Ethos id="ethos" data={sections.we_believe_in} />
       <Founders id="founders-sec" data={sections.founder_section}/>
       <Awards id="best_awards" data={sections.awards_and_stats} />
-      <HowWeDoIt id="we_do_differently"/>
-      <Initiatives id="initiative_section"/>
-
-      {/* <LikeWhatYouSee id="like-what-you-see" />
-      <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
-      <OurApproach  id="our-approach"/>
+      <LikeWhatYouSee id="like-what-you-see-company" data={sections.awards_and_stats} stats={sections.awards_and_stats?.stats} />
       <WeAreProud id="we-are-proud" />
+      <ReadyToBuild id="ReadyToBuild" data={sections.get_in_touch}/>
+      <HowWeDoIt id="we_do_differently" data={sections.we_do_differently} />
+      <Initiatives id="initiative_section" data={sections.initiative_section}/>
+      {/* <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
+      <OurApproach  id="our-approach"/>
       <HowThisShowUp id="how-this-show-up" /> */}
 
       {/* API-dependent sections — show loader until data arrives */}

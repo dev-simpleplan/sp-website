@@ -316,6 +316,11 @@
   padding: 140px 0px;
 }
 
+#like-what-you-see-company{
+  padding-top: 0;
+  padding-bottom: 150px;
+}
+
 .like-what-you-see .heading h2 {
   max-width: 30ch;
   font-size: 32px;
@@ -328,8 +333,17 @@
 .like-what-you-see .counter-wrap {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   margin-top: 60px;
   gap: 0;
+}
+
+#like-what-you-see-company .heading{
+  margin-bottom: 0;
+}
+
+#like-what-you-see-company .counter-wrap{
+  margin-top: 0;
 }
 
 .like-what-you-see .counter-block {
@@ -337,6 +351,8 @@
   position: relative;
   padding: 0 48px;
   overflow: hidden;
+  /* width: max-content; */
+  /* max-width: 155px; */
 }
 
 .like-what-you-see .counter-block:first-child {
@@ -344,12 +360,12 @@
 }
 
 .like-what-you-see .counter-block:nth-child(2) {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .like-what-you-see .counter-block:last-child {
   padding-right: 0;
-  text-align: end;
+  /* text-align: end; */
 }
 
 /* vertical divider between blocks */
@@ -371,9 +387,11 @@
   font-weight: 300;
   font-size: clamp(40px, 5.5vw, 88px);
   color: #fff;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: 90%;
   animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  letter-spacing: -10%;
+  display: block;
+  /* width: fit-content; */
 }
 
 /* label */
@@ -385,22 +403,29 @@
   margin-top: 6px;
   text-transform: uppercase;
   animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  width: fit-content;
+  max-width: 153px;
 }
 
 /* stagger per block */
 .like-what-you-see .counter-block:nth-child(1) h2,
 .like-what-you-see .counter-block:nth-child(1) p {
   animation-delay: 0s;
+  max-width: 150px;
 }
 
 .like-what-you-see .counter-block:nth-child(2) h2,
 .like-what-you-see .counter-block:nth-child(2) p {
   animation-delay: 0.25s;
+  margin: 0 auto;
+  max-width: 150px;
 }
 
 .like-what-you-see .counter-block:nth-child(3) h2,
 .like-what-you-see .counter-block:nth-child(3) p {
   animation-delay: 0.5s;
+  margin-left: auto;
+  max-width: 150px;
 }
 
 @keyframes counter-rise {
@@ -573,6 +598,10 @@
   align-items: center;
 }
 
+#ReadyToBuild{
+  height: 90vh;
+}
+
 .ready-to-build-in {
   display: flex;
   flex-direction: column;
@@ -692,8 +721,12 @@
 }
 
 .we-are-proud .heading {
-  padding-top: 60px;
+  padding-top: 20px;
   margin-bottom: 40px;
+}
+
+.we-are-proud-head{
+  max-width: 830px;
 }
 
 /* horizontal scroll track */
@@ -708,6 +741,10 @@
   flex: 1;
   min-height: 0;
   will-change: transform;
+}
+
+.we-are-proud-in-company{
+  gap: 140px;
 }
 
 .we-are-proud-in>a {
@@ -753,6 +790,10 @@
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
+}
+
+.fold-wrap.hrzntl-scroll-company{
+  height: 460px;
 }
 
 .we-are-proud-in .fold-wrap .left {
@@ -1658,6 +1699,31 @@
   max-height: 720px;
 }
 
+/* .company-banner {
+  background-color: #d8011d;
+  position: relative;
+}
+
+.company-banner-in {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+} */
+
+/* .company-banner-img-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: clip-path;
+}
+
+.company-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+} */
+
 
 /* ETHOS SECTION ------------------------- */
 
@@ -1697,7 +1763,7 @@
 
 .founders-section .your-brands-fold {
   max-width: 80vw;
-  padding: 20px 60px 60px 245px;
+  padding: 20px 60px 60px 0;
 }
 
 .founderSec-left-cntnt .ybf-img{
@@ -1717,12 +1783,24 @@
   gap: 20px;
 }
 
+.founder-slide-wrapper{
+  max-width: calc(100% - 305px);
+  margin-left: auto;
+  margin-right: 60px;
+  /* padding: 0 10px 0 245px; */
+  overflow: hidden;
+}
+
+.founder-slide-wrapper .we-are-proud-in{
+  padding-left: 0;
+}
+
 
 /* AWARDS SECTION ------------------------- */
 
 .awards-section {
   background: var(--sp-red);
-  padding: 150px 0;
+  padding: 150px 0 200px;
   /* overflow: hidden; */
 }
 
@@ -1735,11 +1813,9 @@
   display: flex;
   width: max-content;
   margin-top: 100px;
-  /* gap: 80px; */
 }
 
 .award-card {
-  /* width: 180px; */
   flex-shrink: 0;
   text-align: center;
   margin-right: 150px;
@@ -1792,7 +1868,7 @@
     position:absolute;
     top:0;
 
-    width:410px;
+    /* width:410px; */
 
     opacity:0;
     will-change:transform,opacity;
@@ -1834,8 +1910,14 @@
   padding-bottom: 100px;
 }
 
+.spFor-good-in{
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .spFor-good-grid{
-  margin-top: 50px;
+  /* margin-top: 50px; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
