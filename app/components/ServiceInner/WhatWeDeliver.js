@@ -11,7 +11,13 @@ const Card = ({ b }) => {
   const content = (
     <>
       <div className="bb-top">
-        <img src={getImageUrl(b.image)} alt={b.title} className="img" />
+        <img
+          src={getImageUrl(b.image)}
+          alt={b.title}
+          className="img"
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
+        />
       </div>
       <h4>{b.title}</h4>
       <p>{extractText(b.description)}</p>
@@ -160,9 +166,9 @@ export default function WhatWeDeliver({ id, data }) {
         <div className="our-approach-in gap-left">
           {isSlider ? (
             <div
-              className={`block-box-swiper project-delievered-slider${showDragCursor ? " has-custom-cursor" : ""}`}
-              ref={sliderRef}
-            >
+  className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
+  ref={sliderRef}
+>
               {showDragCursor && (
                 <div ref={cursorRef} className="ttb-drag-cursor">
                   <div className="custom-cursor">

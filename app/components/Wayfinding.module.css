@@ -3,10 +3,10 @@
 
 .spWayfinding {
     position: fixed;
-    left: 32px;
+    left: 60px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 99;
+    z-index: 9;
     display: flex;
     align-items: center;
     /* Give the hover target some horizontal breathing room so users don't
@@ -21,7 +21,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 4px;
+    left: 0px;
 }
 
 .spWayfindingList {
@@ -80,7 +80,7 @@
 
 /* Hide on smaller screens — a side rail like this competes with content
    on mobile and there's no room for it anyway. */
-@media (max-width: 900px) {
+@media (max-width: 991px) {
     .spWayfinding {
         display: none;
     }

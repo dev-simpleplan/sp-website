@@ -17,6 +17,7 @@ import ThinkBeforeBuild from './components/ThinkBeforeBuild';
 import TestimonialSection from './components/TestimonialSection';
 import Wayfinding from "./components/Wayfinding";
 import TrustedBrands from './components/TrustedBrands';
+import RightSideLine from "./components/RightSideLine";
 
 
 export default function Home() {
@@ -133,6 +134,7 @@ export default function Home() {
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
+      <RightSideLine id="rightLine"/>
       <HomeBanner id="hero" data={sections.hero} />
       <TickerSection/>
       <VideoAnimated data={sections.video_section} />

@@ -288,6 +288,7 @@ export default function Header() {
   }`}
   ref={headerRef}
 >
+  <div className={styles.spHeaderInner}>
       <div className={styles.spHeaderBar} ref={headerBarRef}>
   <Link href="/" className={styles.spLogo}>
     <Image src={MainLogo} alt="SimplePlan Logo" />
@@ -406,6 +407,7 @@ export default function Header() {
     <span className={styles.spHamburgerBar}></span>
     <span className={styles.spHamburgerBar}></span>
   </button>
+</div>
 </div>
 
       {/* Desktop mega menu — What We Do */}

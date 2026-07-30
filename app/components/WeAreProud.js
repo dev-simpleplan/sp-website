@@ -217,6 +217,7 @@ export default function WeAreProud({ id, data }) {
     return () => mm.revert();
   }, []);
 
+
   if (!data) return null;
 
   const cards =
@@ -235,6 +236,8 @@ export default function WeAreProud({ id, data }) {
         </div>
       </div>
 
+<div className="founder-slide-wrapper">
+              <div className="founder-track-in">
       <div ref={trackRef} className="we-are-proud-in gap-left">
         {cards.map((card) => (
           <a href={card.href} key={card.id}>
@@ -275,6 +278,8 @@ export default function WeAreProud({ id, data }) {
             </div>
           </a>
         ))}
+      </div>
+      </div>
       </div>
     </section>
   );
