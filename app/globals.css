@@ -368,7 +368,7 @@ img {
 
 .gap-left {
   /* max-width: 1250px; */
-  margin-left: auto;
+  /* margin-left: auto; */
   padding: 0 10px 0 185px;
 }
 
@@ -380,7 +380,7 @@ img {
   padding-left: 245px;
 }
 
-.tools-to-build .heading.gap-left {
+.tools-to-build .heading.gap-left{
   padding: 60px 0 40px 185px;
 }
 

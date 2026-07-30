@@ -3,6 +3,10 @@
     max-width: 100vw;
     padding: 20px 20px 20px 60px;
   }
+  .founder-slide-wrapper{
+    margin-right: 0;
+    max-width: 1005;
+  }
 }
 
 
@@ -346,7 +350,7 @@
 
   /* FOUNDER SECTION --------------------- */
   .founders-section{
-    padding-top: 70px;
+    padding-top: 40px;
   }
   .founders-section .your-brands-fold{
     justify-content: start;
@@ -354,7 +358,63 @@
 
   .founderSec-left-cntnt .ybf-img{
     aspect-ratio: 2 / 2.2;
-    width: 80%;
+    width: calc(100% - 15px);
+  }
+  .founder-slide-wrapper{
+    margin-right: 0;
+  }
+
+
+  .approach-sec-body{
+    margin-left: 0;
+  }
+
+
+  .awards-section {
+    background: var(--sp-red);
+    padding: 100px 0;
+    /* overflow: hidden; */
+  }
+
+  #like-what-you-see-company{
+    padding-top: 0;
+    padding-bottom: 50px;
+  }
+
+  .like-what-you-see .counter-block:nth-child(2) h2,
+  .like-what-you-see .counter-block:nth-child(2) p {
+    margin: 0;
+  }
+
+  .like-what-you-see .counter-block:nth-child(3) h2,
+  .like-what-you-see .counter-block:nth-child(3) p {
+    margin-left: 0;
+  }
+
+  #ReadyToBuild{
+    height: auto;
+    padding: 100px 0;
+  }
+
+
+
+  .standards-section{
+    padding-top: 80px;
+  }
+  .standards-card.left{
+    left: 0;
+  }
+  .standards-card .standard-card-num{
+    font-size: 24px;
+    margin-bottom: 26px;
+  }
+  .standards-card .standard-card-title{
+    margin-bottom: 8px;
+    font-size: 24px;
+  }
+
+  .spFor-good-grid{
+    grid-template-columns: 1fr;
   }
 
 }
