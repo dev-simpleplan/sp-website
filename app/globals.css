@@ -375,6 +375,9 @@ img {
 .wds-viewport.gap-left {
   padding: 60px 48px 60px 245px;
 }
+.ttb-track.gap-left{
+  padding-left: 0;
+}
 /* .we-are-proud-in.gap-left{
   padding-left: 245px;
 } */
