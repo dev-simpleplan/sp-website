@@ -434,7 +434,10 @@ export default function Header() {
                     {column.links.map((link) => (
                       <li key={link}>
                         <a href="#" className={styles.spMegaMenuLink}>
-                          {link}
+                          <span className={styles.linkText}>
+                            <span>{link}</span>
+                            <span>{link}</span>
+                          </span>
                         </a>
                       </li>
                     ))}

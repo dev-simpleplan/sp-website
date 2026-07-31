@@ -37,20 +37,24 @@ export default function WeAreProud({id}) {
         const cardEls = gsap.utils.toArray(track?.children);
 
         if (isDesktop) {
-          gsap.to(track, {
-            x: () => {
-              const wrapper = track.parentElement;
-              return -(track.scrollWidth - wrapper.offsetWidth);
-            },
-            ease: "none",
+          const getDistance = () => {
+            const wrapper = track.parentElement;
+            return Math.max(0, track.scrollWidth - wrapper.offsetWidth);
+          };
+
+          // Extra scroll "held" at the start/end of the pin — a pause before
+          // the horizontal move begins and another before the section unpins.
+          const START_HOLD = 300;
+          const END_HOLD = 300;
+          const distance = getDistance();
+
+          const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
               pin: true,
+              anticipatePin: 1,
               scrub: 1.2,
-              end: () => {
-                const wrapper = track.parentElement;
-                return `+=${track.scrollWidth - wrapper.offsetWidth}`;
-              },
+              end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
               invalidateOnRefresh: true,
               onEnter: () => notifyStickyState(true),
               onLeave: () => notifyStickyState(false),
@@ -58,6 +62,10 @@ export default function WeAreProud({id}) {
               onLeaveBack: () => notifyStickyState(false),
             },
           });
+
+          tl.to(track, { x: 0, duration: START_HOLD })
+            .to(track, { x: () => -getDistance(), ease: "none", duration: distance || 1 })
+            .to(track, { x: () => -getDistance(), duration: END_HOLD });
         }
 
         if (isMobile) {
@@ -72,6 +80,7 @@ export default function WeAreProud({id}) {
               end: () => `+=${(cardEls.length - 1) * window.innerHeight}`,
               scrub: 1,
               pin: true,
+              anticipatePin: 1,
               invalidateOnRefresh: true,
               onEnter: () => notifyStickyState(true),
               onLeave: () => notifyStickyState(false),

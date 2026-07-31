@@ -22,7 +22,7 @@ const Card = ({ b }) => {
         <h4>{b.title}</h4>
       </div>
 
-      <p>{b.description?.[0]?.children?.[0]?.text}</p>
+      <p className="split-reveal">{b.description?.[0]?.children?.[0]?.text}</p>
     </>
   );
 

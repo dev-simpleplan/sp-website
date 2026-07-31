@@ -91,46 +91,88 @@ export default function ToolsToBuild({ id, data }) {
       const cards = gsap.utils.toArray(".ttb-fold");
 
       if (isDesktop) {
-        gsap.to(track, {
-          x: () => -(track.scrollWidth - window.innerWidth),
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            pin: true,
-            scrub: 1.2,
-            end: () => `+=${track.scrollWidth - window.innerWidth}`,
-            invalidateOnRefresh: true,
+  const getDistance = () =>
+    Math.max(0, track.scrollWidth - window.innerWidth);
 
-            onEnter: () => notifyStickyState(true),
-            onLeave: () => notifyStickyState(false),
-            onEnterBack: () => notifyStickyState(true),
-            onLeaveBack: () => notifyStickyState(false),
-          },
-        });
-      }
+  const START_HOLD = 300;
+  const END_HOLD = 300;
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.current,
+      pin: true,
+      scrub: 1.2,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
+
+      onEnter: () => notifyStickyState(true),
+      onLeave: () => notifyStickyState(false),
+      onEnterBack: () => notifyStickyState(true),
+      onLeaveBack: () => notifyStickyState(false),
+    },
+  });
+
+  tl
+    // Hold at beginning
+    .to(track, {
+      x: 0,
+      duration: START_HOLD,
+    })
+
+    // Horizontal movement
+    .to(track, {
+      x: () => -getDistance(),
+      ease: "none",
+      duration: getDistance() || 1,
+    })
+
+    // Hold at end
+    .to(track, {
+      x: () => -getDistance(),
+      duration: END_HOLD,
+    });
+}
 
       if (isMobile) {
-        const scrollDistance = track.scrollWidth - window.innerWidth;
+  const getDistance = () =>
+    Math.max(0, track.scrollWidth - window.innerWidth);
 
-        gsap.to(track, {
-          x: -scrollDistance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: `+=${scrollDistance}`,
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
+  const START_HOLD = 250;
+  const END_HOLD = 250;
 
-            onEnter: () => notifyStickyState(true),
-            onLeave: () => notifyStickyState(false),
-            onEnterBack: () => notifyStickyState(true),
-            onLeaveBack: () => notifyStickyState(false),
-          },
-        });
-      }
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.current,
+      start: "top top",
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
+
+      onEnter: () => notifyStickyState(true),
+      onLeave: () => notifyStickyState(false),
+      onEnterBack: () => notifyStickyState(true),
+      onLeaveBack: () => notifyStickyState(false),
+    },
+  });
+
+  tl
+    .to(track, {
+      x: 0,
+      duration: START_HOLD,
+    })
+    .to(track, {
+      x: () => -getDistance(),
+      ease: "none",
+      duration: getDistance() || 1,
+    })
+    .to(track, {
+      x: () => -getDistance(),
+      duration: END_HOLD,
+    });
+}
     }
   );
 
