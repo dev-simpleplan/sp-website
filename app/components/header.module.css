@@ -6,6 +6,7 @@
     left: 0;
     transform: translateY(0);
     transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+    background-color: #d8011d;
 }
 
 /* .spHeaderScrolled.spHeader {
@@ -32,11 +33,6 @@
     padding: 18px 48px;
     display: flex;
     position: relative;
-}
-
-.spHeaderScrolled .spHeaderBar {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.3s ease;
 }
 
 .spHeaderCta {
@@ -392,7 +388,7 @@
    group above the wayfinding rail / right-side line. */
 .spMegaBg {
     position: fixed;
-    top: 0;
+    top: 80px;
     left: 0;
     width: 100%;
     height: 100vh;
@@ -660,8 +656,33 @@
     height: 100%;
 }
 
-/* Responsive */
+.spHeaderInner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
 
+.spHeaderBar {
+    max-width: calc(100% - 120px);
+    margin: 0 auto;
+}
+
+.spHeaderScrolled .spHeaderInner {
+    transition: box-shadow .3s;
+    box-shadow: 0 4px 16px #00000026;
+}
+
+.spHeader .spHeaderBar {
+    border-left: 1px solid #FF7B8B;
+    border-right: 1px solid #FF7B8B;
+}
+
+.spHeader.spHeaderScrolled {
+    z-index: 9999;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
     .spMegaMenuColumns {
         gap: 48px;
@@ -673,6 +694,16 @@
 
     .spMegaMenuImage {
         height: 200px;
+    }
+}
+
+@media (max-width: 991px) {
+    .spHeader .spHeaderBar {
+        border: none;
+    }
+
+    .spHeaderBar {
+        max-width: 100%;
     }
 }
 
