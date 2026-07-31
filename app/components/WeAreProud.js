@@ -142,80 +142,93 @@ export default function WeAreProud({ id, data }) {
   const trackRef   = useRef(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger);
 
-    const mm = gsap.matchMedia();
+  const mm = gsap.matchMedia();
 
-    // helper to notify the global sticky-header logic, since this section
-    // uses GSAP pinning instead of normal scroll flow, and rect-based
-    // detection can't reliably track pinned elements.
-    const notifyStickyState = (active) => {
-      window.dispatchEvent(
-        new CustomEvent("sticky-section-active", { detail: active })
-      );
-    };
-
-    mm.add(
-      {
-        isDesktop: "(min-width: 768px)",
-        isMobile: "(max-width: 767px)",
-      },
-      (context) => {
-        const { isDesktop, isMobile } = context.conditions;
-        const track = trackRef.current;
-        // each direct child of the track is one <a className="fold-wrap"...> card
-        const cardEls = gsap.utils.toArray(track?.children);
-
-        if (isDesktop) {
-          gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth),
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              pin: true,
-              scrub: 1.2,
-              end: () => `+=${track?.scrollWidth - window.innerWidth}`,
-              invalidateOnRefresh: true,
-              onEnter: () => notifyStickyState(true),
-              onLeave: () => notifyStickyState(false),
-              onEnterBack: () => notifyStickyState(true),
-              onLeaveBack: () => notifyStickyState(false),
-            },
-          });
-        }
-
-        if (isMobile) {
-          // start with only the first card visible, rest hidden (stacked via CSS)
-          gsap.set(cardEls, { autoAlpha: 0 });
-          gsap.set(cardEls[0], { autoAlpha: 1 });
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: () => `+=${(cardEls.length - 1) * window.innerHeight}`,
-              scrub: 1,
-              pin: true,
-              invalidateOnRefresh: true,
-              onEnter: () => notifyStickyState(true),
-              onLeave: () => notifyStickyState(false),
-              onEnterBack: () => notifyStickyState(true),
-              onLeaveBack: () => notifyStickyState(false),
-            },
-          });
-
-          cardEls.forEach((card, i) => {
-            if (i === 0) return;
-            // crossfade: previous card fades out while next fades in, at each step
-            tl.to(cardEls[i - 1], { autoAlpha: 0, duration: 1 }, i - 1)
-              .to(card, { autoAlpha: 1, duration: 1 }, i - 1);
-          });
-        }
-      }
+  const notifyStickyState = (active) => {
+    window.dispatchEvent(
+      new CustomEvent("sticky-section-active", {
+        detail: active,
+      })
     );
+  };
 
-    return () => mm.revert();
-  }, []);
+  mm.add(
+    {
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)",
+    },
+    (context) => {
+      const { isDesktop, isMobile } = context.conditions;
+
+      const track = trackRef.current;
+      if (!track) return;
+
+      const wrapper = track.parentElement;
+      const cardEls = gsap.utils.toArray(track.children);
+
+      // ---------------- DESKTOP ----------------
+      if (isDesktop) {
+        const getDistance = () =>
+          Math.max(0, track.scrollWidth - wrapper.clientWidth);
+
+        gsap.to(track, {
+          x: () => -getDistance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            pin: true,
+            scrub: 1.2,
+            invalidateOnRefresh: true,
+            end: () => `+=${getDistance()}`,
+
+            onEnter: () => notifyStickyState(true),
+            onLeave: () => notifyStickyState(false),
+            onEnterBack: () => notifyStickyState(true),
+            onLeaveBack: () => notifyStickyState(false),
+          },
+        });
+      }
+
+      // ---------------- MOBILE ----------------
+      if (isMobile) {
+        gsap.set(cardEls, { autoAlpha: 0 });
+        gsap.set(cardEls[0], { autoAlpha: 1 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${(cardEls.length - 1) * window.innerHeight}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+
+            onEnter: () => notifyStickyState(true),
+            onLeave: () => notifyStickyState(false),
+            onEnterBack: () => notifyStickyState(true),
+            onLeaveBack: () => notifyStickyState(false),
+          },
+        });
+
+        cardEls.forEach((card, i) => {
+          if (i === 0) return;
+
+          tl.to(cardEls[i - 1], { autoAlpha: 0, duration: 1 }, i - 1).to(
+            card,
+            { autoAlpha: 1, duration: 1 },
+            i - 1
+          );
+        });
+      }
+    }
+  );
+
+  return () => {
+  mm.revert();
+};
+}, []);
 
 
   if (!data) return null;

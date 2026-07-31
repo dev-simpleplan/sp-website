@@ -20,11 +20,12 @@ export default function TestimonialSection({ id, data }) {
       <div className="testimonial-slider-wrap gap-left">
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          slidesPerView={1.15}
-          spaceBetween={40}
+          slidesPerView={1}
+          spaceBetween={0}
           loop={false}
           rewind={true}
           breakpoints={{
+            // 480:  { slidesPerView: 1, spaceBetween: 0 },
             768:  { slidesPerView: 1.5, spaceBetween: 48 },
             1024: { slidesPerView: 2.2, spaceBetween: 56 },
           }}
