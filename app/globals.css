@@ -432,13 +432,8 @@ img {
   }
 }
 
-.reveal-heading {
-  /* overflow: hidden; */
-}
-
 .reveal-line {
   display: block;
-  /* overflow: hidden; */
 }
 
 .reveal-line>div {
