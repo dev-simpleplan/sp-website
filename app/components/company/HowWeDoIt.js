@@ -30,6 +30,8 @@ export default function HowWeDoIt({id, data}) {
       },
     });
 
+    
+
     cardsRef.current.forEach((card, index) => {
       tl.to(card, {
         y: 0,

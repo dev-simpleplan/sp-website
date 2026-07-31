@@ -16,18 +16,29 @@ export default function YourBrandsLook({ id, data }) {
 
     const ctx = gsap.context(() => {
       const track = trackRef.current;
+      const getDistance = () =>
+        Math.max(0, track.scrollWidth - window.innerWidth);
 
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth),
-        ease: "none",
+      // Extra scroll "held" at the start/end of the pin — a pause before
+      // the horizontal move begins and another before the section unpins.
+      const START_HOLD = 300;
+      const END_HOLD = 300;
+      const distance = getDistance();
+
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
+          anticipatePin: 1,
           scrub: 1.2,
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
+          end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
           invalidateOnRefresh: true,
         },
       });
+
+      tl.to(track, { x: 0, duration: START_HOLD })
+        .to(track, { x: () => -getDistance(), ease: "none", duration: distance || 1 })
+        .to(track, { x: () => -getDistance(), duration: END_HOLD });
     }, sectionRef);
 
     return () => ctx.revert();

@@ -12,7 +12,7 @@ export default function BringingClarity({ id, data }) {
           <div className="list-wrap">
             <ul>
               {data?.bullet_item?.map((item) => (
-                <li key={item?.id}>{item?.title}</li>
+                <li className="split-reveal" key={item?.id}>{item?.title}</li>
               ))}
             </ul>
           </div>

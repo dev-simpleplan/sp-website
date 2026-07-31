@@ -173,15 +173,21 @@ export default function WeAreProud({ id, data }) {
         const getDistance = () =>
           Math.max(0, track.scrollWidth - wrapper.clientWidth);
 
-        gsap.to(track, {
-          x: () => -getDistance(),
-          ease: "none",
+        // Extra scroll "held" at the start/end of the pin — a pause before
+        // the horizontal move begins and another before the section unpins,
+        // instead of moving/unpinning the instant it sticks.
+        const START_HOLD = 300;
+        const END_HOLD = 300;
+        const distance = getDistance();
+
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             pin: true,
+            anticipatePin: 1,
             scrub: 1.2,
             invalidateOnRefresh: true,
-            end: () => `+=${getDistance()}`,
+            end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
 
             onEnter: () => notifyStickyState(true),
             onLeave: () => notifyStickyState(false),
@@ -189,6 +195,10 @@ export default function WeAreProud({ id, data }) {
             onLeaveBack: () => notifyStickyState(false),
           },
         });
+
+        tl.to(track, { x: 0, duration: START_HOLD })
+          .to(track, { x: () => -getDistance(), ease: "none", duration: distance || 1 })
+          .to(track, { x: () => -getDistance(), duration: END_HOLD });
       }
 
       // ---------------- MOBILE ----------------
@@ -202,6 +212,7 @@ export default function WeAreProud({ id, data }) {
             start: "top top",
             end: () => `+=${(cardEls.length - 1) * window.innerHeight}`,
             pin: true,
+            anticipatePin: 1,
             scrub: 1,
             invalidateOnRefresh: true,
 
