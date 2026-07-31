@@ -7,35 +7,47 @@ import { getImageUrl } from "../getImageUrl";
 const extractText = (description = []) =>
   description.map((block) => (block.children || []).map((c) => c.text).join("")).join("\n");
 
-const Card = ({ b }) => {
+const ProductCard = ({ p }) => {
   const content = (
     <>
-      <div className="bb-top">
+      <div className="product-card-img">
         <img
-          src={getImageUrl(b.image)}
-          alt={b.title}
+          src={getImageUrl(p.image)}
+          alt={p.image?.alternativeText || p.title}
           className="img"
           draggable={false}
           onDragStart={(e) => e.preventDefault()}
         />
       </div>
-      <h4>{b.title}</h4>
-      <p>{extractText(b.description)}</p>
+
+      <div className="product-card-info">
+        <h3 className="product-card-title">{p.title}</h3>
+        <p className="product-card-price">{p.price}</p>
+        <p className="product-card-desc">{extractText(p.description)}</p>
+        {p.cta_text && <span className="product-card-cta">{p.cta_text}</span>}
+      </div>
     </>
   );
 
-  if (b.cta_link) {
+  if (p.cta_link) {
     return (
-      <a href={b.cta_link} className="block-box">
+      <a
+        href={p.cta_link}
+        className="product-card"
+        target="_blank"
+        rel="noopener noreferrer"
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
+      >
         {content}
       </a>
     );
   }
 
-  return <div className="block-box">{content}</div>;
+  return <div className="product-card">{content}</div>;
 };
 
-export default function WhatWeDeliver({ id, data }) {
+export default function ProductsSection({ id, data }) {
   const swiperRef = useRef(null);
   const sliderRef = useRef(null);
   const cursorRef = useRef(null);
@@ -47,7 +59,7 @@ export default function WhatWeDeliver({ id, data }) {
   const [isSlider, setIsSlider] = useState(false);
   const [showDragCursor, setShowDragCursor] = useState(false);
 
-  const blocks = data?.deliverables || [];
+  const products = data?.products || [];
 
   const updateCursorPosition = useCallback(() => {
     if (!showDragCursor) return;
@@ -88,23 +100,25 @@ export default function WhatWeDeliver({ id, data }) {
 
   useEffect(() => {
     const check = () => {
-  setIsSlider(true);
+      setIsSlider(true);
 
-  const slidesVisible =
-    window.innerWidth >= 1200
-      ? 2.35
-      : window.innerWidth >= 768
-      ? 1.8
-      : 1.1;
+      // 1.2 -> first card fully visible, next one peeks ~20% at the edge,
+      // matching the reference design.
+      const slidesVisible =
+        window.innerWidth >= 1200
+          ? 1.2
+          : window.innerWidth >= 768
+          ? 1.1
+          : 1.05;
 
-  setShowDragCursor(blocks.length > Math.floor(slidesVisible));
-};
+      setShowDragCursor(products.length > Math.floor(slidesVisible));
+    };
 
     check();
     window.addEventListener("resize", check);
 
     return () => window.removeEventListener("resize", check);
-  }, [blocks.length]);
+  }, [products.length]);
 
   useEffect(() => {
     if (!showDragCursor) return;
@@ -155,20 +169,21 @@ export default function WhatWeDeliver({ id, data }) {
   if (!data) return null;
 
   return (
-    <section className="our-approach what-we-deliver" id={id}>
+    <section className="products-section" id={id}>
       <div className="container">
-        <div className="our-approach-top gap-left">
-          <div className="heading">
-            <h2 className="reveal-heading">{data?.title}</h2>
-          </div>
+        <div className="products-section-top gap-left">
+          <h2 className="reveal-heading">{data?.title}</h2>
+          <p className="products-section-desc">{extractText(data?.description)}</p>
         </div>
 
-        <div className="our-approach-in gap-left pr0">
+        <div className="products-section-in gap-left pr0">
           {isSlider ? (
             <div
-  className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
-  ref={sliderRef}
->
+              className={`block-box-swiper products-section-slider no-select${
+                showDragCursor ? " has-custom-cursor" : ""
+              }`}
+              ref={sliderRef}
+            >
               {showDragCursor && (
                 <div ref={cursorRef} className="ttb-drag-cursor">
                   <div className="custom-cursor">
@@ -178,36 +193,36 @@ export default function WhatWeDeliver({ id, data }) {
               )}
 
               <Swiper
-  onSwiper={(swiper) => (swiperRef.current = swiper)}
-  simulateTouch
-  touchStartPreventDefault={false}
-  followFinger
-  resistance
-  resistanceRatio={0.85}
-  grabCursor={false}
-  allowTouchMove={blocks.length > 2}
-  watchOverflow={false}
-  loop={false}
-  rewind={true}
-  centeredSlides={false}
-  breakpoints={{
-    0: {
-      slidesPerView: 1.1,
-      spaceBetween: 10,
-    },
-    768: {
-      slidesPerView: 1.8,
-      spaceBetween: 12,
-    },
-    1200: {
-      slidesPerView: 2.75,
-      spaceBetween: 15,
-    },
-  }}
->
-                {blocks.map((b) => (
-                  <SwiperSlide key={b.id}>
-                    <Card b={b} />
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                simulateTouch
+                touchStartPreventDefault={false}
+                followFinger
+                resistance
+                resistanceRatio={0.85}
+                grabCursor={false}
+                allowTouchMove={products.length > 1}
+                watchOverflow={false}
+                loop={false}
+                rewind={true}
+                centeredSlides={false}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1.05,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 1.1,
+                    spaceBetween: 16,
+                  },
+                  1200: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 24,
+                  },
+                }}
+              >
+                {products.map((p) => (
+                  <SwiperSlide key={p.id}>
+                    <ProductCard p={p} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -245,9 +260,9 @@ export default function WhatWeDeliver({ id, data }) {
               </div>
             </div>
           ) : (
-            <div className="block-box-wrap">
-              {blocks.map((b) => (
-                <Card b={b} key={b.id} />
+            <div className="product-card-wrap">
+              {products.map((p) => (
+                <ProductCard p={p} key={p.id} />
               ))}
             </div>
           )}

@@ -95,7 +95,7 @@ export default function OurProudWork({ id, data }) {
   const cards = data.proud_work || [];
 
   return (
-    <section ref={sectionRef} className="we-are-proud" id={id}>
+    <section id={id} className="we-are-proud-section">
       <div className="container">
         <div className="we-are-proud-head gap-left">
           <div className="heading">
@@ -105,11 +105,14 @@ export default function OurProudWork({ id, data }) {
       </div>
 
       {/* only this wrapper pins/sticks — heading above stays in normal flow */}
-      <div className="we-are-proud-pin" ref={pinWrapRef} data-sticky-section data-pinned-section>
-        <div ref={trackRef} className="we-are-proud-in gap-left">
-          {cards.map((card) => (
-            <div className="fold-wrap" key={card.id}>
-              <div className="left">
+      <div className="we-are-proud" ref={pinWrapRef} data-sticky-section data-pinned-section>
+      <div className="founder-slide-wrapper">
+          <div className="we-are-proud-pin">
+            <div ref={trackRef} className="we-are-proud-in gap-left">
+              {cards.map((card) => (
+                <div className="fold-wrap" key={card.id}>
+                <div className="proud-content-wrapper">
+                <div className="left-1">
                 <div className="wap-img">
                   <img
                     src={getImageUrl(card.image)}
@@ -117,45 +120,53 @@ export default function OurProudWork({ id, data }) {
                     className="img"
                   />
                 </div>
+            </div>
+            <div className="right-1">
+                <div className="ap-text-right">
+                    <p>{card.year}</p>
+                  </div>
+              </div>
+              </div>
+                <div className="card-details-wrapper">
+                <div className="card-details">
                 <div className="wap-text">
                   <div className="wap-text-left">
                     <h5>{card.title}</h5>
                     <p>{extractText(card.description)}</p>
                   </div>
-                  <div className="ap-text-right">
-                    <p>{card.year}</p>
-                  </div>
                 </div>
-              </div>
-              <div className="right">
                 <div className="fw-right-top">
                   {card.work_stats?.map((stat) => (
                     <div key={stat.id}>
                       <h4>
-                        {stat.numbertext?.replace(/[%x]/gi, "")}
-                        <span>{stat.numbertext?.match(/[%x]/gi)?.[0]}</span>
+                        {stat.numbertext?.replace(/[%x]/gi,"")}<span>{stat.numbertext?.match(/[%x]/gi)?.[0]}</span>
                       </h4>
                       <p>{stat.textbelownumber}</p>
                     </div>
                   ))}
-                </div>
-                <div className="fw-right-bottom">
-                  <p className="eye-head">{card.title_of_services_provided}</p>
-                  <div className="fw-points-wrap">
-                    {card.services_provided?.map((service) => (
-                      <p key={service.id}>{service.title}</p>
-                    ))}
-                  </div>
                 </div>
                 {card.cta_link && (
                   <a href={card.cta_link} className="fw-cta">
                     {card.cta_text}
                   </a>
                 )}
+                </div>
+                <div className="fw-right-bottom">
+                  <p className="eye-head">{card.title_of_services_provided}</p>
+                  <div className="fw-points-wrap">
+                    <ul>
+                      {card.services_provided?.map((service) => (
+                        <li key={service.id}>{service.title}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                </div>
               </div>
-            </div>
           ))}
         </div>
+      </div>
+      </div>
       </div>
     </section>
   );

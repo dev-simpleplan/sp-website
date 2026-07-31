@@ -289,6 +289,10 @@
   min-height: 150px;
 }
 
+.gap-left.pr0 {
+  padding-right: 0;
+}
+
 @media (max-width: 1199px) {
   .our-approach-top {
     margin-bottom: 40px;
@@ -316,7 +320,7 @@
   padding: 140px 0px;
 }
 
-#like-what-you-see-company{
+#like-what-you-see-company {
   padding-top: 0;
   padding-bottom: 150px;
 }
@@ -338,11 +342,11 @@
   gap: 0;
 }
 
-#like-what-you-see-company .heading{
+#like-what-you-see-company .heading {
   margin-bottom: 0;
 }
 
-#like-what-you-see-company .counter-wrap{
+#like-what-you-see-company .counter-wrap {
   margin-top: 0;
 }
 
@@ -598,14 +602,14 @@
   align-items: center;
 }
 
-#ReadyToBuild{
+#ReadyToBuild {
   height: 90vh;
 }
 
 .ready-to-build-in {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .ready-to-build-in h2 {
@@ -614,7 +618,7 @@
 
 .ready-to-build-in p {
   font-size: 20px;
-  max-width: 38ch;
+  max-width: 40ch;
 }
 
 .meet-the-simp {
@@ -725,7 +729,7 @@
   margin-bottom: 40px;
 }
 
-.we-are-proud-head{
+.we-are-proud-head {
   max-width: 830px;
 }
 
@@ -743,7 +747,7 @@
   will-change: transform;
 }
 
-.we-are-proud-in-company{
+.we-are-proud-in-company {
   gap: 140px;
 }
 
@@ -792,7 +796,7 @@
   box-sizing: border-box;
 }
 
-.fold-wrap.hrzntl-scroll-company{
+.fold-wrap.hrzntl-scroll-company {
   height: 460px;
 }
 
@@ -889,7 +893,7 @@
   padding-bottom: 40px;
 }
 
-.ttb-track.gap-left{
+.ttb-track.gap-left {
   padding-left: 0;
 }
 
@@ -1210,9 +1214,8 @@
 
 /* slider starts at container left edge, bleeds right — section clips the right */
 .testimonial-slider-wrap {
-  /* padding-left: 60px; */
   overflow: hidden;
-  padding-right: 42px;
+  padding-right: 60px;
 }
 
 .testimonial-slider-wrap.gap-left {
@@ -1387,17 +1390,18 @@
   max-width: 950px;
 }
 
-.approach-sec-body{
+.approach-sec-body {
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: end;
   width: fit-content;
   margin-left: auto;
+  margin-right: 35px;
 }
 
 .approach-sec-in .approach-description {
-  max-width: 320px;
+  max-width: 34ch;
 }
 
 
@@ -1762,7 +1766,7 @@
 
 /* FOUNDERS SECTION ------------------------- */
 
-.founders-section{
+.founders-section {
   padding-top: 30px;
 }
 
@@ -1771,24 +1775,24 @@
   padding: 20px 60px 60px 0;
 }
 
-.founderSec-left-cntnt .ybf-img{
+.founderSec-left-cntnt .ybf-img {
   width: 449px;
   height: 500px;
   overflow: hidden;
 }
 
-.founder-slide .founderSec-right-cntnt{
+.founder-slide .founderSec-right-cntnt {
   display: flex;
   flex-direction: column;
   gap: 50px;
   padding-bottom: 10px;
 }
 
-.founder-slide .your-brands-fold-wrap{
+.founder-slide .your-brands-fold-wrap {
   gap: 20px;
 }
 
-.founder-slide-wrapper{
+.founder-slide-wrapper {
   max-width: calc(100% - 305px);
   margin-left: auto;
   margin-right: 60px;
@@ -1796,7 +1800,7 @@
   overflow: hidden;
 }
 
-.founder-slide-wrapper .we-are-proud-in{
+.founder-slide-wrapper .we-are-proud-in {
   padding-left: 0;
 }
 
@@ -1835,93 +1839,93 @@
   height: 120px;
 }
 
-.award-info{
+.award-info {
   margin-top: 10px;
 }
 
-.award-info p{
+.award-info p {
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
 }
 
-.award-info .award-year{
+.award-info .award-year {
   font-weight: 400;
 }
 
 
 /* STANDARDS SECTION ------------------------- */
 
-.standards-section{
-    position:relative;
-    background:var(--sp-red);
-    color:#fff;
-    overflow:hidden;
-    padding-top: 40px;
+.standards-section {
+  position: relative;
+  background: var(--sp-red);
+  color: #fff;
+  overflow: hidden;
+  padding-top: 40px;
 }
 
-.cards-stage{
-    position:relative;
-    height:500px;
-    margin-top:120px;
+.cards-stage {
+  position: relative;
+  height: 500px;
+  margin-top: 120px;
 }
 
-.standards-card{
-    max-width:410px;
-    opacity:0;
+.standards-card {
+  max-width: 410px;
+  opacity: 0;
 
-    position:absolute;
-    top:0;
+  position: absolute;
+  top: 0;
 
-    /* width:410px; */
+  /* width:410px; */
 
-    opacity:0;
-    will-change:transform,opacity;
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
-.standards-card.left{
-    left: 185px;
+.standards-card.left {
+  left: 185px;
 }
 
-.standards-card.right{
-    right: 0;
+.standards-card.right {
+  right: 0;
 }
 
-.standards-card .standard-card-num{
-    display: block;
-    font-weight:600;
-    font-size: 28px;
-    margin-bottom:32px;
+.standards-card .standard-card-num {
+  display: block;
+  font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 32px;
 }
 
-.standards-card .standard-card-title{
-    display: block;
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    line-height: 125%;
-    letter-spacing: -2%;
+.standards-card .standard-card-title {
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 125%;
+  letter-spacing: -2%;
 }
 
-.standards-card .standard-card-info{
+.standards-card .standard-card-info {
   font-size: 18px;
 }
 
 
 /* SP FOR GOOD SECTION ------------------------- */
 
-.sp-for-good-sec{
+.sp-for-good-sec {
   background-color: var(--sp-red);
   padding-bottom: 100px;
 }
 
-.spFor-good-in{
+.spFor-good-in {
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
 
-.spFor-good-grid{
+.spFor-good-grid {
   /* margin-top: 50px; */
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1929,7 +1933,7 @@
   align-items: end;
 }
 
-.for-good-info{
+.for-good-info {
   max-width: 475px;
   padding-bottom: 50px;
   display: flex;
@@ -1937,7 +1941,7 @@
   gap: 32px;
 }
 
-.for-good-info p{
+.for-good-info p {
   font-size: 18px;
 }
 
@@ -2013,6 +2017,18 @@
   cursor: none !important;
 }
 
+.products-section-slider .swiper,
+.products-section-slider .swiper-wrapper,
+.products-section-slider .swiper-slide {
+  cursor: auto !important;
+}
+
+.products-section-slider.has-custom-cursor .swiper,
+.products-section-slider.has-custom-cursor .swiper-wrapper,
+.products-section-slider.has-custom-cursor .swiper-slide {
+  cursor: none !important;
+}
+
 
 
 
@@ -2032,7 +2048,7 @@
   padding: 150px 40px 100px;
 }
 
-.custom-banner-in{
+.custom-banner-in {
   display: flex;
   flex-direction: column;
   gap: 60px;
@@ -2063,13 +2079,17 @@
   flex-wrap: wrap;
 }
 
-.custom-banner-cntnt{
+.custom-banner-cntnt {
   display: flex;
   flex-direction: column;
   gap: 64px;
 }
 
-.custom-banner-img{
+.custom-banner-img {
   width: 100%;
   height: 536px;
+}
+
+a.custom-btn.cta {
+  margin-top: 30px;
 }

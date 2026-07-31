@@ -4,21 +4,27 @@ import { useEffect, useState } from "react";
 import { styles } from "../ServiceInner/ServiceInner.css";
 
 import Wayfinding from "../Wayfinding";
+import RightSideLine from "../RightSideLine";
 import ServiceBanner from "../ServiceInner/ServiceInnerBanner";
 import VideoSection from "../ServiceInner/VideoSection";
 import ApproachBranding from '../service/ApproachBranding';
 import WhatWeDeliver from "../ServiceInner/WhatWeDeliver";
 import OurProudWork from "../ServiceInner/OurProudWork";
+import ReadyToBuild from "../ReadyToBuid";
+import TestimonialSection from "../TestimonialSection";
+import AiTools from "../ServiceInner/AiTools";
+import ProductsSection from "../ServiceInner/ProductsSection";
+import OtherServices from "../ServiceInner/OtherServices";
 
 const SERVICE_SECTIONS = [
   { id: "service-banner", label: "Intro" },
   { id: "philosophy", label: "Philosophy" },
-  { id: "video-section", label: "Video" },
   { id: "what-we-deliver", label: "Deliverables" },
-  { id: "our-proud-work", label: "Work" },
-  { id: "ai-tools", label: "AI Tools" },
+  { id: "our-proud-work", label: "Our Work" },
+  { id: "get-in-touch", label: "Get In Touch" },
   { id: "testimonials", label: "Testimonials" },
-  { id: "products", label: "Products" },
+  { id: "ai-tools", label: "AI Tools" },
+  { id: "products", label: "Our Products" },
   { id: "other-services", label: "Other Services" },
 ];
 
@@ -125,16 +131,22 @@ export default function ServicePageTemplate({ slug }) {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log("Fetched sections:", sections.philosphy);
+  console.log("Fetched sections:", sections.ai_tools);
 
   return (
     <>
       <Wayfinding sections={SERVICE_SECTIONS} />
-      <ServiceBanner data={sections.service_inner_banner} />
+      <RightSideLine />
+      <ServiceBanner id="service-banner" data={sections.service_inner_banner} />
       <VideoSection data={sections.video_section} />
-      <ApproachBranding data={sections.philosphy} />
-      <WhatWeDeliver data={sections.what_we_deliver} />
-      <OurProudWork data={sections.our_proud_work} />
+      <ApproachBranding id="philosophy" data={sections.philosphy} />
+      <WhatWeDeliver id="what-we-deliver" data={sections.what_we_deliver} />
+      <OurProudWork id="our-proud-work" data={sections.our_proud_work} />
+      <ReadyToBuild id="get-in-touch" data={sections.simple_choice} />
+      <TestimonialSection id="testimonials" data={sections.testimonials_section} />
+      <AiTools id="ai-tools" data={sections.ai_tools} />
+      <ProductsSection id="products" data={sections.products_section} />
+      <OtherServices id="other-services" data={sections.other_services} />
     </>
   );
 }
