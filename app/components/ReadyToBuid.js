@@ -14,7 +14,7 @@ export default function ReadyToBuild({ id, data }) {
 
           <a
             href={data?.cta_link || "#!"}
-            className="custom-btn"
+            className="custom-btn cta"
           >
             <span>{data?.cta_text}</span>
 

@@ -29,8 +29,6 @@ export const metadata = {
   description: "We build brands that stands the test of time - From Branding, Web Design and Development to Marketing, we do it all!",
 };
 
-
-
 export default function RootLayout({ children }) {
   return (
     <html

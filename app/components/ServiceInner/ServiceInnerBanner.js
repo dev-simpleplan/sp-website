@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
 
-export default function ServiceInnerBanner({ data }) {
+export default function ServiceInnerBanner({ id , data }) {
   if (!data) return null;
 
   return (
-    <section className="home-banner">
+    <section className="home-banner" id={id}>
           <div className="container">
             <div className="home-banner-in service-inner">
               <h1 className="reveal-heading">{data.title}</h1>
