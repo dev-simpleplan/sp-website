@@ -147,29 +147,28 @@ section.we-are-proud-section {
 
 .we-are-proud-section .fw-cta {
     padding-top: 30px;
-    display: inline-block;
-    text-decoration: underline;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 150%;
+    text-decoration: underline;
+    display: inline-block;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .we-are-proud-section .we-are-proud .wap-text p {
     letter-spacing: 0;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 150%;
-}
-
-.we-are-proud-section .we-are-proud-in .fold-wrap {
-    width: min(100vw, 1050px);
+    max-width: 58ch;
 }
 
 .card-details-wrapper {
     justify-content: flex-start;
     align-items: flex-start;
     display: flex;
-    gap: 80px;
+    gap: 68px;
 }
 
 .we-are-proud-section .fw-right-top {
@@ -180,15 +179,15 @@ section.we-are-proud-section {
 }
 
 .we-are-proud-section .fw-right-top h4 {
-    font-size: 40px;
+    font-size: 36px;
 }
 
 .we-are-proud-section .fw-right-top h4 span {
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .we-are-proud-section .fw-right-top p {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .card-details {
@@ -196,8 +195,14 @@ section.we-are-proud-section {
 }
 
 .we-are-proud-section .we-are-proud-in .fold-wrap {
+    display: flex;
     flex-direction: column;
     gap: 10px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: clamp(320px, 60vw, 1000px);
+    height: 100%;
+    min-height: 0;
 }
 
 .proud-content-wrapper {
@@ -218,7 +223,7 @@ section.we-are-proud-section {
 
 .we-are-proud-section .fw-right-bottom p.eye-head {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .we-are-proud-section .fw-right-bottom .fw-points-wrap ul {
@@ -229,7 +234,7 @@ section.we-are-proud-section {
 }
 
 .we-are-proud-section .fw-right-bottom .fw-points-wrap ul li {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 150%;
 }
@@ -279,7 +284,7 @@ section.we-are-proud-section {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 3px;
-    width: max-content;
+    width: 100%;
 }
 
 .ai-tool-card {
@@ -297,10 +302,15 @@ section.we-are-proud-section {
 .ai-tool-icon {
     object-fit: contain;
     width: auto;
-    max-width: 350px;
+    max-width: 100%;
     height: auto;
-    max-height: 350px;
+    max-height: 100%;
     border: none;
+}
+
+.ap-text-right p {
+    font-size: 24px;
+    padding-top: 35px;
 }
 
 /* Responsive */
@@ -330,17 +340,13 @@ section.we-are-proud-section {
     }
 
     .ai-tools-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 2px;
+        width: 100%;
     }
 
     .ai-tool-card {
         aspect-ratio: 1 / 1;
-    }
-
-    .ai-tool-icon {
-        max-width: 52px;
-        max-height: 52px;
     }
 }
 
@@ -354,16 +360,13 @@ section.we-are-proud-section {
     }
 
     .ai-tools-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ai-tool-icon {
-        max-width: 44px;
-        max-height: 44px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        width: 100%;
     }
 }
 
-@media (max-width: 380px) {
+/* @media (max-width: 380px) {
     .ai-tools-grid {
         grid-template-columns: 1fr;
     }
@@ -371,7 +374,7 @@ section.we-are-proud-section {
     .ai-tool-card {
         aspect-ratio: 16 / 10;
     }
-}
+} */
 
 .products-section {
     background-color: var(--sp-red);
@@ -640,6 +643,10 @@ section.we-are-proud-section {
     .other-services .reveal-heading {
         font-size: 40px;
     }
+
+    .other-services-top {
+        margin-bottom: 48px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -676,6 +683,93 @@ section.we-are-proud-section {
 
     .other-service-img {
         margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .approach-sec-in .heading {
+        max-width: 50ch;
+    }
+}
+
+@media (max-width: 991px) {
+    .product-card-info {
+        max-width: 60%;
+    }
+
+    .other-services-grid {
+        margin-right: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-card-info {
+        max-width: 100%;
+    }
+}
+
+/* ---------------- MOBILE: crossfade stacking ---------------- */
+@media (max-width: 767px) {
+    .founder-slide-wrapper {
+        max-width: 100%;
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    .we-are-proud-in {
+        position: relative;
+        width: 100%;
+        gap: 0;
+    }
+
+    .we-are-proud-section .we-are-proud-in .fold-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .proud-content-wrapper {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .we-are-proud-section .left-1 {
+        width: 100%;
+    }
+
+    .card-details-wrapper {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .card-details {
+        max-width: 100%;
+    }
+
+    .we-are-proud .wap-text h5 {
+        font-size: 20px;
+    }
+
+    .we-are-proud-section .fw-right-top {
+        gap: 40px;
+        margin-top: 20px;
+    }
+
+    .we-are-proud-section .fw-right-top h4 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+    .founder-slide-wrapper {
+        max-width: calc(100% - 80px);
+        margin-right: 40px;
+    }
+
+    .we-are-proud-section .we-are-proud-in .fold-wrap {
+        width: clamp(320px, 75vw, 700px);
     }
 }
 

@@ -192,11 +192,11 @@ export default function WhatWeDeliver({ id, data }) {
   centeredSlides={false}
   breakpoints={{
     0: {
-      slidesPerView: 1.1,
+      slidesPerView: 1,
       spaceBetween: 10,
     },
     768: {
-      slidesPerView: 1.8,
+      slidesPerView: 2,
       spaceBetween: 12,
     },
     1200: {
