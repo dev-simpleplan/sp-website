@@ -207,11 +207,11 @@ export default function ProductsSection({ id, data }) {
                 centeredSlides={false}
                 breakpoints={{
                   0: {
-                    slidesPerView: 1.05,
+                    slidesPerView: 1,
                     spaceBetween: 10,
                   },
                   768: {
-                    slidesPerView: 1.1,
+                    slidesPerView: 1,
                     spaceBetween: 16,
                   },
                   1200: {

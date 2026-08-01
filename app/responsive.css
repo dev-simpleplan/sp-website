@@ -1,36 +1,39 @@
 @media screen and (max-width: 991px) {
 
-  .your-brands-fold-wrap{
+  .your-brands-fold-wrap {
     gap: 30px;
   }
 
 
   /* TESTIMONIAL ---------------------- */
-  .ts-quote{
+  .ts-quote {
     font-size: 24px;
   }
 
-  .we-do-stand-in{
+  .we-do-stand-in {
     gap: 20px;
   }
-  
 
-  .meet-the-simp-in{
+
+  .meet-the-simp-in {
     gap: 30px;
     align-items: center;
   }
-  .meet-simp-video{
+
+  .meet-simp-video {
     aspect-ratio: 9/12;
   }
-  .meet-the-simp .right{
+
+  .meet-the-simp .right {
     gap: 12px;
     padding-bottom: 20px;
   }
-  .meet-the-simp .right p{
+
+  .meet-the-simp .right p {
     line-height: 120%;
   }
 
-  .ttb-fold{
+  .ttb-fold {
     align-items: center;
   }
 
@@ -39,7 +42,8 @@
     max-width: 100vw;
     padding: 20px 20px 20px 60px;
   }
-  .founder-slide-wrapper{
+
+  .founder-slide-wrapper {
     margin-right: 0;
     max-width: 1005;
   }
@@ -51,44 +55,53 @@
     margin-top: 30px;
     justify-content: start;
   }
+
   .bringing-clarity {
     padding: 60px 0px;
   }
+
   .meet-the-simp-in {
     grid-template-columns: 1fr;
     gap: 40px;
     align-items: end;
   }
-  .like-what-you-see .counter-block:nth-child(2){
+
+  .like-what-you-see .counter-block:nth-child(2) {
     text-align: start;
   }
-  .like-what-you-see .counter-block:nth-child(3){
- text-align: start;
+
+  .like-what-you-see .counter-block:nth-child(3) {
+    text-align: start;
   }
-  .ts-quote{
+
+  .ts-quote {
     font-size: 16px;
   }
-  .author-name{
+
+  .author-name {
     font-size: 14px;
   }
-  .author-desig{
+
+  .author-desig {
     font-size: 14px;
   }
-  .author-img{
+
+  .author-img {
     width: 40px;
     height: 40px;
   }
-  .ts-nav-btn{
+
+  .ts-nav-btn {
     width: 38px;
     height: 38px;
   }
 
-  .we-are-proud-in.gap-left{
+  .we-are-proud-in.gap-left {
     padding-left: 0px;
     /* width: 100vw; */
   }
 
-  .we-are-proud-in .fold-wrap{
+  .we-are-proud-in .fold-wrap {
     width: calc(100vw - 50px);
     flex-direction: column;
   }
@@ -98,57 +111,63 @@
     height: 100vh;
     width: 100vw;
   }
-  
-  .we-are-proud .heading{
+
+  .we-are-proud .heading {
     margin-bottom: 10px;
   }
 
-  .we-are-proud-in > a {
+  .we-are-proud-in>a {
     position: absolute;
     inset: 0;
     width: 100%;
     padding: 10px 20px 20px;
   }
 
-  .fw-right-top h4{
+  .fw-right-top h4 {
     font-size: 24px;
   }
-  .fw-right-top h4 span{
+
+  .fw-right-top h4 span {
     font-size: 20px;
     padding-left: 5px;
   }
-  .fw-right-top p{
+
+  .fw-right-top p {
     font-size: 14px;
   }
-  .we-are-proud .wap-text h5{
+
+  .we-are-proud .wap-text h5 {
     font-size: 24px;
   }
-  .we-are-proud .wap-text p{
+
+  .we-are-proud .wap-text p {
     font-size: 16px;
   }
-  .we-are-proud .wap-text{
+
+  .we-are-proud .wap-text {
     align-items: start;
   }
-  .we-are-proud-in .fold-wrap .right{
+
+  .we-are-proud-in .fold-wrap .right {
     gap: 20px;
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
   }
 
-  .like-what-you-see{
+  .like-what-you-see {
     padding: 80px 0;
   }
 
-  .your-brands-fold{
+  .your-brands-fold {
     padding: 20px;
   }
 
   .testimonial-slider-wrap.gap-left {
-      padding-left: 20px;
+    padding-left: 20px;
   }
 
-  .tb-heading{
+  .tb-heading {
     font-size: 18px;
     max-width: 400px;
   }
@@ -156,13 +175,16 @@
   .wds-viewport.gap-left {
     padding: 60px 20px;
   }
-  .we-do-stand-in{
+
+  .we-do-stand-in {
     gap: 20px;
   }
-  .ttb-track{
+
+  .ttb-track {
     padding-bottom: 0;
   }
-  .ttb-fold{
+
+  .ttb-fold {
     display: grid;
     padding: 0 20px;
     grid-template-columns: 1fr;
@@ -170,40 +192,48 @@
     gap: 0px;
     align-items: start;
   }
-  .ttb-right{
+
+  .ttb-right {
     gap: 10px;
   }
-  .ttb-right p{
+
+  .ttb-right p {
     max-width: 60ch;
   }
-  .ttb-media{
+
+  .ttb-media {
     height: 300px;
     aspect-ratio: 3 / 2;
   }
 
 
-  .your-brands-fold h2{
+  .your-brands-fold h2 {
     margin-bottom: 20px;
   }
+
   .your-brands-fold-wrap {
     grid-template-columns: 1fr;
     align-items: start;
     gap: 10px;
   }
+
   .ybf-img {
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     width: 300px;
     overflow: hidden;
   }
-  .your-brands-fold .right{
+
+  .your-brands-fold .right {
     gap: 10px;
     padding-top: 10px;
   }
-  .your-brands-fold .right .head{
+
+  .your-brands-fold .right .head {
     font-size: 24px;
   }
-  .your-brands-fold .right .text{
+
+  .your-brands-fold .right .text {
     font-size: 16px;
   }
 
@@ -211,16 +241,18 @@
 
 
   /* --- APPROACH BRANDING ------------------------ */
-  .approach-section{
+  .approach-section {
     background-color: var(--sp-red);
     padding: 50px 0 50px;
   }
-  .approach-sec-in{
+
+  .approach-sec-in {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 56px;
   }
-  .approach-sec-in .approach-description{
+
+  .approach-sec-in .approach-description {
     margin-left: unset;
   }
 
@@ -228,25 +260,30 @@
 
 
   /* --- HOW THIS SHOWS UP ------------------------- */
-  .how-this-shows-up{
+  .how-this-shows-up {
     padding: 30px 0 60px;
   }
+
   .htsu-content {
     flex-direction: column;
     margin-top: 20px;
     gap: 20px;
   }
-  .htsu-text{
+
+  .htsu-text {
     padding-top: 0;
   }
+
   .htsu-video {
     width: 100%;
     max-width: 100%;
   }
-  .htsu-foot{
+
+  .htsu-foot {
     margin-top: 60px;
   }
-  .htsu-quote{
+
+  .htsu-quote {
     font-size: 24px;
   }
 
@@ -254,7 +291,7 @@
 
 
   /* COMPANY BANNER ---------------------- */
-  .company-banner{
+  .company-banner {
     padding-bottom: 50px;
   }
 
@@ -263,25 +300,28 @@
 
 
   /* ETHOS SECTION --------------------- */
-  .ethos-section{
+  .ethos-section {
     padding: 100px 0;
   }
-  .ethos-wrap{
+
+  .ethos-wrap {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 20px;
     margin-top: 20px;
   }
-  .ethos-card-title{
+
+  .ethos-card-title {
     font: 600 18px var(--font-aspekta);
   }
 
 
   /* FOUNDER SECTION --------------------- */
-  .founders-section .your-brands-fold{
+  .founders-section .your-brands-fold {
     padding: 20px;
   }
-  .founderSec-left-cntnt .ybf-img{
+
+  .founderSec-left-cntnt .ybf-img {
     width: 50%;
     height: auto;
     overflow: hidden;
@@ -290,144 +330,167 @@
 }
 
 @media screen and (max-width: 480px) {
-  .home-b-cta{
+  .home-b-cta {
     flex-direction: column;
     gap: 20px;
   }
 
-  .home-banner{
+  .home-banner {
     padding: 150px 0px 80px;
   }
-  .ticker-track{
+
+  .ticker-track {
     margin-top: 0;
   }
 
-  .video-animated-inner{
+  .video-animated-inner {
     aspect-ratio: 9 / 16;
   }
-  .bringing-clarity{
+
+  .bringing-clarity {
     padding: 60px 0 30px;
   }
-  .our-approach{
+
+  .our-approach {
     padding: 80px 0 50px;
   }
 
-  .we-are-proud{
+  .we-are-proud {
     padding-top: 50px;
   }
 
 
-  .your-brands-fold h2{
+  .your-brands-fold h2 {
     min-height: 110px;
   }
 
-  .like-what-you-see{
+  .like-what-you-see {
     padding: 80px 0 100px;
   }
-  .ready-to-build{
+
+  .ready-to-build {
     height: auto;
     padding: 0 0 50px;
   }
-  .ready-to-build-in p{
+
+  .ready-to-build-in p {
     font-size: 16px;
   }
-  .testimonial-section{
+
+  .testimonial-section {
     padding: 60px 0;
   }
 
-  .tb-logos{
+  .tb-logos {
     margin-top: 20px;
   }
-  .trusted-brands{
+
+  .trusted-brands {
     padding: 60px 0px;
   }
 
-  
 
-  .we-are-proud-in .fold-wrap .left .wap-img{
+
+  .we-are-proud-in .fold-wrap .left .wap-img {
     flex: 0;
     min-height: 300px;
     gap: 30px;
   }
-  .we-are-proud-in .fold-wrap .left{
+
+  .we-are-proud-in .fold-wrap .left {
     flex: 0;
     min-height: fit-content;
   }
-  .fw-points-wrap p{
+
+  .fw-points-wrap p {
     font-size: 14px;
   }
-  .we-do-stand .container{
+
+  .we-do-stand .container {
     padding: 0;
   }
-  .wds-top-heading{
+
+  .wds-top-heading {
     margin-bottom: 20px;
   }
-  .we-do-stand-in{
+
+  .we-do-stand-in {
     grid-template-columns: 1fr;
   }
+
   .wds-left {
     height: 100%;
     min-height: 300px;
   }
 
 
-  .meet-simp-video{
+  .meet-simp-video {
     aspect-ratio: 16/9;
   }
 
 
-  .testimonial-slider-wrap{
+  .testimonial-slider-wrap {
     padding-right: 20px;
   }
-  .testimonial-slider-wrap .swiper-slide{
+
+  .testimonial-slider-wrap .swiper-slide {
     width: 100%;
   }
 
-  .ttb-card-img{
-   height: 100%;
+  .ttb-card-img {
+    height: 100%;
   }
-  .ttb-card{
-  width: 260px
+
+  .ttb-card {
+    width: 260px
   }
 
 
   .meet-the-simp {
     padding: 20px 0 60px;
   }
+
   .meet-the-simp .heading {
     margin-bottom: 20px;
   }
-  .meet-the-simp-in{
+
+  .meet-the-simp-in {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  .meet-the-simp .right{
+
+  .meet-the-simp .right {
     gap: 10px;
   }
-  .meet-the-simp .right p{
+
+  .meet-the-simp .right p {
     font-size: 16px;
   }
 
-  .tools-to-build .heading.gap-left{
+  .tools-to-build .heading.gap-left {
     padding: 60px 0 20px;
   }
+
   .ttb-fold {
     display: grid;
     grid-template-rows: repeat(2, max-content);
     gap: 20px;
   }
-  .ttb-media{
+
+  .ttb-media {
     height: 260px;
     aspect-ratio: auto;
   }
-  .ttb-right{
+
+  .ttb-right {
     gap: 20px;
   }
-  .ttb-right p{
+
+  .ttb-right p {
     line-height: 1.55;
   }
 
-  .think-to-build{
+  .think-to-build {
     padding-top: 30px;
   }
 
@@ -435,23 +498,25 @@
 
 
   /* FOUNDER SECTION --------------------- */
-  .founders-section{
+  .founders-section {
     padding-top: 40px;
   }
-  .founders-section .your-brands-fold{
+
+  .founders-section .your-brands-fold {
     justify-content: start;
   }
 
-  .founderSec-left-cntnt .ybf-img{
+  .founderSec-left-cntnt .ybf-img {
     aspect-ratio: 2 / 2.2;
     width: calc(100% - 15px);
   }
-  .founder-slide-wrapper{
+
+  .founder-slide-wrapper {
     margin-right: 0;
   }
 
 
-  .approach-sec-body{
+  .approach-sec-body {
     margin-left: 0;
   }
 
@@ -462,7 +527,7 @@
     /* overflow: hidden; */
   }
 
-  #like-what-you-see-company{
+  #like-what-you-see-company {
     padding-top: 0;
     padding-bottom: 50px;
   }
@@ -477,30 +542,39 @@
     margin-left: 0;
   }
 
-  #ReadyToBuild{
+  #ReadyToBuild {
     height: auto;
     padding: 100px 0;
   }
 
 
 
-  .standards-section{
+  .standards-section {
     padding-top: 80px;
   }
-  .standards-card.left{
+
+  .standards-card.left {
     left: 0;
   }
-  .standards-card .standard-card-num{
+
+  .standards-card .standard-card-num {
     font-size: 24px;
     margin-bottom: 26px;
   }
-  .standards-card .standard-card-title{
+
+  .standards-card .standard-card-title {
     margin-bottom: 8px;
     font-size: 24px;
   }
 
-  .spFor-good-grid{
+  .spFor-good-grid {
     grid-template-columns: 1fr;
+  }
+
+  .approach-sec-in {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
   }
 
 }

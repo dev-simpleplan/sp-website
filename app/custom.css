@@ -220,7 +220,7 @@
 }
 
 .our-approach .heading {
-  margin-bottom: 50;
+  margin-bottom: 50px;
 }
 
 .oa-nav {
@@ -291,28 +291,6 @@
 
 .gap-left.pr0 {
   padding-right: 0;
-}
-
-@media (max-width: 1199px) {
-  .our-approach-top {
-    margin-bottom: 40px;
-  }
-
-  .oa-nav {
-    display: flex;
-    gap: 12px;
-    padding: 0 60px;
-    justify-content: center;
-  }
-
-  .our-approach .block-box {
-    border-right: 0.5px solid rgba(255, 255, 255, 0.3);
-    border-left: none;
-    border-top: none;
-    border-bottom: none;
-    gap: 80px;
-    height: 100%;
-  }
 }
 
 .like-what-you-see {
@@ -441,37 +419,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* ── Responsive ─────────────────────────── */
-@media (max-width: 768px) {
-  .like-what-you-see .counter-wrap {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-    margin-top: 40px;
-  }
-
-  .our-approach {
-    padding: 80px 0;
-  }
-
-  .our-approach-top {
-    margin-bottom: 0px;
-  }
-
-  .our-approach .heading {
-    margin-bottom: 20px;
-  }
-
-  .like-what-you-see .counter-block {
-    padding: 0;
-    width: 100%;
-  }
-
-  .like-what-you-see .counter-block:not(:first-child)::before {
-    display: none;
   }
 }
 
@@ -786,7 +733,7 @@
   padding-top: 10px;
 }
 
-.we-are-proud-in .fold-wrap {
+/* .we-are-proud-in .fold-wrap {
   display: flex;
   gap: 24px;
   width: min(60vw, 1050px);
@@ -794,7 +741,7 @@
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-}
+} */
 
 .fold-wrap.hrzntl-scroll-company {
   height: 460px;
@@ -1014,12 +961,6 @@
   position: relative;
 }
 
-@media screen and (max-width: 991px) {
-  .your-brands-fold {
-    padding: 60px 60px 60px 60px;
-  }
-}
-
 /* vertical "Services" label on the left */
 .ybl-services-label {
   position: absolute;
@@ -1216,10 +1157,6 @@
 .testimonial-slider-wrap {
   overflow: hidden;
   padding-right: 60px;
-}
-
-.testimonial-slider-wrap.gap-left {
-  padding-left: 245px;
 }
 
 .testimonial-slider-wrap .swiper {
@@ -2092,4 +2029,80 @@
 
 a.custom-btn.cta {
   margin-top: 30px;
+}
+
+@media (max-width: 1199px) {
+  .our-approach-top {
+    margin-bottom: 40px;
+  }
+
+  .oa-nav {
+    display: flex;
+    gap: 12px;
+    padding: 0 60px;
+    justify-content: center;
+  }
+
+  .our-approach .block-box {
+    border-right: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    gap: 80px;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .your-brands-fold {
+    padding: 60px 60px 60px 60px;
+  }
+
+  .home-banner {
+    padding: 180px 40px 100px;
+  }
+
+  .approach-sec-in {
+    flex-direction: column;
+    gap: 100px;
+    display: flex;
+  }
+
+  .our-approach .heading {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .like-what-you-see .counter-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .our-approach {
+    padding: 80px 0;
+  }
+
+  .our-approach-top {
+    margin-bottom: 0px;
+  }
+
+  .our-approach .heading {
+    margin-bottom: 20px;
+  }
+
+  .like-what-you-see .counter-block {
+    padding: 0;
+    width: 100%;
+  }
+
+  .like-what-you-see .counter-block:not(:first-child)::before {
+    display: none;
+  }
+
+  .home-banner {
+    padding: 160px 40px 100px;
+  }
 }
