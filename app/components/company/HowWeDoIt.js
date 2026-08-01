@@ -4,59 +4,83 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function HowWeDoIt({id, data}) {
+export default function HowWeDoIt({ id, data }) {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
+
   const standardCard = data?.standards || [];
 
   useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
+    if (!sectionRef.current || !standardCard.length) return;
 
-  const ctx = gsap.context(() => {
-    gsap.set(cardsRef.current, {
-      y: 150,
-      opacity: 0,
-    });
+    gsap.registerPlugin(ScrollTrigger);
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=4500",
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-      },
-    });
+    // Remove stale refs
+    cardsRef.current = cardsRef.current.slice(0, standardCard.length);
 
-    
+    const ctx = gsap.context(() => {
+      const cards = cardsRef.current.filter(Boolean);
 
-    cardsRef.current.forEach((card, index) => {
-      tl.to(card, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-      });
+      if (!cards.length) return;
 
-      if (index !== cardsRef.current.length - 1) {
-        tl.to(card, {
+      gsap.set(cards, {
         y: 150,
         opacity: 0,
-        duration: 1,
-        ease: "power2.in",
       });
-    }});
-  }, sectionRef);
 
-  return () => ctx.revert();
-}, [standardCard.length]);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${standardCard.length * window.innerHeight}`,
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      cards.forEach((card, index) => {
+        tl.to(card, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+        });
+
+        if (index !== cards.length - 1) {
+          tl.to(card, {
+            y: 150,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.in",
+          });
+        }
+      });
+
+      ScrollTrigger.refresh();
+    }, sectionRef);
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === sectionRef.current) {
+          st.kill();
+        }
+      });
+
+      ctx.revert();
+    };
+  }, [data]);
 
   return (
-    <section className="standards-section" ref={sectionRef}>
+    <section
+      className="standards-section"
+      id={id}
+      ref={sectionRef}
+      data-sticky-section
+    >
       <div className="container">
-
         <div className="heading gap-left">
           <h2>{data?.title}</h2>
         </div>
@@ -65,7 +89,9 @@ export default function HowWeDoIt({id, data}) {
           {standardCard.map((item, index) => (
             <div
               key={item.id}
-              ref={(el) => (cardsRef.current[index] = el)}
+              ref={(el) => {
+                if (el) cardsRef.current[index] = el;
+              }}
               className={`standards-card ${index % 2 ? "right" : "left"}`}
             >
               <span className="standard-card-num">
@@ -82,7 +108,6 @@ export default function HowWeDoIt({id, data}) {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

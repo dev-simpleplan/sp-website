@@ -14,6 +14,7 @@ import LikeWhatYouSee from '../components/LikeWhatYouSee';
 // import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/company/WeAreProud_headingScroll';
 import ReadyToBuild from "../components/ReadyToBuid";
+import "../our-team/teamStyle.css"
 // import HowThisShowUp from '../components/service/HowThisShowsUp';
 
 

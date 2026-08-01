@@ -1,10 +1,90 @@
-import Image from "next/image";
+"use client";
+
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { getImageUrl } from "../getImageUrl";
 
+const PLAY_ICON = (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <path d="M6 4.5L17 11L6 17.5V4.5Z" fill="currentColor" />
+  </svg>
+);
+
+const isVideo = (media) =>
+  media?.mime?.toLowerCase().startsWith("video/");
+
+function MediaBlock({ media, alt }) {
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+
+  if (!media) return null;
+
+  if (isVideo(media)) {
+    const handlePlay = async () => {
+      setPlaying(true);
+
+      try {
+        await videoRef.current?.play();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const handleEnded = () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+
+      setPlaying(false);
+    };
+
+    return (
+      <div className="for-good-video-wrap">
+        <video
+          ref={videoRef}
+          src={getImageUrl(media)}
+          poster={
+            media?.poster
+              ? getImageUrl(media.poster)
+              : media?.previewUrl || undefined
+          }
+          className="img"
+          playsInline
+          preload="metadata"
+          controls={playing}
+          onEnded={handleEnded}
+        />
+
+        {!playing && (
+          <button
+            type="button"
+            className="video-play-btn"
+            onClick={handlePlay}
+            aria-label="Play video"
+          >
+            {PLAY_ICON}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={getImageUrl(media)}
+      alt={alt || "Media"}
+      className="img"
+    />
+  );
+}
+
 export default function Initiatives({ id, data }) {
+  if (!data) return null;
+
   const title = data?.title;
-  const description = data?.description?.[0]?.children?.[0]?.text;
+  const description =
+    data?.description?.[0]?.children?.[0]?.text;
   const ctaText = data?.cta_text;
   const ctaLink = data?.cta_link;
 
@@ -13,18 +93,15 @@ export default function Initiatives({ id, data }) {
       <div className="container">
         <div className="spFor-good-in gap-left">
           <div className="heading">
-            <h2>{title}</h2>
+            <h2 className="reveal-heading">{title}</h2>
           </div>
 
           <div className="spFor-good-grid">
             <div className="for-good-img">
-              {data?.image && (
-                <img
-                  src={getImageUrl(data.image)}
-                  alt={title || "SimplePlan for Good"}
-                  className="img"
-                />
-              )}
+              <MediaBlock
+                media={data?.image}
+                alt={title}
+              />
             </div>
 
             <div className="for-good-info">

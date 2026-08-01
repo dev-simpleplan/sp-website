@@ -212,7 +212,7 @@ resistanceRatio={0.85}
       slidesPerView: 2,
     },
     1200: {
-      slidesPerView: 4,
+      slidesPerView: Math.min(blocks.length, 4),
     },
   }}
 >
