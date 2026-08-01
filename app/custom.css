@@ -733,7 +733,7 @@
   padding-top: 10px;
 }
 
-/* .we-are-proud-in .fold-wrap {
+.we-are-proud-in .fold-wrap {
   display: flex;
   gap: 24px;
   width: min(60vw, 1050px);
@@ -741,7 +741,7 @@
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-} */
+}
 
 .fold-wrap.hrzntl-scroll-company {
   height: 460px;
@@ -1157,6 +1157,10 @@
 .testimonial-slider-wrap {
   overflow: hidden;
   padding-right: 60px;
+}
+
+.testimonial-slider-wrap.gap-left {
+  padding-left: 245px;
 }
 
 .testimonial-slider-wrap .swiper {
@@ -2068,7 +2072,7 @@ a.custom-btn.cta {
     display: flex;
   }
 
-  .our-approach .heading {
+  .our-approach.what-we-deliver .our-approach .heading {
     margin-bottom: 0;
   }
 }
