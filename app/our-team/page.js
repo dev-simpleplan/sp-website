@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Wayfinding from "../components/Wayfinding";
 import CustomBanner from "../components/custom-hero";
-import ApproachBranding from '../components/service/ApproachBranding';
-import Ethos from '../components/company/Ethos';
-import Founders from '../components/company/Founders';
-import Awards from '../components/company/Awards';
+import MeetTheTeam from "../components/team/MeetTheTeam";
+import OurApproach from "../components/OurApproach";
 import HowWeDoIt from '../components/company/HowWeDoIt';
+import OpenPosition from "../components/team/OpenPosition";
 import Initiatives from "../components/company/Initiatives";
-import LikeWhatYouSee from '../components/LikeWhatYouSee';
-import WeAreProud from '../components/company/WeAreProud_headingScroll';
-import ReadyToBuild from "../components/ReadyToBuid";
+import "./teamStyle.css";
+import "../custom.css";
+import "../responsive.css";
+import "../globals.css";
+
 
 
 export default function BrandingServicePage(){
@@ -102,6 +103,12 @@ export default function BrandingServicePage(){
     <>
       <Wayfinding sections={HOME_SECTIONS} />
       <CustomBanner id="company-hero" data={sections.team_banner} />
+      <MeetTheTeam id="meet_the_team" data={sections.meet_team} />
+      <OurApproach id="our_approach_team" data={sections.our_belief} />
+      <HowWeDoIt id="benefits" data={sections.benefits} />
+      <OpenPosition id="open_position" data={sections.open_position}/>
+      <Initiatives id="initiative_section" data={sections.great_work_section}/>
+
       {/* <ApproachBranding id="company_apprch" data={sections.company_about} />
       <Ethos id="ethos" data={sections.we_believe_in} />
       <Founders id="founders-sec" data={sections.founder_section}/>
