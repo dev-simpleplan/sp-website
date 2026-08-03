@@ -15,9 +15,9 @@ export default function WeDoStand({ id, data }) {
   return (
     <section ref={sectionRef} className="we-do-stand" id={id}>
       <div className="we-do-stand-sticky">
-        <div className="wds-viewport gap-left">
+        {/* <div className="wds-viewport gap-left"> */}
           <div className="container">
-            <div className="wds-top-heading">
+            <div className="wds-top-heading gap-left">
               <h2 className="reveal-heading">{data?.title}</h2>
             </div>
 
@@ -25,7 +25,7 @@ export default function WeDoStand({ id, data }) {
                 column sliding up — hidden on mobile (see .wds-mobile-list
                 below), since splitting into two columns there would stack
                 all images first, then all text, instead of pairing them. */}
-            <div className="we-do-stand-in">
+            <div className="we-do-stand-in gap-left">
               {/* LEFT — image stack, stays in place while section is pinned */}
               <div className="wds-left">
                 <div className="wds-img-stack">
@@ -92,7 +92,7 @@ export default function WeDoStand({ id, data }) {
               ))}
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </section>
   );

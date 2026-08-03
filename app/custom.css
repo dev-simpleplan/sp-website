@@ -393,21 +393,24 @@
 .like-what-you-see .counter-block:nth-child(1) h2,
 .like-what-you-see .counter-block:nth-child(1) p {
   animation-delay: 0s;
-  max-width: 150px;
+  /* max-width: 150px; */
+  width: max-content;
 }
 
 .like-what-you-see .counter-block:nth-child(2) h2,
 .like-what-you-see .counter-block:nth-child(2) p {
   animation-delay: 0.25s;
   /* margin: 0 auto; */
-  max-width: 150px;
+  /* max-width: 150px; */
+  width: max-content;
 }
 
 .like-what-you-see .counter-block:nth-child(3) h2,
 .like-what-you-see .counter-block:nth-child(3) p {
   animation-delay: 0.5s;
   /* margin-left: auto; */
-  max-width: 150px;
+  /* max-width: 150px; */
+  width: max-content;
 }
 
 @keyframes counter-rise {
@@ -429,6 +432,7 @@
 .we-do-stand {
   background: var(--sp-red);
   position: relative;
+  /* height: 50vh; */
 }
 
 .we-do-stand-sticky {
@@ -707,9 +711,9 @@
   margin-bottom: 40px;
 }
 
-.we-are-proud-head {
+/* .we-are-proud-head {
   max-width: 830px;
-}
+} */
 
 /* horizontal track — transform driven by page scroll, see WeAreProud.js */
 .we-are-proud-in {
@@ -728,6 +732,13 @@
   min-height: 0;
   box-sizing: border-box;
 }
+
+/* .we-are-proud-in .fold-wrap:last-child{
+  width: 100%;
+}
+.we-are-proud-in .fold-wrap .left .wap-img{
+  max-height: 500px;
+} */
 
 .we-are-proud .wap-text {
   display: flex;
@@ -776,12 +787,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* border: 1px solid white; */
 }
 
 .we-are-proud-in-company {
   display: flex;
-  gap: 24px;
+  gap: 30vw;
   will-change: transform;
+  /* border: 1px solid white; */
+  height: 100vh;
+  align-items: center;
 }
 
 .we-are-proud-company-card {
@@ -789,7 +804,7 @@
   flex-direction: column;
   gap: 20px;
   flex-shrink: 0;
-  width: min(72vw, 1050px);
+  width: min(70vw, 1000px);
 }
 
 .we-are-proud-company-card .fold-wrap {
@@ -824,6 +839,10 @@
   font-weight: 400;
   letter-spacing: 0em;
   line-height: 110%;
+}
+
+.we-are-proud-company-card .right{
+  flex-shrink: 0;
 }
 
 /* ── ServiceInner/OurProudWork.js — same reasoning, distinct from
@@ -919,7 +938,7 @@
    100vh maps to horizontal travel. */
 .tools-to-build {
   background-color: var(--sp-red);
-  height: 400vh;
+  height: 200vh;
   position: relative;
 }
 
@@ -948,11 +967,12 @@
   display: flex;
   padding-bottom: 40px;
   will-change: transform;
+  gap: 30vw;
 }
 
 /* each fold is exactly one viewport wide */
 .ttb-fold {
-  width: 100vw;
+  /* width: 100vw; */
   flex-shrink: 0;
   height: 100%;
   display: grid;
@@ -1046,7 +1066,7 @@
    100vh maps to horizontal travel. */
 .your-brands-look {
   background-color: var(--sp-red);
-  height: 400vh;
+  height: 300vh;
   position: relative;
 }
 
@@ -1786,7 +1806,7 @@
 .company-banner-in {
   width: 100%;
   height: 100vh;
-  max-height: 720px;
+  /* max-height: 720px; */
 }
 
 /* .company-banner {
@@ -1820,6 +1840,9 @@
 .ethos-section {
   background-color: var(--sp-red);
   padding: 50px 0 150px;
+  height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
 .ethos-wrap {
@@ -1849,6 +1872,7 @@
 
 .founders-section {
   padding-top: 30px;
+  height: 300vh;
 }
 
 .founders-section .your-brands-fold {

@@ -373,13 +373,13 @@ img {
   padding: 0 10px 0 185px;
 }
 
-.wds-viewport.gap-left {
+/* .wds-viewport.gap-left {
   padding: 60px 48px 60px 245px;
-}
+} */
 
-.we-are-proud-in.gap-left {
+/* .we-are-proud-in.gap-left {
   padding-left: 245px;
-}
+} */
 
 .tools-to-build .heading.gap-left{
   padding: 60px 0 40px 185px;
@@ -570,4 +570,10 @@ img {
     font-size: 28px;
     letter-spacing: 2px;
   }
+}
+
+
+.slider-wrapper-outer,
+.slider-wrapper-inner{
+  overflow: hidden;
 }
