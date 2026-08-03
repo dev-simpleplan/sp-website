@@ -193,9 +193,7 @@ export default function ToolsToBuild({ id, data }) {
         <div className="heading gap-left">
           <h2 className="reveal-heading">{folds?.[0]?.title || ""}</h2>
         </div>
-      </div>
-
-      <div className="founder-slide-wrapper">
+        <div className="founder-slide-wrapper gap-left">
           <div className="founder-track-in">
             <div ref={trackRef} className="ttb-track gap-left">
               {folds.map((fold, i) => (
@@ -240,6 +238,7 @@ export default function ToolsToBuild({ id, data }) {
               ))}
             </div>
           </div>
+        </div>
       </div>
     </section>
   );

@@ -43,6 +43,7 @@ body {
   /* color: var(--foreground); */
   font-family: var(--body-font);
   -webkit-font-smoothing: antialiased;
+  background-color: var(--sp-red);
 }
 
 a {
