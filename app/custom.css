@@ -55,8 +55,11 @@
 }
 
 .ticker-item img {
-  height: 34px;
   width: auto;
+  height: auto;
+  display: block;
+  max-width: 210px;
+  max-height: 50px;
   filter: brightness(0) invert(1);
   display: block;
 }
