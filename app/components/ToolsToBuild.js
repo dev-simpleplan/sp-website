@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useState } from "react";
 import { getImageUrl } from "./getImageUrl";
+import useStickyHorizontalTrack from "../hooks/useStickyHorizontalTrack";
 
 // Temporary fallback until the backend adds a dedicated video URL field on
 // tools_section cards (fold?.video_url). Once that field exists in the API
@@ -61,182 +60,62 @@ function VideoFold({ videoUrl, thumbnail }) {
 
 export default function ToolsToBuild({ id, data }) {
   const sectionRef = useRef(null);
-  const trackRef   = useRef(null);
+  const trackRef = useRef(null);
   const folds = data?.tools || [];
 
-  useEffect(() => {
-  if (!folds.length) return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const mm = gsap.matchMedia();
-
-  const notifyStickyState = (active) => {
-    window.dispatchEvent(
-      new CustomEvent("sticky-section-active", {
-        detail: active,
-      })
-    );
-  };
-
-  mm.add(
-    {
-      isDesktop: "(min-width:768px)",
-      isMobile: "(max-width:767px)",
-    },
-    (context) => {
-      const { isDesktop, isMobile } = context.conditions;
-
-      const track = trackRef.current;
-      const cards = gsap.utils.toArray(".ttb-fold");
-
-      if (isDesktop) {
-  const getDistance = () =>
-    Math.max(0, track.scrollWidth - window.innerWidth);
-
-  const START_HOLD = 300;
-  const END_HOLD = 300;
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: sectionRef.current,
-      pin: true,
-      scrub: 1.2,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
-
-      onEnter: () => notifyStickyState(true),
-      onLeave: () => notifyStickyState(false),
-      onEnterBack: () => notifyStickyState(true),
-      onLeaveBack: () => notifyStickyState(false),
-    },
-  });
-
-  tl
-    // Hold at beginning
-    .to(track, {
-      x: 0,
-      duration: START_HOLD,
-    })
-
-    // Horizontal movement
-    .to(track, {
-      x: () => -getDistance(),
-      ease: "none",
-      duration: getDistance() || 1,
-    })
-
-    // Hold at end
-    .to(track, {
-      x: () => -getDistance(),
-      duration: END_HOLD,
-    });
-}
-
-      if (isMobile) {
-  const getDistance = () =>
-    Math.max(0, track.scrollWidth - window.innerWidth);
-
-  const START_HOLD = 250;
-  const END_HOLD = 250;
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: sectionRef.current,
-      start: "top top",
-      pin: true,
-      scrub: 1,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
-
-      onEnter: () => notifyStickyState(true),
-      onLeave: () => notifyStickyState(false),
-      onEnterBack: () => notifyStickyState(true),
-      onLeaveBack: () => notifyStickyState(false),
-    },
-  });
-
-  tl
-    .to(track, {
-      x: 0,
-      duration: START_HOLD,
-    })
-    .to(track, {
-      x: () => -getDistance(),
-      ease: "none",
-      duration: getDistance() || 1,
-    })
-    .to(track, {
-      x: () => -getDistance(),
-      duration: END_HOLD,
-    });
-}
-    }
-  );
-
-  return () => mm.revert();
-}, [folds.length]);
+  useStickyHorizontalTrack(sectionRef, trackRef, [folds.length]);
 
   if (!data) return null;
 
   return (
-    <section
-      ref={sectionRef}
-      className="tools-to-build"
-      id={id}
-      data-sticky-section
-      data-pinned-section
-    >
-      <div className="container">
-        <div className="heading gap-left">
-          <h2 className="reveal-heading">{folds?.[0]?.title || ""}</h2>
-        </div>
-        <div className="founder-slide-wrapper gap-left">
-          <div className="founder-track-in">
-            <div ref={trackRef} className="ttb-track gap-left">
-              {folds.map((fold, i) => (
-                <div className="ttb-fold" key={fold.id ?? i}>
-                  <div className="ttb-left">
-                    {i === 0 ? (
-                      <div className="ttb-media">
-                        <img
-                          src={getImageUrl(fold?.image)}
-                          alt={fold?.title}
-                          className="img"
-                        />
-                      </div>
-                    ) : (
-                      <VideoFold
-                        videoUrl={fold?.video_url || FALLBACK_VIDEO_URL}
-                        thumbnail={getImageUrl(fold?.image)}
-                      />
-                    )}
+    <section ref={sectionRef} className="tools-to-build" id={id}>
+      <div className="tools-to-build-sticky">
+        <div className="container">
+          <div className="heading gap-left">
+            <h2 className="reveal-heading">{folds?.[0]?.title || ""}</h2>
+          </div>
+
+          <div ref={trackRef} className="ttb-track gap-left">
+          {folds.map((fold, i) => (
+            <div className="ttb-fold" key={fold.id ?? i}>
+              <div className="ttb-left">
+                {i === 0 ? (
+                  <div className="ttb-media">
+                    <img
+                      src={getImageUrl(fold?.image)}
+                      alt={fold?.title}
+                      className="img"
+                    />
                   </div>
-                  <div className="ttb-right">
-                    <p>{fold?.description?.[0]?.children?.[0]?.text}</p>
-                    <a href={fold?.cta_link} className="custom-btn">
-                      <span>{fold?.cta_text}</span>
-                      <span className="arrow-wrap">
-                        <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                        </svg>
-                        <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                          <path
-                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                                fill="currentColor" />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              ))}
+                ) : (
+                  <VideoFold
+                    videoUrl={fold?.video_url || FALLBACK_VIDEO_URL}
+                    thumbnail={getImageUrl(fold?.image)}
+                  />
+                )}
+              </div>
+              <div className="ttb-right">
+                <p>{fold?.description?.[0]?.children?.[0]?.text}</p>
+                <a href={fold?.cta_link} className="custom-btn">
+                  <span>{fold?.cta_text}</span>
+                  <span className="arrow-wrap">
+                    <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                      <path
+                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                            fill="currentColor" />
+                    </svg>
+                    <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                      <path
+                            d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                            fill="currentColor" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
             </div>
+          ))}
           </div>
         </div>
       </div>

@@ -690,3 +690,70 @@
     margin-bottom: 30px;
   }
 } */
+
+/* ── Sticky/horizontal sections → stacking cards on mobile ───────────────
+   Instead of horizontal scroll, each card is `position: sticky; top: <same
+   offset>` in normal document flow — as you scroll, each card sticks below
+   the header, then the next card (later in source order) scrolls up and
+   covers it, the same "stacking cards" effect bymondaystudio.com uses.
+   Pure CSS, no JS: useStickyHorizontalTrack / useStickyStepStack do
+   nothing below 768px. This file loads after custom.css, so it's needed
+   here (not there) to win over the legacy .we-are-proud-in>a
+   {position:absolute} etc. rules above, built for the old GSAP mobile
+   crossfade. */
+@media screen and (max-width: 767px) {
+  .we-are-proud-in > a,
+  .we-are-proud-in .fold-wrap {
+    position: sticky;
+    top: 90px;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--sp-red);
+  }
+
+  .we-are-proud-in .fold-wrap .right {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .ttb-fold {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+  }
+
+  .your-brands-fold {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+  }
+
+  .we-are-proud-in-company > a {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+  }
+
+  .we-are-proud-work .fold-wrap {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+  }
+
+  .we-are-proud-in,
+  .ttb-track,
+  .ybl-track,
+  .we-are-proud-in-company {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    transform: none !important;
+  }
+}

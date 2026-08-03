@@ -424,11 +424,18 @@
 
 /* ── We Do Stand ─────────────────────────────────────────── */
 /* ── WeDoStand ───────────────────────────────────────────── */
+/* Scroll runway — height is set inline by useStickyStepStack (one 100vh
+   "step" per item), since it depends on data length. */
 .we-do-stand {
   background: var(--sp-red);
+  position: relative;
+}
+
+.we-do-stand-sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
-  /* padding: 60px 48px 60px 0; */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -468,6 +475,11 @@
   gap: 80px;
   align-items: start;
   height: 60vh;
+}
+
+/* mobile-only paired card list (see WeDoStand.js) — hidden on desktop */
+.wds-mobile-list {
+  display: none;
 }
 
 /* LEFT — image stack, stays put because section is pinned */
@@ -667,8 +679,18 @@
   max-width: 48ch;
 }
 
+/* Scroll "runway" — its height above 100vh is how much page-scroll
+   distance drives the horizontal track. Fixed, not content-computed, so
+   it never needs a JS remeasure/refresh pass. */
 .we-are-proud {
   background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.we-are-proud-sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -689,49 +711,22 @@
   max-width: 830px;
 }
 
-/* horizontal scroll track */
+/* horizontal track — transform driven by page scroll, see WeAreProud.js */
 .we-are-proud-in {
   display: flex;
-  /* flex-direction: row;
-  gap: 100px;
-  padding-left: max(calc((100vw - 1600px) / 2 + 60px), 60px);
-  padding-right: 60px;
-  padding-bottom: 40px;
-  flex: 1;
-  min-height: 0;
-  will-change: transform; */
-  height: 100%;
-}
-
-.we-are-proud-in-company {
-  /* gap: 140px; */
-}
-
-.we-are-proud-in>a {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  height: 100%;
-  min-height: 0;
-  width: 90%;
-}
-
-.we-are-proud-in>a:last-child{
-  width: 100%;
+  gap: 30vw;
+  /* height: 560px; */
+  will-change: transform;
 }
 
 .we-are-proud-in .fold-wrap {
   display: flex;
   gap: 24px;
-  width: 90%;
+  width: min(72vw, 1050px);
   flex-shrink: 0;
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-}
-
-.we-are-proud-in>a:last-child .fold-wrap{
-  width: 80%;
 }
 
 .we-are-proud .wap-text {
@@ -763,6 +758,89 @@
 
 .fold-wrap.hrzntl-scroll-company {
   height: 460px;
+}
+
+/* ── company page's WeAreProud_headingScroll.js — distinct classnames so
+   its scroll runway doesn't collide with the homepage's .we-are-proud ── */
+.we-are-proud-company {
+  background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.we-are-proud-company-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.we-are-proud-in-company {
+  display: flex;
+  gap: 24px;
+  will-change: transform;
+}
+
+.we-are-proud-company-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-shrink: 0;
+  width: min(72vw, 1050px);
+}
+
+.we-are-proud-company-card .fold-wrap {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.we-are-proud-company .wap-text,
+.we-are-proud-company-card .wap-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.we-are-proud-company .wap-text h5,
+.we-are-proud-company-card .wap-text h5 {
+  font-family: var(--font-aspekta);
+  font-size: 28px;
+  line-height: 95%;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+.we-are-proud-company .wap-text p,
+.we-are-proud-company-card .wap-text p {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  line-height: 110%;
+}
+
+/* ── ServiceInner/OurProudWork.js — same reasoning, distinct from
+   .we-are-proud so its own scroll runway doesn't collide either ── */
+.we-are-proud-work {
+  background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.we-are-proud-work-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .we-are-proud-in .fold-wrap .left {
@@ -837,12 +915,21 @@
 }
 
 /* ── Tools to Build ──────────────────────────────────────── */
+/* Scroll runway — see useStickyHorizontalTrack for how the height above
+   100vh maps to horizontal travel. */
 .tools-to-build {
   background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.tools-to-build-sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   justify-content: center;
 }
 
@@ -851,17 +938,16 @@
   flex-shrink: 0;
 }
 
-/* horizontal track — GSAP translates this */
+/* horizontal track — transform driven by page scroll, see ToolsToBuild.js.
+   Fixed height (not flex:1/100%) so it doesn't stretch to fill the sticky
+   viewport and bottom-align within leftover space — instead the whole
+   heading+track block is centered together via .tools-to-build-sticky's
+   justify-content, same as .we-are-proud-sticky. */
 .ttb-track {
-  /* flex: 1;
-  min-height: 0; */
-  height: 100%;
+  height: 560px;
   display: flex;
   padding-bottom: 40px;
-}
-
-.ttb-track.gap-left {
-  padding-left: 0;
+  will-change: transform;
 }
 
 /* each fold is exactly one viewport wide */
@@ -956,20 +1042,45 @@
 }
 
 /* ── Your Brands Look ────────────────────────────────────── */
+/* Scroll runway — see useStickyHorizontalTrack for how the height above
+   100vh maps to horizontal travel. */
 .your-brands-look {
   background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.your-brands-look-sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
 }
 
-/* horizontal track — GSAP translates this */
+/* ── company page's Founders.js — distinct classnames so its scroll
+   runway doesn't collide with the homepage's .your-brands-look ── */
+.founders-section {
+  background-color: var(--sp-red);
+  height: 400vh;
+  position: relative;
+}
+
+.founders-section-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* horizontal track — transform driven by page scroll, see YourBrandsLook.js */
 .ybl-track {
   display: flex;
   height: 100%;
-  /* width: 100%; */
-  /* gap: 150px; */
+  will-change: transform;
 }
 
 /* each fold = one viewport wide */
@@ -2141,5 +2252,106 @@ a.custom-btn.cta {
 
   .home-banner {
     padding: 160px 40px 100px;
+  }
+}
+
+/* ── Sticky/horizontal sections → plain vertical stacking on mobile ──────
+   Below 768px, useStickyHorizontalTrack / useStickyStepStack deliberately
+   do nothing (see those hooks) — these rules are what actually produce the
+   stacked layout once the JS steps aside. */
+@media screen and (max-width: 767px) {
+  .we-are-proud,
+  .tools-to-build,
+  .your-brands-look,
+  .we-do-stand,
+  .we-are-proud-company,
+  .we-are-proud-work,
+  .founders-section {
+    height: auto !important;
+    position: static;
+  }
+
+  .we-are-proud-sticky,
+  .tools-to-build-sticky,
+  .your-brands-look-sticky,
+  .we-do-stand-sticky,
+  .we-are-proud-company-sticky,
+  .we-are-proud-work-sticky,
+  .founders-section-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
+
+  .we-are-proud-in,
+  .ttb-track,
+  .ybl-track,
+  .we-are-proud-in-company {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    transform: none !important;
+  }
+
+  .we-are-proud-in .fold-wrap,
+  .ttb-fold,
+  .your-brands-fold,
+  .we-are-proud-company-card,
+  .we-are-proud-work .fold-wrap {
+    width: 100%;
+    height: auto;
+    flex-shrink: initial;
+  }
+
+  /* WeDoStand: items normally absolutely-positioned for the crossfade —
+     stack them in normal flow instead. */
+  .wds-img-stack {
+    height: auto;
+    position: static;
+  }
+
+  .wds-img-slide {
+    position: static;
+  }
+
+  .wds-items-wrap {
+    height: auto !important;
+  }
+
+  .wds-item {
+    position: static;
+  }
+
+  /* Splitting into two columns (image stack, then text stack) here would
+     show all images first, then all text — use the paired-card list
+     instead (see .wds-mobile-list below). */
+  .we-do-stand-in {
+    display: none;
+  }
+
+  .wds-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .wds-mobile-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .wds-mobile-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .wds-mobile-img .img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 }
