@@ -36,6 +36,7 @@ export default function useStickyHorizontalTrack(sectionRef, trackRef, deps = []
     function computeTarget() {
       const rect = section.getBoundingClientRect();
       const viewportH = window.innerHeight;
+
       const scrollableDistance = section.offsetHeight - viewportH;
 
       const progress =
@@ -43,18 +44,39 @@ export default function useStickyHorizontalTrack(sectionRef, trackRef, deps = []
           ? Math.min(1, Math.max(0, -rect.top / scrollableDistance))
           : 0;
 
-      // The track sits inside a max-width, centered .container, so it has a
-      // resting left offset from the viewport edge (container padding +
-      // gap-left indent). Back that out of its current rect (using the
-      // transform already applied) so maxTranslate accounts for the real
-      // visible width — otherwise the end of the scroll either leaves a
-      // sliver of the previous card showing (if using track.clientWidth,
-      // which excludes that offset) or cuts off the last card by that same
-      // amount (if using plain window.innerWidth, which ignores it).
-      const staticLeft = track.getBoundingClientRect().left - currentX;
-      const availableWidth = window.innerWidth - staticLeft;
-      const maxTranslate = Math.max(0, track.scrollWidth - availableWidth);
-      targetX = -progress * maxTranslate;
+      const firstCard = track.firstElementChild;
+      const lastCard = track.lastElementChild;
+
+      if (!firstCard || !lastCard) return;
+
+      // Position where the first card starts
+      const startX = firstCard.offsetLeft;
+
+      // Position where the last card starts
+      const endX = lastCard.offsetLeft;
+
+      // Distance between first and last card
+      const maxTranslate = Math.max(0, endX - startX);
+
+      // 15% scroll before animation starts
+      const START_DELAY = 0.12;
+
+      // 15% scroll after animation finishes
+      const END_DELAY = 0.12;
+
+      let movementProgress = 0;
+
+      if (progress <= START_DELAY) {
+        movementProgress = 0;
+      } else if (progress >= 1 - END_DELAY) {
+        movementProgress = 1;
+      } else {
+        movementProgress =
+          (progress - START_DELAY) /
+          (1 - START_DELAY - END_DELAY);
+      }
+
+      targetX = -(movementProgress * maxTranslate);
     }
 
     function tick() {

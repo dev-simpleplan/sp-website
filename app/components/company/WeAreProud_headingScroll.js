@@ -71,46 +71,53 @@ export default function WeAreProud({ id }) {
     <section ref={sectionRef} className="we-are-proud-company" id={id}>
       <div className="we-are-proud-company-sticky">
         <div className="container">
-          <div ref={trackRef} className="we-are-proud-in-company gap-left">
-            {cards.map((card, i) => (
-              <a href={card.href} key={i} className="we-are-proud-company-card">
-                <div className="we-are-proud-head">
-                  <div className="heading">
-                    <h2>{card.cardHeading}</h2>
-                  </div>
-                </div>
-                <div className="fold-wrap hrzntl-scroll-company">
-                  <div className="left">
-                    <div className="wap-img">
-                      <img src={card.image.src} alt={card.title} className="img" />
-                    </div>
-                    <div className="wap-text">
-                      <div className="wap-text-left">
-                        <h5>{card.title}</h5>
-                        <p>{card.subtitle}</p>
-                      </div>
-                      <div className="ap-text-right">
-                        <p>{card.year}</p>
+
+          <div className="slider-wrapper-outer gap-left">
+            <div className="slider-wrapper-inner">
+
+              <div ref={trackRef} className="we-are-proud-in-company">
+                {cards.map((card, i) => (
+                  <a href={card.href} key={i} className="we-are-proud-company-card">
+                    <div className="we-are-proud-head">
+                      <div className="heading">
+                        <h2>{card.cardHeading}</h2>
                       </div>
                     </div>
-                  </div>
-                  <div className="right">
-                    <div className="fw-right-top">
-                      <h4>{card.metric}<span>{card.metricSuffix}</span></h4>
-                      <p>{card.metricLabel}</p>
-                    </div>
-                    <div className="fw-right-bottom">
-                      <p className="eye-head">What we did</p>
-                      <div className="fw-points-wrap">
-                        {card.services.map((s, j) => (
-                          <p key={j}>{s}</p>
-                        ))}
+                    <div className="fold-wrap hrzntl-scroll-company">
+                      <div className="left">
+                        <div className="wap-img">
+                          <img src={card.image.src} alt={card.title} className="img" />
+                        </div>
+                        <div className="wap-text">
+                          <div className="wap-text-left">
+                            <h5>{card.title}</h5>
+                            <p>{card.subtitle}</p>
+                          </div>
+                          <div className="ap-text-right">
+                            <p>{card.year}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="right">
+                        <div className="fw-right-top">
+                          <h4>{card.metric}<span>{card.metricSuffix}</span></h4>
+                          <p>{card.metricLabel}</p>
+                        </div>
+                        <div className="fw-right-bottom">
+                          <p className="eye-head">What we did</p>
+                          <div className="fw-points-wrap">
+                            {card.services.map((s, j) => (
+                              <p key={j}>{s}</p>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </a>
-            ))}
+                  </a>
+                ))}
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
