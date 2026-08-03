@@ -99,10 +99,12 @@ export default function MeetTheTeam({ id, data }) {
 
         <div className="founder-slide-wrapper">
             <div className="founder-track-in">
-                <h2 className="reveal-heading">{heading}</h2>
+                <div className="container">
+                  <h2 className="reveal-heading">{heading}</h2>
+                </div>
 
                 {isSlider ? (
-                <div className="meet-team-slider">
+                <div className="meet-team-slider gap-left">
                     <Swiper
                     onSwiper={(sw) => (swiperRef.current = sw)}
                     slidesPerView={1}
@@ -151,7 +153,7 @@ export default function MeetTheTeam({ id, data }) {
                     </div>
                 </div>
                 ) : (
-                <div ref={trackRef} className="mt-track">
+                <div ref={trackRef} className="mt-track gap-left">
                     {members.map((member, i) => (
                     <div className="meet-team-fold" key={member.id ?? i}>
                         <TeamCard member={member} />
