@@ -426,6 +426,14 @@
 /* ── WeDoStand ───────────────────────────────────────────── */
 .we-do-stand {
   background: var(--sp-red);
+  height: 100vh;
+  overflow: hidden;
+  /* padding: 60px 48px 60px 0; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* child of pinned element — overflow:hidden clips sliding items */
@@ -440,12 +448,11 @@
 
 
 /* make container fill the available flex height */
-.we-do-stand .container {
+/* .we-do-stand .container {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 60px 0 0;
-}
+} */
 
 .wds-top-heading {
   flex-shrink: 0;
@@ -460,6 +467,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: start;
+  height: 60vh;
 }
 
 /* LEFT — image stack, stays put because section is pinned */
@@ -665,6 +673,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .we-are-proud .container {
@@ -683,19 +692,19 @@
 /* horizontal scroll track */
 .we-are-proud-in {
   display: flex;
-  flex-direction: row;
-  gap: 24px;
+  /* flex-direction: row;
+  gap: 100px;
   padding-left: max(calc((100vw - 1600px) / 2 + 60px), 60px);
   padding-right: 60px;
   padding-bottom: 40px;
-  width: max-content;
   flex: 1;
   min-height: 0;
-  will-change: transform;
+  will-change: transform; */
+  height: 100%;
 }
 
 .we-are-proud-in-company {
-  gap: 140px;
+  /* gap: 140px; */
 }
 
 .we-are-proud-in>a {
@@ -704,6 +713,25 @@
   flex-shrink: 0;
   height: 100%;
   min-height: 0;
+  width: 90%;
+}
+
+.we-are-proud-in>a:last-child{
+  width: 100%;
+}
+
+.we-are-proud-in .fold-wrap {
+  display: flex;
+  gap: 24px;
+  width: 90%;
+  flex-shrink: 0;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.we-are-proud-in>a:last-child .fold-wrap{
+  width: 80%;
 }
 
 .we-are-proud .wap-text {
@@ -731,16 +759,6 @@
 
 .wap-text-left p {
   padding-top: 10px;
-}
-
-.we-are-proud-in .fold-wrap {
-  display: flex;
-  gap: 24px;
-  width: min(60vw, 1050px);
-  flex-shrink: 0;
-  height: 100%;
-  min-height: 0;
-  box-sizing: border-box;
 }
 
 .fold-wrap.hrzntl-scroll-company {
@@ -825,6 +843,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  justify-content: center;
 }
 
 .tools-to-build .heading {
@@ -834,8 +853,9 @@
 
 /* horizontal track — GSAP translates this */
 .ttb-track {
-  flex: 1;
-  min-height: 0;
+  /* flex: 1;
+  min-height: 0; */
+  height: 100%;
   display: flex;
   padding-bottom: 40px;
 }
@@ -856,7 +876,7 @@
   box-sizing: border-box;
 
   display: flex;
-  gap: 60px;
+  gap: 24px;
   align-items: end;
 }
 
@@ -940,25 +960,34 @@
   background-color: var(--sp-red);
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 /* horizontal track — GSAP translates this */
 .ybl-track {
   display: flex;
   height: 100%;
+  /* width: 100%; */
+  /* gap: 150px; */
 }
 
 /* each fold = one viewport wide */
 .your-brands-fold {
-  width: 100vw;
+  /* width: 100vw; */
   flex-shrink: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 60px 60px 60px 0;
+  padding: 0px 0px 60px 0;
   box-sizing: border-box;
   position: relative;
+  width: 80%;
+}
+
+.your-brands-fold:last-child{
+  width: 100%;
 }
 
 /* vertical "Services" label on the left */
@@ -981,7 +1010,7 @@
 .your-brands-fold-wrap {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 60px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -1159,9 +1188,9 @@
   padding-right: 60px;
 }
 
-.testimonial-slider-wrap.gap-left {
+/* .testimonial-slider-wrap.gap-left {
   padding-left: 245px;
-}
+} */
 
 .testimonial-slider-wrap .swiper {
   overflow: hidden;
@@ -1734,10 +1763,14 @@
 }
 
 .founder-slide-wrapper {
-  max-width: calc(100% - 305px);
+  /* max-width: calc(100% - 305px);
   margin-left: auto;
-  margin-right: 60px;
+  margin-right: 60px; */
   /* padding: 0 10px 0 245px; */
+  overflow: hidden;
+}
+
+.founder-track-in{
   overflow: hidden;
 }
 

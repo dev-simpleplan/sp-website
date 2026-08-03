@@ -164,7 +164,7 @@
   }
 
   .testimonial-slider-wrap.gap-left {
-    padding-left: 20px;
+    padding-left: 0px;
   }
 
   .tb-heading {
@@ -370,7 +370,7 @@
 
   .ready-to-build {
     height: auto;
-    padding: 0 0 50px;
+    padding: 50px 0px;
   }
 
   .ready-to-build-in p {
@@ -390,7 +390,19 @@
   }
 
 
-
+  .we-are-proud-in{
+    width: 100%;
+    padding-right: 0;
+  }
+  .we-are-proud-in>a {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 10px 0px 20px;
+  }
+  .we-are-proud-in .fold-wrap{
+    width: 100%;
+  }
   .we-are-proud-in .fold-wrap .left .wap-img {
     flex: 0;
     min-height: 300px;
@@ -406,22 +418,31 @@
     font-size: 14px;
   }
 
-  .we-do-stand .container {
-    padding: 0;
+
+  /* YOUR BRAND LOOKS SECTION ----------------------- */
+  .your-brands-fold{
+    padding: 0 20px 0 0;
+    width: 100%;
+  }
+  .ybf-img{
+    width: 100%;
   }
 
+
+
+  /* WHAT WE DO SECTION ----------------------- */
   .wds-top-heading {
     margin-bottom: 20px;
   }
-
   .we-do-stand-in {
     grid-template-columns: 1fr;
+    padding: 0;
   }
-
   .wds-left {
     height: 100%;
     min-height: 300px;
   }
+
 
 
   .meet-simp-video {
@@ -429,18 +450,25 @@
   }
 
 
-  .testimonial-slider-wrap {
-    padding-right: 20px;
-  }
 
+  /* TESTIMONIAL SECTION ----------------------- */
+  .testimonial-slider-wrap {
+    padding-right: 0px;
+  }
   .testimonial-slider-wrap .swiper-slide {
     width: 100%;
   }
 
+
+
+
+  /* TOOLS TO BUILD SECTION ----------------------- */
+  .ttb-fold{
+    padding: 0;
+  }
   .ttb-card-img {
     height: 100%;
   }
-
   .ttb-card {
     width: 260px
   }
@@ -468,7 +496,7 @@
   }
 
   .tools-to-build .heading.gap-left {
-    padding: 60px 0 20px;
+    padding: 0;
   }
 
   .ttb-fold {
@@ -491,7 +519,7 @@
   }
 
   .think-to-build {
-    padding-top: 30px;
+    padding-top: 60px;
   }
 
 
@@ -513,6 +541,13 @@
 
   .founder-slide-wrapper {
     margin-right: 0;
+  }
+  .founder-slide-wrapper.gap-left{
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .we-are-proud-in > a:last-child .fold-wrap{
+    width: 100%;
   }
 
 
@@ -577,4 +612,81 @@
     display: flex;
   }
 
+  .heading{
+    margin-bottom: 30px;
+  }
+
 }
+
+
+/* @media screen and (max-width: 991px) {
+    .founder-slide-wrapper{
+    margin-right: 0;
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+.standards-card.left{
+    left: 0;
+  }
+
+.we-are-proud-in .fold-wrap{
+    flex-direction: column;
+  }
+  .we-are-proud-in .fold-wrap .right{
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+.ttb-fold{
+    width: 100vw;
+    align-items: center;
+    gap: 20px;
+    padding: 60px 120px 60px 0;
+  }
+
+.founders-section .your-brands-fold {
+    max-width: 100%;
+    padding: 20px 20px 20px 0px;
+  }
+
+.we-are-proud-head {
+    max-width: 70ch;
+}
+.spFor-good-grid{
+    grid-template-columns: 1fr;
+}
+.for-good-img{
+    aspect-ratio: 16/9;
+}
+}
+
+@media screen and (max-width: 991px) {
+  .your-brands-fold {
+    padding: 60px 120px 60px 0px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .testimonial-slider-wrap.gap-left{
+    padding-left: 60px;
+  }
+}
+@media screen and (max-width: 767px) {
+    .standards-card .standard-card-num{
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+  .standards-card .standard-card-title{
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .standards-card .standard-card-info{
+    font-size: 16px;
+  }
+
+  .open-position .reveal-heading{
+    margin-bottom: 30px;
+  }
+} */

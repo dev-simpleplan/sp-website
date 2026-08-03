@@ -15,49 +15,47 @@ export default function TestimonialSection({ id, data }) {
 
   return (
     <section className="testimonial-section" id={id}>
-  
-
-      <div className="testimonial-slider-wrap gap-left">
-        <Swiper
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          slidesPerView={1}
-          spaceBetween={0}
-          loop={false}
-          rewind={true}
-          breakpoints={{
-            // 480:  { slidesPerView: 1, spaceBetween: 0 },
-            768:  { slidesPerView: 1.5, spaceBetween: 48 },
-            1024: { slidesPerView: 2.2, spaceBetween: 56 },
-          }}
-        >
-          {testimonials.map((t) => (
-            <SwiperSlide key={t.id}>
-              <div className="testimonial-block">
-                <div className="ts-platform">
-                  <div className="ts-brand-logo">
-                    <img src={brandImg.src} alt="Platform" className="icon" />
+      <div className="container">
+        <div className="testimonial-slider-wrap gap-left">
+          <Swiper
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            slidesPerView={1}
+            spaceBetween={0}
+            loop={false}
+            rewind={true}
+            breakpoints={{
+              // 480:  { slidesPerView: 1, spaceBetween: 0 },
+              768:  { slidesPerView: 1.5, spaceBetween: 48 },
+              1024: { slidesPerView: 2.2, spaceBetween: 56 },
+            }}
+          >
+            {testimonials.map((t) => (
+              <SwiperSlide key={t.id}>
+                <div className="testimonial-block">
+                  <div className="ts-platform">
+                    <div className="ts-brand-logo">
+                      <img src={brandImg.src} alt="Platform" className="icon" />
+                    </div>
+                  </div>
+                  <p className="ts-quote">{t.testimonial_text?.[0]?.children?.[0]?.text}</p>
+                  <div className="author">
+                    <div className="author-img">
+                      <img
+                        src={getImageUrl(t.user_image)}
+                        alt={t.user_name}
+                        className="img"
+                      />
+                    </div>
+                    <div className="author-details">
+                      <p className="author-name">{t.user_name}</p>
+                      <p className="author-desig">{t.user_designation}</p>
+                    </div>
                   </div>
                 </div>
-                <p className="ts-quote">{t.testimonial_text?.[0]?.children?.[0]?.text}</p>
-                <div className="author">
-                  <div className="author-img">
-                    <img
-                      src={getImageUrl(t.user_image)}
-                      alt={t.user_name}
-                      className="img"
-                    />
-                  </div>
-                  <div className="author-details">
-                    <p className="author-name">{t.user_name}</p>
-                    <p className="author-desig">{t.user_designation}</p>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-          <div className="container">
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
         <div className="testimonial-top gap-left">
           <div className="testimonial-nav">
             <button className="ts-nav-btn" onClick={() => swiperRef.current?.slidePrev()} aria-label="Previous">
