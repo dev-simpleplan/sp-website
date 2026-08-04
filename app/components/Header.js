@@ -118,6 +118,7 @@ export default function Header() {
   const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
   const headerRef = useRef(null);
   const [isInStickySection, setIsInStickySection] = useState(false);
+  const [isHiddenByScroll, setIsHiddenByScroll] = useState(false);
   const headerBarRef = useRef(null);
   
   const closeTimeoutRef = useRef(null);
@@ -232,6 +233,43 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Hide the header on scroll-down, reveal it on scroll-up — mainly so it
+  // doesn't sit on top of the sticky-stacking sections' cards. Always shown
+  // near the very top of the page and while any menu is open.
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const DIRECTION_THRESHOLD = 10; // ignore tiny scroll jitter
+    const ALWAYS_SHOW_ABOVE = 80; // never hide near the top of the page
+
+    function handleScroll() {
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        const delta = currentY - lastY;
+
+        if (isAnyMenuOpen) {
+          setIsHiddenByScroll(false);
+        } else if (currentY <= ALWAYS_SHOW_ABOVE) {
+          setIsHiddenByScroll(false);
+        } else if (delta > DIRECTION_THRESHOLD) {
+          setIsHiddenByScroll(true);
+        } else if (delta < -DIRECTION_THRESHOLD) {
+          setIsHiddenByScroll(false);
+        }
+
+        lastY = currentY;
+        ticking = false;
+      });
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isAnyMenuOpen]);
+
   // Lock page scroll while the mobile menu overlay is open
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
@@ -284,7 +322,7 @@ export default function Header() {
   className={`${styles.spHeader} ${
     isScrolled ? styles.spHeaderScrolled : ""
   } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""} ${
-    isInStickySection ? styles.spHeaderHidden : ""
+    (isInStickySection || isHiddenByScroll) ? styles.spHeaderHidden : ""
   }`}
   ref={headerRef}
 >

@@ -2367,6 +2367,10 @@ a.custom-btn.cta {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    position: sticky;
+    top: 90px;
+    background-color: var(--sp-red);
+    padding-bottom: 20px;
   }
 
   .wds-mobile-img {

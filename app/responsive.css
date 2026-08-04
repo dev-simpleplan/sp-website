@@ -702,6 +702,15 @@
    {position:absolute} etc. rules above, built for the old GSAP mobile
    crossfade. */
 @media screen and (max-width: 767px) {
+  /* globals.css gives these overflow:hidden for the desktop horizontal-
+     scroll clip — on mobile that also clips the sticky cards below, since
+     position:sticky doesn't stick inside an overflow:hidden ancestor.
+     Desktop rule (globals.css) is untouched. */
+  .slider-wrapper-outer,
+  .slider-wrapper-inner {
+    overflow: visible;
+  }
+
   .we-are-proud-in > a,
   .we-are-proud-in .fold-wrap {
     position: sticky;
