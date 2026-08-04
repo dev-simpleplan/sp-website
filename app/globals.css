@@ -139,6 +139,10 @@ li {
   color: #fff;
 } */
 
+.heading{
+  margin-bottom: 100px;
+}
+
 .custom-btn {
   font-weight: 500;
   font-size: 14px;
@@ -373,17 +377,6 @@ img {
   padding: 0 10px 0 185px;
 }
 
-/* .wds-viewport.gap-left {
-  padding: 60px 48px 60px 245px;
-} */
-
-/* .we-are-proud-in.gap-left {
-  padding-left: 245px;
-} */
-
-.tools-to-build .heading.gap-left{
-  padding: 60px 0 40px 185px;
-}
 
 .spFooterHero.gap-left {
   padding-left: calc(185px - 48px);
@@ -402,6 +395,10 @@ img {
 @media screen and (max-width: 991px) {
   .right_side_line {
     display: none;
+  }
+
+  .heading {
+    margin-bottom: 20px;
   }
 
   .gap-left {
