@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { getImageUrl } from "../getImageUrl";
+import useStickyHorizontalTrack from "../../hooks/useStickyHorizontalTrack";
 
 // Strapi rich-text fields come back as an array of paragraph nodes
 // ([{ children: [{ text }] }]) elsewhere in this project, but some fields
@@ -52,119 +51,131 @@ export default function MeetTheTeam({ id, data }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  useEffect(() => {
-    if (isSlider) return; // desktop-only GSAP pin-scroll
-    if (!members.length) return;
+  // useEffect(() => {
+  //   if (isSlider) return; // desktop-only GSAP pin-scroll
+  //   if (!members.length) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+  //   gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      const track = trackRef.current;
-      if (!track) return;
+  //   const ctx = gsap.context(() => {
+  //     const track = trackRef.current;
+  //     if (!track) return;
 
-      const getDistance = () =>
-        Math.max(0, track.scrollWidth - window.innerWidth);
+  //     const getDistance = () =>
+  //       Math.max(0, track.scrollWidth - window.innerWidth);
 
-      // Extra scroll "held" at the start/end of the pin — a pause before
-      // the horizontal move begins and another before the section unpins,
-      // matching the rest of the site's horizontal-scroll sections.
-      const START_HOLD = 300;
-      const END_HOLD = 300;
-      const distance = getDistance();
+  //     // Extra scroll "held" at the start/end of the pin — a pause before
+  //     // the horizontal move begins and another before the section unpins,
+  //     // matching the rest of the site's horizontal-scroll sections.
+  //     const START_HOLD = 300;
+  //     const END_HOLD = 300;
+  //     const distance = getDistance();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          anticipatePin: 1,
-          scrub: 1.2,
-          end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
-          invalidateOnRefresh: true,
-        },
-      });
+  //     const tl = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: sectionRef.current,
+  //         pin: true,
+  //         anticipatePin: 1,
+  //         scrub: 1.2,
+  //         end: () => `+=${START_HOLD + getDistance() + END_HOLD}`,
+  //         invalidateOnRefresh: true,
+  //       },
+  //     });
 
-      tl.to(track, { x: 0, duration: START_HOLD })
-        .to(track, { x: () => -getDistance(), ease: "none", duration: distance || 1 })
-        .to(track, { x: () => -getDistance(), duration: END_HOLD });
-    }, sectionRef);
+  //     tl.to(track, { x: 0, duration: START_HOLD })
+  //       .to(track, { x: () => -getDistance(), ease: "none", duration: distance || 1 })
+  //       .to(track, { x: () => -getDistance(), duration: END_HOLD });
+  //   }, sectionRef);
 
-    return () => ctx.revert();
-  }, [isSlider, members.length]);
+  //   return () => ctx.revert();
+  // }, [isSlider, members.length]);
+  useStickyHorizontalTrack(
+    sectionRef,
+    trackRef,
+    [members.length, isSlider],
+    {
+      enabled: !isSlider,
+    }
+  );
 
   if (!members.length) return null;
 
   return (
     <section ref={sectionRef} className="meet-team" id={id} data-sticky-section>
-      <div className="meet-team-in">
+      
+      <div className="meet-team-sticky">
+        <div className="container">
+          <div className="meet-team-in">
+                  <div className="section_heading gap-left">
+                      <h2 className="reveal-heading">{heading}</h2>
+                  </div>
 
-        <div className="founder-slide-wrapper">
-            <div className="founder-track-in">
-                <div className="container">
-                  <h2 className="reveal-heading">{heading}</h2>
-                </div>
+                  <div className="slider-wrapper-outer gap-left">
+                    <div className="slider-wrapper-inner">
+                        {isSlider ? (
+                          <div className="meet-team-slider">
+                              <Swiper
+                              onSwiper={(sw) => (swiperRef.current = sw)}
+                              slidesPerView={1}
+                              spaceBetween={24}
+                              watchOverflow={true}
+                              rewind={true}
+                              breakpoints={{
+                                  0: {
+                                  slidesPerView: 1,
+                                  },
+                                  480: {
+                                  slidesPerView: 1.3,
+                                  },
+                                  768:{
+                                      slidesPerView: 1,
+                                  },
+                              }}
+                              >
+                              {members.map((member, i) => (
+                                  <SwiperSlide key={member.id ?? i}>
+                                  <TeamCard member={member} />
+                                  </SwiperSlide>
+                              ))}
+                              </Swiper>
 
-                {isSlider ? (
-                <div className="meet-team-slider gap-left">
-                    <Swiper
-                    onSwiper={(sw) => (swiperRef.current = sw)}
-                    slidesPerView={1}
-                    spaceBetween={24}
-                    watchOverflow={true}
-                    rewind={true}
-                    breakpoints={{
-                        0: {
-                        slidesPerView: 1,
-                        },
-                        480: {
-                        slidesPerView: 1.3,
-                        },
-                        768:{
-                            slidesPerView: 1,
-                        },
-                    }}
-                    >
-                    {members.map((member, i) => (
-                        <SwiperSlide key={member.id ?? i}>
-                        <TeamCard member={member} />
-                        </SwiperSlide>
-                    ))}
-                    </Swiper>
+                              <div className="mt-nav">
+                              <button
+                                  className="ts-nav-btn"
+                                  onClick={() => swiperRef.current?.slidePrev()}
+                                  aria-label="Previous"
+                              >
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M15 18l-6-6 6-6" />
+                                  </svg>
+                              </button>
 
-                    <div className="mt-nav">
-                    <button
-                        className="ts-nav-btn"
-                        onClick={() => swiperRef.current?.slidePrev()}
-                        aria-label="Previous"
-                    >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M15 18l-6-6 6-6" />
-                        </svg>
-                    </button>
-
-                    <button
-                        className="ts-nav-btn"
-                        onClick={() => swiperRef.current?.slideNext()}
-                        aria-label="Next"
-                    >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </button>
+                              <button
+                                  className="ts-nav-btn"
+                                  onClick={() => swiperRef.current?.slideNext()}
+                                  aria-label="Next"
+                              >
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M9 18l6-6-6-6" />
+                                  </svg>
+                              </button>
+                              </div>
+                          </div>
+                          ) : (
+                          <div ref={trackRef} className="mt-track">
+                              {members.map((member, i) => (
+                              <div className="meet-team-fold" key={member.id ?? i}>
+                                  <TeamCard member={member} />
+                              </div>
+                              ))}
+                          </div>
+                          )}
                     </div>
-                </div>
-                ) : (
-                <div ref={trackRef} className="mt-track gap-left">
-                    {members.map((member, i) => (
-                    <div className="meet-team-fold" key={member.id ?? i}>
-                        <TeamCard member={member} />
-                    </div>
-                    ))}
-                </div>
-                )}
-            </div>
+                  </div>
+          </div>
         </div>
-        
       </div>
+      
     </section>
   );
 }

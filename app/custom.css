@@ -878,6 +878,7 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  aspect-ratio: 2 / 0.95;
 }
 
 .we-are-proud-in .fold-wrap .left .wap-img .img {

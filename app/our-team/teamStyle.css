@@ -2,32 +2,64 @@
     text-transform: uppercase;
 }
 
+.standards-section{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0 0;
+}
+
+
+.cards-stage {
+    height: 400px;
+    margin-top: 100px;
+}
 
 /* ── Meet The Team ────────────────────────────────────────── */
 .meet-team {
   background-color: var(--sp-red);
+  /* overflow: hidden; */
+  height: 500vh;;
+  position: relative;
+}
+
+.meet-team-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
  
 .meet-team-in {
-  padding: 80px 0;
+  padding: 100px 0;
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
  
-.meet-team .reveal-heading {
-  margin-bottom: 40px;
+.meet-team-in .section_heading {
+  margin-bottom: 100px;
 }
  
 .mt-track {
   display: flex;
+  gap: 30vw;
 }
  
 .meet-team-fold {
-  width: 100vw;
+  /* width: 100vw; */
   flex-shrink: 0;
   box-sizing: border-box;
   padding-right: 60px;
+}
+
+.meet-team-fold:last-child{
+  width: 100vw;
 }
  
 .meet-team-fold-wrap,
@@ -101,7 +133,14 @@
 
 
 #our_approach_team .heading{
-    margin-bottom: 0px;
+    margin-bottom: 100px;
+}
+
+#our_approach_team{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0;
 }
 
 
@@ -114,15 +153,20 @@
 /* ── Open Position ────────────────────────────────────────── */
 .open-position {
   background-color: var(--sp-red);
+  min-height: 100vh;
+  /* border: 1px solid white; */
+  display: flex;
+  align-items: center;
+  padding-bottom: 100px;
 }
 
 .open-position-in {
-  padding: 80px 0 200px;
+  /* padding: 80px 0 200px; */
   position: relative;
 }
 
 .open-position .reveal-heading {
-  margin-bottom: 56px;
+  margin-bottom: 100px;
 }
 
 .op-list {
@@ -192,6 +236,21 @@
   height: 14px;
 }
 
+.sp-for-good-sec{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0;
+}
+
+.spFor-good-in{
+  gap: 0;
+}
+
+.spFor-good-in .heading{
+  margin-bottom: 100px;
+}
+
 
 @media screen and (max-width: 1200px) {
     .custom-banner{
@@ -220,17 +279,37 @@
     }
 }
 
+@media screen and (max-width: 1024px) {
+  .gap-left{
+    padding-left: 0;
+  }
+  .meet-team {
+    height: 100vh;;
+  }
+  .meet-team-in .section_heading{
+    margin-bottom: 30px;
+  }
+  .meet-team-fold{
+    width: 100%;
+  }
+  .meet-team-fold:last-child{
+    width: 100%;
+  }
+}
 @media screen and (max-width: 991px) {
   .meet-team-in {
-    padding: 60px 0 140px;
+    padding: 60px 0;
     height: auto;
-  }
-  .open-position-in{
-    padding: 0 0 140px;
   }
   .mt-right{
     padding-right: 60px;
     padding-bottom: 20px;
+  }
+  .spFor-good-in .heading{
+    margin-bottom: 40px;
+  }
+  .open-position .reveal-heading{
+    margin-bottom: 40px;
   }
   .custom-banner-img{
     width: 100%;
@@ -242,8 +321,12 @@
     align-items: center;
   }
 
+  .our-approach-top {
+        margin-bottom: 0px;
+    }
+
     #our_approach_team .heading{
-        margin-bottom: 20px;
+        margin-bottom: 40px;
     }
 }
 
@@ -264,6 +347,23 @@
   .meet-team-fold-wrap, .meet-team-slider .meet-team-fold-wrap{
     grid-template-columns: 1fr;
   }
+
+  .open-position{
+    padding: 0;
+    min-height: auto;
+    padding-bottom: 50px;
+  }
+
+  .cards-stage{
+    height: 300px;
+  }
+  .standards-card{
+    max-width: 300px;
+  }
+  #our_approach_team{
+    padding-bottom: 0;
+  }
+
   .meet-team-slider .mt-img{
     aspect-ratio: unset;
     height: 300px;
@@ -291,6 +391,11 @@
 @media screen and (max-width: 480px) {
     .custom-banner-cntnt{
         gap: 30px;
+    }
+
+    .op-row .reveal-up-inner{
+      display: flex;
+      flex-direction: column;
     }
 }
 
