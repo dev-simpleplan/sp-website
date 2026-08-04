@@ -194,7 +194,10 @@
 
 .bringing-clarity {
   background-color: var(--sp-red);
-  padding: 194px 0px 150px 0px;
+  padding: 100px 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .bringing-clarity .heading h2 {
@@ -202,15 +205,24 @@
   max-width: 24ch;
 }
 
+.bringing-clarity-in{
+  display: flex;
+  flex-direction: column;
+}
+
 .bringing-clarity-in .list-wrap {
   display: flex;
   justify-content: end;
-  margin-top: 132px;
+  /* margin-top: 132px; */
 }
 
 .our-approach {
   background-color: var(--sp-red);
-  padding-bottom: 140px;
+  /* padding-bottom: 140px; */
+  min-height: 100vh;
+  padding: 100px 0;
+  display: flex;
+  align-items: center;
 }
 
 /* heading + nav row */
@@ -222,9 +234,9 @@
   margin-bottom: 0;
 }
 
-.our-approach .heading {
+/* .our-approach .heading {
   margin-bottom: 50px;
-}
+} */
 
 .oa-nav {
   display: none;
@@ -304,6 +316,12 @@
 #like-what-you-see-company {
   padding-top: 0;
   padding-bottom: 150px;
+}
+
+.like-what-you-see-in{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
 
 .like-what-you-see .heading h2 {
@@ -601,12 +619,12 @@
 }
 
 .meet-the-simp .heading {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 
 .meet-the-simp .heading h2 {
   font-style: italic;
-  margin-bottom: 16px;
+  margin-bottom: 100px;
 }
 
 .meet-the-simp-in {
@@ -693,6 +711,7 @@
   background-color: var(--sp-red);
   height: 400vh;
   position: relative;
+  padding: 100px 0;
 }
 
 .we-are-proud-sticky {
@@ -711,12 +730,12 @@
 
 .we-are-proud .heading {
   padding-top: 20px;
-  margin-bottom: 40px;
+  /* margin-bottom: 80px; */
 }
 
-/* .we-are-proud-head {
-  max-width: 830px;
-} */
+.we-are-proud-head .heading {
+  margin-bottom: 20px;
+}
 
 /* horizontal track — transform driven by page scroll, see WeAreProud.js */
 .we-are-proud-in {
@@ -770,9 +789,9 @@
   padding-top: 10px;
 }
 
-.fold-wrap.hrzntl-scroll-company {
+/* .fold-wrap.hrzntl-scroll-company {
   height: 460px;
-}
+} */
 
 /* ── company page's WeAreProud_headingScroll.js — distinct classnames so
    its scroll runway doesn't collide with the homepage's .we-are-proud ── */
@@ -807,7 +826,7 @@
   flex-direction: column;
   gap: 20px;
   flex-shrink: 0;
-  width: min(70vw, 1000px);
+  width: 80%;
 }
 
 .we-are-proud-company-card .fold-wrap {
@@ -949,16 +968,22 @@
 .tools-to-build-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* padding: 50px 0; */
 }
 
+
 .tools-to-build .heading {
-  padding: 60px 0 40px;
   flex-shrink: 0;
+  margin-bottom: 50px;
+}
+
+.tools-to-build .heading.gap-left{
+  padding-left: 185px;
 }
 
 /* horizontal track — transform driven by page scroll, see ToolsToBuild.js.
@@ -1077,10 +1102,11 @@
 .your-brands-look-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
+  padding: 50px 0;
 }
 
 /* ── company page's Founders.js — distinct classnames so its scroll
@@ -1094,10 +1120,14 @@
 .founders-section-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
+}
+
+.founders-section-sticky .heading{
+  margin-bottom: 30px;
 }
 
 /* horizontal track — transform driven by page scroll, see YourBrandsLook.js */
@@ -1881,12 +1911,12 @@
 
 .founders-section .your-brands-fold {
   max-width: 80vw;
-  padding: 20px 60px 60px 0;
+  padding: 20px 60px 0px 0;
 }
 
 .founderSec-left-cntnt .ybf-img {
-  width: 449px;
-  height: 500px;
+  /* width: 449px; */
+  /* height: 500px; */
   overflow: hidden;
 }
 
@@ -1965,6 +1995,27 @@
 .award-info .award-year {
   font-weight: 400;
 }
+
+
+
+/* ṬRANSFORMATION SECTION ------------------- */
+.fold-wrap.hrzntl-scroll-company .left{
+  width: 80%;
+}
+.fold-wrap.hrzntl-scroll-company .left .wap-img{
+    height: 100%;
+    width: 100%;
+    max-height: 400px;
+    margin-bottom: 20px;
+}
+.fold-wrap.hrzntl-scroll-company .right{
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+
 
 
 /* STANDARDS SECTION ------------------------- */
@@ -2279,7 +2330,7 @@ a.custom-btn.cta {
   }
 
   .home-banner {
-    padding: 160px 40px 100px;
+    padding: 160px 40px 50px;
   }
 }
 
