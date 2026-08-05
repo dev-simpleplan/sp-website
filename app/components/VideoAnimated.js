@@ -75,43 +75,49 @@ export default function VideoAnimated({ id, data }) {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        frameRef.current,
-        {
-          y: "30vh",
-        },
-        {
-          y: "0vh",
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-          },
-        }
-      );
+    const mm = gsap.matchMedia();
 
-      gsap.fromTo(
-        innerRef.current,
-        {
-          scale: 0.62,
-        },
-        {
-          scale: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1.5,
+    mm.add("(min-width: 768px)", () => {
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          frameRef.current,
+          {
+            y: "30vh",
           },
-        }
-      );
-    }, sectionRef);
+          {
+            y: "0vh",
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "top top",
+              scrub: true,
+            },
+          }
+        );
 
-    return () => ctx.revert();
+        gsap.fromTo(
+          innerRef.current,
+          {
+            scale: 0.62,
+          },
+          {
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1.5,
+            },
+          }
+        );
+      }, sectionRef);
+
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
