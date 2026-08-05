@@ -690,6 +690,38 @@ section.we-are-proud-section {
     .approach-sec-in .heading {
         max-width: 50ch;
     }
+
+    section.video-animated-section.service-inner {
+        padding-bottom: 80px;
+    }
+
+    section.we-are-proud-section .we-are-proud-head {
+        margin-bottom: 0;
+        padding-top: 80px;
+    }
+
+    .ap-text-right p {
+        padding-top: 15px;
+        font-size: 18px;
+    }
+
+    .proud-content-wrapper {
+        gap: 15px;
+    }
+
+    .card-details {
+        max-width: 100%;
+    }
+
+    .we-are-proud-section .we-are-proud .wap-text p {
+        font-size: 14px;
+    }
+
+    .we-are-proud-section .fw-right-top {
+        gap: 48px;
+    }
+
+
 }
 
 @media (max-width: 991px) {

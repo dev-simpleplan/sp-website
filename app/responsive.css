@@ -167,7 +167,7 @@
 
   .fw-right-top h4 span {
     font-size: 20px;
-    padding-left: 5px;
+    padding-left: 0px;
   }
 
   .fw-right-top p {
@@ -368,6 +368,10 @@
   .home-banner {
     padding: 180px 0px 0px;
     height: auto;
+  }
+
+  section#service-banner {
+    padding: 180px 0 60px;
   }
 
   .ticker-track {
@@ -812,7 +816,7 @@
 
   .ready-to-build {
     height: auto;
-    padding: 100px 0 50px;
+    padding: 15px 0 50px;
   }
 
   .testimonial-section {
