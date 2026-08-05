@@ -69,6 +69,26 @@
 
 
 @media screen and (max-width: 767px) {
+
+  .ticker-section{
+    padding: 100px 0;
+  }
+  .ticker-track{
+    margin-top: 0;
+  }
+
+  .video-animated-section{
+    height: auto;
+  }
+
+  .video-animated-sticky{
+    height: 65vh;
+  }
+  .video-animated-inner{
+    width: calc(100% - 40px);
+  }
+
+
   .bringing-clarity-in .list-wrap {
     margin-top: 30px;
     justify-content: start;
@@ -80,8 +100,11 @@
 
   .meet-the-simp-in {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 20px;
     align-items: end;
+  }
+  .meet-the-simp .right p{
+    font-size: 16px;
   }
 
   .like-what-you-see .counter-block:nth-child(2) {
@@ -142,7 +165,7 @@
   }
 
   .fw-right-top h4 {
-    font-size: 24px;
+    font-size: 48px;
   }
 
   .fw-right-top h4 span {
@@ -196,6 +219,9 @@
 
   .we-do-stand-in {
     gap: 20px;
+  }
+  .wds-mobile-card{
+    padding-top: 20px;
   }
 
   .ttb-track {
@@ -358,19 +384,25 @@
   }
 
   .home-banner {
-    padding: 150px 0px 80px;
+    padding: 180px 0px 0px;
+    height: auto;
   }
 
   .ticker-track {
     margin-top: 0;
   }
 
+  .video-animated-sticky
   .video-animated-inner {
-    aspect-ratio: 9 / 16;
+    aspect-ratio: 16/9;
+  }
+
+  .video-animated-sticky{
+    height: 30vh;
   }
 
   .bringing-clarity {
-    padding: 60px 0 30px;
+    padding: 100px 0 30px;
   }
 
   .our-approach {
@@ -379,6 +411,10 @@
 
   .we-are-proud {
     padding-top: 50px;
+  }
+
+  .like-what-you-see .counter-wrap{
+    flex-direction: column;
   }
 
 
@@ -448,6 +484,7 @@
   }
   .ybf-img{
     width: 100%;
+    aspect-ratio: 1/0.8;
   }
 
 
@@ -493,6 +530,9 @@
   }
   .ttb-card {
     width: 260px
+  }
+  .tools-to-build .heading{
+    margin-bottom: 0;
   }
 
 
@@ -742,7 +782,7 @@
 
 .founders-section .your-brands-fold {
     max-width: 100%;
-    padding: 20px 20px 20px 0px;
+    padding: 20px 20px 0px;
   }
 
 .we-are-proud-head {
@@ -804,11 +844,13 @@
     width: 100%;
     padding: 0px;
     background-color: var(--sp-red);
+    padding-top: 20px;
   }
 
   .we-are-proud-in .fold-wrap .right {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+
   }
 
   .ttb-fold {
@@ -824,6 +866,7 @@
     width: 100%;
     background-color: var(--sp-red);
     padding: 0;
+    padding-top: 20px;
   }
 
   .we-are-proud-in-company > a {
@@ -862,9 +905,14 @@
   }
   .ttb-fold{
     padding: 0;
+    padding-top: 20px;
   }
 
   .meet-the-simp .heading h2{
     margin-bottom: 20px;
+  }
+
+  .ready-to-build-in p{
+    font-size: 16px;
   }
 }

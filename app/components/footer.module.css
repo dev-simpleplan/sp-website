@@ -218,7 +218,7 @@
 
 @media (max-width: 768px) {
     .spFooterInner {
-        padding: 56px 24px 40px 24px;
+        padding: 56px 0 40px;
     }
 
     .spFooterHero {
@@ -282,7 +282,7 @@
 
 @media (max-width: 480px) {
     .spFooterInner {
-        padding: 48px 20px 28px 20px;
+        padding: 48px 0 28px;
     }
 
     .spFooterHeading {
