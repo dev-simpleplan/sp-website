@@ -10,12 +10,10 @@ import Awards from '../components/company/Awards';
 import HowWeDoIt from '../components/company/HowWeDoIt';
 import Initiatives from "../components/company/Initiatives";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
-// import BringingClarity from '../components/BringingClarity';
-// import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/company/WeAreProud_headingScroll';
 import ReadyToBuild from "../components/ReadyToBuid";
 import "../our-team/teamStyle.css"
-// import HowThisShowUp from '../components/service/HowThisShowsUp';
+import RightSideLine from "../components/RightSideLine";
 
 
 export default function BrandingServicePage(){
@@ -92,20 +90,21 @@ export default function BrandingServicePage(){
   
 
   const HOME_SECTIONS = [
-    // { id: "company_apprch", label: "About" },
-    // { id: "ethos", label: "Ethos" },
-    // { id: "founders-sec", label: "Founder" },
-    // { id: "best_awards", label: "Awards" },
-    // { id: "we-are-proud", label: "Testimonials" },
-    // { id: "ReadyToBuild", label: "Get In Touch" },
-    // { id: "we_do_differently", label: "Standards" },
-    // { id: "initiative_section", label: "Initiatives" },
+    { id: "company_apprch", label: sections.company_about?.tagline },
+    { id: "ethos", label: sections.we_believe_in?.tagline },
+    { id: "founders-sec", label: sections.founder_section?.tagline },
+    { id: "best_awards", label: sections.awards_and_stats?.tagline },
+    { id: "we-are-proud", label: "Transformation" },
+    { id: "ReadyToBuild", label: sections.get_in_touch?.Tagline },
+    { id: "we_do_differently", label: sections.we_do_differently?.tagline },
+    { id: "initiative_section", label: sections.initiative_section?.tagline },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
-      <CompanyBanner id="company-hero" data={sections.company_banner} />
+      <RightSideLine id="rightLine"/>
+      <CompanyBanner id="company-hero" data={sections.company_banner} loading={loading}/>
       <ApproachBranding id="company_apprch" data={sections.company_about} />
       <Ethos id="ethos" data={sections.we_believe_in} />
       <Founders id="founders-sec" data={sections.founder_section}/>

@@ -13,7 +13,7 @@ import { getImageUrl } from "../getImageUrl";
 
 export default function AwardsTicker({ id, data }) {
     const tickerRef = useRef(null);
-
+    // console.log(data?.title)
     useEffect(() => {
         const ticker = tickerRef.current;
 
