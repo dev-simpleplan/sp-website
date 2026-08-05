@@ -11,7 +11,7 @@ export default function YourBrandsLook({ id, data }) {
   useStickyHorizontalTrack(sectionRef, trackRef, [folds.length]);
 
   return (
-    <section ref={sectionRef} className="your-brands-look" id={id}>
+    <section ref={sectionRef} className="your-brands-look" id={id} data-sticky-section>
       <div className="your-brands-look-sticky">
         <div className="container">
 
