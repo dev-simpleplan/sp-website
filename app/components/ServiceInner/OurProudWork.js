@@ -27,7 +27,7 @@ export default function OurProudWork({ id, data }) {
         </div>
       </div>
 
-      <div ref={sectionRef} className="we-are-proud">
+      <div ref={sectionRef} className="we-are-proud" data-sticky-section>
         <div className="we-are-proud-sticky">
           <div className="container">
           <div className="slider-wrapper-outer gap-left">

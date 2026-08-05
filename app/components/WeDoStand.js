@@ -13,7 +13,7 @@ export default function WeDoStand({ id, data }) {
   useStickyStepStack(sectionRef, itemRefs, imgRefs, wrapRef, items.length);
 
   return (
-    <section ref={sectionRef} className="we-do-stand" id={id}>
+    <section ref={sectionRef} className="we-do-stand" id={id} data-sticky-section>
       <div className="we-do-stand-sticky">
         {/* <div className="wds-viewport gap-left"> */}
           <div className="container">

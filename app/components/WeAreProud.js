@@ -16,7 +16,7 @@ export default function WeAreProud({ id, data }) {
   if (!data) return null;
 
   return (
-    <section ref={sectionRef} className="we-are-proud" id={id}>
+    <section ref={sectionRef} className="we-are-proud" id={id} data-sticky-section>
       <div className="we-are-proud-sticky">
         <div className="container">
           <div className="we-are-proud-head gap-left">
