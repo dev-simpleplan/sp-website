@@ -8,6 +8,7 @@ import OurApproach from "../components/OurApproach";
 import HowWeDoIt from '../components/company/HowWeDoIt';
 import OpenPosition from "../components/team/OpenPosition";
 import Initiatives from "../components/company/Initiatives";
+import RightSideLine from "../components/RightSideLine";
 import "./teamStyle.css";
 import "../custom.css";
 import "../responsive.css";
@@ -89,19 +90,18 @@ export default function BrandingServicePage(){
   
 
   const HOME_SECTIONS = [
-    // { id: "company_apprch", label: "About" },
-    // { id: "ethos", label: "Ethos" },
-    // { id: "founders-sec", label: "Founder" },
-    // { id: "best_awards", label: "Awards" },
-    // { id: "we-are-proud", label: "Testimonials" },
-    // { id: "ReadyToBuild", label: "Get In Touch" },
-    // { id: "we_do_differently", label: "Standards" },
-    // { id: "initiative_section", label: "Initiatives" },
+    { id: "company-hero", label: "Intro" },
+    { id: "meet_the_team", label: "Team" },
+    { id: "our_approach_team", label: "Our Belief" },
+    { id: "benefits", label: "Benefits" },
+    { id: "open_position", label: "Positions" },
+    { id: "initiative_section", label: "Initiatives" },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
+      <RightSideLine id="rightLine"/>
       <CustomBanner id="company-hero" data={sections.team_banner} />
       <MeetTheTeam id="meet_the_team" data={sections.meet_team} />
       <OurApproach id="our_approach_team" data={sections.our_belief} />

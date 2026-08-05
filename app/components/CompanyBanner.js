@@ -1,18 +1,53 @@
 "use client";
-
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import { getImageUrl } from "./getImageUrl";
 
-export default function CompanyBanner({ id, data }) {
+export default function CompanyBanner({ id, data, loading }) {
   const title = data?.title;
   const subtitle = data?.subtitle;
+  const topPanel = useRef(null);
+  const bottomPanel = useRef(null);
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+  useEffect(() => {
+    if (loading || !imageLoaded) return;
+
+    const timer = setTimeout(() => {
+      const tl = gsap.timeline();
+
+      tl.to(topPanel.current, {
+        yPercent: -100,
+        duration: 1.2,
+        ease: "power4.inOut",
+      });
+
+      tl.to(
+        bottomPanel.current,
+        {
+          yPercent: 100,
+          duration: 1.2,
+          ease: "power4.inOut",
+        },
+        "<"
+      );
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [loading, imageLoaded]);
 
   return (
     <section className="company-banner" id={id}>
+      <div className="banner-reveal">
+        <div ref={topPanel} className="reveal-panel reveal-top" />
+        <div ref={bottomPanel} className="reveal-panel reveal-bottom" />
+      </div>
       <div className="company-banner-in">
         {data?.banner_image && (
           <img
             src={getImageUrl(data.banner_image)}
             alt={title || "Company Banner"}
+            onLoad={() => setImageLoaded(true)}
           />
         )}
 
