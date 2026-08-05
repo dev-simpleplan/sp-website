@@ -100,7 +100,7 @@ section.our-proud-work {
     background-color: var(--sp-red);
 }
 
-.we-are-proud-pin {
+/* .we-are-proud-pin {
     height: 100vh;
 }
 
@@ -110,7 +110,7 @@ section.our-proud-work {
     flex-direction: column;
     height: auto;
     overflow: hidden;
-}
+} */
 
 /* Prevents the browser's native image-drag ghost and text selection from
    fighting with the custom cursor drag interaction. */
@@ -217,7 +217,7 @@ section.we-are-proud-section {
 }
 
 .we-are-proud-section .left-1 {
-    width: 65%;
+    width: 80%;
     height: auto;
 }
 
@@ -701,10 +701,19 @@ section.we-are-proud-section {
         margin-right: 0px;
         padding-right: 0px;
     }
+
+    .we-are-proud-section .we-are-proud-in .fold-wrap {
+        width: 100%;
+    }
 }
 
 @media (max-width: 600px) {
     .product-card-info {
         max-width: 100%;
+    }
+
+    .card-details-wrapper {
+        flex-direction: column;
+        gap: 0;
     }
 }

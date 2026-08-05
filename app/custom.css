@@ -205,7 +205,7 @@
   max-width: 24ch;
 }
 
-.bringing-clarity-in{
+.bringing-clarity-in {
   display: flex;
   flex-direction: column;
 }
@@ -318,7 +318,7 @@
   padding-bottom: 150px;
 }
 
-.like-what-you-see-in{
+.like-what-you-see-in {
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -863,7 +863,7 @@
   line-height: 110%;
 }
 
-.we-are-proud-company-card .right{
+.we-are-proud-company-card .right {
   flex-shrink: 0;
 }
 
@@ -979,10 +979,10 @@
 
 .tools-to-build .heading {
   flex-shrink: 0;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
-.tools-to-build .heading.gap-left{
+.tools-to-build .heading.gap-left {
   padding-left: 185px;
 }
 
@@ -1127,7 +1127,7 @@
   align-items: center;
 }
 
-.founders-section-sticky .heading{
+.founders-section-sticky .heading {
   margin-bottom: 30px;
 }
 
@@ -1152,7 +1152,7 @@
   width: 95%;
 }
 
-.your-brands-fold:last-child{
+.your-brands-fold:last-child {
   width: 100%;
 }
 
@@ -1235,6 +1235,14 @@
   margin-bottom: 48px;
 }
 
+.think-to-build-mobile {
+  display: none;
+}
+
+.think-to-build-desktop {
+  display: block;
+}
+
 /* scrollable track — no scrollbar, drag to scroll */
 .think-to-build-in {
   display: flex;
@@ -1247,7 +1255,6 @@
   position: relative;
   user-select: none;
   -webkit-overflow-scrolling: touch;
-  overflow: hidden;
 }
 
 .think-to-build-in::-webkit-scrollbar {
@@ -1257,16 +1264,30 @@
 /* custom drag cursor */
 .think-drag-cursor {
   position: absolute;
+  top: 0;
+  left: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%);
   z-index: 10;
   width: 113px;
   height: 113px;
   border-radius: 50%;
   background: #fff;
+  opacity: 0;
+  visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translate(-9999px, -9999px);
+  transition: opacity .25s, visibility .25s;
+}
+
+.think-drag-cursor.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.think-drag-cursor.dragging {
+  transform: translate(-9999px, -9999px) scale(0.94);
 }
 
 .think-drag-cursor span {
@@ -1282,10 +1303,35 @@
 /* each card */
 .ttb-card {
   flex-shrink: 0;
-  width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+@media (max-width: 767px) {
+  .think-to-build-desktop {
+    display: none;
+  }
+
+  .think-to-build-mobile {
+    display: block;
+  }
+
+  .think-to-build-mobile .block-box-swiper {
+    gap: 22px;
+  }
+
+  .think-to-build-mobile .oa-nav {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-top: 16px;
+  }
+
+  .think-to-build-mobile .ttb-card {
+    width: 100%;
+  }
 }
 
 .ttb-card-meta {
@@ -1940,7 +1986,7 @@
   overflow: hidden;
 }
 
-.founder-track-in{
+.founder-track-in {
   overflow: hidden;
 }
 
@@ -2000,16 +2046,18 @@
 
 
 /* ṬRANSFORMATION SECTION ------------------- */
-.fold-wrap.hrzntl-scroll-company .left{
+.fold-wrap.hrzntl-scroll-company .left {
   width: 80%;
 }
-.fold-wrap.hrzntl-scroll-company .left .wap-img{
-    height: 100%;
-    width: 100%;
-    max-height: 400px;
-    margin-bottom: 20px;
+
+.fold-wrap.hrzntl-scroll-company .left .wap-img {
+  height: 100%;
+  width: 100%;
+  max-height: 400px;
+  margin-bottom: 20px;
 }
-.fold-wrap.hrzntl-scroll-company .right{
+
+.fold-wrap.hrzntl-scroll-company .right {
   padding-top: 50px;
   display: flex;
   flex-direction: column;
@@ -2281,6 +2329,20 @@ a.custom-btn.cta {
   }
 }
 
+@media (min-width: 992px) and (max-width: 1199px) {
+  .think-to-build .oa-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .think-to-build .oa-nav {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .your-brands-fold {
     padding: 60px 60px 60px 60px;
@@ -2341,6 +2403,7 @@ a.custom-btn.cta {
    do nothing (see those hooks) — these rules are what actually produce the
    stacked layout once the JS steps aside. */
 @media screen and (max-width: 767px) {
+
   .we-are-proud,
   .tools-to-build,
   .your-brands-look,
@@ -2441,13 +2504,15 @@ a.custom-btn.cta {
     display: block;
   }
 
-  .wds-item-top{
+  .wds-item-top {
     margin-bottom: 0;
   }
-  .wds-desc{
+
+  .wds-desc {
     margin-top: 0;
   }
-  .wds-item-top h3{
+
+  .wds-item-top h3 {
     font-size: 24px;
   }
 }

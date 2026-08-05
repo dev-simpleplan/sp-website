@@ -27,9 +27,12 @@ export default function OurProudWork({ id, data }) {
         </div>
       </div>
 
-      <div ref={sectionRef} className="we-are-proud-work">
-        <div className="we-are-proud-work-sticky">
-          <div ref={trackRef} className="we-are-proud-in gap-left">
+      <div ref={sectionRef} className="we-are-proud">
+        <div className="we-are-proud-sticky">
+          <div className="container">
+          <div className="slider-wrapper-outer gap-left">
+            <div className="slider-wrapper-inner">
+          <div ref={trackRef} className="we-are-proud-in">
             {cards.map((card) => (
               <div className="fold-wrap" key={card.id}>
                 <div className="proud-content-wrapper">
@@ -91,6 +94,9 @@ export default function OurProudWork({ id, data }) {
               </div>
             ))}
           </div>
+        </div>
+        </div>
+        </div>
         </div>
       </div>
     </section>

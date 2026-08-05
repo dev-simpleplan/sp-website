@@ -547,8 +547,9 @@
   }
 
   .ttb-media {
-    height: 260px;
     aspect-ratio: auto;
+    height: 100%;
+    max-width: 100%;
   }
 
   .ttb-right {
@@ -587,7 +588,7 @@
     padding-left: 0;
   }
 
-  .we-are-proud-in > a:last-child .fold-wrap {
+  .we-are-proud-in>a:last-child .fold-wrap {
     width: 100%;
   }
 
@@ -748,7 +749,7 @@
     overflow: visible;
   }
 
-  .we-are-proud-in > a,
+  .we-are-proud-in>a,
   .we-are-proud-in .fold-wrap {
     position: sticky;
     top: 20px;
@@ -784,7 +785,7 @@
     padding-top: 20px;
   }
 
-  .we-are-proud-in-company > a {
+  .we-are-proud-in-company>a {
     position: sticky;
     top: 30px;
     width: 100%;
