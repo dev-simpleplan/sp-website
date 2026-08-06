@@ -13,6 +13,17 @@
      have to hit the 1px line exactly. */
     padding: 12px 24px 12px 4px;
     height: 100%;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Applied while the footer is approaching — fades and eases the whole rail
+   out of view a little early (see the rootMargin in Wayfinding.js) so it's
+   already gone by the time the footer is actually on screen, instead of
+   visibly sitting on top of footer content. */
+.spWayfindingHidden {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-14px);
+    pointer-events: none;
 }
 
 .spWayfindingLine {
@@ -33,6 +44,8 @@
     gap: 22px;
     position: relative;
     right: 4px;
+    transform-origin: center;
+    transition: transform 0.3s ease;
 }
 
 .spWayfindingItem {

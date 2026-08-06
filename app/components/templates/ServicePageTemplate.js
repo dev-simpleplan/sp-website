@@ -16,18 +16,6 @@ import AiTools from "../ServiceInner/AiTools";
 import ProductsSection from "../ServiceInner/ProductsSection";
 import OtherServices from "../ServiceInner/OtherServices";
 
-const SERVICE_SECTIONS = [
-  { id: "service-banner", label: "Intro" },
-  { id: "philosophy", label: "Philosophy" },
-  { id: "what-we-deliver", label: "Deliverables" },
-  { id: "our-proud-work", label: "Our Work" },
-  { id: "get-in-touch", label: "Get In Touch" },
-  { id: "testimonials", label: "Testimonials" },
-  { id: "ai-tools", label: "AI Tools" },
-  { id: "products", label: "Our Products" },
-  { id: "other-services", label: "Other Services" },
-];
-
 export default function ServicePageTemplate({ slug }) {
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
@@ -131,7 +119,17 @@ export default function ServicePageTemplate({ slug }) {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log("Fetched sections:", sections.ai_tools);
+  const SERVICE_SECTIONS = [
+  { id: "service-banner", label: sections?.service_inner_banner?.tagline },
+  { id: "philosophy", label: sections?.philosphy?.tagline },
+  { id: "what-we-deliver", label: sections?.what_we_deliver?.tagline },
+  { id: "our-proud-work", label: sections?.our_proud_work?.tagline },
+  { id: "get-in-touch", label: sections?.simple_choice?.Tagline },
+  { id: "testimonials", label: sections?.testimonials_section?.Tagline },
+  { id: "ai-tools", label: sections?.ai_tools?.tagline },
+  { id: "products", label: sections?.products_section?.tagline },
+  { id: "other-services", label: sections?.other_services?.tagline },
+];
 
   return (
     <>
