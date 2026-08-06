@@ -93,17 +93,17 @@ export default function Home() {
   };
 
   const HOME_SECTIONS = [
-  { id: "hero", label: "Intro" },
-  { id: "bringing-clarity", label: "The Struggle" },
-  { id: "our-approach", label: "Our Approach" },
-  { id: "we-are-proud", label: "Our Work" },
-  { id: "your-brands-look", label: "Services" },
-  { id: "ready-to-build", label: "Get In Touch" },
-  { id: "testimonial-section", label: "Testimonials" },
-  { id: "we-do-stand", label: "Awards" },
-  { id: "meet-the-simp", label: "About" },
-  { id: "tools-to-build", label: "Tools" },
-  { id: "think-before-build", label: "Blogs" },
+  { id: "hero", label: sections?.hero?.label },
+  { id: "bringing-clarity", label: sections?.struggle?.tag },
+  { id: "our-approach", label: sections?.our_approach?.tag },
+  { id: "we-are-proud", label: sections?.case_study?.tagline },
+  { id: "your-brands-look", label: sections?.service?.tag || "Services" },
+  { id: "ready-to-build", label: sections?.ready_to_build?.Tagline },
+  { id: "testimonial-section", label: sections?.testimonials?.Tagline },
+  { id: "we-do-stand", label: sections?.awards_section?.tagline },
+  { id: "meet-the-simp", label: sections?.about_section?.tagline },
+  { id: "tools-to-build", label: sections?.tools_section?.tagline },
+  { id: "think-before-build", label: sections?.blog_section?.tagline },
 
 ];
 
@@ -128,8 +128,6 @@ export default function Home() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-  console.log(sections.testimonials);
 
   return (
     <>

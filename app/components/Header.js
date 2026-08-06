@@ -8,43 +8,8 @@ import Link from "next/link";
 import "../globals.css";
 import "../custom.css";
 import "../responsive.css";
-
-const MEGA_MENU_DATA = [
-  {
-    id: "branding",
-    title: "Branding",
-    links: [
-      "Logo and Visual Identity",
-      "Brand Positioning",
-      "Strategy & Messaging",
-      "Print & Packaging Design",
-      "Brand Videos & Photography",
-    ],
-  },
-  {
-    id: "marketing",
-    title: "Marketing & Content",
-    links: [
-      "Digital Marketing",
-      "Website Content",
-      "Brand Copywriting",
-      "Social Media Marketing",
-      "Video Production",
-      "Performance Marketing",
-    ],
-  },
-  {
-    id: "websites",
-    title: "Websites & Apps",
-    links: [
-      "Website Development",
-      "UI/UX Design",
-      "Web Application Development",
-      "Mobile App Development",
-      "Shopify & E-commerce Development",
-    ],
-  },
-];
+import axios from 'axios';
+import { getImageUrl } from "./getImageUrl";
 
 const CHEVRON_DOWN = (
   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
@@ -116,12 +81,20 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
+  // Tracks which way the user is navigating between mobile menu panels so
+  // the entrance animation can slide from the matching side (forward = in
+  // from the right, back = in from the left) instead of always one fixed
+  // direction.
+  const [slideDirection, setSlideDirection] = useState("forward");
   const headerRef = useRef(null);
   const [isInStickySection, setIsInStickySection] = useState(false);
   const [isHiddenByScroll, setIsHiddenByScroll] = useState(false);
   const headerBarRef = useRef(null);
   
   const closeTimeoutRef = useRef(null);
+
+  const [loading, setLoading] = useState(true);
+  const [headerData, setHeaderData] = useState(null);
 
   const isAnyDesktopMenuOpen = isWhatWeDoOpen || isAboutUsOpen;
   const isAnyMenuOpen = isAnyDesktopMenuOpen || isMobileMenuOpen;
@@ -149,6 +122,26 @@ export default function Header() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+useEffect(() => {
+        async function fetchHeaderData() {
+            try {
+                const response = await axios.get(
+                    "http://72.61.235.119:1337/api/header?populate[logo]=true&populate[what_we_do][populate][sub_pages]=true&populate[about_us][populate][sub_pages]=true"
+                );
+                // The header endpoint returns a single entry — its fields
+                // (logo, what_we_do, about_us, cta_text, cta_link,
+                // our_work_text, our_work_url) live directly on response.data.data.
+                setHeaderData(response.data?.data || null);
+            } catch (error) {
+                console.error("Error fetching header data:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchHeaderData();
+    }, []);
 
   // Single source of truth for isInStickySection: combines
   // (a) GSAP-pinned sections, tracked via the "sticky-section-active"
@@ -308,6 +301,7 @@ export default function Header() {
 
   function openMobileMenu() {
     setMobileView("root");
+    setSlideDirection("forward");
     setIsMobileMenuOpen(true);
   }
 
@@ -316,7 +310,14 @@ export default function Header() {
     setMobileView("root");
   }
 
-  
+  // Drives both the view change and which direction its entrance animation
+  // should come from — pass "forward" when drilling into a submenu, "back"
+  // when returning to the previous one.
+  function goToMobileView(view, direction) {
+    setSlideDirection(direction);
+    setMobileView(view);
+  }
+
   return (
     <header
   className={`${styles.spHeader} ${
@@ -329,7 +330,11 @@ export default function Header() {
   <div className={styles.spHeaderInner}>
       <div className={styles.spHeaderBar} ref={headerBarRef}>
   <Link href="/" className={styles.spLogo}>
-    <Image src={MainLogo} alt="SimplePlan Logo" />
+    <img
+      src={headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src}
+      alt="SimplePlan Logo"
+      draggable="false"
+    />
   </Link>
 
   {/* Two crossfading layers occupying the exact same box — nothing here
@@ -375,7 +380,9 @@ export default function Header() {
           </span>
         </button>
 
-        <a href="/our-work" className={styles.spNavLink}>Our Work</a>
+        <a href={headerData?.our_work_url || "/our-work"} className={styles.spNavLink}>
+          {headerData?.our_work_text || "Our Work"}
+        </a>
       </nav>
     </div>
 
@@ -416,11 +423,13 @@ export default function Header() {
           </span>
         </button>
 
-        <a href="/our-work" className={styles.spNavLink}>Our Work</a>
+        <a href={headerData?.our_work_url || "/our-work"} className={styles.spNavLink}>
+          {headerData?.our_work_text || "Our Work"}
+        </a>
       </nav>
 
-      <Link href="/contact" className={`custom-btn ${styles.spHeaderCta}`}>
-        <span>Book A Call</span>
+      <Link href={headerData?.cta_link || "/contact"} className={`custom-btn ${styles.spHeaderCta}`}>
+        <span>{headerData?.cta_text || "Book A Call"}</span>
         <span className="arrow-wrap">
           <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
@@ -460,19 +469,19 @@ export default function Header() {
         <div className={styles.spMegaMenuInner}>
           <div className={styles.spMegaMenuTop}>
             <div className={styles.spMegaMenuColumns}>
-              {MEGA_MENU_DATA.map((column) => (
+              {(headerData?.what_we_do || []).map((column) => (
                 <div className={styles.spMegaMenuColumn} key={column.id}>
-                  <a href="#" className={styles.spMegaMenuColumnTitle}>
-                    <span>{column.title}</span>
+                  <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
+                    <span>{column.page_name}</span>
                     <span className={styles.spMegaMenuColumnArrow}>
                       {CHEVRON_RIGHT}
                     </span>
                   </a>
                   <ul className={styles.spMegaMenuLinkList}>
-                    {column.links.map((link) => (
-                      <li key={link}>
-                        <a href="#" className={styles.spMegaMenuLink}>
-                            <span>{link}</span>
+                    {(column.sub_pages || []).map((sub) => (
+                      <li key={sub.id}>
+                        <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
+                            <span>{sub.page_name}</span>
                         </a>
                       </li>
                     ))}
@@ -505,7 +514,31 @@ export default function Header() {
         onMouseLeave={scheduleClose}
       >
         <div className={styles.spMegaMenuInner}>
-          <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
+          {(headerData?.about_us || []).length > 0 ? (
+            <div className={styles.spMegaMenuColumns}>
+              {headerData.about_us.map((column) => (
+                <div className={styles.spMegaMenuColumn} key={column.id}>
+                  <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
+                    <span>{column.page_name}</span>
+                    <span className={styles.spMegaMenuColumnArrow}>
+                      {CHEVRON_RIGHT}
+                    </span>
+                  </a>
+                  <ul className={styles.spMegaMenuLinkList}>
+                    {(column.sub_pages || []).map((sub) => (
+                      <li key={sub.id}>
+                        <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
+                            <span>{sub.page_name}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
+          )}
         </div>
       </div>
 
@@ -529,7 +562,11 @@ export default function Header() {
       >
         <div className={styles.spMobileHeader}>
           <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
-            <Image src={MainLogo} alt="SimplePlan Logo" />
+            <img
+              src={headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src}
+              alt="SimplePlan Logo"
+              draggable="false"
+            />
           </Link>
 
           <button
@@ -544,13 +581,16 @@ export default function Header() {
 
         {/* Root list: What We Do / About Us / Our Work */}
         {mobileView === "root" && (
-          <div className={styles.spMobileBody} key="root">
-            <ul className={styles.spMobileList}>
+          <div
+            className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
+            key="root"
+          >
+            <ul className={`${styles.spMobileList} ${slideDirection !== "back" ? styles.spMobileListDelayed : ""}`}>
               <li className={styles.spMobileItem}>
                 <button
                   type="button"
                   className={styles.spMobileItemBtn}
-                  onClick={() => setMobileView("what-we-do")}
+                  onClick={() => goToMobileView("what-we-do", "forward")}
                 >
                   <span>What We Do</span>
                   <span className={styles.spMobileChevron}>
@@ -562,7 +602,7 @@ export default function Header() {
                 <button
                   type="button"
                   className={styles.spMobileItemBtn}
-                  onClick={() => setMobileView("about-us")}
+                  onClick={() => goToMobileView("about-us", "forward")}
                 >
                   <span>About Us</span>
                   <span className={styles.spMobileChevron}>
@@ -572,17 +612,20 @@ export default function Header() {
               </li>
               <li className={styles.spMobileItemNoBorder}>
                 <a
-                  href="/our-work"
+                  href={headerData?.our_work_url || "/our-work"}
                   className={styles.spMobileItemBtn}
                   onClick={closeMobileMenu}
                 >
-                  <span>Our Work</span>
+                  <span>{headerData?.our_work_text || "Our Work"}</span>
                 </a>
               </li>
             </ul>
 
-            <a href="#" className={styles.spMobileCta}>
-              <span>Book a Call</span>
+            <a
+              href={headerData?.cta_link || "#"}
+              className={`${styles.spMobileCta} ${slideDirection !== "back" ? styles.spMobileCtaDelayed : ""}`}
+            >
+              <span>{headerData?.cta_text || "Book a Call"}</span>
               <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
             </a>
           </div>
@@ -590,33 +633,36 @@ export default function Header() {
 
         {/* What We Do drill-down */}
         {mobileView === "what-we-do" && (
-          <div className={styles.spMobileBody} key="what-we-do">
+          <div
+            className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
+            key="what-we-do"
+          >
             <button
               type="button"
               className={styles.spMobileBackBtn}
-              onClick={() => setMobileView("root")}
+              onClick={() => goToMobileView("root", "back")}
             >
               <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
               <span>What We Do</span>
             </button>
             <div className={styles.spMobileSubList}>
-              {MEGA_MENU_DATA.map((column) => (
+              {(headerData?.what_we_do || []).map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
-                  <a href="#" className={styles.spMobileGroupTitle}>
-                    <span>{column.title}</span>
+                  <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
+                    <span>{column.page_name}</span>
                     <span className={styles.spMobileChevron}>
                       {CHEVRON_RIGHT}
                     </span>
                   </a>
                   <ul className={styles.spMobileGroupLinks}>
-                    {column.links.map((link) => (
-                      <li key={link}>
+                    {(column.sub_pages || []).map((sub) => (
+                      <li key={sub.id}>
                         <a
-                          href="#"
+                          href={sub.page_url || "#"}
                           className={styles.spMobileGroupLink}
                           onClick={closeMobileMenu}
                         >
-                          {link}
+                          {sub.page_name}
                         </a>
                       </li>
                     ))}
@@ -629,16 +675,47 @@ export default function Header() {
 
         {/* About Us drill-down */}
         {mobileView === "about-us" && (
-          <div className={styles.spMobileBody} key="about-us">
+          <div
+            className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
+            key="about-us"
+          >
             <button
               type="button"
               className={styles.spMobileBackBtn}
-              onClick={() => setMobileView("root")}
+              onClick={() => goToMobileView("root", "back")}
             >
               <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
               <span>About Us</span>
             </button>
-            <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
+            {(headerData?.about_us || []).length > 0 ? (
+              <div className={styles.spMobileSubList}>
+                {headerData.about_us.map((column) => (
+                  <div className={styles.spMobileGroup} key={column.id}>
+                    <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
+                      <span>{column.page_name}</span>
+                      <span className={styles.spMobileChevron}>
+                        {CHEVRON_RIGHT}
+                      </span>
+                    </a>
+                    <ul className={styles.spMobileGroupLinks}>
+                      {(column.sub_pages || []).map((sub) => (
+                        <li key={sub.id}>
+                          <a
+                            href={sub.page_url || "#"}
+                            className={styles.spMobileGroupLink}
+                            onClick={closeMobileMenu}
+                          >
+                            {sub.page_name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
+            )}
           </div>
         )}
       </div>

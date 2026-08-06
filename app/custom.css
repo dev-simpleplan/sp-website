@@ -2312,6 +2312,17 @@ a.custom-btn.cta {
   margin-top: 30px;
 }
 
+.ttb-fold-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 25px;
+}
+
+.ttb-fold {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 @media (max-width: 1199px) {
   .our-approach-top {
     margin-bottom: 40px;

@@ -43,6 +43,11 @@ export default function WhatWeDeliver({ id, data }) {
   const mousePos = useRef({ x: 0, y: 0 });
   const cursorPos = useRef({ x: 0, y: 0 });
   const rafId = useRef(null);
+  const scrollAccumulator = useRef(0);
+  const scrollDirection = useRef(null);
+  const lastScrollTime = useRef(0);
+  const scrollThreshold = 80;
+  const scrollCooldown = 500; // milliseconds
 
   const [isSlider, setIsSlider] = useState(false);
   const [showDragCursor, setShowDragCursor] = useState(false);
@@ -137,10 +142,62 @@ export default function WhatWeDeliver({ id, data }) {
       cursor.classList.remove("dragging");
     };
 
+    const onWheel = (e) => {
+      // Detect trackpad scroll on Mac (has deltaX for horizontal scroll)
+      const isTrackpadScroll = e.deltaX !== 0;
+      
+      if (isTrackpadScroll) {
+        e.preventDefault();
+        
+        const now = Date.now();
+        const timeSinceLastScroll = now - lastScrollTime.current;
+        
+        // If cooldown expired, reset direction for new gesture
+        if (timeSinceLastScroll >= scrollCooldown) {
+          scrollDirection.current = null;
+          scrollAccumulator.current = 0;
+        }
+        
+        // Still within cooldown - ignore all events
+        if (timeSinceLastScroll < scrollCooldown) {
+          return;
+        }
+        
+        const currentDirection = e.deltaX > 0 ? 1 : -1;
+        
+        // Set direction on first event of gesture
+        if (scrollDirection.current === null) {
+          scrollDirection.current = currentDirection;
+        }
+        
+        // Ignore events with different direction
+        if (scrollDirection.current !== currentDirection) {
+          return;
+        }
+        
+        // Accumulate only values matching current direction
+        scrollAccumulator.current += e.deltaX;
+        
+        // Trigger slide when threshold reached
+        if (Math.abs(scrollAccumulator.current) >= scrollThreshold) {
+          const direction = scrollAccumulator.current > 0 ? 1 : -1;
+          if (direction > 0) {
+            swiperRef.current?.slideNext();
+          } else {
+            swiperRef.current?.slidePrev();
+          }
+          lastScrollTime.current = now;
+          scrollAccumulator.current = 0;
+          scrollDirection.current = null;
+        }
+      }
+    };
+
     slider.addEventListener("mouseenter", onMouseEnter);
     slider.addEventListener("mousemove", onMouseMove);
     slider.addEventListener("mouseleave", onMouseLeave);
     slider.addEventListener("mousedown", onMouseDown);
+    slider.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("mouseup", onMouseUp);
 
     return () => {
@@ -148,6 +205,7 @@ export default function WhatWeDeliver({ id, data }) {
       slider.removeEventListener("mousemove", onMouseMove);
       slider.removeEventListener("mouseleave", onMouseLeave);
       slider.removeEventListener("mousedown", onMouseDown);
+      slider.removeEventListener("wheel", onWheel);
       window.removeEventListener("mouseup", onMouseUp);
     };
   }, [showDragCursor]);

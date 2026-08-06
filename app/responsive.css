@@ -244,8 +244,8 @@
   }
 
   .ttb-media {
-    height: 300px;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: auto;
+    height: 100%;
   }
 
   .your-brands-fold h2 {
@@ -682,7 +682,7 @@
 
   .ttb-fold {
     width: 100vw;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
     padding: 60px 120px 60px 0;
   }
@@ -892,4 +892,14 @@
     right: auto;
     left: 0;
   }
+
+  .ttb-fold-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ttb-fold {
+    top: 30px;
+  }
+
 }

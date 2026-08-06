@@ -83,11 +83,11 @@ const [sections, setSections] = useState({});
   };
 
   const HOME_SECTIONS = [
-    { id: "service-banner", label: "Intro" },
-    { id: "approach-branding", label: "Approach" },
-    { id: "our-approach", label: "Services" },
-    { id: "we-are-proud", label: "Transformation" },
-    { id: "how-this-show-up", label: "Content" },
+    { id: "service-banner", label: sections?.branding_outer_banner?.tagline },
+    { id: "approach-branding", label: sections?.branding_approach?.tagline },
+    { id: "our-approach", label: sections?.scope_work?.tagline },
+    { id: "we-are-proud", label: sections?.transformation?.tagline },
+    { id: "how-this-show-up", label: sections?.work_shows_up?.tagline },
   ];
 
   if (loading) {

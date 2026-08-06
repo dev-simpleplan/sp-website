@@ -1,0 +1,58 @@
+section.home-banner.sp-for-good h1 {
+    max-width: 50ch;
+}
+
+section.home-banner.sp-for-good .home-banner-in p {
+    max-width: 70ch;
+}
+
+section.home-banner.sp-for-good .custom-banner-media {
+    margin: 100px 0;
+}
+
+section.home-banner.sp-for-good .custom-banner-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 11.86 / 6.03;
+    object-fit: cover;
+}
+
+.bucket-ticker {
+    overflow: hidden;
+    width: 100%;
+    margin: 60px 0;
+}
+
+.bucket-track {
+    display: flex;
+    width: max-content;
+    animation: bucket-scroll 35s linear infinite;
+}
+
+.bucket-track:hover {
+    animation-play-state: paused;
+}
+
+.bucket-item {
+    flex: 0 0 auto;
+    width: 320px;
+    height: 460px;
+    margin-right: 18px;
+}
+
+.bucket-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@keyframes bucket-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
