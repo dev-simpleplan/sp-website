@@ -5,11 +5,13 @@ import axios from "axios";
 import styles from "../components/sp-for-good/sp-for-good.css";
 
 import Wayfinding from "../components/Wayfinding";
+import RightSideLine from "../components/RightSideLine";
 import SpBanner from "../components/sp-for-good/SpBanner";
 import ApproachBranding from '../components/service/ApproachBranding';
 import Initiatives from "../components/company/Initiatives";
 import WeDoStand from '../components/WeDoStand';
 import BucketListSection from "../components/sp-for-good/BucketList";
+import Partnership from "../components/sp-for-good/Partnership";
 
 // TODO: point this at the marketing-specific API endpoint once it exists —
 // using the branding endpoint as a placeholder for now.
@@ -83,7 +85,12 @@ const [sections, setSections] = useState({});
   };
 
   const SP_for_Good_SECTIONS = [
-    {id: "hero", label: sections?.sp_for_good_banner?.tagline },
+    {id: "sp-for-good-banner", label: sections?.sp_for_good_banner?.tagline },
+    {id: "approach-branding", label: sections?.branding_approach?.tagline },
+    {id: "initiatives", label: sections?.initiative_section?.tagline },
+    {id: "we-do-stand", label: sections?.other_projects?.tagline },
+    {id: "bucket-list", label: sections?.bucket_list?.tagline },
+    {id: "partnership", label: sections?.partnership_form?.tagline }
   ];
 
   if (loading) {
@@ -111,11 +118,13 @@ const [sections, setSections] = useState({});
   return (
     <>
         <Wayfinding sections={SP_for_Good_SECTIONS} />
-        <SpBanner data={sections?.sp_for_good_banner} />
-        <ApproachBranding data={sections?.branding_approach} />
-        <Initiatives data={sections?.initiative_section} />
-        <WeDoStand data={sections?.other_projects} />
-        <BucketListSection data={sections?.bucket_list} />
+        <RightSideLine />
+        <SpBanner data={sections?.sp_for_good_banner} id="sp-for-good-banner" />
+        <ApproachBranding data={sections?.branding_approach} id="approach-branding" />
+        <Initiatives data={sections?.initiative_section} id="initiatives" />
+        <WeDoStand data={sections?.other_projects} id="we-do-stand" />
+        <BucketListSection data={sections?.bucket_list} id="bucket-list" />
+        <Partnership data={sections?.partnership_form} id="partnership" />
     </>
   );
 }

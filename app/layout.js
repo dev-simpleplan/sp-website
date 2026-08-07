@@ -7,6 +7,7 @@ import LenisProvider from "./components/LenisProvider";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AnimationProvider from "./components/AnimationProvider"
+import SideRailVisibilityWatcher from "./components/SideRailVisibilityWatcher";
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <Header />
+        <SideRailVisibilityWatcher />
         {/* <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider> */}
         <main><AnimationProvider />{children}</main>
         <Footer/>

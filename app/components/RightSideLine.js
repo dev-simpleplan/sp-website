@@ -1,5 +1,7 @@
+
 export default function RightSideLine() {
   return (
-    <div className="right_side_line"></div>
+    <div className="right_side_line side-rail"></div>
   );
 }
+ 

@@ -1,31 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
-
-const FOOTER_COLUMNS = [
-  {
-    id: "pages",
-    title: "Pages",
-    links: ["Our Work", "Blogs", "Privacy Policy", "Terms & Conditions"],
-  },
-  {
-    id: "about",
-    title: "About",
-    links: ["Our Company", "Our Culture", "Our Team", "SP For Good"],
-  },
-  {
-    id: "socials",
-    title: "Socials",
-    links: [
-      "Instagram",
-      "Twitter",
-      "LinkedIn",
-      "YouTube",
-      "Behance",
-      "Dribble",
-    ],
-  },
-];
+import axios from "axios";
 
 const ARROW_UP_RIGHT = (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -39,11 +18,63 @@ const ARROW_UP_RIGHT = (
   </svg>
 );
 
+function normalizeLink(link) {
+  return !link || link === "#" || link === "#!" ? "#" : link;
+}
+
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [footerData, setFooterData] = useState(null);
+
+  useEffect(() => {
+    async function fetchFooterData() {
+      try {
+        const response = await axios.get(
+          "http://72.61.235.119:1337/api/footer?populate[pages_menu]=true&populate[about_menu]=true&populate[social_link_menu]=true&populate[contact_us_menu]=true"
+        );
+
+        setFooterData(response.data?.data || null);
+      } catch (error) {
+        console.error("Error fetching footer data:", error);
+      }
+    }
+
+    fetchFooterData();
+  }, []);
+
+  const footerColumns = [
+    {
+      id: "pages",
+      title: "Pages",
+      links: footerData?.pages_menu || [],
+    },
+    {
+      id: "about",
+      title: "About",
+      links: footerData?.about_menu || [],
+    },
+    {
+      id: "socials",
+      title: "Socials",
+      links: footerData?.social_link_menu || [],
+    },
+  ];
+
+  const contactLinks = footerData?.contact_us_menu || [
+    {
+      id: "email",
+      item_name: "hello@simpleplanmedia.com",
+      item_link: "mailto:hello@simpleplanmedia.com",
+    },
+    {
+      id: "phone",
+      item_name: "+91 - 9811-053-528",
+      item_link: "tel:+919811053528",
+    },
+  ];
 
   return (
-    <footer className={styles.spFooter}>
+    <footer className={styles.spFooter} data-hide-side-rails>
       <div className={styles.spFooterWatermark} aria-hidden="true">
         <Image src="/spVector.svg" alt="Watermark" width={100} height={100} />
       </div>
@@ -84,17 +115,16 @@ export default function Footer() {
           </div>
 
           <div className={styles.spFooterColumns}>
-            {FOOTER_COLUMNS.map((column) => (
+            {footerColumns.map((column) => (
               <div className={styles.spFooterColumn} key={column.id}>
                 <p className={styles.spFooterColumnTitle}>{column.title}</p>
                 <ul className={styles.spFooterLinkList}>
                   {column.links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className={styles.spFooterLink}>
-                        {/* {link} */}
+                    <li key={link.id}>
+                      <a href={normalizeLink(link.item_link)} className={styles.spFooterLink}>
                         <span className={styles.spFooterTextWrap}>
-                          <span className={styles.spFooterText1}>{link}</span>
-                          <span className={styles.spFooterText2}>{link}</span>
+                          <span className={styles.spFooterText1}>{link.item_name}</span>
+                          <span className={styles.spFooterText2}>{link.item_name}</span>
                       </span>
                       </a>
                     </li>
@@ -106,19 +136,13 @@ export default function Footer() {
             <div className={styles.spFooterColumn}>
               <p className={styles.spFooterColumnTitle}>Contact Us</p>
               <ul className={styles.spFooterLinkList}>
-                <li>
-                  <a
-                    href="mailto:hello@simpleplanmedia.com"
-                    className={styles.spFooterLink}
-                  >
-                    hello@simpleplanmedia.com
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:+919811053528" className={styles.spFooterLink}>
-                    +91 - 9811-053-528
-                  </a>
-                </li>
+                {contactLinks.map((link) => (
+                  <li key={link.id}>
+                    <a href={normalizeLink(link.item_link)} className={styles.spFooterLink}>
+                      {link.item_name}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

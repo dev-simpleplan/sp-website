@@ -26,7 +26,7 @@ const tickerImages = [...images, ...images];
         <div className="bucket-list-inner gap-left">
           {/* Heading */}
           <div className="bucket-heading">
-            <h2>{data?.title}</h2>
+            <h2 className="reveal-heading">{data?.title}</h2>
 
             <p>{extractText(data?.description)}</p>
           </div>
@@ -102,7 +102,6 @@ const tickerImages = [...images, ...images];
               <ul>
                 {data?.we_provided?.map((item) => (
                   <li key={item.id}>
-                    <span className="dot"></span>
                     {item.title}
                   </li>
                 ))}

@@ -16,14 +16,12 @@
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Applied while the footer is approaching — fades and eases the whole rail
-   out of view a little early (see the rootMargin in Wayfinding.js) so it's
-   already gone by the time the footer is actually on screen, instead of
-   visibly sitting on top of footer content. */
-.spWayfindingHidden {
-    opacity: 0;
+/* Opacity/pointer-events fade itself comes from the global .side-rail
+   utility (see globals.css) driven by SideRailVisibilityWatcher. This just
+   layers this component's own extra slide flourish on top of that same
+   trigger — active whenever body carries .hide-side-rails. */
+:global(body.hide-side-rails) .spWayfinding {
     transform: translateY(-50%) translateX(-14px);
-    pointer-events: none;
 }
 
 .spWayfindingLine {
