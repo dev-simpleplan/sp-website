@@ -31,15 +31,15 @@ import styles from "./Wayfinding.module.css";
  * Each entry's `id` must match the `id` attribute on the actual section
  * element in your page (e.g. <section id="hero">...</section>).
  *
- * The rail also fades itself out smoothly and automatically as the page's
- * <footer> approaches, and auto-shrinks (via a transitioned scale) on
- * short screens so a long section list never spills up behind the header.
- * Pass `footerSelector` if your footer isn't a plain <footer> tag.
+ * The rail also auto-shrinks (via a transitioned scale) on short screens
+ * so a long section list never spills up behind the header. Hiding near
+ * the footer — or near any section marked `data-hide-side-rails` — is
+ * handled globally by SideRailVisibilityWatcher; this component just
+ * carries the shared `side-rail` class, no local logic.
  */
-export default function Wayfinding({ sections = [], id, footerSelector = "footer" }) {
+export default function Wayfinding({ sections = [], id }) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isNearFooter, setIsNearFooter] = useState(false);
   const [railScale, setRailScale] = useState(1);
   const ratiosRef = useRef({});
   const listRef = useRef(null);
@@ -94,27 +94,6 @@ export default function Wayfinding({ sections = [], id, footerSelector = "footer
     return () => observer.disconnect();
   }, [sections]);
 
-  // Hide the rail smoothly once the footer is approaching, so it never sits
-  // visibly on top of footer content. The positive bottom rootMargin below
-  // extends the detection zone past the actual viewport bottom, so this
-  // fires *before* the footer is actually on screen — by the time the user
-  // can see the footer, the rail has already faded out.
-  useEffect(() => {
-    const footerEl = document.querySelector(footerSelector);
-    if (!footerEl) return;
-
-    const footerObserver = new IntersectionObserver(
-      ([entry]) => setIsNearFooter(entry.isIntersecting),
-      {
-        rootMargin: "0px 0px 220px 0px",
-        threshold: 0,
-      }
-    );
-
-    footerObserver.observe(footerEl);
-    return () => footerObserver.disconnect();
-  }, [footerSelector]);
-
   // Keep the rail from ever spilling past its safe vertical zone. On short
   // screens (or pages with many sections), the label list's natural height
   // can exceed the viewport, pushing the top item up behind the header.
@@ -156,7 +135,7 @@ export default function Wayfinding({ sections = [], id, footerSelector = "footer
 
   return (
     <nav
-      className={`${styles.spWayfinding} ${isNearFooter ? styles.spWayfindingHidden : ""}`}
+      className={`${styles.spWayfinding} side-rail`}
       aria-label="Page sections"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

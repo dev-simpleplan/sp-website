@@ -130,6 +130,7 @@ export default function VideoAnimated({ id, data }) {
       <div className="video-animated-sticky">
         <div ref={frameRef} className="video-animated-frame">
           <div
+            data-hide-side-rails
             ref={innerRef}
             className="video-animated-inner"
             style={

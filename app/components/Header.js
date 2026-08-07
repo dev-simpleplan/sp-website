@@ -75,6 +75,14 @@ const CLOSE_ICON = (
 // without it snapping shut in the gap between them.
 const CLOSE_DELAY_MS = 200;
 
+function isPlaceholderLink(link) {
+  return !link || link === "#" || link === "#!";
+}
+
+function normalizeLink(link, fallback) {
+  return isPlaceholderLink(link) ? fallback : link;
+}
+
 export default function Header() {
   const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
@@ -92,9 +100,30 @@ export default function Header() {
   const headerBarRef = useRef(null);
   
   const closeTimeoutRef = useRef(null);
-
-  const [loading, setLoading] = useState(true);
   const [headerData, setHeaderData] = useState(null);
+
+  const headerMenu = headerData?.header_menu || [];
+  const findMenu = (targetName, fallbackIndex) =>
+    headerMenu.find(
+      (menu) => (menu?.page_name || "").trim().toLowerCase() === targetName
+    ) || headerMenu[fallbackIndex] || null;
+
+  const whatWeDoMenu = findMenu("what we do", 0);
+  const aboutUsMenu = findMenu("about us", 1);
+  const ourWorkMenu = findMenu("our work", 2);
+
+  const whatWeDoColumns = whatWeDoMenu?.mega_menu || [];
+  const aboutUsColumns = aboutUsMenu?.mega_menu || [];
+
+  const whatWeDoLabel = whatWeDoMenu?.page_name || "What We Do";
+  const aboutUsLabel = aboutUsMenu?.page_name || "About Us";
+  const ourWorkLabel = ourWorkMenu?.page_name || "Our Work";
+  const ourWorkLink = normalizeLink(ourWorkMenu?.page_url, "/our-work");
+  const ctaLink = normalizeLink(headerData?.cta_link, "/contact");
+  const ctaText = headerData?.cta_text || "Book A Call";
+  const logoSrc = headerData?.logo ? getImageUrl(headerData.logo) : MainLogo;
+  const logoWidth = headerData?.logo?.width || MainLogo.width || 339;
+  const logoHeight = headerData?.logo?.height || MainLogo.height || 73;
 
   const isAnyDesktopMenuOpen = isWhatWeDoOpen || isAboutUsOpen;
   const isAnyMenuOpen = isAnyDesktopMenuOpen || isMobileMenuOpen;
@@ -127,16 +156,11 @@ useEffect(() => {
         async function fetchHeaderData() {
             try {
                 const response = await axios.get(
-                    "http://72.61.235.119:1337/api/header?populate[logo]=true&populate[what_we_do][populate][sub_pages]=true&populate[about_us][populate][sub_pages]=true"
+          "http://72.61.235.119:1337/api/header?populate[logo]=true&populate[header_menu][populate][mega_menu][populate][sub_pages]=true"
                 );
-                // The header endpoint returns a single entry — its fields
-                // (logo, what_we_do, about_us, cta_text, cta_link,
-                // our_work_text, our_work_url) live directly on response.data.data.
                 setHeaderData(response.data?.data || null);
             } catch (error) {
                 console.error("Error fetching header data:", error);
-            } finally {
-                setLoading(false);
             }
         }
 
@@ -331,8 +355,10 @@ useEffect(() => {
       <div className={styles.spHeaderBar} ref={headerBarRef}>
   <Link href="/" className={styles.spLogo}>
     <img
-      src={headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src}
+      src={logoSrc}
       alt="SimplePlan Logo"
+      width={logoWidth}
+      height={logoHeight}
       draggable="false"
     />
   </Link>
@@ -359,7 +385,7 @@ useEffect(() => {
           onFocus={() => openMenu("what-we-do")}
           onBlur={scheduleClose}
         >
-          <span>What We Do</span>
+          <span>{whatWeDoLabel}</span>
           <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
@@ -374,14 +400,14 @@ useEffect(() => {
           onFocus={() => openMenu("about-us")}
           onBlur={scheduleClose}
         >
-          <span>About Us</span>
+          <span>{aboutUsLabel}</span>
           <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
         </button>
 
-        <a href={headerData?.our_work_url || "/our-work"} className={styles.spNavLink}>
-          {headerData?.our_work_text || "Our Work"}
+        <a href={ourWorkLink} className={styles.spNavLink}>
+          {ourWorkLabel}
         </a>
       </nav>
     </div>
@@ -402,7 +428,7 @@ useEffect(() => {
           onFocus={() => openMenu("what-we-do")}
           onBlur={scheduleClose}
         >
-          <span>What We Do</span>
+          <span>{whatWeDoLabel}</span>
           <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
@@ -417,19 +443,19 @@ useEffect(() => {
           onFocus={() => openMenu("about-us")}
           onBlur={scheduleClose}
         >
-          <span>About Us</span>
+          <span>{aboutUsLabel}</span>
           <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
         </button>
 
-        <a href={headerData?.our_work_url || "/our-work"} className={styles.spNavLink}>
-          {headerData?.our_work_text || "Our Work"}
+        <a href={ourWorkLink} className={styles.spNavLink}>
+          {ourWorkLabel}
         </a>
       </nav>
 
-      <Link href={headerData?.cta_link || "/contact"} className={`custom-btn ${styles.spHeaderCta}`}>
-        <span>{headerData?.cta_text || "Book A Call"}</span>
+      <Link href={ctaLink} className={`custom-btn ${styles.spHeaderCta}`}>
+        <span>{ctaText}</span>
         <span className="arrow-wrap">
           <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
@@ -469,7 +495,7 @@ useEffect(() => {
         <div className={styles.spMegaMenuInner}>
           <div className={styles.spMegaMenuTop}>
             <div className={styles.spMegaMenuColumns}>
-              {(headerData?.what_we_do || []).map((column) => (
+              {whatWeDoColumns.map((column) => (
                 <div className={styles.spMegaMenuColumn} key={column.id}>
                   <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
                     <span>{column.page_name}</span>
@@ -514,9 +540,9 @@ useEffect(() => {
         onMouseLeave={scheduleClose}
       >
         <div className={styles.spMegaMenuInner}>
-          {(headerData?.about_us || []).length > 0 ? (
+          {aboutUsColumns.length > 0 ? (
             <div className={styles.spMegaMenuColumns}>
-              {headerData.about_us.map((column) => (
+              {aboutUsColumns.map((column) => (
                 <div className={styles.spMegaMenuColumn} key={column.id}>
                   <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
                     <span>{column.page_name}</span>
@@ -563,8 +589,10 @@ useEffect(() => {
         <div className={styles.spMobileHeader}>
           <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
             <img
-              src={headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src}
+              src={logoSrc}
               alt="SimplePlan Logo"
+              width={logoWidth}
+              height={logoHeight}
               draggable="false"
             />
           </Link>
@@ -592,7 +620,7 @@ useEffect(() => {
                   className={styles.spMobileItemBtn}
                   onClick={() => goToMobileView("what-we-do", "forward")}
                 >
-                  <span>What We Do</span>
+                  <span>{whatWeDoLabel}</span>
                   <span className={styles.spMobileChevron}>
                     {CHEVRON_RIGHT}
                   </span>
@@ -604,7 +632,7 @@ useEffect(() => {
                   className={styles.spMobileItemBtn}
                   onClick={() => goToMobileView("about-us", "forward")}
                 >
-                  <span>About Us</span>
+                  <span>{aboutUsLabel}</span>
                   <span className={styles.spMobileChevron}>
                     {CHEVRON_RIGHT}
                   </span>
@@ -612,20 +640,20 @@ useEffect(() => {
               </li>
               <li className={styles.spMobileItemNoBorder}>
                 <a
-                  href={headerData?.our_work_url || "/our-work"}
+                  href={ourWorkLink}
                   className={styles.spMobileItemBtn}
                   onClick={closeMobileMenu}
                 >
-                  <span>{headerData?.our_work_text || "Our Work"}</span>
+                  <span>{ourWorkLabel}</span>
                 </a>
               </li>
             </ul>
 
             <a
-              href={headerData?.cta_link || "#"}
+              href={normalizeLink(headerData?.cta_link, "#")}
               className={`${styles.spMobileCta} ${slideDirection !== "back" ? styles.spMobileCtaDelayed : ""}`}
             >
-              <span>{headerData?.cta_text || "Book a Call"}</span>
+              <span>{ctaText}</span>
               <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
             </a>
           </div>
@@ -643,10 +671,10 @@ useEffect(() => {
               onClick={() => goToMobileView("root", "back")}
             >
               <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-              <span>What We Do</span>
+              <span>{whatWeDoLabel}</span>
             </button>
             <div className={styles.spMobileSubList}>
-              {(headerData?.what_we_do || []).map((column) => (
+              {whatWeDoColumns.map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
                   <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
                     <span>{column.page_name}</span>
@@ -685,11 +713,11 @@ useEffect(() => {
               onClick={() => goToMobileView("root", "back")}
             >
               <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-              <span>About Us</span>
+              <span>{aboutUsLabel}</span>
             </button>
-            {(headerData?.about_us || []).length > 0 ? (
+            {aboutUsColumns.length > 0 ? (
               <div className={styles.spMobileSubList}>
-                {headerData.about_us.map((column) => (
+                {aboutUsColumns.map((column) => (
                   <div className={styles.spMobileGroup} key={column.id}>
                     <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
                       <span>{column.page_name}</span>
