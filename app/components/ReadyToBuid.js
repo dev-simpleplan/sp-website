@@ -4,11 +4,11 @@ export default function ReadyToBuild({ id, data }) {
     <section className="ready-to-build" id={id}>
       <div className="container">
         <div className="ready-to-build-in gap-left">
-          <h2 className="reveal-heading">
+          <h2>
             {data?.title}
           </h2>
 
-          <p className="split-reveal">
+          <p>
             {data?.description?.[0]?.children?.[0]?.text}
           </p>
 

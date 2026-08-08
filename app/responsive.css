@@ -105,11 +105,11 @@
     font-size: 16px;
   }
 
-  .like-what-you-see .counter-block:nth-child(2) {
+  .counter-block:nth-child(2) {
     text-align: start;
   }
 
-  .like-what-you-see .counter-block:nth-child(3) {
+  .counter-block:nth-child(3) {
     text-align: start;
   }
 
@@ -398,7 +398,7 @@
     padding-top: 50px;
   }
 
-  .like-what-you-see .counter-wrap {
+  .counter-wrap {
     flex-direction: column;
   }
 
@@ -610,13 +610,13 @@
     padding-bottom: 50px;
   }
 
-  .like-what-you-see .counter-block:nth-child(2) h2,
-  .like-what-you-see .counter-block:nth-child(2) p {
+  .counter-block:nth-child(2) h2,
+  .counter-block:nth-child(2) p {
     margin: 0;
   }
 
-  .like-what-you-see .counter-block:nth-child(3) h2,
-  .like-what-you-see .counter-block:nth-child(3) p {
+  .counter-block:nth-child(3) h2,
+  .counter-block:nth-child(3) p {
     margin-left: 0;
   }
 

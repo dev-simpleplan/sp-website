@@ -16,7 +16,7 @@ import "../globals.css";
 
 
 
-export default function BrandingServicePage(){
+export default function OurTeam(){
 
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
@@ -90,12 +90,12 @@ export default function BrandingServicePage(){
   
 
   const HOME_SECTIONS = [
-    { id: "company-hero", label: "Intro" },
-    { id: "meet_the_team", label: "Team" },
-    { id: "our_approach_team", label: "Our Belief" },
-    { id: "benefits", label: "Benefits" },
-    { id: "open_position", label: "Positions" },
-    { id: "initiative_section", label: "Initiatives" },
+    { id: "company-hero", label: sections.team_banner?.tagline },
+    { id: "meet_the_team", label: sections.meet_team?.tagline },
+    { id: "our_approach_team", label: sections.our_belief?.tagline },
+    { id: "benefits", label: sections.benefits?.tagline },
+    { id: "open_position", label: sections.open_position?.tagline },
+    { id: "initiative_section", label: sections.great_work_section?.tagline },
   ];
 
   return (

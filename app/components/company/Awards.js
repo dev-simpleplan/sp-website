@@ -38,33 +38,54 @@ export default function AwardsTicker({ id, data }) {
         image: award.award_image,
     })) || [];
 
+
+    const stats =
+    data?.stats?.map((stat) => ({
+      id: stat.id,
+      numbertext: stat.numbertext,
+      textbelownumber: stat.textbelownumber,
+    })) || [];
+
   return (
     <section className="awards-section">
         <div className="container">
             <div className="heading gap-left">
-                <h2 className="reveal-heading">{data?.title}</h2>
+                <h2>{data?.title}</h2>
             </div>
-            <div className="ticker-wrapper">
+            <div className="award-sec-in gap-left">
+                <div className="ticker-wrapper-outer">
+                    <div className="ticker-wrapper">
 
-                <div className="ticker-track" ref={tickerRef}>
-                {[...awards, ...awards].map((award, index) => (
-                    <div className="award-card" key={index}>
-                        {award.image && (
-                            <img
-                                src={getImageUrl(award.image)}
-                                alt={award?.title}
-                                className="award-img"
-                            />
-                        )}
+                        <div className="ticker-track" ref={tickerRef}>
+                        {[...awards, ...awards].map((award, index) => (
+                            <div className="award-card" key={index}>
+                                {award.image && (
+                                    <img
+                                        src={getImageUrl(award.image)}
+                                        alt={award?.title}
+                                        className="award-img"
+                                    />
+                                )}
 
-                        <div className="award-info">
-                            <p className="award-title">{award?.award_title}</p>
-                            <p className="award-year">{award?.year}</p>
+                                <div className="award-info">
+                                    <p className="award-title">{award?.award_title}</p>
+                                    <p className="award-year">{award?.year}</p>
+                                </div>
+                            </div>  
+                        ))}
                         </div>
-                    </div>  
-                ))}
+
+                    </div>
                 </div>
 
+                <div className="counter-wrap">
+                    {stats?.map((item) => (
+                        <div className="counter-block" key={item.id}>
+                        <h2>{item?.numbertext}</h2>
+                        <p>{item?.textbelownumber}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     </section>
