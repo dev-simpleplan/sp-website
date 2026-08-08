@@ -2,28 +2,26 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Wayfinding from "../components/Wayfinding";
-import CompanyBanner from "../components/CompanyBanner";
-import ApproachBranding from '../components/service/ApproachBranding';
-import Ethos from '../components/company/Ethos';
-import Founders from '../components/company/Founders';
-import Awards from '../components/company/Awards';
-import HowWeDoIt from '../components/company/HowWeDoIt';
-import Initiatives from "../components/company/Initiatives";
-import LikeWhatYouSee from '../components/LikeWhatYouSee';
-import WeAreProud from '../components/company/WeAreProud_headingScroll';
+import CultureBanner from "../components/CultureBanner";
+import VideoAnimated from "../components/VideoAnimated";
+import OurApproach from "../components/OurApproach";
+import HowWeDoIt from "../components/company/HowWeDoIt";
+import OffsitesRetreats from "../components/culture/OffsitesRetreats";
 import ReadyToBuild from "../components/ReadyToBuid";
-import "../our-team/teamStyle.css"
+
+import Initiatives from "../components/company/Initiatives";
 import RightSideLine from "../components/RightSideLine";
 
 
-export default function Company(){
+
+export default function Culture(){
 
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/company?populate=*')
+    axios.get('/api/culture?populate=*')
       .then(response => {
         if (response.data && response.data.data) {
           setSections(response.data.data);
@@ -90,32 +88,37 @@ export default function Company(){
   
 
   const HOME_SECTIONS = [
-    { id: "company_apprch", label: sections.company_about?.tagline },
-    { id: "ethos", label: sections.we_believe_in?.tagline },
-    { id: "founders-sec", label: sections.founder_section?.tagline },
-    { id: "best_awards", label: sections.awards_and_stats?.tagline },
-    { id: "we-are-proud", label: "Transformation" },
-    { id: "ReadyToBuild", label: sections.get_in_touch?.Tagline },
-    { id: "we_do_differently", label: sections.we_do_differently?.tagline },
-    { id: "initiative_section", label: sections.initiative_section?.tagline },
+    // { id: "company-hero", label: sections.team_banner?.tagline },
+    // { id: "meet_the_team", label: sections.meet_team?.tagline },
+    // { id: "our_approach_team", label: sections.our_belief?.tagline },
+    // { id: "benefits", label: sections.benefits?.tagline },
+    // { id: "open_position", label: sections.open_position?.tagline },
+    // { id: "initiative_section", label: sections.great_work_section?.tagline },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
       <RightSideLine id="rightLine"/>
-      <CompanyBanner id="company-hero" data={sections.company_banner} loading={loading}/>
-      <ApproachBranding id="company_apprch" data={sections.company_about} />
+      <CultureBanner id="company-hero" data={sections.culture_banner} />
+      <VideoAnimated data={sections.video_section} />
+      <OurApproach id="principles" data={sections.principles} />
+      <HowWeDoIt id="we_keep_standards" data={sections.we_keep_standards} />
+      <OffsitesRetreats id="offsites_retreats" data={sections.offsites_retreats} />
+      <ReadyToBuild id="join_team" data={sections.join_team}/>
+      {/* <MeetTheTeam id="meet_the_team" data={sections.meet_team} />
+      <OpenPosition id="open_position" data={sections.open_position}/>
+      <Initiatives id="initiative_section" data={sections.great_work_section}/> */}
+
+      {/* <ApproachBranding id="company_apprch" data={sections.company_about} />
       <Ethos id="ethos" data={sections.we_believe_in} />
       <Founders id="founders-sec" data={sections.founder_section}/>
       <Awards id="best_awards" data={sections.awards_and_stats} />
+      <LikeWhatYouSee id="like-what-you-see-company" data={sections.awards_and_stats} stats={sections.awards_and_stats?.stats} />
       <WeAreProud id="we-are-proud" />
       <ReadyToBuild id="ReadyToBuild" data={sections.get_in_touch}/>
       <HowWeDoIt id="we_do_differently" data={sections.we_do_differently} />
-      <Initiatives id="initiative_section" data={sections.initiative_section}/>
-      {/* <BringingClarity id="bringing-clarity" data={sections.struggle} bullet-item={sections.bulletItem} />
-      <OurApproach  id="our-approach"/>
-      <HowThisShowUp id="how-this-show-up" /> */}
+      <Initiatives id="initiative_section" data={sections.initiative_section}/> */}
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (

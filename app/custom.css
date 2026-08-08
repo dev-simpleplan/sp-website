@@ -81,7 +81,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 200px 40px 100px;
+  padding: 160px 40px 100px;
 }
 
 .home-banner-in h1 {
@@ -89,15 +89,15 @@
   font-style: italic;
   text-transform: capitalize;
   font-size: clamp(48px, 8vw, 112px);
-  max-width: 14ch;
+  max-width: 18ch;
   margin: 0 auto;
 }
 
 .home-banner-in p {
   color: #fff;
-  max-width: 58ch;
+  max-width: 70ch;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .home-b-cta {
@@ -105,7 +105,7 @@
   gap: 50px;
   align-items: center;
   justify-content: center;
-  margin-top: 64px;
+  margin-top: 40px;
   flex-wrap: wrap;
 }
 
@@ -333,7 +333,7 @@
   margin-bottom: 30px;
 }
 
-.like-what-you-see .counter-wrap {
+.counter-wrap {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -349,7 +349,7 @@
   margin-top: 0;
 }
 
-.like-what-you-see .counter-block {
+.counter-block {
   flex: 1;
   position: relative;
   padding: 0 48px;
@@ -358,7 +358,7 @@
   /* max-width: 155px; */
 }
 
-.like-what-you-see .counter-block:first-child {
+.counter-block:first-child {
   padding-left: 0;
 }
 
@@ -372,7 +372,7 @@
 }
 
 /* vertical divider between blocks */
-.like-what-you-see .counter-block:not(:first-child)::before {
+.counter-block:not(:first-child)::before {
   content: "";
   position: absolute;
   left: 0;
@@ -384,7 +384,7 @@
 }
 
 /* number */
-.like-what-you-see .counter-block h2 {
+.counter-block h2 {
   font-family: var(--newsreader);
   font-style: italic;
   font-weight: 300;
@@ -398,7 +398,7 @@
 }
 
 /* label */
-.like-what-you-see .counter-block p {
+.counter-block p {
   font-size: 13px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.75);
@@ -411,23 +411,23 @@
 }
 
 /* stagger per block */
-.like-what-you-see .counter-block:nth-child(1) h2,
-.like-what-you-see .counter-block:nth-child(1) p {
+.counter-block:nth-child(1) h2,
+.counter-block:nth-child(1) p {
   animation-delay: 0s;
   /* max-width: 150px; */
   width: max-content;
 }
 
-.like-what-you-see .counter-block:nth-child(2) h2,
-.like-what-you-see .counter-block:nth-child(2) p {
+.counter-block:nth-child(2) h2,
+.counter-block:nth-child(2) p {
   animation-delay: 0.25s;
   /* margin: 0 auto; */
   /* max-width: 150px; */
   width: max-content;
 }
 
-.like-what-you-see .counter-block:nth-child(3) h2,
-.like-what-you-see .counter-block:nth-child(3) p {
+.counter-block:nth-child(3) h2,
+.counter-block:nth-child(3) p {
   animation-delay: 0.5s;
   /* margin-left: auto; */
   /* max-width: 150px; */
@@ -2008,6 +2008,10 @@
   /* overflow: hidden; */
 }
 
+.award-sec-in{
+  overflow: hidden;
+}
+
 .ticker-wrapper {
   overflow: hidden;
   width: 100%;
@@ -2046,6 +2050,10 @@
 
 .award-info .award-year {
   font-weight: 400;
+}
+
+.award-sec-in .counter-wrap{
+  margin-top: 200px;
 }
 
 
@@ -2288,7 +2296,7 @@
   margin-top: 20px;
 }
 
-.home-b-cta {
+.custom-banner-in .home-b-cta {
   display: flex;
   gap: 50px;
   align-items: center;
@@ -2380,11 +2388,16 @@ a.custom-btn.cta {
 }
 
 @media (max-width: 768px) {
-  .like-what-you-see .counter-wrap {
+  
+  .counter-wrap {
     flex-direction: row;
     align-items: flex-start;
     gap: 32px;
     margin-top: 40px;
+  }
+
+  .award-sec-in .counter-wrap{
+    margin-top: 50px;
   }
 
   .our-approach {
@@ -2399,12 +2412,12 @@ a.custom-btn.cta {
     margin-bottom: 20px;
   }
 
-  .like-what-you-see .counter-block {
+  .counter-block {
     padding: 0;
     width: 100%;
   }
 
-  .like-what-you-see .counter-block:not(:first-child)::before {
+  .counter-block:not(:first-child)::before {
     display: none;
   }
 
@@ -2532,3 +2545,245 @@ a.custom-btn.cta {
     font-size: 24px;
   }
 }
+
+
+
+
+/* =============================== */
+/* CULTURE PAGE STYLE START --------- */
+/* =============================== */
+
+
+.culture-banner {
+  background-color: var(--sp-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.culture-banner-in {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  height: 100vh;
+  padding-top: 200px;
+}
+
+.culture-banner-in h1 {
+  color: #fff;
+  font-style: italic;
+  text-transform: capitalize;
+  font-size: clamp(48px, 8vw, 112px);
+  max-width: 12ch;
+  margin: 0 auto;
+}
+
+.culture-banner-in p {
+  color: #fff;
+  max-width: 60ch;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+
+/* floating circles */
+.cb-float-img {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.cb-float-img .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cb-float-tl {
+  top: 16%;
+  left: 12%;
+  width: 135px;
+  height: 135px;
+}
+
+.cb-float-tr {
+  top: 100px;
+  right: 10%;
+  width: 121px;
+  height: 121px;
+}
+
+.cb-float-bl {
+  bottom: 40px;
+  left: 12%;
+  width: 193px;
+  height: 193px;
+}
+
+.cb-float-br {
+  bottom: 10px;
+  right: 8%;
+  width: 301px;
+  height: 301px;
+}
+
+@media screen and (max-width: 991px) {
+  .cb-float-tl { width: 100px; height: 100px; }
+  .cb-float-tr { width: 95px; height: 95px; }
+  .cb-float-bl { width: 130px; height: 130px; }
+  .cb-float-br { width: 140px; height: 140px; }
+}
+
+/* Decorative float circles crowd the text too much on small screens —
+   hide them there and let the banner content stand on its own. */
+@media screen and (max-width: 640px) {
+  .cb-float-img {
+    display: none;
+  }
+
+  .culture-banner-in {
+    min-height: auto;
+  }
+}
+
+/* ── Offsites & Retreats ──────────────────────────────────── */
+.offsites-retreats-section {
+  background-color: var(--sp-red);
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.offsites-retreats-in {
+  position: relative;
+}
+
+.offsites-retreats-in .reveal-heading {
+  margin-bottom: 48px;
+}
+
+/* year tabs */
+.or-tabs {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.or-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s ease;
+}
+
+.or-tab:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.or-tab.is-active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.or-tab-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.or-tab.is-active .or-tab-dot {
+  opacity: 1;
+}
+
+/* ticker */
+.or-ticker {
+  overflow: hidden;
+  width: 100%;
+}
+
+.or-track {
+  display: flex;
+  width: max-content;
+  /* reuses the same marquee keyframe as .ticker-track (translateX 0 -> -50%) */
+  animation: ticker-scroll 26s linear infinite;
+}
+
+.or-track:hover {
+  animation-play-state: paused;
+}
+
+.or-item {
+  flex-shrink: 0;
+  width: 335px;
+  aspect-ratio: 3 / 4;
+  margin-right: 24px;
+}
+
+.or-item .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* place / year below the ticker */
+.or-info {
+  margin-top: 32px;
+}
+
+.or-place {
+  font-family: var(--font-aspekta);
+  font-weight: 600;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+}
+
+.or-year {
+  margin-top: 8px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media screen and (max-width: 767px) {
+  .offsites-retreats-section {
+    padding: 60px 0;
+  }
+
+  .or-tabs {
+    gap: 28px;
+  }
+
+  .or-tab {
+    font-size: 16px;
+  }
+
+  .or-item {
+    width: 220px;
+  }
+
+  .or-place {
+    font-size: 19px;
+  }
+}
+
+/* =============================== */
+/* CULTURE PAGE STYLE END --------- */
+/* =============================== */
