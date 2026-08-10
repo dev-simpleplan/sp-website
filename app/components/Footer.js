@@ -29,9 +29,7 @@ export default function Footer() {
   useEffect(() => {
     async function fetchFooterData() {
       try {
-        const response = await axios.get(
-          "http://72.61.235.119:1337/api/footer?populate[pages_menu]=true&populate[about_menu]=true&populate[social_link_menu]=true&populate[contact_us_menu]=true"
-        );
+        const response = await axios.get("/api/footer");
 
         setFooterData(response.data?.data || null);
       } catch (error) {

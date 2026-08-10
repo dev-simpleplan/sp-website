@@ -155,9 +155,7 @@ export default function Header() {
 useEffect(() => {
         async function fetchHeaderData() {
             try {
-                const response = await axios.get(
-          "http://72.61.235.119:1337/api/header?populate[logo]=true&populate[header_menu][populate][mega_menu][populate][sub_pages]=true"
-                );
+                const response = await axios.get("/api/header");
                 setHeaderData(response.data?.data || null);
             } catch (error) {
                 console.error("Error fetching header data:", error);
