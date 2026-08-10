@@ -8,6 +8,8 @@ import OurApproach from "../components/OurApproach";
 import HowWeDoIt from "../components/company/HowWeDoIt";
 import OffsitesRetreats from "../components/culture/OffsitesRetreats";
 import ReadyToBuild from "../components/ReadyToBuid";
+import CultureVideos from "../components/culture/CultureVideos";
+import CatchUpWithUs from "../components/culture/CatchUpWithUs";
 
 import Initiatives from "../components/company/Initiatives";
 import RightSideLine from "../components/RightSideLine";
@@ -106,19 +108,8 @@ export default function Culture(){
       <HowWeDoIt id="we_keep_standards" data={sections.we_keep_standards} />
       <OffsitesRetreats id="offsites_retreats" data={sections.offsites_retreats} />
       <ReadyToBuild id="join_team" data={sections.join_team}/>
-      {/* <MeetTheTeam id="meet_the_team" data={sections.meet_team} />
-      <OpenPosition id="open_position" data={sections.open_position}/>
-      <Initiatives id="initiative_section" data={sections.great_work_section}/> */}
-
-      {/* <ApproachBranding id="company_apprch" data={sections.company_about} />
-      <Ethos id="ethos" data={sections.we_believe_in} />
-      <Founders id="founders-sec" data={sections.founder_section}/>
-      <Awards id="best_awards" data={sections.awards_and_stats} />
-      <LikeWhatYouSee id="like-what-you-see-company" data={sections.awards_and_stats} stats={sections.awards_and_stats?.stats} />
-      <WeAreProud id="we-are-proud" />
-      <ReadyToBuild id="ReadyToBuild" data={sections.get_in_touch}/>
-      <HowWeDoIt id="we_do_differently" data={sections.we_do_differently} />
-      <Initiatives id="initiative_section" data={sections.initiative_section}/> */}
+      <CultureVideos id="culture_videos" data={sections.culture_videos}/>
+      <CatchUpWithUs id="community" data={sections.community}/>
 
       {/* API-dependent sections — show loader until data arrives */}
       {loading && (
