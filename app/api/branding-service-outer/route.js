@@ -6,7 +6,7 @@ export async function GET() {
       "http://72.61.235.119:1337/api/branding-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*",
       {
         headers: {
-          // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`
+          Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
         },
         cache: "no-store",
       }

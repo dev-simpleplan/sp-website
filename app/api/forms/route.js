@@ -30,7 +30,7 @@ export async function POST(request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`
+        Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
       },
       body: JSON.stringify({ data: { name, email, phone_number, what_need } }),
       cache: "no-store",

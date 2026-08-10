@@ -6,7 +6,7 @@ export async function GET() {
       "http://72.61.235.119:1337/api/company?populate[company_banner][populate]=*&populate[company_about][populate]=*&populate[we_believe_in][populate]=*&populate[founder_section][populate][founders][populate]=*&populate[awards_and_stats][populate][best_awards][populate]=*&populate[awards_and_stats][populate][stats][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[get_in_touch][populate]=*&populate[we_do_differently][populate]=*&populate[initiative_section][populate]=*&populate[pre_footer][populate]=*",
       {
         headers: {
-          // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`
+          Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
         },
         cache: "no-store",
       }

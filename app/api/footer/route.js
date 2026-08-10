@@ -6,7 +6,7 @@ export async function GET() {
       "http://72.61.235.119:1337/api/footer?populate[pages_menu]=true&populate[about_menu]=true&populate[social_link_menu]=true&populate[contact_us_menu]=true",
       {
         headers: {
-          // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`
+          Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
         },
         cache: "no-store",
       }
