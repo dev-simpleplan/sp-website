@@ -9,9 +9,13 @@ export const SERVICE_INNER_POPULATE_QUERY =
 // needing to hardcode every slug manually.
 export async function getAllServiceSlugs() {
   try {
+    // cache: "no-store" is incompatible with generateStaticParams() — it
+    // forces the whole route to bail out of static generation, so none of
+    // these pages get pre-rendered. revalidate lets the build fetch once
+    // statically, then refresh periodically at runtime (ISR) instead.
     const res = await fetch(
       `${STRAPI_BASE_URL}/api/services?fields[0]=slug&fields[1]=title`,
-      { cache: "no-store" }
+      { next: { revalidate: 60 } }
     );
 
     if (!res.ok) return [];
