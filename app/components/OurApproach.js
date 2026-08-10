@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Link from "next/link";
 import "swiper/css";
 
 const Dot = () => (
@@ -26,11 +27,14 @@ const Card = ({ b }) => {
     </>
   );
 
+  // cta_link on scope-of-work items is a bare service slug (e.g.
+  // "logo_and_visual"), not a full URL — build the internal
+  // /service/[slug] route from it rather than using it as a raw href.
   if (b.cta_link) {
     return (
-      <a href={b.cta_link} className="block-box">
+      <Link href={`/service/${b.cta_link}`} className="block-box">
         {content}
-      </a>
+      </Link>
     );
   }
 

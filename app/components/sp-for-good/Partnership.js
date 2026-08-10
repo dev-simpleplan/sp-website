@@ -1,11 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
-
-// Same Strapi host used elsewhere in the app (see Header.js) — centralize
-// this in one env var if you haven't already (NEXT_PUBLIC_API_URL).
-const API_BASE = "http://72.61.235.119:1337";
 
 // Small, hardcoded starter list for the phone country-code picker. The API
 // doesn't provide a country list, so this covers a few common ones with
@@ -20,6 +17,7 @@ const COUNTRY_CODES = [
 ];
 
 export default function Partnership({ id, data }) {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -38,20 +36,17 @@ export default function Partnership({ id, data }) {
 
     setStatus("submitting");
     try {
-      await axios.post(`${API_BASE}/api/forms`, {
-        data: {
-          name,
-          email,
-          phone_number: `${country.dial} ${phone}`.trim(),
-          what_need: whatNeed,
-        },
+      // Proxied through our own /api/forms route instead of hitting the
+      // http-only Strapi backend directly from the browser — same
+      // mixed-content issue we fixed for header/footer/images.
+      await axios.post("/api/forms", {
+        name,
+        email,
+        phone_number: `${country.dial} ${phone}`.trim(),
+        what_need: whatNeed,
       });
       setStatus("success");
-      setName("");
-      setEmail("");
-      setPhone("");
-      setWhatNeed("");
-      setTimeout(() => setStatus("idle"), 4000);
+      router.push("/thank-you");
     } catch (error) {
       console.error("Error submitting partnership form:", error);
       setStatus("error");
