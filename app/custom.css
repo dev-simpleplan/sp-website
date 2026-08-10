@@ -255,6 +255,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  position: relative;
 }
 
 .block-box-swiper .swiper {
@@ -2790,6 +2791,219 @@ a.custom-btn.cta {
   .or-place {
     font-size: 19px;
   }
+}
+
+/* ── Culture Videos ───────────────────────────────────────── */
+.culture-videos-section {
+  background-color: var(--sp-red);
+  padding: 100px 0;
+}
+
+.culture-videos-top .reveal-heading {
+  margin-bottom: 56px;
+  max-width: 16ch;
+}
+
+.culture-videos-in .swiper-slide{
+  width: 90%;
+}
+.culture-videos-in .swiper-slide:nth-child(2){
+  width: 100%;
+}
+
+.video-card-wrap {
+  display: flex;
+  /* gap: 24px; */
+  flex-wrap: wrap;
+}
+
+.swiper-wrapper .video-card {
+  display: grid;
+  grid-template-columns: minmax(0, 450px) 1fr;
+  gap: 40px;
+  /* align-items: center; */
+  height: 100%;
+  /* width: 100%; */
+  cursor: pointer;
+}
+
+
+.video-card-media {
+  position: relative;
+  aspect-ratio: 1 / 1.2;
+  overflow: hidden;
+}
+
+.video-card-media iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-card-media .video-play-btn{
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+.video-card-media .video-play-btn svg{
+  color: #000;
+}
+
+.video-card-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.video-card-title {
+  font-family: var(--font-aspekta);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: #fff;
+  font-style: normal;
+  letter-spacing: -0.32px;
+  max-width: 22ch;
+}
+
+.video-card-cta {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  /* text-decoration: underline; */
+  /* text-underline-offset: 4px; */
+  width: fit-content;
+  position: relative;
+}
+
+/* .video-card-cta::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: .1px;
+  background: #ffffff;
+} */
+
+/* the slider variant reuses .block-box-swiper's generic swiper mechanics —
+   only the card sizing/media needs overriding here */
+/* .culture-videos-slider .video-card {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 32px;
+} */
+
+@media screen and (max-width: 767px) {
+  .culture-videos-section {
+    padding: 60px 0;
+  }
+
+  .video-card-title {
+    font-size: 20px;
+  }
+}
+
+
+/* ── Catch Up With Us ─────────────────────────────────────── */
+.catch-up-section {
+  background-color: var(--sp-red);
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.catch-up-in {
+  position: relative;
+}
+
+.catch-up-in .reveal-heading {
+  margin-bottom: 24px;
+}
+
+.catch-up-socials {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 56px;
+}
+
+.catch-up-social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.catch-up-social-icon:hover {
+  background: #fff;
+}
+
+.catch-up-social-icon .img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* ticker */
+.catch-up-ticker {
+  overflow: hidden;
+  width: 100%;
+}
+
+.catch-up-track {
+  display: flex;
+  width: max-content;
+  /* reuses the same marquee keyframe as .ticker-track / .or-track */
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.catch-up-track:hover {
+  animation-play-state: paused;
+}
+
+.catch-up-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 335px;
+  aspect-ratio: 1 / 1.3;
+  margin-right: 24px;
+  display: block;
+}
+
+.catch-up-item .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (max-width: 767px) {
+  .catch-up-section {
+    padding: 60px 0;
+  }
+
+  .catch-up-item {
+    width: 220px;
+  }
+
 }
 
 /* =============================== */

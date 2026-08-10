@@ -3,7 +3,7 @@
 export async function GET() {
   try {
     const res = await fetch(
-      "http://72.61.235.119:1337/api/work-culture?populate[culture_banner][populate]=*&populate[video_section][populate]=*&populate[principles][populate]=*&populate[we_keep_standards][populate]=*&populate[offsites_retreats][populate][retreats][populate]=*&populate[join_team][populate]=*&populate[employees_pov][populate]=*&populate[culture_videos][populate][videos][populate]=*&populate[community][populate]=*&populate[pre_footer][populate]=*",
+      "http://72.61.235.119:1337/api/work-culture?populate[culture_banner][populate]=*&populate[video_section][populate]=*&populate[principles][populate]=*&populate[we_keep_standards][populate]=*&populate[offsites_retreats][populate][retreats][populate]=*&populate[join_team][populate]=*&populate[employees_pov][populate]=*&populate[culture_videos][populate][videos][populate]=*&populate[community][populate][images]=true&populate[community][populate][social_media][populate][social_icon]=true&populate[pre_footer][populate]=*",
       {
         headers: {
           // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`
