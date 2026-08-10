@@ -30,5 +30,5 @@ export default async function ServiceBySlugPage({ params }) {
     notFound();
   }
 
-  return <ServicePageTemplate slug={slug} />;
+  return <ServicePageTemplate slug={slug} />; 
 }
