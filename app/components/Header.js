@@ -121,7 +121,11 @@ export default function Header() {
   const ourWorkLink = normalizeLink(ourWorkMenu?.page_url, "/our-work");
   const ctaLink = normalizeLink(headerData?.cta_link, "/contact");
   const ctaText = headerData?.cta_text || "Book A Call";
-  const logoSrc = headerData?.logo ? getImageUrl(headerData.logo) : MainLogo;
+  // MainLogo is a static-import object ({src, width, height, ...}), not a
+  // plain URL string — these render as a plain <img>, not next/image's
+  // <Image>, so it must be unwrapped to .src or the browser literally
+  // requests "[object Object]" until the CMS logo finishes loading.
+  const logoSrc = headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src;
   const logoWidth = headerData?.logo?.width || MainLogo.width || 339;
   const logoHeight = headerData?.logo?.height || MainLogo.height || 73;
 
