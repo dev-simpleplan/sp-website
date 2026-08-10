@@ -2087,13 +2087,20 @@
   background: var(--sp-red);
   color: #fff;
   overflow: hidden;
-  padding-top: 40px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0 0;
+}
+
+.standard-card-title{
+  text-transform: uppercase;
 }
 
 .cards-stage {
   position: relative;
-  height: 500px;
-  margin-top: 120px;
+  height: 400px;
+  margin-top: 100px;
 }
 
 .standards-card {
@@ -2566,9 +2573,10 @@ a.custom-btn.cta {
 .culture-banner-in {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 60px;
   height: 100vh;
-  padding-top: 200px;
+  /* padding-top: 200px; */
 }
 
 .culture-banner-in h1 {
