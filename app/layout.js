@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AnimationProvider from "./components/AnimationProvider"
 import SideRailVisibilityWatcher from "./components/SideRailVisibilityWatcher";
+import ScrollToTop from "./components/ScrollToTop";
 
 const aspekta = localFont({
   variable: "--font-aspekta",
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
         <link rel="shortcut icon" href="../public/images/favicon20.png" type="image/x-icon" />
       </head>
       <body suppressHydrationWarning>
+        <ScrollToTop />
         <Header />
         <SideRailVisibilityWatcher />
         {/* <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider> */}
