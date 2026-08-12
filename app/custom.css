@@ -234,6 +234,10 @@
   margin-bottom: 0;
 }
 
+.our-approach-top .heading h2{
+  max-width: 20ch;
+}
+
 /* .our-approach .heading {
   margin-bottom: 50px;
 } */
@@ -1615,10 +1619,30 @@
   border-radius: 4px;
 }
 
+.htsu-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.htsu-video .video-play-btn{
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+.htsu-video .video-play-btn svg{
+  color: #000;
+}
+
 .htsu-video .img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* z-index: 9; */
+  position: relative;
 }
 
 .htsu-play-btn {
@@ -2569,6 +2593,7 @@ a.custom-btn.cta {
   justify-content: center;
   text-align: center;
   padding: 0 40px;
+  overflow: hidden;
 }
 
 .culture-banner-in {
@@ -2577,6 +2602,7 @@ a.custom-btn.cta {
   justify-content: center;
   gap: 60px;
   height: 100vh;
+  overflow: hidden;
   /* padding-top: 200px; */
 }
 
@@ -2651,12 +2677,62 @@ a.custom-btn.cta {
 /* Decorative float circles crowd the text too much on small screens —
    hide them there and let the banner content stand on its own. */
 @media screen and (max-width: 640px) {
-  .cb-float-img {
+  /* .cb-float-img {
     display: none;
+  } */
+  .cb-float-tl { 
+    left: 2%;
+    top: 10%;
+    width: 100px;
+    height: 100px;
+  }
+  .cb-float-tr { 
+    width: 80px;
+    height: 80px;
+    right: 2%;
+    top: 8%;
+  }
+  .cb-float-bl { 
+    width: 180px; 
+    height: 180px; 
+    left: 0;
+    bottom: 0;
+  }
+  .cb-float-br { 
+    width: 140px; 
+    height: 140px; 
   }
 
   .culture-banner-in {
     min-height: auto;
+    overflow: hidden;
+  }
+}
+@media screen and (max-width: 480px) {
+  .cb-float-tl { 
+    left: 3%;
+    top: 9%;
+    width: 80px;
+    height: 80px;
+  }
+  .cb-float-tr { 
+    width: 60px;
+    height: 60px;
+    right: 10%;
+    top: 13%;
+  }
+  .cb-float-bl { 
+    width: 140px; 
+    height: 140px; 
+    left: 2%;
+    bottom: 2%;
+  }
+  .cb-float-br { 
+    width: 100px; 
+    height: 100px; 
+  }
+  .culture-banner-in{
+    margin-bottom: 100px;
   }
 }
 
@@ -2771,28 +2847,6 @@ a.custom-btn.cta {
   color: rgba(255, 255, 255, 0.7);
 }
 
-@media screen and (max-width: 767px) {
-  .offsites-retreats-section {
-    padding: 60px 0;
-  }
-
-  .or-tabs {
-    gap: 28px;
-  }
-
-  .or-tab {
-    font-size: 16px;
-  }
-
-  .or-item {
-    width: 220px;
-  }
-
-  .or-place {
-    font-size: 19px;
-  }
-}
-
 /* ── Culture Videos ───────────────────────────────────────── */
 .culture-videos-section {
   background-color: var(--sp-red);
@@ -2800,7 +2854,7 @@ a.custom-btn.cta {
 }
 
 .culture-videos-top .reveal-heading {
-  margin-bottom: 56px;
+  margin-bottom: 100px;
   max-width: 16ch;
 }
 
@@ -2809,6 +2863,10 @@ a.custom-btn.cta {
 }
 .culture-videos-in .swiper-slide:nth-child(2){
   width: 100%;
+}
+
+.block-box-swiper{
+  overflow: hidden;
 }
 
 .video-card-wrap {
@@ -2869,7 +2927,7 @@ a.custom-btn.cta {
 
 .video-card-title {
   font-family: var(--font-aspekta);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 28px;
   line-height: 120%;
   text-transform: uppercase;
@@ -2880,13 +2938,6 @@ a.custom-btn.cta {
 }
 
 .video-card-cta {
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
-  /* text-decoration: underline; */
-  /* text-underline-offset: 4px; */
   width: fit-content;
   position: relative;
 }
@@ -2909,21 +2960,11 @@ a.custom-btn.cta {
   gap: 32px;
 } */
 
-@media screen and (max-width: 767px) {
-  .culture-videos-section {
-    padding: 60px 0;
-  }
-
-  .video-card-title {
-    font-size: 20px;
-  }
-}
-
 
 /* ── Catch Up With Us ─────────────────────────────────────── */
 .catch-up-section {
   background-color: var(--sp-red);
-  padding: 100px 0;
+  padding: 100px 0 200px;
   overflow: hidden;
 }
 
@@ -2937,28 +2978,13 @@ a.custom-btn.cta {
 
 .catch-up-socials {
   display: flex;
-  gap: 14px;
-  margin-bottom: 56px;
-}
-
-.catch-up-social-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease;
-}
-
-.catch-up-social-icon:hover {
-  background: #fff;
+  gap: 24px;
+  margin-bottom: 100px;
 }
 
 .catch-up-social-icon .img {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -2995,15 +3021,10 @@ a.custom-btn.cta {
   display: block;
 }
 
-@media screen and (max-width: 767px) {
-  .catch-up-section {
-    padding: 60px 0;
-  }
 
-  .catch-up-item {
-    width: 220px;
-  }
 
+.employee-pov-text{
+  min-height: 185px;
 }
 
 /* =============================== */

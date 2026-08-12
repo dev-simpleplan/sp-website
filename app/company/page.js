@@ -10,7 +10,7 @@ import Awards from '../components/company/Awards';
 import HowWeDoIt from '../components/company/HowWeDoIt';
 import Initiatives from "../components/company/Initiatives";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
-import WeAreProud from '../components/company/WeAreProud_headingScroll';
+import WeAreProud_headingScroll from '../components/company/WeAreProud_headingScroll';
 import ReadyToBuild from "../components/ReadyToBuid";
 import "../our-team/teamStyle.css"
 import RightSideLine from "../components/RightSideLine";
@@ -94,7 +94,7 @@ export default function Company(){
     { id: "ethos", label: sections.we_believe_in?.tagline },
     { id: "founders-sec", label: sections.founder_section?.tagline },
     { id: "best_awards", label: sections.awards_and_stats?.tagline },
-    { id: "we-are-proud", label: "Transformation" },
+    { id: "transformation", label: sections.transformation?.tagline },
     { id: "ReadyToBuild", label: sections.get_in_touch?.Tagline },
     { id: "we_do_differently", label: sections.we_do_differently?.tagline },
     { id: "initiative_section", label: sections.initiative_section?.tagline },
@@ -108,8 +108,8 @@ export default function Company(){
       <ApproachBranding id="company_apprch" data={sections.company_about} />
       <Ethos id="ethos" data={sections.we_believe_in} />
       <Founders id="founders-sec" data={sections.founder_section}/>
-      <Awards id="best_awards" data={sections.awards_and_stats} />
-      <WeAreProud id="we-are-proud" />
+      <Awards id="best_awards" data={sections.awards_and_stats} stats={sections.awards_and_stats?.stats} />
+      <WeAreProud_headingScroll id="transformation" data={sections.transformation} />
       <ReadyToBuild id="ReadyToBuild" data={sections.get_in_touch}/>
       <HowWeDoIt id="we_do_differently" data={sections.we_do_differently} />
       <Initiatives id="initiative_section" data={sections.initiative_section}/>

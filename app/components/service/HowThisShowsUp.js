@@ -1,9 +1,89 @@
 "use client";
 
 import Link from "next/link";
+import { useRef, useEffect, useState } from "react";
 import { getImageUrl } from "../getImageUrl";
 
+const PLAY_ICON = (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <path d="M6 4.5L17 11L6 17.5V4.5Z" fill="currentColor" />
+  </svg>
+);
+
+const getYouTubeId = (url) =>
+  url
+    ? url.match(
+        /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/
+      )?.[1] || ""
+    : "";
+
+// Same singleton loader as CultureVideos.js / ServiceBanner.js — the YT
+// iframe API script only ever needs to load once, and every player on the
+// page shares it.
+let ytApiPromise = null;
+function loadYouTubeIframeApi() {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (ytApiPromise) return ytApiPromise;
+
+  ytApiPromise = new Promise((resolve) => {
+    const prevCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prevCallback?.();
+      resolve();
+    };
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+
+  return ytApiPromise;
+}
+
 export default function HowThisShowsUp({ id, data }) {
+  const iframeRef = useRef(null);
+  const playerRef = useRef(null);
+  const [started, setStarted] = useState(false);
+
+  // `videourl` is the actual YouTube link to embed — `cta_link` stays a
+  // separate "watch the full video" text link used in htsu-foot below.
+  const videoId = getYouTubeId(data?.videourl);
+  const thumbnail = data?.image ? getImageUrl(data.image) : "";
+
+  useEffect(() => {
+    if (!videoId) return;
+    let cancelled = false;
+
+    loadYouTubeIframeApi().then(() => {
+      if (cancelled || !iframeRef.current) return;
+
+      playerRef.current = new window.YT.Player(iframeRef.current, {
+        events: {
+          onStateChange: (e) => {
+            if (e.data === window.YT.PlayerState.ENDED) {
+              // Reset to thumbnail + play button, same as CultureVideos.
+              playerRef.current?.stopVideo?.();
+              setStarted(false);
+            }
+          },
+        },
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      playerRef.current?.destroy?.();
+      playerRef.current = null;
+    };
+  }, [videoId]);
+
+  const handlePlay = (e) => {
+    e.preventDefault();
+    if (!videoId) return;
+    setStarted(true);
+    playerRef.current?.playVideo?.();
+  };
+
   if (!data) return null;
 
   const heading = data?.title?.split(" in ") || [data?.title];
@@ -24,39 +104,50 @@ export default function HowThisShowsUp({ id, data }) {
           </h2>
 
           <div className="htsu-content">
-            <a
-              href={data?.cta_link || "#!"}
-              className="htsu-video"
+            <div
+              className={`htsu-video${started ? " is-playing" : ""}`}
+              onClick={videoId ? handlePlay : undefined}
+              role={videoId ? "button" : undefined}
+              aria-label={videoId ? "Play video" : undefined}
             >
-              <img
-                src={getImageUrl(data?.image)}
-                alt={
-                  data?.image?.alternativeText ||
-                  data?.image?.name ||
-                  data?.title
-                }
-                className="img"
-              />
+              {videoId && (
+                <iframe
+                  ref={iframeRef}
+                  src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0`}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  title={data?.title || "Video"}
+                  className="htsu-video-iframe"
+                />
+              )}
 
-              <span className="htsu-play-btn" aria-hidden="true">
-                <svg
-                  width="14"
-                  height="16"
-                  viewBox="0 0 14 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.5 8L0.75 15.3971L0.75 0.602886L13.5 8Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </span>
+              {!started && (
+                <>
+                  {thumbnail && (
+                    <img
+                      src={thumbnail}
+                      alt={
+                        data?.image?.alternativeText ||
+                        data?.image?.name ||
+                        data?.title
+                      }
+                      className="img"
+                      draggable={false}
+                      onDragStart={(e) => e.preventDefault()}
+                    />
+                  )}
 
-              <span className="htsu-video-caption">
-                {data?.tagline}
-              </span>
-            </a>
+                  <button
+                    type="button"
+                    className="video-play-btn"
+                    aria-label="Play video"
+                    onClick={handlePlay}
+                  >
+                    {PLAY_ICON}
+                  </button>
+                </>
+              )}
+            </div>
 
             <div className="htsu-text">
               <p className="split-reveal">
