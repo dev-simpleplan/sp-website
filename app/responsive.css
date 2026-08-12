@@ -62,7 +62,26 @@
     width: 100%;
   }
 
-  /* ---------- COMAPNY PAGE ------------- */
+  /* ===================================== */
+  /* ---------- CULTURE PAGE ------------- */
+
+  .employeePOV-section .testimonial-slider-wrap.gap-left{
+    padding-left: 0;
+  }
+
+  .culture-videos-in .ttb-drag-cursor{
+    display: none;
+  }
+
+  .culture-videos-in .swiper-wrapper .video-card{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-card-media{
+    aspect-ratio: 16/9;
+  }
+
 }
 
 @media screen and (max-width: 767px) {
@@ -357,6 +376,62 @@
     overflow: hidden;
     aspect-ratio: 2 / 2.5;
   }
+
+  /* ===================================== */
+  /* ---------- CULTURE PAGE ------------- */
+
+  .culture-banner{
+    padding: 0;
+  }
+
+  .offsites-retreats-section {
+    padding: 60px 0 100px;
+  }
+
+  .or-tabs {
+    gap: 28px;
+  }
+
+  .or-tab {
+    font-size: 16px;
+  }
+
+  .or-item {
+    width: 220px;
+  }
+
+  .or-place {
+    font-size: 19px;
+  }
+
+  .employee-pov-text {
+    min-height: auto;
+  }
+
+  .culture-videos-in .swiper-wrapper .video-card{
+    gap: 20px;
+  }
+
+  .culture-videos-section {
+    padding: 60px 0;
+  }
+
+  .ts-brand-logo .quoteIcon{
+    width: 25px;
+    height: auto;
+  }
+
+  .video-card-title {
+    font-size: 20px;
+  }
+
+  .catch-up-section {
+    padding: 60px 0;
+  }
+
+  .catch-up-item {
+    width: 220px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -366,7 +441,7 @@
   }
 
   .home-banner {
-    padding: 180px 0px 0px;
+    padding: 100px 0px 0px;
     height: auto;
   }
 
@@ -640,7 +715,7 @@
 
   .standards-card .standard-card-title {
     margin-bottom: 8px;
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .spFor-good-grid {
@@ -655,6 +730,40 @@
 
   .heading {
     margin-bottom: 30px;
+  }
+
+  /* ==================================== */
+  /* ----------- CULTURE PAGE ----------- */
+
+  .custom-banner-cntnt{
+    gap: 40px;
+  }
+  .culture-banner-in p{
+    margin-top: 20px;
+  }
+
+  #principles{
+    padding-top: 140px;
+  }
+  #join_team{
+    padding-top: 50px;
+  }
+  #culture_videos{
+    padding: 100px 0;
+  }
+
+  .or-tab{
+    gap: 6px;
+  }
+  .or-tabs {
+    gap: 18px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+  .or-tab-dot{
+    width: 6px;
+    height: 6px;
   }
 }
 
@@ -712,7 +821,7 @@
   }
 
   .standards-card .standard-card-title {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
   }
 

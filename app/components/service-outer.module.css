@@ -18,6 +18,9 @@
     background-color: var(--sp-red);
     overflow: hidden;
     padding-top: 100px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
     /* height: 95vh; */
 }
 

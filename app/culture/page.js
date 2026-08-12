@@ -8,6 +8,7 @@ import OurApproach from "../components/OurApproach";
 import HowWeDoIt from "../components/company/HowWeDoIt";
 import OffsitesRetreats from "../components/culture/OffsitesRetreats";
 import ReadyToBuild from "../components/ReadyToBuid";
+import EmployeePov from "../components/culture/EmployeePov";
 import CultureVideos from "../components/culture/CultureVideos";
 import CatchUpWithUs from "../components/culture/CatchUpWithUs";
 
@@ -90,24 +91,27 @@ export default function Culture(){
   
 
   const HOME_SECTIONS = [
-    // { id: "company-hero", label: sections.team_banner?.tagline },
-    // { id: "meet_the_team", label: sections.meet_team?.tagline },
-    // { id: "our_approach_team", label: sections.our_belief?.tagline },
-    // { id: "benefits", label: sections.benefits?.tagline },
-    // { id: "open_position", label: sections.open_position?.tagline },
-    // { id: "initiative_section", label: sections.great_work_section?.tagline },
+    { id: "culture_banner", label: sections.culture_banner?.tagline },
+    { id: "principles", label: sections.principles?.tagline },
+    { id: "we_keep_standards", label: sections.we_keep_standards?.tagline },
+    { id: "offsites_retreats", label: sections.offsites_retreats?.tagline },
+    { id: "join_team", label: sections.join_team?.Tagline },
+    { id: "employees_pov", label: sections.employees_pov?.tagline },
+    { id: "culture_videos", label: sections.culture_videos?.tagline },
+    { id: "community", label: sections.community?.tagline },
   ];
 
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
       <RightSideLine id="rightLine"/>
-      <CultureBanner id="company-hero" data={sections.culture_banner} />
+      <CultureBanner id="culture_banner" data={sections.culture_banner} />
       <VideoAnimated data={sections.video_section} />
       <OurApproach id="principles" data={sections.principles} />
       <HowWeDoIt id="we_keep_standards" data={sections.we_keep_standards} />
       <OffsitesRetreats id="offsites_retreats" data={sections.offsites_retreats} />
       <ReadyToBuild id="join_team" data={sections.join_team}/>
+      <EmployeePov id="employees_pov" data={sections.employees_pov} />
       <CultureVideos id="culture_videos" data={sections.culture_videos}/>
       <CatchUpWithUs id="community" data={sections.community}/>
 

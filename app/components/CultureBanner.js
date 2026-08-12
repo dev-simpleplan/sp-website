@@ -13,7 +13,7 @@ const FLOAT_SLOTS = [
   { key: "right_bottom_image", className: "cb-float-br", format: "small", floatRange: 10 },
 ];
 
-export default function CustomBanner({ id, data }) {
+export default function CultureBanner({ id, data }) {
   const sectionRef = useRef(null);
   const floatItems = useRef([]); // [{ el, floatRange }]
   floatItems.current = [];

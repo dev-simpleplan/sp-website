@@ -39,16 +39,15 @@ function loadYouTubeIframeApi() {
   return ytApiPromise;
 }
 
-// NOTE: the API only sends `image` (thumbnail) + `cta_link` for each video —
-// no dedicated video-file field — so cta_link is assumed to be the YouTube
-// URL to embed inline. Right now it's "#" (placeholder), so the play button
-// renders but has nothing to play until a real YouTube link is set.
+// NOTE: `videourl` (confirmed in the API) is the actual YouTube link to
+// embed — `cta_link` is a separate, still-placeholder field for the
+// "watch the full video" text link and isn't necessarily the same URL.
 function VideoCard({ v }) {
   const iframeRef = useRef(null);
   const playerRef = useRef(null);
   const [started, setStarted] = useState(false);
 
-  const videoId = getYouTubeId(v.cta_link);
+  const videoId = getYouTubeId(v.videourl);
   const thumbnail = v.image ? getImageUrl(v.image) : "";
 
   useEffect(() => {
@@ -239,11 +238,13 @@ export default function CultureVideos({ id, data }) {
       cursor.classList.remove("active");
     };
 
-    // Play button / CTA sit on top of the drag area — hide the custom
-    // cursor while over either so it doesn't cover the real pointer/click
-    // target, then bring it back once the mouse moves off them (but is
-    // still inside the slider; onMouseLeave above handles fully exiting).
-    const INTERACTIVE_SELECTOR = ".video-play-btn, .video-card-cta";
+    // Play button / CTA / the YouTube iframe (once playing) sit on top of
+    // the drag area — hide the custom cursor while over any of them so it
+    // doesn't cover the real pointer/click target, then bring it back once
+    // the mouse moves off them (but is still inside the slider; onMouseLeave
+    // above handles fully exiting).
+    const INTERACTIVE_SELECTOR =
+      ".video-play-btn, .video-card-cta, .video-card-media iframe";
 
     const onMouseOver = (e) => {
       if (e.target.closest(INTERACTIVE_SELECTOR)) {
@@ -391,7 +392,7 @@ export default function CultureVideos({ id, data }) {
                   },
                   1200: {
                     slidesPerView: "auto",
-                    // spaceBetween: 24,
+                    spaceBetween: 24,
                   },
                 }}
               >
