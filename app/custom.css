@@ -286,7 +286,7 @@
   box-sizing: border-box;
 }
 
-.our-approach .block-box:last-child {
+.our-approach .swiper-slide:last-child .block-box {
   border-right: none;
 }
 
@@ -2345,7 +2345,12 @@
 
 .custom-banner-img {
   width: 100%;
-  height: 536px;
+  height: auto;
+  max-height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 a.custom-btn.cta {

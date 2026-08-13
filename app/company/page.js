@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
 import CompanyBanner from "../components/CompanyBanner";
 import ApproachBranding from '../components/service/ApproachBranding';
@@ -21,6 +22,8 @@ export default function Company(){
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     axios.get('/api/company?populate=*')

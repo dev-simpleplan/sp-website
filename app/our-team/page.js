@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Wayfinding from "../components/Wayfinding";
+import { useSetPreFooter } from "../context/PreFooterContext";
 import CustomBanner from "../components/custom-hero";
 import MeetTheTeam from "../components/team/MeetTheTeam";
 import OurApproach from "../components/OurApproach";
@@ -21,6 +22,8 @@ export default function OurTeam(){
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     axios.get('/api/team?populate=*')

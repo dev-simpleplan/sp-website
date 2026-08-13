@@ -81,6 +81,19 @@ section.what-we-deliver {
     background: none;
     padding: 0;
     gap: 10px;
+    border: none;
+    overflow: hidden;
+}
+
+.what-we-deliver .block-box {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+.what-we-deliver .block-box .img {
+  transition: transform 0.5s ease;
+}
+.what-we-deliver .block-box:hover .img {
+  transform: scale(1.05);
 }
 
 .what-we-deliver .bb-top img {
@@ -89,6 +102,7 @@ section.what-we-deliver {
 
 .what-we-deliver .block-box .bb-top {
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .what-we-deliver .block-box h4 {

@@ -5,18 +5,7 @@ import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
-
-const ARROW_UP_RIGHT = (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path
-      d="M4 12L12 4M12 4H5M12 4V11"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+import { usePreFooterContext } from "../context/PreFooterContext";
 
 function normalizeLink(link) {
   return !link || link === "#" || link === "#!" ? "#" : link;
@@ -25,6 +14,14 @@ function normalizeLink(link) {
 export default function Footer() {
   const year = new Date().getFullYear();
   const [footerData, setFooterData] = useState(null);
+
+  // Set by whichever page is currently mounted, via useSetPreFooter() —
+  // see app/context/PreFooterContext.js for why this is a context instead
+  // of a prop (Footer lives in layout.js, above every page, so it can't
+  // receive a page's own fetched data as a normal prop) and why the hero
+  // + links stay in one component instead of being split into two (the
+  // watermark background needs a single shared box to center against).
+  const { preFooter } = usePreFooterContext();
 
   useEffect(() => {
     async function fetchFooterData() {
@@ -79,38 +76,39 @@ export default function Footer() {
 
       <div className="container">
         <div className={styles.spFooterInner}>
-          <div className="spFooterHero gap-left">
-            <h2 className={styles.spFooterHeading}>
-              Ready To Build Your Brand
-              <br />
-              The Right Way?
-            </h2>
+          {preFooter && (
+            <div className="spFooterHero gap-left">
+              <h2 className={styles.spFooterHeading}>
+                {preFooter?.title}
+              </h2>
 
-            <p className={styles.spFooterSubtext}>
-              Start with clarity, then build a brand that doesn&apos;t
-              <br />
-              need to be reworked every time you grow.
-            </p>
+              <p className={styles.spFooterSubtext}>
+                {preFooter?.description?.[0]?.children?.[0]?.text}
+              </p>
 
-            <Link href="/contact" className={`custom-btn ${styles.spBookCallBtn}`}>
-              <span>Book a Call</span>
-              <span className="arrow-wrap">
-                    <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                          xmlns="http://www.w3.org/2000/svg">
-                        <path
-                              d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                              fill="currentColor" />
-                    </svg>
+              <Link
+                href={normalizeLink(preFooter?.cta_link)}
+                className={`custom-btn ${styles.spBookCallBtn}`}
+              >
+                <span>{preFooter?.cta_text}</span>
+                <span className="arrow-wrap">
+                      <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                          <path
+                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                                fill="currentColor" />
+                      </svg>
 
-                    <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
-                          xmlns="http://www.w3.org/2000/svg">
-                        <path
-                              d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
-                              fill="currentColor" />
-                    </svg>
-                </span>
-            </Link>
-          </div>
+                      <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                          <path
+                                d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                                fill="currentColor" />
+                      </svg>
+                  </span>
+              </Link>
+            </div>
+          )}
 
           <div className={styles.spFooterColumns}>
             {footerColumns.map((column) => (
