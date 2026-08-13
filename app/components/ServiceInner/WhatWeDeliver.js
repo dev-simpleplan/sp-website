@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, FreeMode } from "swiper/modules";
 import "swiper/css";
 import { getImageUrl } from "../getImageUrl";
 
@@ -26,7 +27,12 @@ const Card = ({ b }) => {
 
   if (b.cta_link) {
     return (
-      <a href={b.cta_link} className="block-box">
+      <a
+        href={b.cta_link}
+        className="block-box"
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
+      >
         {content}
       </a>
     );
@@ -39,15 +45,9 @@ export default function WhatWeDeliver({ id, data }) {
   const swiperRef = useRef(null);
   const sliderRef = useRef(null);
   const cursorRef = useRef(null);
-  const isDragging = useRef(false);
   const mousePos = useRef({ x: 0, y: 0 });
   const cursorPos = useRef({ x: 0, y: 0 });
   const rafId = useRef(null);
-  const scrollAccumulator = useRef(0);
-  const scrollDirection = useRef(null);
-  const lastScrollTime = useRef(0);
-  const scrollThreshold = 80;
-  const scrollCooldown = 500; // milliseconds
 
   const [isSlider, setIsSlider] = useState(false);
   const [showDragCursor, setShowDragCursor] = useState(false);
@@ -71,8 +71,6 @@ export default function WhatWeDeliver({ id, data }) {
     const x = cursorPos.current.x;
     const y = cursorPos.current.y;
     cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    if (isDragging.current) cursor.classList.add("dragging");
-    else cursor.classList.remove("dragging");
   }, [showDragCursor]);
 
   useEffect(() => {
@@ -118,6 +116,12 @@ export default function WhatWeDeliver({ id, data }) {
 
     if (!slider || !cursor) return;
 
+    // No custom scroll logic here anymore — Swiper's own mousewheel +
+    // freeMode modules (set on <Swiper> below) handle trackpad/wheel
+    // scrolling natively, with momentum, exactly like a mobile page
+    // scroll. This effect only keeps the custom cursor icon following
+    // the pointer while hovering; it never touches click/drag, so
+    // cards that are links stay perfectly clickable.
     const onMouseEnter = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
       cursor.classList.add("active");
@@ -132,81 +136,14 @@ export default function WhatWeDeliver({ id, data }) {
       cursor.classList.remove("active");
     };
 
-    const onMouseDown = () => {
-      isDragging.current = true;
-      cursor.classList.add("dragging");
-    };
-
-    const onMouseUp = () => {
-      isDragging.current = false;
-      cursor.classList.remove("dragging");
-    };
-
-    const onWheel = (e) => {
-      // Detect trackpad scroll on Mac (has deltaX for horizontal scroll)
-      const isTrackpadScroll = e.deltaX !== 0;
-      
-      if (isTrackpadScroll) {
-        e.preventDefault();
-        
-        const now = Date.now();
-        const timeSinceLastScroll = now - lastScrollTime.current;
-        
-        // If cooldown expired, reset direction for new gesture
-        if (timeSinceLastScroll >= scrollCooldown) {
-          scrollDirection.current = null;
-          scrollAccumulator.current = 0;
-        }
-        
-        // Still within cooldown - ignore all events
-        if (timeSinceLastScroll < scrollCooldown) {
-          return;
-        }
-        
-        const currentDirection = e.deltaX > 0 ? 1 : -1;
-        
-        // Set direction on first event of gesture
-        if (scrollDirection.current === null) {
-          scrollDirection.current = currentDirection;
-        }
-        
-        // Ignore events with different direction
-        if (scrollDirection.current !== currentDirection) {
-          return;
-        }
-        
-        // Accumulate only values matching current direction
-        scrollAccumulator.current += e.deltaX;
-        
-        // Trigger slide when threshold reached
-        if (Math.abs(scrollAccumulator.current) >= scrollThreshold) {
-          const direction = scrollAccumulator.current > 0 ? 1 : -1;
-          if (direction > 0) {
-            swiperRef.current?.slideNext();
-          } else {
-            swiperRef.current?.slidePrev();
-          }
-          lastScrollTime.current = now;
-          scrollAccumulator.current = 0;
-          scrollDirection.current = null;
-        }
-      }
-    };
-
     slider.addEventListener("mouseenter", onMouseEnter);
     slider.addEventListener("mousemove", onMouseMove);
     slider.addEventListener("mouseleave", onMouseLeave);
-    slider.addEventListener("mousedown", onMouseDown);
-    slider.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("mouseup", onMouseUp);
 
     return () => {
       slider.removeEventListener("mouseenter", onMouseEnter);
       slider.removeEventListener("mousemove", onMouseMove);
       slider.removeEventListener("mouseleave", onMouseLeave);
-      slider.removeEventListener("mousedown", onMouseDown);
-      slider.removeEventListener("wheel", onWheel);
-      window.removeEventListener("mouseup", onMouseUp);
     };
   }, [showDragCursor]);
 
@@ -227,19 +164,30 @@ export default function WhatWeDeliver({ id, data }) {
   className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
   ref={sliderRef}
 >
-              {showDragCursor && (
+              {/* {showDragCursor && (
                 <div ref={cursorRef} className="ttb-drag-cursor">
                   <div className="custom-cursor">
                     <img src="/drag.svg" alt="Drag" />
                   </div>
                 </div>
-              )}
+              )} */}
 
               <Swiper
   onSwiper={(swiper) => (swiperRef.current = swiper)}
-  simulateTouch
-  touchStartPreventDefault={false}
-  followFinger
+  modules={[Mousewheel, FreeMode]}
+  simulateTouch={false}
+  mousewheel={{
+    forceToAxis: true, // only react to horizontal wheel/trackpad movement
+    sensitivity: 1,
+    releaseOnEdges: true, // let vertical page scroll take over at the ends
+  }}
+  freeMode={{
+    enabled: true,
+    momentum: true, // keeps gliding after you stop swiping, like mobile
+    momentumRatio: 1,
+    momentumBounceRatio: 1,
+    sticky: true, // settles neatly on a card once it stops, instead of a mid-scroll gap
+  }}
   resistance
   resistanceRatio={0.85}
   grabCursor={false}

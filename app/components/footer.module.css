@@ -6,13 +6,22 @@
 
 .spFooterWatermark {
     pointer-events: none;
-    width: 62%;
-    max-width: 62%;
+    /* width: 62%; */
+    /* max-width: 62%; */
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* top: 50%; */
+    /* left: 50%;
+    transform: translateX(-50%); */
     opacity: 0.3;
+    inset: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spFooterWatermark img{
+    width: max-content;
 }
 
 .spFooterInner {
@@ -45,6 +54,7 @@
     font-weight: 300;
     line-height: 1.15;
     letter-spacing: -2%;
+    max-width: 17ch;
 }
 
 .spFooterSubtext {
@@ -53,6 +63,7 @@
     font-size: 20px;
     line-height: 130%;
     font-weight: 400;
+    max-width: 40ch;
 }
 
 /* 
@@ -210,10 +221,10 @@
         margin-left: 0;
     }
 
-    .spFooterWatermark {
+    /* .spFooterWatermark {
         width: 80%;
         max-width: 80%;
-    }
+    } */
 }
 
 @media (max-width: 768px) {
@@ -273,11 +284,11 @@
         padding-top: 24px;
     }
 
-    .spFooterWatermark {
+    /* .spFooterWatermark {
         width: 110%;
         max-width: 110%;
         height: 110vh;
-    }
+    } */
 }
 
 @media (max-width: 480px) {

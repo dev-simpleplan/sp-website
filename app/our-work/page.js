@@ -2,21 +2,16 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "../components/sp-for-good/sp-for-good.css";
-
 import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
-import RightSideLine from "../components/RightSideLine";
-import SpBanner from "../components/sp-for-good/SpBanner";
+import OurWorkBanner from "../components/OurWorkBanner";
+import LikeWhatYouSee from '../components/LikeWhatYouSee';
 import ApproachBranding from '../components/service/ApproachBranding';
-import Initiatives from "../components/company/Initiatives";
-import WeDoStand from '../components/WeDoStand';
-import BucketListSection from "../components/sp-for-good/BucketList";
-import Partnership from "../components/sp-for-good/Partnership";
+import OurApproach from '../components/OurApproach';
+import WeAreProud from '../components/WeAreProud';
+import HowThisShowUp from '../components/service/HowThisShowsUp';
 
-// TODO: point this at the marketing-specific API endpoint once it exists —
-// using the branding endpoint as a placeholder for now.
-export default function SPForGood(){
+export default function OurWork(){
 
 const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
@@ -25,7 +20,7 @@ const [sections, setSections] = useState({});
   useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
-    axios.get('/api/sp-for-good?populate[sp_for_good_banner][populate]=*&populate[branding_approach][populate]=*&populate[initiative_section][populate]=*&populate[other_projects][populate][projects][populate]=*&populate[bucket_list][populate]=*&populate[partnership_form][populate]=*&populate[pre_footer][populate]=*')
+    axios.get('/api/branding-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*')
       .then(response => {
         if (response.data && response.data.data) {
           setSections(response.data.data);
@@ -87,13 +82,12 @@ const [sections, setSections] = useState({});
     return <Component data={sections[key]} />;
   };
 
-  const SP_for_Good_SECTIONS = [
-    {id: "sp-for-good-banner", label: sections?.sp_for_good_banner?.tagline },
-    {id: "approach-branding", label: sections?.branding_approach?.tagline },
-    {id: "initiatives", label: sections?.initiative_section?.tagline },
-    {id: "we-do-stand", label: sections?.other_projects?.tagline },
-    {id: "bucket-list", label: sections?.bucket_list?.tagline },
-    {id: "partnership", label: sections?.partnership_form?.tagline }
+  const HOME_SECTIONS = [
+    { id: "service-banner", label: sections?.branding_outer_banner?.tagline },
+    { id: "approach-branding", label: sections?.branding_approach?.tagline },
+    { id: "our-approach", label: sections?.scope_work?.tagline },
+    { id: "we-are-proud", label: sections?.transformation?.tagline },
+    { id: "how-this-show-up", label: sections?.work_shows_up?.tagline },
   ];
 
   if (loading) {
@@ -120,14 +114,13 @@ const [sections, setSections] = useState({});
 
   return (
     <>
-        <Wayfinding sections={SP_for_Good_SECTIONS} />
-        <RightSideLine />
-        <SpBanner data={sections?.sp_for_good_banner} id="sp-for-good-banner" />
-        <ApproachBranding data={sections?.branding_approach} id="approach-branding" />
-        <Initiatives data={sections?.initiative_section} id="initiatives" />
-        <WeDoStand data={sections?.other_projects} id="we-do-stand" />
-        <BucketListSection data={sections?.bucket_list} id="bucket-list" />
-        <Partnership data={sections?.partnership_form} id="partnership" />
+      <Wayfinding sections={HOME_SECTIONS} />
+      <OurWorkBanner data={sections?.work_banner} id="service-banner"/>
+      <LikeWhatYouSee id="like-what-you-see" data={sections?.stats} stats={sections?.stats}/>
+      <ApproachBranding data={sections?.branding_approach} id="approach-branding"/>
+      <OurApproach  id="our-approach" data={sections?.scope_work}/>
+      <WeAreProud id="we-are-proud" data={sections?.transformation}/>
+      <HowThisShowUp id="how-this-show-up" data={sections?.work_shows_up}/>
     </>
   );
 }

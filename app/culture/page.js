@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Wayfinding from "../components/Wayfinding";
+import { useSetPreFooter } from "../context/PreFooterContext";
 import CultureBanner from "../components/CultureBanner";
 import VideoAnimated from "../components/VideoAnimated";
 import OurApproach from "../components/OurApproach";
@@ -22,6 +23,8 @@ export default function Culture(){
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     axios.get('/api/culture?populate=*')

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSetPreFooter } from "./context/PreFooterContext";
 import HomeBanner from "./components/HomeBanner";
 import VideoAnimated from "./components/VideoAnimated";
 import TickerSection from "./components/TickerSection";
@@ -25,6 +26,8 @@ export default function Home() {
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+   useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     axios.get('/api/home-page?populate=*')

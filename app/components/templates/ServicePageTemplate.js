@@ -5,6 +5,7 @@ import { styles } from "../ServiceInner/ServiceInner.css";
 
 import Wayfinding from "../Wayfinding";
 import RightSideLine from "../RightSideLine";
+import { useSetPreFooter } from "../../context/PreFooterContext";
 import ServiceBanner from "../ServiceInner/ServiceInnerBanner";
 import VideoSection from "../ServiceInner/VideoSection";
 import ApproachBranding from '../service/ApproachBranding';
@@ -20,6 +21,8 @@ export default function ServicePageTemplate({ slug }) {
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     const controller = new AbortController();

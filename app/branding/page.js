@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
 import ServiceBanner from "../components/ServiceBanner";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
@@ -16,6 +16,8 @@ export default function BrandingServicePage(){
 const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useSetPreFooter(sections?.pre_footer);
 
   useEffect(() => {
     axios.get('/api/branding-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*')
