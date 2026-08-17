@@ -831,7 +831,7 @@
   flex-direction: column;
   gap: 20px;
   flex-shrink: 0;
-  width: 80%;
+  width: 60%;
 }
 
 .we-are-proud-company-card .fold-wrap {
@@ -3035,3 +3035,192 @@ a.custom-btn.cta {
 /* =============================== */
 /* CULTURE PAGE STYLE END --------- */
 /* =============================== */
+
+
+.our-work-banner{
+  background-color: var(--sp-red);
+  overflow: hidden;
+}
+
+.our-work-banner-in {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+
+  max-width: calc(100% - 140px);
+  margin: 80px auto 0;
+}
+
+.we-are-proud-company-card.ow-banner-card{
+  margin: 0 auto;
+  /* height: 80vh; */
+  overflow: hidden;
+}
+
+.ofw-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  
+}
+
+.ofw-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: #fff;
+  color: #111;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.ofw-cta {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  z-index: 2;
+}
+
+.ofw-cta-word {
+  display: block;
+}
+
+.ofw-heading {
+  position: absolute;
+  left: 48px;
+  right: 48px;
+  bottom: 24px;
+  margin: 0;
+  color: #fff;
+  font-family: "Times New Roman", serif; /* swap for the site's script/serif display font */
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(48px, 9vw, 140px);
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.ow-banner-img-wrap {
+  position: relative; /* anchor for the tag inside it */
+  overflow: hidden;
+}
+ 
+.ow-banner-tag {
+  position: absolute;
+  top: 16px;
+  right: 0px;
+  background: #fff;
+  color: #111;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  z-index: 1; /* stays above the image, inside the same growing box */
+  white-space: nowrap;
+}
+
+/* .ow-banner-head{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -40px;
+  width: 100%;
+}
+
+.ow-banner-title h1{
+  font-size: clamp(48px, 12.17vw, 600px);
+  font-weight: 100;
+} */
+
+.ow-banner-head {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -40px; /* start here, adjust to taste */
+  z-index: 5; /* must stay below the grown image (z-index: 20) */
+  pointer-events: none;
+}
+ 
+.ow-banner-title h1 {
+  margin: 0;
+  color: #fff;
+  /* font-style: italic; */
+  font-weight: 100;
+  font-size: clamp(26px, 12vw, 200px);
+  line-height: 1;
+  text-align: center;
+}
+
+.ow-banner-cursor-cta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: scale(0.4);
+  pointer-events: none;
+  z-index: 999;
+  will-change: transform, opacity;
+}
+
+
+.ow-banner-card .fold-wrap.hrzntl-scroll-company .left{
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+}
+
+.ow-banner-card .fold-wrap.hrzntl-scroll-company .left .wap-img{
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1440px) {
+  .we-are-proud-company-card.ow-banner-card{
+    width: 90%;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .ow-banner-head{
+    bottom: 0;
+  }
+}

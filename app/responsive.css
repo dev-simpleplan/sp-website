@@ -82,6 +82,19 @@
     aspect-ratio: 16/9;
   }
 
+  
+  /* ---------------------- */
+  /* ==== OUR WORK PAGE === */
+  .our-work-banner-in{
+    max-width: calc(100% - 40px);
+  }
+  .we-are-proud-company-card.ow-banner-card{
+    width: 90%;
+  }
+  .ow-banner-cursor-cta{
+    display: none;
+  }
+
 }
 
 @media screen and (max-width: 767px) {
