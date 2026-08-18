@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
+import RightSideLine from "../components/RightSideLine"
 import OurWorkBanner from "../components/OurWorkBanner";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
 import ApproachBranding from '../components/service/ApproachBranding';
@@ -115,6 +116,7 @@ const [sections, setSections] = useState({});
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
+      <RightSideLine/>
       <OurWorkBanner data={sections?.work_banner} id="service-banner"/>
       <LikeWhatYouSee id="like-what-you-see" data={sections?.stats} stats={sections?.stats}/>
       <ApproachBranding data={sections?.branding_approach} id="approach-branding"/>
