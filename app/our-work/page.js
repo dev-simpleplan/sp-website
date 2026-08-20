@@ -6,6 +6,7 @@ import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
 import RightSideLine from "../components/RightSideLine"
 import OurWorkBanner from "../components/OurWorkBanner";
+import AllWork from "../components/AllWork";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
 import ApproachBranding from '../components/service/ApproachBranding';
 import OurApproach from '../components/OurApproach';
@@ -119,6 +120,7 @@ const [sections, setSections] = useState({});
       <LeftSideLine/>
       <RightSideLine/>
       <OurWorkBanner data={sections?.work_banner} id="service-banner"/>
+      <AllWork id="all-work"/>
     </>
   );
 }
