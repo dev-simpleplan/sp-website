@@ -159,7 +159,9 @@ li {
   width: fit-content;
   outline: none;
   text-decoration: none;
-  transition: background .35s ease, color .35s ease;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease;
 }
 
 .custom-btn:hover {
@@ -197,7 +199,7 @@ li {
   width: 12px;
   height: 12px;
   color: currentColor;
-  transition: transform .35s ease;
+  transition: transform 0.35s ease;
 }
 
 .arrow-1 {
@@ -264,7 +266,7 @@ li {
 
 .text {
   display: block;
-  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .text-2 {
@@ -297,13 +299,13 @@ li {
 .custom-cta-link::before {
   transform: scaleX(1);
   transform-origin: right;
-  transition: transform .35s ease;
+  transition: transform 0.35s ease;
 }
 
 .custom-cta-link::after {
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform .35s ease .18s;
+  transition: transform 0.35s ease 0.18s;
 }
 
 .custom-cta-link:hover::before {
@@ -377,11 +379,18 @@ img {
   padding: 0 0px 0 185px;
 }
 
-
 .spFooterHero.gap-left {
   padding-left: calc(185px - 48px);
 }
-
+.left_side_line {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 60px;
+  width: 1px;
+  background: #ff7b8b;
+  z-index: 9;
+}
 .right_side_line {
   position: fixed;
   top: 0;
@@ -393,19 +402,17 @@ img {
 }
 
 @media screen and (max-width: 991px) {
+  .left_side_line,
   .right_side_line {
     display: none;
   }
-
   .heading {
     margin-bottom: 20px;
   }
-
   .gap-left {
     padding-left: 0;
     padding-right: 0;
   }
-
   .wds-viewport.gap-left {
     padding: 60px 48px 60px 60px;
   }
@@ -435,7 +442,7 @@ img {
   display: block;
 }
 
-.reveal-line>div {
+.reveal-line > div {
   display: block;
   will-change: transform;
 }
@@ -549,7 +556,6 @@ img {
 }
 
 @keyframes loading-bounce {
-
   0%,
   60%,
   100% {
@@ -570,14 +576,15 @@ img {
   }
 }
 
-
 .slider-wrapper-outer,
 .slider-wrapper-inner {
   overflow: hidden;
 }
 
 .side-rail {
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 
 body.hide-side-rails .side-rail {

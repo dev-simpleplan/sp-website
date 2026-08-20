@@ -7,6 +7,7 @@ import LenisProvider from "./components/LenisProvider";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AnimationProvider from "./components/AnimationProvider"
+import SideRailVisibilityWatcher from "./components/SideRailVisibilityWatcher";
 import { PreFooterProvider } from "./context/PreFooterContext";
 
 const aspekta = localFont({
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
         <link rel="shortcut icon" href="../public/images/favicon20.png" type="image/x-icon" />
       </head>
       <body suppressHydrationWarning>
+        <SideRailVisibilityWatcher />
         <Header />
         {/* <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider> */}
         <PreFooterProvider>

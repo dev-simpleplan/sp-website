@@ -3214,6 +3214,23 @@ a.custom-btn.cta {
   margin-bottom: 0;
 }
 
+.ow-banner-card .fold-wrap.hrzntl-scroll-company .left .wap-img .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ow-banner-card .fold-wrap.hrzntl-scroll-company .right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 220px;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
 @media screen and (max-width: 1440px) {
   .we-are-proud-company-card.ow-banner-card{
     width: 90%;
@@ -3222,5 +3239,78 @@ a.custom-btn.cta {
 @media screen and (max-width: 1200px) {
   .ow-banner-head{
     bottom: 0;
+  }
+}
+
+/* ── Our Work: vertical scroll list ──────────────────────────
+   Stacked, one-per-viewport items using the same card layout as the
+   original single-item banner (.we-are-proud-company-card /
+   .fold-wrap.hrzntl-scroll-company — image+title on the left, stats on
+   the right). Whichever item(s) are on screen grow their image to cover
+   the whole section once the user pauses scrolling (see
+   OurWorkBanner.js — SCROLL_PAUSE_MS + IntersectionObserver). The grow
+   is a clip-path reveal, not a transform/width stretch — see
+   .ow-item-stage below — so the image is never distorted, and the
+   title/stats beside it never move. Scrolling resumes => the crop
+   animates back to the compact card, so movement always reads as a
+   direct reaction to the user, never a scheduled animation. */
+.our-work-list {
+  background-color: var(--sp-red);
+}
+
+.ow-item {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 80px 70px;
+}
+
+.ow-item .we-are-proud-company-card.ow-banner-card {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* The compact card's image slot. Defines the layout (so title/stats stay
+   put) and is the reference box the resting clip-path crops down to —
+   it does NOT grow itself; overflow stays visible on purpose so its
+   child .ow-item-stage (sized to the full grown target) isn't clipped
+   by this box's own edges. */
+.ow-item-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 2.6 / 1;
+  z-index: 5;
+  overflow: visible;
+}
+
+/* Always sized (via inline style, see OurWorkBanner.js) to the FULL
+   grown-to-cover box, so the <img> inside — object-fit: cover, 100%/100%
+   — is always measured against one constant size and never distorted.
+   The "compact card" look and the "grow to fill" motion are both purely
+   clip-path, i.e. a zoom/reveal of a fixed, undistorted image rather
+   than a stretch. */
+.ow-item-stage {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  will-change: clip-path;
+  backface-visibility: hidden;
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ow-item-stage .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (max-width: 900px) {
+  .ow-item {
+    padding: 60px 24px;
   }
 }

@@ -11,6 +11,7 @@ import ApproachBranding from '../components/service/ApproachBranding';
 import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/WeAreProud';
 import HowThisShowUp from '../components/service/HowThisShowsUp';
+import LeftSideLine from "../components/LeftSideLine";
 
 export default function OurWork(){
 
@@ -115,14 +116,9 @@ const [sections, setSections] = useState({});
 
   return (
     <>
-      <Wayfinding sections={HOME_SECTIONS} />
+      <LeftSideLine/>
       <RightSideLine/>
       <OurWorkBanner data={sections?.work_banner} id="service-banner"/>
-      <LikeWhatYouSee id="like-what-you-see" data={sections?.stats} stats={sections?.stats}/>
-      <ApproachBranding data={sections?.branding_approach} id="approach-branding"/>
-      <OurApproach  id="our-approach" data={sections?.scope_work}/>
-      <WeAreProud id="we-are-proud" data={sections?.transformation}/>
-      <HowThisShowUp id="how-this-show-up" data={sections?.work_shows_up}/>
     </>
   );
 }
