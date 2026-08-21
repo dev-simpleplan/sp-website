@@ -1,0 +1,198 @@
+.work-inner{
+    background-color: var(--sp-white);
+}
+.work-inner-in{
+    padding: 0 60px;
+    /* max-width: 1440px;
+    margin: 0 auto; */
+}
+
+
+
+
+/* ----- Theme Font Color Based On Work ----- */
+:root{
+    --pioneer-color: #ED5A04;
+    --pioneer-bg-color: #FFFCF0;
+
+    --jurassicFruit-color: #1a1a1a;
+    --jurassicFruit-bg-color: #F9F5F0;
+}
+
+
+
+/* Styles Used In Multiple Components */
+#pioneer .work-component-title h2 {
+  color: var(--pioneer-color);
+}
+#pioneer .work-c10__sub-text {
+  color: var(--pioneer-color);
+}
+#pioneer .work-c10__quote-icon svg{
+    fill: var(--pioneer-color);
+}
+#pioneer section{
+    background-color: var(--pioneer-bg-color);
+}
+
+
+#jurassic-fruit .work-component-title h2 {
+  color: var(--jurassicFruit-color);
+}
+#jurassic-fruit section{
+    background-color: var(--jurassicFruit-bg-color);
+}
+.not-full-width{
+    width: 100%;
+    max-width: 80.56%;
+}
+.work-c3,
+.work-c4,
+.work-c8,
+.work-c10{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.work-component-title{
+    max-width: 51ch;
+}
+
+
+/* ------ C2 - Component ------ */
+.work-c2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.work-c2__image{
+    height: auto;
+}
+
+
+/* ------ C3 - Component ------ */
+.work-c3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.two-col-img{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+
+/* ------ C4 - Component ------ */
+.three-col-img{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+
+/* ------ C8 - Component ------ */
+.work-c8{
+    background-color: #FFFCF0;
+}
+.work-c8__container {
+    padding: 100px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    align-items: start;
+    width: 100%;
+}
+
+.work-c8__title h2 {
+    margin: 0;
+    font-size: 48px;
+    line-height: 90%;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: -4%;
+}
+.work-c8__description .work-c8__heading {
+    font: 600 24px var(--font-aspekta);
+    line-height: 150%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #111111;
+}
+
+.work-c8__description {
+    max-width: 59ch;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.work-c8__description p {
+    font-size: 18px;
+    line-height: 150%;
+    font-weight: 400;
+    color: #535353;
+}
+
+
+/* ------ C10 - Component ------ */
+.work-c10__content {
+  margin: 0 auto;
+  padding: 100px 0;
+  text-align: center;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.work-c10__sub-text {
+    font: 600 18px var(--font-aspekta);
+    line-height: 150%;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+
+/* Quote Icon */
+
+.work-c10__quote-icon {
+  width: 20px;
+  height: auto;
+  margin: 0 auto;
+}
+
+
+.work-c10__heading {
+    font: 300 48px var(--newsreader);
+    font-style: Italic;
+    line-height: 110.00000000000001%;
+    letter-spacing: -4%;
+    text-align: center;
+    text-transform: capitalize;
+    color: #111111;
+}
+
+.work-c10__paragraph {
+    font: 400 18px var(--font-aspekta);
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #535353;
+}
+
+.work-c10__paragraph.narrow_paragraph{
+    max-width: 57ch;
+    margin: 0 auto;
+}
+.work-c10__paragraph.wide_paragraph{
+    max-width: 84ch;
+    margin: 0 auto;
+}
+
