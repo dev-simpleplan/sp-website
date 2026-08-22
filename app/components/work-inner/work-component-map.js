@@ -3,15 +3,19 @@ import C2FullImage from "./workC2";
 import C3TwoColImage from "./workC3";
 import C4ThreeColImage from "./workC4";
 import C8TextCol from "./workC8";
+import C7splitLayout from "./workC7";
 import C10Quote from "./workC10";
+import C14InfoGrid from "./workc14";
 
 const workComponentMap = {
   "shared.c1": C1FullImage,
   "shared.c2": C2FullImage,
   "shared.c3": C3TwoColImage,
   "shared.c4": C4ThreeColImage,
+  "shared.c7": C7splitLayout,
   "shared.c8": C8TextCol,
   "shared.c10": C10Quote,
+  "shared.c14": C14InfoGrid,
 };
 
 export default workComponentMap;

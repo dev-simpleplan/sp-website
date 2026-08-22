@@ -22,11 +22,17 @@
 
 
 /* Styles Used In Multiple Components */
-#pioneer .work-component-title h2 {
+#pioneer .work-component-title h2,
+#pioneer .work-c10__sub-text,
+#pioneer .work-c14__heading,
+#pioneer .work-c7__title {
   color: var(--pioneer-color);
 }
-#pioneer .work-c10__sub-text {
-  color: var(--pioneer-color);
+#pioneer .work-c7__intro p {
+  color: #535353;
+}
+#pioneer .work-c14__content p{
+    color: #111111;
 }
 #pioneer .work-c10__quote-icon svg{
     fill: var(--pioneer-color);
@@ -36,24 +42,48 @@
 }
 
 
-#jurassic-fruit .work-component-title h2 {
+#jurassic-fruit .work-component-title h2,
+#jurassic-fruit .work-c10__sub-text,
+#jurassic-fruit .work-c14__heading{
   color: var(--jurassicFruit-color);
+}
+#jurassic-fruit .work-c14__content p{
+    color: #111111;
 }
 #jurassic-fruit section{
     background-color: var(--jurassicFruit-bg-color);
 }
+#jurassic-fruit .work-c7{
+    background-color: #1A1A1A;
+}
+#jurassic-fruit .work-c7__title {
+  color: #CBC69E;
+}
+#jurassic-fruit .work-c7__intro p,
+#jurassic-fruit .work-c7__block-content p {
+  color: #B2B2B2;
+}
+#jurassic-fruit .work-c7__block-content .is-bold {
+  color: #ffffff;
+}
+
+
+
+
 .not-full-width{
     width: 100%;
     max-width: 80.56%;
 }
+
 .work-c3,
 .work-c4,
+.work-c7,
 .work-c8,
-.work-c10{
+.work-c10,
+.work-c14{
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 .work-component-title{
     max-width: 51ch;
@@ -158,16 +188,11 @@
     text-transform: uppercase;
 }
 
-
-
-/* Quote Icon */
-
 .work-c10__quote-icon {
   width: 20px;
   height: auto;
   margin: 0 auto;
 }
-
 
 .work-c10__heading {
     font: 300 48px var(--newsreader);
@@ -196,3 +221,166 @@
     margin: 0 auto;
 }
 
+
+
+/* ------ C14 - Component ------ */
+.work-c14__container {
+  width: 100%;
+  padding: 100px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  box-sizing: border-box;
+}
+
+.work-c14__column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.work-c14__heading {
+    font: 600 14px var(--font-aspekta);
+    line-height: 150%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.work-c14__content{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.work-c14__content p {
+    font: 400 18px var(--font-aspekta);
+    line-height: 103%;
+}
+
+.work-c14__content p:last-child {
+  margin-bottom: 0;
+}
+
+
+
+
+.work-c7__container {
+  padding: 60px 0px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 70px;
+  box-sizing: border-box;
+}
+
+/* Content */
+
+.work-c7__content {
+    display: flex;
+    flex-direction: column;
+    gap: 66px;
+}
+
+.work-c7_top-head{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.work-c7__title {
+    font: 300 38px var(--newsreader);
+    font-style: Italic;
+    line-height: 90%;
+    letter-spacing: -4%;
+    text-transform: capitalize;
+}
+
+.work-c7__intro {
+  max-width: 51.5ch;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.work-c7__intro p {
+    font: 400 18px var(--font-aspekta);
+    line-height: 150%;
+}
+
+.work-c7__intro p:last-child {
+  margin-bottom: 0;
+}
+
+/* Blocks */
+
+.work-c7__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.work-c7__block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Block title */
+
+.work-c7__block-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font: 600 18px var(--font-aspekta);
+    line-height: 97%;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+}
+
+/*
+ * Custom icon for block heading.
+ * Replace this with your actual icon/image if required.
+ */
+.work-c7__block-icon {
+  width: 8px;
+  height: 10px;
+  display: inline-block;
+  flex: 0 0 auto;
+  border-radius: 50% 50% 45% 45%;
+  background: currentColor;
+}
+
+/* Block content */
+
+.work-c7__block-content{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.work-c7__block-content p {
+    font: 400 18px 97%;
+    line-height: 150%;
+}
+
+.work-c7__block-content .is-bold {
+  font-weight: 700;
+}
+
+/* Image */
+
+.work-c7__image {
+  width: 100%;
+}
+
+.work-c7__image picture,
+.work-c7__image img {
+  display: block;
+  width: 100%;
+}
+
+.work-c7__image img {
+  height: auto;
+  object-fit: contain;
+}
