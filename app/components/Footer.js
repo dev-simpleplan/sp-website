@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -76,7 +77,11 @@ export default function Footer() {
 
       <div className="container">
         <div className={styles.spFooterInner}>
-          {preFooter && (
+          {preFooter && preFooter.variant === "newsletter" && (
+            <NewsletterPreFooter data={preFooter} />
+          )}
+
+          {preFooter && preFooter.variant !== "newsletter" && (
             <div className="spFooterHero gap-left">
               <h2 className={styles.spFooterHeading}>
                 {preFooter?.title}
@@ -155,5 +160,67 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+// The blog page's pre-footer variant: an email-capture form instead of
+// the usual title/description + link button. No confirmed Strapi
+// endpoint exists yet for newsletter signups (the one this codebase
+// already proxies via /api/forms is the sp-for-good partnership form —
+// name/phone/etc, a different shape) — for now, submitting just takes
+// the visitor to /thank-you, same as this site's other forms do once
+// they succeed.
+function NewsletterPreFooter({ data }) {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email) return;
+    router.push("/thank-you");
+  };
+
+  return (
+    <div className="spFooterHero gap-left">
+      <h2 className={styles.spFooterHeading}>{data?.title}</h2>
+
+      <p className={styles.spFooterSubtext}>
+        {data?.description?.[0]?.children?.[0]?.text}
+      </p>
+
+      <form className={styles.spNewsletterForm} onSubmit={handleSubmit}>
+        <label htmlFor="footer-newsletter-email" className={styles.spNewsletterLabel}>
+          Please reach me at
+        </label>
+        <div className={styles.spNewsletterField}>
+          <input
+            id="footer-newsletter-email"
+            type="email"
+            required
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={styles.spNewsletterInput}
+          />
+          <button type="submit" className={styles.spNewsletterSubmit}>
+            <span>Subscribe</span>
+            <span className="arrow-wrap">
+              <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                  <path
+                        d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                        fill="currentColor" />
+              </svg>
+              <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                  <path
+                        d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z"
+                        fill="currentColor" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

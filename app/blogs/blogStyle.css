@@ -1,0 +1,299 @@
+/* ── /blogs page ─────────────────────────────────────────────
+   Deliberately self-contained: every rule here is scoped under a
+   `.blog-` prefix and doesn't reuse the older shared component classes
+   (`.container`, `.reveal-heading`, `.gap-left`, etc) from
+   custom.css/globals.css — only the site's global tokens (--sp-red,
+   font variables) so it still matches the brand. */
+
+.blog-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 70px;
+}
+
+/* ── Featured Blogs ── */
+.blog-hero {
+  padding: 120px 0 80px;
+  background-color: #fff;
+}
+
+.blog-hero-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(36px, 4.5vw, 56px);
+  margin: 0 0 48px;
+  color: #111;
+}
+
+.blog-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* ── shared blog card ── */
+.blog-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4.20 / 3.5;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #111;
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-card:hover .blog-card-image {
+  transform: scale(1.04);
+}
+
+.blog-card-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 24px 0 8px;
+  color: #111;
+}
+
+.blog-card-featured .blog-card-title {
+  font-size: 26px;
+}
+
+.blog-card-excerpt {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── All Blogs ── */
+.blog-all {
+  padding: 40px 0 100px;
+  background-color: #fff;
+}
+
+.blog-section-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 44px);
+  margin: 0 0 32px;
+  color: #111;
+}
+
+.blog-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.blog-filter-label {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #111;
+}
+
+.blog-filter-select {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #111;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #111;
+  padding: 2px 20px 4px 0;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #111 50%),
+    linear-gradient(135deg, #111 50%, transparent 50%);
+  background-position: right 6px top 55%, right 0 top 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+.blog-filter-select:focus-visible {
+  outline: none;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.blog-empty {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  color: #666;
+  padding: 40px 0;
+}
+
+.blog-view-more {
+  display: block;
+  margin: 56px auto 0;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: #111;
+  border: none;
+  padding: 16px 28px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.blog-view-more:hover {
+  opacity: 0.85;
+}
+
+/* ── Blog post (inner) page ──
+   The "Join Our Newsletter" section is NOT built here — that's the
+   shared pre-footer CTA every page uses (see page.js's useSetPreFooter
+   call + Footer.js), fed with this single-type's `our_newsletter` data. */
+.blog-post {
+  background-color: #fff;
+  padding-bottom: 100px;
+}
+
+.blog-post-header {
+  padding: 120px 0 40px;
+}
+
+.blog-post-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.15;
+  margin: 0;
+  color: #111;
+  max-width: 900px;
+}
+
+.blog-post-cover-wrap {
+  max-width: 1400px;
+  margin: 0 auto 56px;
+  padding: 0 70px;
+}
+
+.blog-post-cover {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.blog-post-body {
+  max-width: 780px;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.blog-post-paragraph {
+  margin: 0 0 24px;
+}
+
+.blog-post-heading {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #111;
+  margin: 40px 0 16px;
+}
+
+.blog-post-list {
+  margin: 0 0 24px;
+  padding-left: 22px;
+}
+
+.blog-post-list li {
+  margin-bottom: 8px;
+}
+
+.blog-post-quote {
+  margin: 32px 0;
+  padding-left: 24px;
+  border-left: 3px solid var(--sp-red);
+  font-style: italic;
+  color: #444;
+}
+
+.blog-post-inline-image {
+  width: 100%;
+  border-radius: 4px;
+  margin: 32px 0;
+  display: block;
+}
+
+.blog-post-not-found {
+  padding: 160px 24px;
+  text-align: center;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  color: #444;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .blog-container {
+    padding: 0 24px;
+  }
+
+  .blog-hero {
+    padding: 100px 0 56px;
+  }
+
+  .blog-featured-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .blog-post-header {
+    padding: 100px 0 32px;
+  }
+
+  .blog-post-cover-wrap {
+    padding: 0 24px;
+    margin-bottom: 40px;
+  }
+
+  .blog-post-body {
+    padding: 0 24px;
+  }
+}
