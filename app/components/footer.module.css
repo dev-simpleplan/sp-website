@@ -86,6 +86,75 @@
     align-items: center;
 }
 
+/* Newsletter pre-footer variant (blog page) */
+
+.spNewsletterForm {
+    margin-top: 8px;
+}
+
+.spNewsletterLabel {
+    display: block;
+    color: #fff;
+    opacity: 0.85;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.spNewsletterField {
+    display: flex;
+    align-items: stretch;
+    max-width: 460px;
+    /* background: #fff; */
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.spNewsletterInput {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 16px 18px;
+    font-size: 14px;
+    color: #1a1a1a;
+    background-color: transparent;
+}
+
+.spNewsletterSubmit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border: none;
+    border-left: 1px solid #eee;
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 20px;
+    height: 100%;
+    align-self: stretch;
+    cursor: pointer;
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    .spNewsletterField {
+        flex-direction: column;
+        border-radius: 4px;
+    }
+
+    .spNewsletterSubmit {
+        border-left: none;
+        border-top: 1px solid #eee;
+        padding: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* Columns */
 
 .spFooterColumns {
