@@ -5,6 +5,7 @@ import C4ThreeColImage from "./workC4";
 import C8TextCol from "./workC8";
 import C7splitLayout from "./workC7";
 import C10Quote from "./workC10";
+import C11ImageGrid from "./workC11";
 import C14InfoGrid from "./workc14";
 
 const workComponentMap = {
@@ -15,6 +16,7 @@ const workComponentMap = {
   "shared.c7": C7splitLayout,
   "shared.c8": C8TextCol,
   "shared.c10": C10Quote,
+  "shared.c11": C11ImageGrid,
   "shared.c14": C14InfoGrid,
 };
 
