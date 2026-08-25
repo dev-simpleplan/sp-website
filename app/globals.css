@@ -401,6 +401,11 @@ img {
   z-index: 9;
 }
 
+.left_side_line--light,
+.right_side_line--light {
+  background: #e5e5e5;
+}
+
 @media screen and (max-width: 991px) {
   .left_side_line,
   .right_side_line {

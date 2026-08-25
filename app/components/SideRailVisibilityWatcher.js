@@ -49,7 +49,16 @@ export default function SideRailVisibilityWatcher({
         // Fires right as the section actually starts entering the
         // viewport from the bottom — no early buffer, so the rails stay
         // visible right up until the section is genuinely on screen.
-        rootMargin: "0px",
+        //
+        // The -2px on the bottom edge is NOT a "buffer" in that sense —
+        // it exists so a page whose content is exactly 100vh tall (the
+        // footer sitting flush against the viewport's bottom edge, e.g.
+        // thank-you/not-found) doesn't false-positive at mount purely
+        // from sub-pixel layout rounding (the footer's fractional-pixel
+        // rect can overlap the viewport by a hair with zero scrolling).
+        // Genuine scrolling still crosses 2px in a single frame, so real
+        // "footer entering view" detection is unaffected.
+        rootMargin: "0px 0px -2px 0px",
         threshold: 0,
       }
     );

@@ -90,6 +90,28 @@
     opacity: 1;
 }
 
+/* Light theme — for use on white/light-background pages (e.g. the policy
+   page template). The default colors above (pink line, white label) are
+   tuned for the red hero sections this component was originally built
+   for; on a white page they either disappear (white label) or read as a
+   jarring, overly bright accent (pink line), which is not what this
+   component actually looks like elsewhere on light backgrounds. */
+.spWayfindingLight .spWayfindingLine {
+    background-color: #ddd;
+}
+
+.spWayfindingLight .spWayfindingDot {
+    background: #ccc;
+}
+
+.spWayfindingLight .spWayfindingDotActive {
+    background-color: #111;
+}
+
+.spWayfindingLight .spWayfindingLabel {
+    color: #444;
+}
+
 /* Hide on smaller screens — a side rail like this competes with content
    on mobile and there's no room for it anyway. */
 @media (max-width: 991px) {

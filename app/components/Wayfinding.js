@@ -37,13 +37,30 @@ import styles from "./Wayfinding.module.css";
  * handled globally by SideRailVisibilityWatcher; this component just
  * carries the shared `side-rail` class, no local logic.
  */
-export default function Wayfinding({ sections = [], id }) {
+// How far down the viewport the "you are here" reference line sits, as a
+// fraction of viewport height. A section becomes active once its top
+// edge has scrolled up past this line.
+const REFERENCE_LINE_RATIO = 0.3;
+
+export default function Wayfinding({ sections = [], id, theme = "dark" }) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? null);
   const [isHovered, setIsHovered] = useState(false);
   const [railScale, setRailScale] = useState(1);
-  const ratiosRef = useRef({});
   const listRef = useRef(null);
 
+  // Scrollspy: pick whichever section's top has most recently crossed a
+  // reference line near the top of the viewport — NOT "whichever section
+  // has the greatest visible ratio". Ratio-based picking looks right for
+  // pages whose sections are all roughly full-viewport tall, but breaks
+  // down the moment section heights vary a lot (e.g. a long-form policy
+  // page): a short section that fits entirely on screen gets ratio 1.0
+  // and wins over a much taller section the user is actually in the
+  // middle of reading, so the rail gets stuck highlighting the wrong,
+  // shorter section. Position-based picking is correct regardless of how
+  // tall any given section is, and still holds up for sticky sections
+  // (their top stays pinned at/near the reference line for their whole
+  // dominant scroll range, so they stay "active" the whole time, handing
+  // off cleanly once the next section's top reaches the line too).
   useEffect(() => {
     if (!sections.length) return;
 
@@ -56,42 +73,53 @@ export default function Wayfinding({ sections = [], id }) {
 
     if (!elements.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          ratiosRef.current[entry.target.id] = entry.intersectionRatio;
-        });
+    let rafId = null;
 
-        // Pick whichever observed section currently has the greatest
-        // visible ratio. This holds up well even when a sticky section
-        // stays pinned on screen for a long scroll range, since its ratio
-        // naturally stays high while it's the dominant thing in view.
-        let bestId = null;
-        let bestRatio = 0;
-        for (const [id, ratio] of Object.entries(ratiosRef.current)) {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestId = id;
-          }
-        }
-        if (bestId && bestRatio > 0) {
-          setActiveId(bestId);
-        }
-      },
-      {
-        // Multiple thresholds so we get updates as ratio changes gradually,
-        // not just at one crossing point.
-        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
-        // Slightly shrink the observed viewport vertically so a section
-        // has to be reasonably centered before it "wins" — this avoids
-        // flicker when a sticky section overlaps the next one.
-        rootMargin: "-15% 0px -15% 0px",
+    const recompute = () => {
+      rafId = null;
+
+      // At (or very near) the bottom of the page, force the last section
+      // active — without this, a handful of short trailing sections can
+      // sit fully on screen and never get highlighted at all: there's no
+      // more room left to scroll, so their tops can never rise up past
+      // the reference line the loop below relies on. This is the normal
+      // "ran out of scroll before the last section reached the line"
+      // scrollspy edge case, not specific to this page's content.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+      if (atBottom) {
+        setActiveId(elements[elements.length - 1].id);
+        return;
       }
-    );
 
-    elements.forEach(({ el }) => observer.observe(el));
+      const referenceY = window.innerHeight * REFERENCE_LINE_RATIO;
 
-    return () => observer.disconnect();
+      let bestId = elements[0].id;
+      let bestTop = -Infinity;
+      for (const { id: sectionId, el } of elements) {
+        const top = el.getBoundingClientRect().top;
+        if (top <= referenceY && top > bestTop) {
+          bestTop = top;
+          bestId = sectionId;
+        }
+      }
+      setActiveId(bestId);
+    };
+
+    const onScroll = () => {
+      if (rafId == null) rafId = requestAnimationFrame(recompute);
+    };
+
+    recompute();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (rafId != null) cancelAnimationFrame(rafId);
+    };
   }, [sections]);
 
   // Keep the rail from ever spilling past its safe vertical zone. On short
@@ -135,7 +163,7 @@ export default function Wayfinding({ sections = [], id }) {
 
   return (
     <nav
-      className={`${styles.spWayfinding} side-rail`}
+      className={`${styles.spWayfinding} ${theme === "light" ? styles.spWayfindingLight : ""} side-rail`}
       aria-label="Page sections"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
