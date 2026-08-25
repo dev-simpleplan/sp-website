@@ -61,7 +61,7 @@ export default function C7({ data }) {
 
                 <div className="work-c7_top-head">
                     {title && (
-                        <h2 className="work-c7__title">
+                        <h2 className="work-c7__title theme-color-title">
                         {title}
                         </h2>
                     )}
@@ -69,7 +69,7 @@ export default function C7({ data }) {
                     {intro.length > 0 && (
                         <div className="work-c7__intro">
                         {intro.map((item, index) => (
-                            <p key={index}>
+                            <p key={index} className="theme-color-para">
                             {getText(item.children)}
                             </p>
                         ))}
