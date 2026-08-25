@@ -103,7 +103,8 @@
 .spNewsletterField {
     display: flex;
     align-items: stretch;
-    max-width: 460px;
+    gap: 16px;
+    max-width: 480px;
     /* background: #fff; */
     border-radius: 2px;
     overflow: hidden;
@@ -114,12 +115,15 @@
     min-width: 0;
     border: none;
     outline: none;
-    padding: 16px 18px;
+    padding: 13px 6px;
     font-size: 14px;
-    color: #1a1a1a;
     background-color: transparent;
+    border-bottom: 1px solid #DEDEDE;
+    color: #fff;
 }
-
+.spNewsletterInput::placeholder {
+    color: #DEDEDE;
+}
 .spNewsletterSubmit {
     display: inline-flex;
     align-items: center;
@@ -133,11 +137,9 @@
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 0 20px;
-    height: 100%;
+    padding: 0 24px;
     align-self: stretch;
     cursor: pointer;
-    height: 100%;
 }
 
 @media (max-width: 600px) {
