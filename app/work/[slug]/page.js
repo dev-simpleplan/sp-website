@@ -49,7 +49,16 @@ export default async function WorkInnerPage({ params }) {
         <p className="work-inner__short-desc">{workData?.short_description}</p>
       </section> */}
 
-      <div className="work-inner-in" id={slug} data-work={slug}>
+      <div 
+      className="work-inner-in" 
+      id={slug} 
+      data-work={slug} 
+      style={{
+        "--theme-bg": workData?.theme_bg_color || "",
+        "--theme-title": workData?.theme_title_color || "",
+        "--theme-para": workData?.theme_para_color || "",
+        }}
+      >
         {sections.map((section) => {
           const SectionComponent = workComponentMap[section.__component];
 

@@ -1,21 +1,46 @@
 export default function C14({ data }) {
   if (!data) return null;
 
-  const columns = [
+  const allColumns = [
     data.text_1,
     data.text_2,
     data.text_3,
     data.text_4,
   ];
 
+  const getText = (item) =>
+    item?.children?.map((child) => child?.text || "").join("");
+
+  /*
+   * Check whether a column actually contains
+   * any meaningful content.
+   */
+  const hasColumnContent = (column) => {
+    if (!Array.isArray(column)) return false;
+
+    return column.some((item) => {
+      return item?.children?.some(
+        (child) => child?.text?.trim()
+      );
+    });
+  };
+
+  /*
+   * Remove completely empty columns.
+   *
+   * This is important because if text_4 is missing
+   * or contains only empty paragraphs, it should not
+   * create an empty grid column.
+   */
+  const columns = allColumns.filter(hasColumnContent);
+
+  if (!columns.length) return null;
+
   const sectionStyle = data.colour_code_bg
     ? {
         "--work-bg-color": data.colour_code_bg,
       }
     : {};
-
-  const getText = (item) =>
-    item?.children?.map((child) => child.text).join("");
 
   const renderInlineContent = (item) =>
     item?.children?.map((child, index) => {
@@ -43,20 +68,32 @@ export default function C14({ data }) {
     });
 
   /*
-   * RESULT COLUMN
+   * RESULT / STATS COLUMN
    *
-   * API structure:
-   *
-   * heading
-   * paragraph -> 2 cr
-   * paragraph -> Funding Raised
-   * paragraph -> empty
-   * paragraph -> 80 %
-   * paragraph -> Return Customers
+   * Instead of checking index === 3,
+   * detect the result column based on
+   * italic/bold stat values.
+   */
+  const isStatsColumn = (column) => {
+    return column.some((item) => {
+      if (item?.type !== "paragraph") return false;
+
+      const text = getText(item);
+
+      if (!text.trim()) return false;
+
+      return item.children?.some(
+        (child) => child?.italic || child?.bold
+      );
+    });
+  };
+
+  /*
+   * Render Result / Stats content
    */
   const renderResultContent = (column) => {
     const paragraphs = column.filter(
-      (item) => item.type === "paragraph"
+      (item) => item?.type === "paragraph"
     );
 
     const stats = [];
@@ -66,25 +103,25 @@ export default function C14({ data }) {
     paragraphs.forEach((paragraph) => {
       const text = getText(paragraph);
 
-      // Empty paragraph separates two stats
-      if (!text) {
+      /*
+       * Ignore empty paragraphs completely.
+       */
+      if (!text.trim()) {
         currentStat = null;
         return;
       }
 
       const hasItalic = paragraph.children?.some(
-        (child) => child.italic
+        (child) => child?.italic
       );
 
       const hasBold = paragraph.children?.some(
-        (child) => child.bold
+        (child) => child?.bold
       );
 
       /*
-       * This paragraph is a stat value.
-       * Example:
-       * 2 cr
-       * 80 %
+       * Paragraph containing italic/bold text
+       * is treated as a stat value.
        */
       if (hasItalic || hasBold) {
         currentStat = {
@@ -93,12 +130,13 @@ export default function C14({ data }) {
         };
 
         stats.push(currentStat);
+
         return;
       }
 
       /*
-       * Normal paragraph after a stat value
-       * becomes that stat's description.
+       * Normal paragraph immediately after
+       * a stat value becomes its description.
        */
       if (currentStat && !currentStat.description) {
         currentStat.description = paragraph;
@@ -143,7 +181,9 @@ export default function C14({ data }) {
                   }
 
                   return (
-                    <span key={childIndex}>
+                    <span
+                      key={childIndex}
+                    >
                       {text}
                     </span>
                   );
@@ -151,9 +191,9 @@ export default function C14({ data }) {
               )}
             </div>
 
-            {/* Description */}
+            {/* Stats Description */}
             {stat.description && (
-              <p className="work-c14__stats-description">
+              <p className="work-c14__stats-description theme-color-para">
                 {getText(stat.description)}
               </p>
             )}
@@ -164,18 +204,24 @@ export default function C14({ data }) {
   };
 
   return (
-    <section className="work-c14" style={sectionStyle}>
-      <div className="work-c14__container not-full-width">
-        {columns.map((column, index) => {
-          if (!column?.length) return null;
+    <section
+      className="work-c14"
+      style={{
+    backgroundColor: data?.colour_code_bg || "transparent",
+  }}
+    >
+      <div className="work-c14__container not-full-width" style={{
+    "--c14-columns": columns.length,
+  }}>
 
+        {columns.map((column, index) => {
           const heading = column.find(
             (item) =>
-              item.type === "heading" &&
-              item.level === 5
+              item?.type === "heading" &&
+              item?.level === 5
           );
 
-          const isResultColumn = index === 3;
+          const isResultColumn = isStatsColumn(column);
 
           return (
             <div
@@ -193,25 +239,30 @@ export default function C14({ data }) {
                 </h5>
               )}
 
-              {/* Result Column */}
+              {/* Result / Stats Column */}
               {isResultColumn ? (
                 renderResultContent(column)
               ) : (
-                /* Normal Columns */
                 <div className="work-c14__content">
                   {column
                     .filter(
                       (item) =>
-                        item.type === "paragraph"
+                        item?.type === "paragraph"
                     )
                     .map(
                       (paragraph, paragraphIndex) => {
                         const text = getText(paragraph);
 
-                        if (!text) return null;
+                        /*
+                         * Ignore empty paragraphs.
+                         */
+                        if (!text.trim()) return null;
 
                         return (
-                          <p key={paragraphIndex}>
+                          <p
+                            key={paragraphIndex}
+                            className="theme-color-para"
+                          >
                             {renderInlineContent(
                               paragraph
                             )}
@@ -224,6 +275,7 @@ export default function C14({ data }) {
             </div>
           );
         })}
+
       </div>
     </section>
   );
