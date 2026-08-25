@@ -50,14 +50,14 @@ export default async function WorkInnerPage({ params }) {
       </section> */}
 
       <div 
-      className="work-inner-in" 
-      id={slug} 
-      data-work={slug} 
-      style={{
-        "--theme-bg": workData?.theme_bg_color || "",
-        "--theme-title": workData?.theme_title_color || "",
-        "--theme-para": workData?.theme_para_color || "",
-        }}
+        className="work-inner-in" 
+        id={slug} 
+        data-work={slug} 
+        style={{
+          "--theme-bg": workData?.theme_bg_color || "",
+          "--theme-title": workData?.theme_title_color || "",
+          "--theme-para": workData?.theme_para_color || "",
+          }}
       >
         {sections.map((section) => {
           const SectionComponent = workComponentMap[section.__component];
@@ -71,7 +71,7 @@ export default async function WorkInnerPage({ params }) {
         })}
       </div>
 
-      {/* <OwnStory data={workData?.own_story} /> */}
+      <OwnStory data={workData?.own_story} />
     </main>
   );
 }
