@@ -1,9 +1,9 @@
 .work-inner{
     background-color: var(--sp-white);
-    padding: 0 60px;
+    /* padding: 0 60px; */
 }
 .work-inner-in{
-    
+    padding: 0 60px;
     background-color: var(--theme-bg);
     /* max-width: 1440px;
     margin: 0 auto; */
@@ -281,6 +281,12 @@
     width: 100%;
 }
 
+.work-c8__info{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .work-c8__title h2 {
     margin: 0;
     font-size: 48px;
@@ -297,18 +303,76 @@
     color: #111111;
 }
 
-.work-c8__description {
+.work-c8__info-block{
+  display: flex;
+  flex-direction: column;
+  /* gap: 6px; */
+}
+
+.work-c8__info-description {
     max-width: 59ch;
     display: flex;
     flex-direction: column;
     gap: 36px;
 }
 
+.work-c8__description{
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
 .work-c8__description p {
     font-size: 18px;
     line-height: 150%;
     font-weight: 400;
-    color: #535353;
+    /* color: #535353; */
+}
+
+.work-c8__info-title{
+  font: 600 18px var(--font-aspekta);
+  line-height: 150%;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.work-c8__stats{
+  display: flex;
+  /* flex-direction: column; */
+  gap: 100px;
+}
+
+.work-c8__stats-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.work-c8__stats-block{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 5px;
+    align-items: end;
+}
+
+.work-c8__stats-value{
+    font: 300 64px PP Eiko;
+    font-style: italic;
+    line-height: 90%;
+    letter-spacing: -4%;
+    color: var(--theme-title);
+}
+
+.work-c8__stats-unit{
+    font: 400 50px var(--font-aspekta);
+    line-height: 100%;
+    letter-spacing: -1%;
+    color: var(--theme-title);
+}
+
+.work-c8__stats-description {
+    font: 400 18px var(--font-aspekta);
+    line-height: 103%;
 }
 
 
@@ -499,4 +563,42 @@
     font: 400 40px var(--font-aspekta);
     line-height: 100%;
     letter-spacing: -1%;
+}
+
+
+
+/* ---- OWN STORY ------ */
+.own-story {
+  background-color: var(--sp-red);
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--sp-white);
+}
+
+.own-story-in {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.own-story-head{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.own-story-in h2 {
+  max-width: 15ch;
+  font: 300 64px var(--newsreader);
+  font-style: italic;
+  line-height: 110.00000000000001%;
+  letter-spacing: -4%;
+  text-transform: capitalize;
+}
+
+.own-story-in p {
+  font-size: 20px;
+  max-width: 40ch;
 }
