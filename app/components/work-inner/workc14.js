@@ -1,4 +1,6 @@
-export default function C14({ data }) {
+import gutlyShape from "../images/gutly-star.png"
+
+export default function C14({ id, data }) {
   if (!data) return null;
 
   const allColumns = [
@@ -7,6 +9,8 @@ export default function C14({ data }) {
     data.text_3,
     data.text_4,
   ];
+
+  const isGutly = id === "gutly";
 
   const getText = (item) =>
     item?.children?.map((child) => child?.text || "").join("");
@@ -161,7 +165,7 @@ export default function C14({ data }) {
                   if (child.italic) {
                     return (
                       <span
-                        className="work-c14__stats-value"
+                        className="work-c14__stats-value fill-bg-title-color"
                         key={childIndex}
                       >
                         {text}
@@ -172,7 +176,7 @@ export default function C14({ data }) {
                   if (child.bold) {
                     return (
                       <span
-                        className="work-c14__stats-unit"
+                        className="work-c14__stats-unit fill-bg-title-color"
                         key={childIndex}
                       >
                         {text}
@@ -193,7 +197,7 @@ export default function C14({ data }) {
 
             {/* Stats Description */}
             {stat.description && (
-              <p className="work-c14__stats-description theme-color-para">
+              <p className="work-c14__stats-description theme-color-para fill-bg-para-color">
                 {getText(stat.description)}
               </p>
             )}
@@ -205,14 +209,26 @@ export default function C14({ data }) {
 
   return (
     <section
-      className="work-c14"
+      className={`work-c14 ${data?.colour_code_bg ? "fill-bg" : ""} ${isGutly ? "gutly-c14" : ""}`}
       style={{
-    backgroundColor: data?.colour_code_bg || "transparent",
-  }}
+        backgroundColor: data?.colour_code_bg || "transparent",
+      }}
     >
+
+      {/* {isGutly && (
+        <div className="gutly-c14-bg">
+          <img
+            src={gutlyShape.src}
+            alt=""
+            className="gutly-c14-shape"
+            aria-hidden="true"
+          />
+        </div>
+      )} */}
+
       <div className="work-c14__container not-full-width" style={{
-    "--c14-columns": columns.length,
-  }}>
+        "--c14-columns": columns.length,
+      }}>
 
         {columns.map((column, index) => {
           const heading = column.find(
@@ -234,7 +250,7 @@ export default function C14({ data }) {
             >
               {/* Column Heading */}
               {heading && (
-                <h5 className="work-c14__heading">
+                <h5 className="work-c14__heading fill-bg-para-color">
                   {getText(heading)}
                 </h5>
               )}
@@ -261,7 +277,7 @@ export default function C14({ data }) {
                         return (
                           <p
                             key={paragraphIndex}
-                            className="theme-color-para"
+                            className="theme-color-para fill-bg-title-color"
                           >
                             {renderInlineContent(
                               paragraph

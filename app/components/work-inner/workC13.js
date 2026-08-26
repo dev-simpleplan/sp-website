@@ -13,15 +13,15 @@ export default function C13({ data }) {
 
   return (
     <section
-      className="work-c13"
+      className={`work-c13 ${data?.colour_code_bg ? "fill-bg" : ""}`}
       style={{
-        "--component-bg":
+        backgroundColor:
           data?.colour_code_bg || "var(--theme-bg)",
       }}
     >
       <div className="work-c13__description theme-color-para not-full-width">
         {paragraphs.map((block, index) => (
-          <p key={index}>
+          <p key={index} className="fill-bg-para-color">
             {block.children?.map((child, childIndex) => (
               <span key={childIndex}>
                 {child.text}

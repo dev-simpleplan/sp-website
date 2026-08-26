@@ -54,7 +54,7 @@ export default function C7({ data }) {
   const hasBlocks = blocks.length > 0;
 
   return (
-    <section className={`work-c7 ${hasBlocks ? "work-c7--has-blocks" : ""}`}>
+    <section className={`work-c7 ${hasBlocks ? "work-c7--has-blocks" : ""} ${data?.colour_code_bg ? "fill-bg" : ""}`}>
         <div className="work-c7__container not-full-width">
 
             <div className="work-c7__content">
@@ -69,7 +69,7 @@ export default function C7({ data }) {
                     {intro.length > 0 && (
                         <div className="work-c7__intro">
                         {intro.map((item, index) => (
-                            <p key={index} className="theme-color-para">
+                            <p key={index} className="theme-color-para fill-bg-para-color">
                             {getText(item.children)}
                             </p>
                         ))}

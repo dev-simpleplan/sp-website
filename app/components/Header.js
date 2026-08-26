@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./header.module.css";
 import MainLogo from "./images/logo.png";
+import BlackLogo from "./images/logo-black.svg";
 import Image from "next/image";
 import Link from "next/link";
 import "../globals.css";
@@ -84,6 +86,13 @@ function normalizeLink(link, fallback) {
 }
 
 export default function Header() {
+  const pathname = usePathname();
+
+  // True for any "inner" page (e.g. /work/juicy-sally, /service/branding, etc.)
+  // Add or remove top-level routes here as needed.
+  const topLevelRoutes = ["/", "/our-work", "/about", "/contact", "/blogs", "/our-team"];
+  const isInnerPage = !topLevelRoutes.includes(pathname);
+
   const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -125,7 +134,8 @@ export default function Header() {
   // plain URL string — these render as a plain <img>, not next/image's
   // <Image>, so it must be unwrapped to .src or the browser literally
   // requests "[object Object]" until the CMS logo finishes loading.
-  const logoSrc = headerData?.logo ? getImageUrl(headerData.logo) : MainLogo.src;
+  const cmsLogo = headerData?.logo ? getImageUrl(headerData.logo) : null;
+  const logoSrc = isInnerPage ? BlackLogo.src : (cmsLogo || MainLogo.src);
   const logoWidth = headerData?.logo?.width || MainLogo.width || 339;
   const logoHeight = headerData?.logo?.height || MainLogo.height || 73;
 
@@ -350,7 +360,7 @@ useEffect(() => {
     isScrolled ? styles.spHeaderScrolled : ""
   } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""} ${
     (isInStickySection || isHiddenByScroll) ? styles.spHeaderHidden : ""
-  }`}
+  } ${isInnerPage ? styles.spHeaderWhite : ""}`}
   ref={headerRef}
 >
   <div className={styles.spHeaderInner}>

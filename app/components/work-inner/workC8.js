@@ -1,6 +1,6 @@
-export default function C8TextCol({ data }) {
+export default function C8TextCol({ id, data }) {
   if (!data) return null;
-
+  const isGutly = id === "gutly";
   const { title, description = [] } = data;
 
   /*
@@ -186,10 +186,10 @@ export default function C8TextCol({ data }) {
 
   return (
     <section
-      className="work-c8"
+      className={`work-c8 ${data?.colour_code_bg ? "fill-bg" : ""} ${isGutly ? "gutly-c8" : ""}`}
       style={{
         backgroundColor:
-          data?.colour_code_bg || "transparent",
+          data?.colour_code_bg || "var(--theme-bg)",
       }}
     >
       <div className="work-c8__container not-full-width">
@@ -199,7 +199,7 @@ export default function C8TextCol({ data }) {
         ---------------------------------- */}
 
         {title && (
-          <div className="work-c8__title work-component-title theme-color-title">
+          <div className="work-c8__title work-component-title theme-color-title fill-bg-title-color">
             <h2>{title}</h2>
           </div>
         )}
@@ -238,14 +238,14 @@ export default function C8TextCol({ data }) {
 
                     {/* Heading */}
                     {hasHeading && (
-                      <h3 className="work-c8__info-title theme-color-title">
+                      <h3 className="work-c8__info-title theme-color-title fill-bg-title-color">
                         {getText(block.heading)}
                       </h3>
                     )}
 
                     {/* Paragraph */}
                     {hasParagraph && (
-                      <p className="work-c8__info-description theme-color-para">
+                      <p className="work-c8__info-description theme-color-para fill-bg-para-color">
                         {renderText(block.paragraph)}
                       </p>
                     )}
@@ -283,7 +283,7 @@ export default function C8TextCol({ data }) {
                         if (child.italic) {
                           return (
                             <span
-                              className="work-c8__stats-value"
+                              className="work-c8__stats-value fill-bg-title-color"
                               key={childIndex}
                             >
                               {text}
@@ -295,7 +295,7 @@ export default function C8TextCol({ data }) {
                         if (child.bold) {
                           return (
                             <span
-                              className="work-c8__stats-unit"
+                              className="work-c8__stats-unit fill-bg-title-color"
                               key={childIndex}
                             >
                               {text}
@@ -316,7 +316,7 @@ export default function C8TextCol({ data }) {
                   {/* Stats Description */}
                   {stat.description &&
                     hasText(stat.description) && (
-                      <p className="work-c8__stats-description theme-color-para">
+                      <p className="work-c8__stats-description theme-color-para fill-bg-para-color">
                         {renderText(stat.description)}
                       </p>
                     )}
