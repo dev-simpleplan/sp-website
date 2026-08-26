@@ -1056,3 +1056,87 @@
         letter-spacing: 2px;
     }
 }
+
+
+/* =====================================================
+   INNER PAGE HEADER — white background variant
+   Applied when isInnerPage = true via .spHeaderWhite
+   ===================================================== */
+
+.spHeaderWhite {
+    background-color: #ffffff;
+}
+
+/* Header bar background */
+.spHeaderWhite .spHeaderBar {
+    background-color: #ffffff;
+}
+
+/* Nav items (buttons) */
+.spHeaderWhite .spNavItem {
+    color: #111111;
+}
+
+/* Chevron icons inside nav items */
+.spHeaderWhite .spChevron {
+    color: #111111;
+}
+
+/* Nav plain links (Our Work) */
+.spHeaderWhite .spNavLink {
+    color: #111111;
+}
+
+/* Hamburger bars on mobile */
+.spHeaderWhite .spHamburgerBtn {
+    color: #111111;
+}
+
+.spHeaderWhite .spHamburgerBar,
+.spHeaderWhite .spMobileBackBtn{
+    background-color: #111111;
+}
+
+.spHeaderWhite .spHeaderCta,
+.spHeaderWhite .spMobileCta{
+    color: #fff;
+    background-color: #111;
+}
+.spHeaderWhite .spHeaderCta:hover{
+    color: #111;
+    background-color: #fff;
+}
+
+.spHeaderWhite .spMegaMenu{
+    background-color: #fff;
+}
+.spHeaderWhite .spMegaMenuInner{
+    background-color: #fff;
+}
+.spHeaderWhite .spMegaMenuColumnTitle,
+.spHeaderWhite .spMobileGroupTitle,
+.spHeaderWhite .spMobileGroupLink,
+.spHeaderWhite .spMobileClose{
+    color: #111;
+}
+.spHeaderWhite .spMegaMenuColumnArrow{
+    color: #111;
+}
+.spHeaderWhite .spMegaMenuLinkList li .spMegaMenuLink,
+.spHeaderWhite .spMobileChevron{
+    color: #111;
+}
+.spHeaderWhite .spMegaMenuLinkList li .spMegaMenuLink:after{
+    background-color: #111;
+}
+.spHeaderWhite .spMobileOverlay{
+    background-color: #fff;
+}
+.spHeaderWhite .spMobileItemBtn{
+    color: #111;
+}
+.spHeaderWhite .spMobileItem,
+.spHeaderWhite .spHeaderBar,
+.spHeaderWhite .spMegaMenuOpen{
+    border-color: #111;
+}

@@ -32,7 +32,12 @@ export default function C10({ data }) {
     subTextIndex > headingIndex;
 
   return (
-    <section className="work-c10">
+    <section className={`work-c10 ${data?.colour_code_bg ? "fill-bg" : ""}`} 
+      style={{
+        backgroundColor:
+          data?.colour_code_bg || "var(--theme-bg)",
+      }}
+    >
       <div className="work-c10__content not-full-width">
 
         {/* Top Sub Text */}
@@ -74,7 +79,7 @@ export default function C10({ data }) {
         )}
         {/* Paragraph */}
         {!isBottomSubText && !isTopSubText && !heading && paragraph && (
-          <p className="work-c10__paragraph wide_paragraph theme-color-para">
+          <p className="work-c10__paragraph wide_paragraph theme-color-para fill-bg-para-color">
             {getText(paragraph)}
           </p>
         )}

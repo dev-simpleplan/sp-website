@@ -4,10 +4,12 @@
 
 import { notFound } from "next/navigation";
 import OwnStory from "../../components/work-inner/OwnStory";
+import SimilarCaseStudies from "../../components/work-inner/SimilarCaseStudies";
 import workComponentMap from "../../components/work-inner/work-component-map";
 import WorkInnerEffects from "../../components/work-inner/WorkInnerEffects";
 import { getAllWorkSlugs, getWorkBySlug } from "../../lib/work";
 import "../work-inner.css";
+
 
 // Tells Next.js which slugs exist so it can pre-render a page for each
 // one at build time (ISR keeps this list fresh via revalidate: 60).
@@ -39,7 +41,7 @@ export default async function WorkInnerPage({ params }) {
   const sections = workData?.work_inner || [];
 
   return (
-    <main className="work-inner">
+    <div className="work-inner">
       {/* Handles useSetPreFooter + the scroll/image-ready "content-ready"
           event — the only parts of the old page that needed the browser. */}
       <WorkInnerEffects preFooterData={workData?.pre_footer} />
@@ -67,11 +69,13 @@ export default async function WorkInnerPage({ params }) {
             return null;
           }
 
-          return <SectionComponent key={section.id} data={section} />;
+          return <SectionComponent key={section.id} id={slug} data={section} />;
         })}
       </div>
 
       <OwnStory data={workData?.own_story} />
-    </main>
+
+      <SimilarCaseStudies currentSlug={slug} />
+    </div>
   );
 }
