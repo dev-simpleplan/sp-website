@@ -63,17 +63,23 @@ export default function PolicyPageTemplate({ title, lastUpdated, sections = [], 
 
       <section className="policy-page">
         <div className="policy-container">
-          <h1 className="policy-title">{title}</h1>
+          <div className="policy-container-head">
+            <h1 className="policy-title">{title}</h1>
           {lastUpdated && <p className="policy-updated">LAST UPDATED: {lastUpdated.toUpperCase()}</p>}
+          </div>
 
-          {sections.map((section, index) => (
-            <div className="policy-section" id={section.id} key={section.id}>
-              <h2 className="policy-heading">
-                {index + 1}. {section.label}
-              </h2>
-              {renderBody(section.body)}
-            </div>
-          ))}
+          <div className="policy-sec-wrapper">
+            {sections.map((section, index) => (
+              <div className="policy-section" id={section.id} key={section.id}>
+                <h2 className="policy-heading">
+                  {index + 1}. {section.label}
+                </h2>
+                <div className="policy-description">
+                  {renderBody(section.body)}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

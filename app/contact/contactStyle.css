@@ -3,6 +3,10 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 70px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
 }
 
 /* ── Hero: heading + tabbed form ── */
@@ -21,19 +25,18 @@
 .contact-hero-title {
   font-family: var(--newsreader);
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(30px, 3.4vw, 42px);
+  font-weight: 300;
+  font-size: clamp(32px, 3.4vw, 56px);
   line-height: 1.15;
   color: #111;
-  margin: 0 0 16px;
   max-width: 12ch;
 }
 
 .contact-hero-subtext {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #666;
-  max-width: 32ch;
+  font-size: 18px;
+  line-height: 150%;
+  color: #6a6a6a;
+  max-width: 36ch;
   margin: 0;
 }
 
@@ -241,28 +244,29 @@
 }
 
 .contact-next-steps {
-  padding: 120px 0 100px;
+  padding: 120px 0;
 }
 
 .contact-find-us {
-  padding: 0 0 120px;
+  padding: 120px 0;
 }
 
 .contact-section-title {
   font-family: var(--newsreader);
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 300;
+  font-size: clamp(32px, 3.6vw, 64px);
   color: #fff;
-  margin: 0 0 12px;
+  /* margin: 0 0 12px; */
 }
 
 .contact-section-subtext {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%;
   color: rgba(255, 255, 255, 0.8);
   max-width: 46ch;
-  margin: 0 0 56px;
+  /* margin: 0 0 56px; */
 }
 
 /* ── Next steps ── */
@@ -272,34 +276,42 @@
   gap: 40px;
 }
 
+.next-step-card{
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+}
+
 .next-step-card p {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 150%;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
+  max-width: 25ch;
 }
 
 .next-step-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: #fff;
-  margin-bottom: 24px;
+  width: 80px;
+  height: auto;
+  /* border-radius: 50%; */
+  /* background: #fff; */
+  /* margin-bottom: 24px; */
 }
 
 /* ── Find us at ── */
 .find-us-grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 48px;
+  gap: 24px;
   align-items: start;
 }
 
 .find-us-map {
-  border-radius: 4px;
+  /* border-radius: 4px; */
   overflow: hidden;
   aspect-ratio: 4 / 3;
 }
@@ -314,27 +326,32 @@
 .find-us-info {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding-top: 4px;
+  gap: 36px;
+  padding-top: 32px;
 }
 
-.find-us-heading {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 8px;
+.find-us-block{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.find-us-block p,
+.find-us-block .find-us-para,
 .find-us-block a {
   display: block;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 400;
   color: #fff;
   text-decoration: none;
+  line-height: 150%;
   margin: 0;
+}
+.find-us-heading {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing:2px;
+  text-transform: uppercase;
+  /* margin: 0 0 8px; */
 }
 
 .find-us-block a:hover {
@@ -350,7 +367,10 @@
 
   .next-steps-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 56px;
+  }
+  .next-step-card{
+    gap: 20px;
   }
 
   .find-us-map {
@@ -361,10 +381,15 @@
 @media screen and (max-width: 768px) {
   .contact-container {
     padding: 0 24px;
+    gap: 50px;
   }
 
   .contact-hero {
     padding: 110px 0 64px;
+  }
+
+  .contact-hero-subtext{
+    font-size: 16px;
   }
 
   .contact-tab {
@@ -378,6 +403,26 @@
   }
 
   .contact-find-us {
-    padding: 0 0 72px;
+    padding: 70px 0;
   }
+  
+  .contact-section-subtext,
+  .next-step-card p,
+  .find-us-block .find-us-para,
+  .find-us-block a{
+    font-size: 16px;
+  }
+
+  .next-step-icon{
+    width: 64px;
+  }
+
+  .contact-find-us .contact-container{
+    gap: 20px;
+  }
+
+  .find-us-info{
+    padding-top: 0;
+  }
+  
 }

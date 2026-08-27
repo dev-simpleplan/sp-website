@@ -5,24 +5,29 @@
    custom.css/globals.css — only the site's global tokens (--sp-red,
    font variables) so it still matches the brand. */
 
+
 .blog-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 70px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 /* ── Featured Blogs ── */
 .blog-hero {
-  padding: 120px 0 80px;
+  padding: 200px 0 80px;
   background-color: #fff;
 }
 
-.blog-hero-title {
+.blog-hero-title,
+.blog-section-title{
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(36px, 4.5vw, 56px);
-  margin: 0 0 48px;
+  font-weight: 300;
+  font-size: clamp(36px, 4.5vw, 64px);
   color: #111;
 }
 
@@ -63,22 +68,23 @@
 .blog-card-title {
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 1.25;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 120%;
   margin: 24px 0 8px;
   color: #111;
+  letter-spacing: -2%;
 }
 
 .blog-card-featured .blog-card-title {
-  font-size: 26px;
+  font-size: 28px;
 }
 
 .blog-card-excerpt {
   font-family: var(--font-aspekta), Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #555;
+  font-size: 18px;
+  line-height: 150%;
+  color: #6a6a6a;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -92,14 +98,14 @@
   background-color: #fff;
 }
 
-.blog-section-title {
+/* .blog-section-title {
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 300;
   font-size: clamp(30px, 3.6vw, 44px);
   margin: 0 0 32px;
   color: #111;
-}
+} */
 
 .blog-filter {
   display: flex;

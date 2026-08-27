@@ -88,10 +88,20 @@ function normalizeLink(link, fallback) {
 export default function Header() {
   const pathname = usePathname();
 
-  // True for any "inner" page (e.g. /work/juicy-sally, /service/branding, etc.)
-  // Add or remove top-level routes here as needed.
-  const topLevelRoutes = ["/", "/our-work", "/about", "/contact", "/blogs", "/our-team"];
-  const isInnerPage = !topLevelRoutes.includes(pathname);
+  // Pages that get the white header + black logo. This is an ALLOWLIST —
+  // only pages listed here (or nested under them) get the white treatment;
+  // every other route (including new ones added later) keeps the default
+  // header automatically, with nothing extra to remember to exclude.
+  // Exact matches: the route itself and nothing nested under it.
+  // const whiteHeaderRoutes = ["/our-work"];
+  // Prefix matches: the route itself AND everything nested under it, e.g.
+  // "/work" here covers /work/project-name for every individual work page.
+  const whiteHeaderPrefixes = ["/work", "/contact", "/privacy-policy"];
+  const isInnerPage =
+    // whiteHeaderRoutes.includes(pathname) ||
+    whiteHeaderPrefixes.some(
+      (prefix) => pathname === prefix || pathname.startsWith(prefix + "/")
+    );
 
   const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);

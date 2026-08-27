@@ -677,11 +677,12 @@ picture{
 /* ---- OWN STORY ------ */
 .own-story {
   background-color: var(--sp-red);
-  height: 90vh;
+  /* height: 90vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--sp-white);
+  padding: 150px 0;
 }
 
 .own-story-in {

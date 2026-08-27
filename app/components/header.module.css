@@ -1105,6 +1105,7 @@
 .spHeaderWhite .spHeaderCta:hover{
     color: #111;
     background-color: #fff;
+    border-color: #111;
 }
 
 .spHeaderWhite .spMegaMenu{
@@ -1135,8 +1136,8 @@
 .spHeaderWhite .spMobileItemBtn{
     color: #111;
 }
-.spHeaderWhite .spMobileItem,
 .spHeaderWhite .spHeaderBar,
-.spHeaderWhite .spMegaMenuOpen{
-    border-color: #111;
+.spHeaderWhite .spMegaMenuOpen,
+.spHeaderWhite .spMobileItem{
+    border-color: #DEDEDE;
 }
