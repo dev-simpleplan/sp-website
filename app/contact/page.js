@@ -124,8 +124,10 @@ export default function ContactPage() {
       <section className="contact-connection-wrap">
         <div className="contact-next-steps" id="next-steps">
           <div className="contact-container gap-left">
-            <h2 className="contact-section-title">{simpleConnection?.title}</h2>
-            <p className="contact-section-subtext">{asPlainText(simpleConnection?.description)}</p>
+            <div className="contact-container-head">
+                <h2 className="contact-section-title">{simpleConnection?.title}</h2>
+                <p className="contact-section-subtext">{asPlainText(simpleConnection?.description)}</p>
+            </div>
 
             <div className="next-steps-grid">
               {(simpleConnection?.steps || []).map((step) => (
@@ -144,7 +146,9 @@ export default function ContactPage() {
 
         <div className="contact-find-us" id="find-us">
           <div className="contact-container gap-left">
-            <h2 className="contact-section-title">{findUs?.title}</h2>
+            <div className="contact-container-head">
+                <h2 className="contact-section-title">{findUs?.title}</h2>
+            </div>
 
             <div className="find-us-grid">
               <div className="find-us-map">
@@ -156,7 +160,7 @@ export default function ContactPage() {
               <div className="find-us-info">
                 <div className="find-us-block">
                   <p className="find-us-heading">India</p>
-                  <p>
+                  <p className="find-us-para">
                     {(findUs?.india_address || "").split("\n").map((line, i) => (
                       <span key={i}>
                         {line}

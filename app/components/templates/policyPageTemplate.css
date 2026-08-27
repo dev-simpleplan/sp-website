@@ -12,27 +12,33 @@
   max-width: 580px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
 
 .policy-title {
   font-family: var(--newsreader);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 300;
   font-size: clamp(32px, 4vw, 44px);
   color: #111;
   margin: 0 0 12px;
 }
 
 .policy-updated {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 500;
   letter-spacing: 0.08em;
   color: #999;
-  margin: 0 0 40px;
+  /* margin: 0 0 40px; */
 }
 
 .policy-section {
   margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .policy-heading {
@@ -41,14 +47,21 @@
   font-weight: 300;
   font-size: 24px;
   color: #111;
-  margin: 0 0 16px;
+  /* margin: 0 0 16px; */
+  padding-left: 10px;
+}
+
+.policy-description{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .policy-paragraph {
   font-size: 16px;
   line-height: 1.7;
   color: #6A6A6A;
-  margin: 0 0 16px;
+  /* margin: 0 0 16px; */
 }
 
 .policy-list {
