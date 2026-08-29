@@ -10,13 +10,14 @@ const FALLBACK_VIDEO_URL = "https://www.youtube.com/watch?v=a7yNYcLgU_8";
 
 function VideoFold({ videoUrl, thumbnail }) {
   const [playing, setPlaying] = useState(false);
-  const iframeRef = useRef(null);
 
   const getYoutubeId = (url) => {
     if (!url) return "";
+
     const match = url.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&]+)/
     );
+
     return match ? match[1] : "";
   };
 
@@ -25,34 +26,44 @@ function VideoFold({ videoUrl, thumbnail }) {
   const handlePlay = () => {
     if (!videoId) return;
     setPlaying(true);
-    setTimeout(() => {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "playVideo", args: [] }),
-        "*"
-      );
-    }, 100);
   };
 
   return (
     <div className="ttb-media ttb-video-wrap">
-      {!playing && (
-        <>
-          <img src={thumbnail} alt="Video thumbnail" className="img" />
-          <button className="ttb-play-btn" onClick={handlePlay} aria-label="Play">
-            <svg viewBox="0 0 24 24" fill="#1A1A1A">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
-        </>
-      )}
-      {playing && videoId && (
+      {/* Thumbnail stays in the layout */}
+      <img
+        src={thumbnail}
+        alt="Video thumbnail"
+        className={`img ttb-video-thumbnail ${
+          playing ? "is-hidden" : ""
+        }`}
+      />
+
+      {/* Video sits above the thumbnail */}
+      {videoId && (
         <iframe
-          ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&enablejsapi=1&autoplay=1`}
+          className={`ttb-video-iframe ${playing ? "is-playing" : ""}`}
+          src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&enablejsapi=1&autoplay=${
+            playing ? "1" : "0"
+          }`}
           allow="autoplay; encrypted-media"
           allowFullScreen
           title="Video"
         />
+      )}
+
+      {/* Play button */}
+      {!playing && (
+        <button
+          className="ttb-play-btn"
+          onClick={handlePlay}
+          aria-label="Play video"
+          type="button"
+        >
+          <svg viewBox="0 0 24 24" fill="#1A1A1A">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
       )}
     </div>
   );

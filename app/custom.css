@@ -2361,11 +2361,18 @@ a.custom-btn.cta {
   display: flex;
   align-items: flex-end;
   gap: 25px;
+  width: 90%;
 }
 
 .ttb-fold {
   flex-direction: column;
   align-items: flex-start;
+}
+
+.ttb-fold-row:nth-child(odd){
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
 }
 
 @media (max-width: 1199px) {
@@ -2406,7 +2413,7 @@ a.custom-btn.cta {
 
 @media screen and (max-width: 991px) {
   .your-brands-fold {
-    padding: 60px 60px 60px 60px;
+    padding: 60px 60px 60px 0px;
   }
 
   .home-banner {
