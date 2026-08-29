@@ -6,6 +6,18 @@
 }
 
 @media screen and (max-width: 991px) {
+  .meet-the-simp .heading {
+    margin-bottom: 40px;
+  }
+  .meet-the-simp .heading h2 {
+    margin-bottom: 20px;
+  }
+
+  .ttb-media{
+    aspect-ratio: unset;
+  }
+
+
   .your-brands-fold-wrap {
     gap: 30px;
   }
@@ -514,9 +526,9 @@
     flex-direction: column;
   }
 
-  .your-brands-fold h2 {
+  /* .your-brands-fold h2 {
     min-height: 110px;
-  }
+  } */
 
   .like-what-you-see {
     padding: 80px 0 100px;
@@ -592,6 +604,10 @@
     margin-bottom: 20px;
   }
 
+  .we-do-stand{
+    padding: 50px 0;
+  }
+
   .we-do-stand-in {
     grid-template-columns: 1fr;
     padding: 0;
@@ -638,7 +654,7 @@
   }
 
   .meet-the-simp {
-    padding: 20px 0 60px;
+    padding: 60px 0;
   }
 
   .meet-the-simp .heading {
@@ -663,7 +679,7 @@
   }
 
   .ttb-media {
-    aspect-ratio: auto;
+    aspect-ratio: 1.2 / 1;
     height: 100%;
     max-width: 100%;
   }
@@ -985,10 +1001,6 @@
 
   .like-what-you-see {
     padding: 50px 0;
-  }
-
-  .meet-the-simp .heading h2 {
-    margin-bottom: 20px;
   }
 
   .ready-to-build-in p {

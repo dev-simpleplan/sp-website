@@ -298,6 +298,12 @@
     } */
 }
 
+@media (max-width: 991px) {
+    .spFooterInner{
+        padding: 96px 0 25px;
+    }
+}
+
 @media (max-width: 768px) {
     .spFooterInner {
         padding: 56px 0 40px;
