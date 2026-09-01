@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import cardImg from "./images/we-are-p.png";
 
-// Static placeholder data — the API currently only returns one work item
-// (the "invouge" one, matching what OurWorkBanner used to hardcode). Add
-// more entries here for now; once the CMS has multiple case studies this
-// whole array should be replaced with `data` mapped from the
-// `work_banner`/`case_study` API response instead.
+// Static placeholder data — once the CMS has multiple case studies this
+// array should be replaced with `data` mapped from the API response.
 const WORK_ITEMS = [
   {
     id: "invouge",
@@ -17,7 +15,6 @@ const WORK_ITEMS = [
     stat: { value: "1.2", suffix: "x", label: "Revenue Growth" },
     whatWeDid: ["Brand Positioning"],
     image: cardImg.src,
-    href: "#",
   },
   {
     id: "lumen",
@@ -27,7 +24,6 @@ const WORK_ITEMS = [
     stat: { value: "2.4", suffix: "x", label: "Engagement" },
     whatWeDid: ["Visual Identity"],
     image: cardImg.src,
-    href: "#",
   },
   {
     id: "atlas",
@@ -37,94 +33,223 @@ const WORK_ITEMS = [
     stat: { value: "3.1", suffix: "x", label: "User Growth" },
     whatWeDid: ["Web Design"],
     image: cardImg.src,
-    href: "#",
+  },
+  {
+    id: "nova",
+    tag: "Retail",
+    title: "nova",
+    subtitle: "Lorem ipsum dolor sit amet consectetur.",
+    stat: { value: "4.8", suffix: "x", label: "Conversion" },
+    whatWeDid: ["Campaign Design"],
+    image: cardImg.src,
   },
 ];
 
-// How long the scroll has to be still before the currently-visible item's
-// image grows to fill its section. Kept short so the grow reads as a
-// direct response to the user pausing, not a random delayed animation.
+const FIRST_ITEM_ID = WORK_ITEMS[0]?.id ?? null;
+
+// How much of each section's height the grown image should cover. Full
+// (1) height, so adjacent cards' grown images sit flush edge-to-edge with
+// no gap when several are grown at once — the heading is a separate fixed
+// overlay now (see .ow-banner-head-sticky), not tied to this box, so
+// nothing needs the old reserved gap at the bottom.
+const IMAGE_COVER_HEIGHT_RATIO = 1;
+
+// How long the scroll has to be still before the currently-active card(s)'
+// images grow. Kept short so the grow reads as a direct response to the
+// user pausing, not a scheduled animation.
 const SCROLL_PAUSE_MS = 350;
 
-// An item counts as "in view enough to grow" once it covers at least this
-// much of the observed viewport band. Using a flat threshold (rather than
-// "only the single highest ratio") is what lets two items grow at once
-// when the user pauses with them roughly half-and-half on screen — both
-// clear the bar together instead of one arbitrarily winning.
-const ACTIVE_RATIO_THRESHOLD = 0.35;
+export default function OurWorkBanner({ id, isReady = true }) {
+  // Per-item DOM refs, keyed by item id — plain objects (not state) since
+  // none of this needs to trigger a re-render; GSAP drives the DOM
+  // directly, same as the original single-card version.
+  const bannerRefs = useRef({}); // .our-work-banner-in — image expands to cover THIS
+  const cardRefs = useRef({});
+  const wrapRefs = useRef({}); // .ow-banner-img-wrap — the compact image+tag box
+  const cloneRefs = useRef({}); // the currently-growing clone for that item, or null
+  const cloneCleanupRefs = useRef({}); // cursor-cta cleanup for that item's clone
+  const headingRef = useRef(null);
+  const cursorCtaRef = useRef(null); // shared "View Case Study" circle, follows whichever clone is grown
 
-const COMPACT_RADIUS = 16; // px — rounded corners in the resting card state
+  const hasPlayedIntroRef = useRef(false);
+  const grownIdsRef = useRef(new Set()); // every item currently grown — can be more than one at once
+  const introPlayingRef = useRef(true); // true only during the first card's own drop+grow intro
 
-export default function OurWorkBanner({ id }) {
-  const [activeIds, setActiveIds] = useState(() => (WORK_ITEMS[0] ? [WORK_ITEMS[0].id] : []));
-  const [isPaused, setIsPaused] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const itemRefs = useRef({});
-  const wrapRefs = useRef({}); // the compact card's image slot — defines layout + the resting crop window
-  const stageRefs = useRef({}); // always sized to the full grown target; the <img> lives in here, never distorted
-  const cursorCtaRef = useRef(null);
-  const cursorCtaCleanupRefs = useRef([]);
-  const ratiosRef = useRef({});
+  // ---- Grow a given item's image: clone its compact image+tag wrapper,
+  // append the clone straight onto that item's own `.our-work-banner-in`
+  // (a sibling of the card, NOT nested inside it) so growing it never gets
+  // clipped by the card's own box, and tween the clone up to cover the
+  // section. The original wrapper just goes opacity: 0 in place, so the
+  // card's title/stats layout never moves.
+  function growItem(itemId, onGrown) {
+    if (!itemId || grownIdsRef.current.has(itemId) || cloneRefs.current[itemId]) return;
 
-  // Tracks every item that's meaningfully in view (ratio above the
-  // threshold), not just the single most-visible one — so when two items
-  // are each about half-visible, both qualify and both get to grow. Falls
-  // back to whichever single item has the best ratio if none clear the
-  // threshold (e.g. right at the very top/bottom of the list).
+    const bannerEl = bannerRefs.current[itemId];
+    const wrapEl = wrapRefs.current[itemId];
+    if (!bannerEl || !wrapEl) return;
+
+    const wrapRect = wrapEl.getBoundingClientRect();
+    const bannerRect = bannerEl.getBoundingClientRect();
+    const computed = window.getComputedStyle(wrapEl);
+
+    const clone = wrapEl.cloneNode(true);
+    clone.classList.add("ow-banner-img-wrap-clone");
+    clone.removeAttribute("id");
+
+    gsap.set(clone, {
+      position: "absolute",
+      top: wrapRect.top - bannerRect.top,
+      left: wrapRect.left - bannerRect.left,
+      width: wrapRect.width,
+      height: wrapRect.height,
+      margin: 0,
+      borderRadius: computed.borderRadius,
+      zIndex: 20,
+    });
+
+    bannerEl.appendChild(clone);
+    cloneRefs.current[itemId] = clone;
+
+    // Force stacking + position on the clone's children via inline styles
+    // (not relying on external CSS), so the tag stays visible, on top, and
+    // pinned to the same corner of the image for the whole grow animation.
+    const cloneImg = clone.querySelector(".ow-banner-img");
+    const cloneTag = clone.querySelector(".ow-banner-tag");
+
+    if (cloneImg) {
+      gsap.set(cloneImg, { position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 });
+    }
+    if (cloneTag) {
+      gsap.set(cloneTag, { position: "absolute", top: 16, right: 16, zIndex: 999, opacity: 1 });
+    }
+
+    // Hide the original — its box stays exactly as-is, so nothing around
+    // it moves.
+    gsap.set(wrapEl, { opacity: 0 });
+
+    grownIdsRef.current.add(itemId);
+
+    gsap.to(clone, {
+      top: 0,
+      left: 0,
+      width: bannerEl.offsetWidth,
+      height: bannerEl.offsetHeight * IMAGE_COVER_HEIGHT_RATIO,
+      borderRadius: 0,
+      duration: 1.1,
+      ease: "power2.inOut",
+      onComplete: () => {
+        // The item may already have been told to shrink again (fast
+        // scroll-pause-scroll) before this grow tween finished — don't
+        // resurrect the cursor CTA or "grown" bookkeeping for a clone
+        // that's already been torn down.
+        if (cloneRefs.current[itemId] !== clone) return;
+        cloneCleanupRefs.current[itemId] = setupCursorCta(clone);
+        onGrown?.();
+      },
+    });
+  }
+
+  // ---- Shrink a given item's image back down: animate its clone back to
+  // the original wrapper's resting rect, then remove the clone and restore
+  // the original wrapper.
+  function shrinkItem(itemId) {
+    const clone = cloneRefs.current[itemId];
+    const wrapEl = wrapRefs.current[itemId];
+    const bannerEl = bannerRefs.current[itemId];
+    if (!clone || !wrapEl || !bannerEl) return;
+
+    cloneCleanupRefs.current[itemId]?.();
+    cloneCleanupRefs.current[itemId] = null;
+
+    grownIdsRef.current.delete(itemId);
+
+    const wrapRect = wrapEl.getBoundingClientRect();
+    const bannerRect = bannerEl.getBoundingClientRect();
+
+    gsap.to(clone, {
+      top: wrapRect.top - bannerRect.top,
+      left: wrapRect.left - bannerRect.left,
+      width: wrapRect.width,
+      height: wrapRect.height,
+      borderRadius: window.getComputedStyle(wrapEl).borderRadius,
+      duration: 0.7,
+      ease: "power2.inOut",
+      onComplete: () => {
+        clone.remove();
+        if (cloneRefs.current[itemId] === clone) cloneRefs.current[itemId] = null;
+        gsap.set(wrapEl, { opacity: 1 });
+      },
+    });
+  }
+
+  // ---- Step 1: the first card drops from above the section down to its
+  // natural centered position (no resizing, just an entrance transform).
+  // ---- Step 2: its image grows via `growItem`, same mechanism every
+  // later scroll-pause grow uses. `introPlayingRef` flips false once this
+  // grow finishes — see the scroll effect below for why that matters.
   useEffect(() => {
-    const elements = WORK_ITEMS.map((item) => itemRefs.current[item.id]).filter(Boolean);
-    if (!elements.length) return;
+    if (hasPlayedIntroRef.current) return undefined;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          ratiosRef.current[entry.target.dataset.itemId] = entry.intersectionRatio;
+    const playIntro = () => {
+      if (hasPlayedIntroRef.current) return;
+      hasPlayedIntroRef.current = true;
+
+      const card = cardRefs.current[FIRST_ITEM_ID];
+      if (!card || !FIRST_ITEM_ID) return;
+
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.set(card, { y: "-100vh", opacity: 0 }).to(card, { y: 0, opacity: 1, duration: 1 });
+
+      tl.add(() => {
+        growItem(FIRST_ITEM_ID, () => {
+          introPlayingRef.current = false;
         });
 
-        const ratios = Object.entries(ratiosRef.current);
-        let qualifying = ratios
-          .filter(([, ratio]) => ratio >= ACTIVE_RATIO_THRESHOLD)
-          .map(([itemId]) => itemId);
-
-        if (!qualifying.length) {
-          let bestId = null;
-          let bestRatio = 0;
-          for (const [itemId, ratio] of ratios) {
-            if (ratio > bestRatio) {
-              bestRatio = ratio;
-              bestId = itemId;
-            }
-          }
-          qualifying = bestId ? [bestId] : [];
+        if (headingRef.current) {
+          gsap.to(headingRef.current, { opacity: 0.9, duration: 0.6, delay: 0.5 });
         }
+      }, "+=0.1");
+    };
 
-        setActiveIds(qualifying);
-      },
-      {
-        threshold: [0, 0.1, 0.25, 0.35, 0.5, 0.75, 1],
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    );
+    if (isReady) {
+      playIntro();
+      return undefined;
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("load", playIntro);
+      return () => window.removeEventListener("load", playIntro);
+    }
+    return undefined;
+  }, [isReady]);
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Scrolling => not paused (shrink whatever was grown). Once scrolling
-  // has been still for SCROLL_PAUSE_MS, flip to paused => the active
-  // item's image grows.
+  // Scrolling => every card shrinks back to its compact size. Once
+  // scrolling has been still for SCROLL_PAUSE_MS, every card's image
+  // grows, all together — simple and uniform, not dependent on which
+  // card(s) happen to be in view.
+  //
+  // Attached unconditionally from mount — NOT gated behind the intro
+  // finishing. It used to wait for `introGrown`, but that made every other
+  // card's grow depend on the first card's own intro animation completing;
+  // if that was ever interrupted or delayed, no card would ever grow
+  // again. Instead, `introPlayingRef` just skips the SHRINK half while the
+  // intro is still running, so an incidental early "scroll" event (e.g.
+  // scroll-anchoring as the image loads) can't cancel the intro — the
+  // grow half still runs normally regardless.
   useEffect(() => {
     let pauseTimer = null;
 
     const onScroll = () => {
-      setHasScrolled(true);
-      setIsPaused(false);
+      if (!introPlayingRef.current) {
+        [...grownIdsRef.current].forEach((itemId) => shrinkItem(itemId));
+      }
+
       clearTimeout(pauseTimer);
-      pauseTimer = setTimeout(() => setIsPaused(true), SCROLL_PAUSE_MS);
+      pauseTimer = setTimeout(() => {
+        WORK_ITEMS.forEach((item) => growItem(item.id));
+      }, SCROLL_PAUSE_MS);
     };
 
-    // No initial timer here on purpose — the first item must NOT grow on
-    // load, only once the user has actually scrolled and then paused.
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       clearTimeout(pauseTimer);
@@ -132,240 +257,180 @@ export default function OurWorkBanner({ id }) {
     };
   }, []);
 
-  const grownIds = hasScrolled && isPaused ? activeIds : [];
-  const grownKey = grownIds.join(",");
-
-  // Grow/shrink via clip-path, not a stretched transform. Each item's
-  // <img> sits inside a "stage" that is ALWAYS sized to the full,
-  // grown-to-cover box (so object-fit: cover is computed against one
-  // constant size and the image is never distorted). The compact card
-  // look comes purely from clip-path cropping the stage down to the
-  // resting card's window; growing just animates that crop open to the
-  // full stage — a true "zoom reveal", not a stretch.
-  //
-  // The stage's position/size AND both clip-path states are recomputed
-  // on every mount/grow-toggle AND on window resize — the resize part is
-  // what keeps this correct through pinch/ctrl-zooming or resizing the
-  // window (zooming changes the effective viewport size, so anything
-  // computed before the zoom is stale until recomputed).
-  useLayoutEffect(() => {
-    const recompute = () => {
-      WORK_ITEMS.forEach((item) => {
-        const wrapEl = wrapRefs.current[item.id];
-        const stageEl = stageRefs.current[item.id];
-        const itemEl = itemRefs.current[item.id];
-        if (!wrapEl || !stageEl || !itemEl) return;
-
-        const wrapRect = wrapEl.getBoundingClientRect();
-        const itemRect = itemEl.getBoundingClientRect();
-        const itemStyle = window.getComputedStyle(itemEl);
-        const padTop = parseFloat(itemStyle.paddingTop) || 0;
-        const padBottom = parseFloat(itemStyle.paddingBottom) || 0;
-        const padLeft = parseFloat(itemStyle.paddingLeft) || 0;
-        const padRight = parseFloat(itemStyle.paddingRight) || 0;
-
-        const targetLeft = itemRect.left + padLeft;
-        const targetTop = itemRect.top + padTop;
-        const targetWidth = itemRect.width - padLeft - padRight;
-        const targetHeight = itemRect.height - padTop - padBottom;
-
-        if (targetWidth <= 0 || targetHeight <= 0 || wrapRect.width === 0) return;
-
-        // Position the stage (relative to wrapEl, its positioned parent)
-        // so it exactly covers the full grown target.
-        const stageLeft = targetLeft - wrapRect.left;
-        const stageTop = targetTop - wrapRect.top;
-        stageEl.style.left = `${stageLeft}px`;
-        stageEl.style.top = `${stageTop}px`;
-        stageEl.style.width = `${targetWidth}px`;
-        stageEl.style.height = `${targetHeight}px`;
-
-        // The compact card's window, expressed in the stage's own local
-        // coordinates — i.e. where the resting (small) box sits inside
-        // the full-size stage. Cropping the stage down to exactly this
-        // rect is what makes it look like the small, undisturbed card.
-        const localLeft = -stageLeft;
-        const localTop = -stageTop;
-        const insetLeft = localLeft;
-        const insetTop = localTop;
-        const insetRight = targetWidth - (localLeft + wrapRect.width);
-        const insetBottom = targetHeight - (localTop + wrapRect.height);
-
-        const compactClip = `inset(${insetTop}px ${insetRight}px ${insetBottom}px ${insetLeft}px round ${COMPACT_RADIUS}px)`;
-        const grownClip = "inset(0px round 0px)";
-
-        stageEl.style.clipPath = grownIds.includes(item.id) ? grownClip : compactClip;
-      });
-    };
-
-    recompute();
-
-    window.addEventListener("resize", recompute);
-    return () => window.removeEventListener("resize", recompute);
-  }, [grownKey]);
-
-  // Cursor-follow "View Case Study" circle, attached to whichever item(s)
-  // are currently grown. Re-runs whenever the grown set changes so the
-  // listeners always target the right elements.
+  // Clean up any live clone/cursor-cta listeners on unmount.
   useEffect(() => {
-    cursorCtaCleanupRefs.current.forEach((cleanup) => cleanup());
-    cursorCtaCleanupRefs.current = grownIds
-      .map((itemId) => stageRefs.current[itemId])
-      .filter(Boolean)
-      .map((hoverTarget) => setupCursorCta(cursorCtaRef.current, hoverTarget));
-
     return () => {
-      cursorCtaCleanupRefs.current.forEach((cleanup) => cleanup());
-      cursorCtaCleanupRefs.current = [];
+      Object.values(cloneCleanupRefs.current).forEach((cleanup) => cleanup?.());
     };
-  }, [grownKey]);
+  }, []);
 
   return (
-    <section className="our-work-list" id={id}>
-      {WORK_ITEMS.map((item) => {
-        const isGrown = grownIds.includes(item.id);
-        return (
-          <div
-            key={item.id}
-            className="ow-item"
-            data-item-id={item.id}
-            ref={(el) => {
-              if (el) itemRefs.current[item.id] = el;
-            }}
-          >
-            <div className="we-are-proud-company-card ow-banner-card">
-              <div className="fold-wrap hrzntl-scroll-company">
-                <div className="left">
-                  <div
-                    className="wap-img ow-banner-img-wrap ow-item-media"
-                    ref={(el) => {
-                      if (el) wrapRefs.current[item.id] = el;
-                    }}
-                  >
-                    <a
-                      href={item.href}
-                      className={`ow-item-stage${isGrown ? " ow-item-stage-grown" : ""}`}
+    <section className="our-work-banner" id={id}>
+      {/* Pinned heading — must come before the card items so it's eligible
+          to stick from the very start of the section (see the CSS). */}
+      <div className="ow-banner-head-sticky">
+        <div className="ow-banner-head" ref={headingRef}>
+          <div className="ow-banner-title">
+            <h1>Our Featured work</h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Pulled up to overlap the heading's reserved space — see CSS —
+          so the section's total scroll length is just N x 100vh. */}
+      <div className="our-work-banner-cards">
+        {WORK_ITEMS.map((item) => {
+          return (
+            <div
+              key={item.id}
+              className="our-work-banner-in"
+              data-item-id={item.id}
+              ref={(el) => {
+                if (el) bannerRefs.current[item.id] = el;
+              }}
+            >
+              <a
+                className="we-are-proud-company-card gap-left ow-banner-card"
+                ref={(el) => {
+                  if (el) cardRefs.current[item.id] = el;
+                }}
+              >
+                <div className="fold-wrap hrzntl-scroll-company">
+                  <div className="left">
+                    <div
+                      className="wap-img ow-banner-img-wrap"
                       ref={(el) => {
-                        if (el) stageRefs.current[item.id] = el;
+                        if (el) wrapRefs.current[item.id] = el;
                       }}
                     >
                       <img src={item.image} alt={item.title} className="img ow-banner-img" />
-                    </a>
-                    <span className="ow-banner-tag">{item.tag}</span>
-                  </div>
-                  <div className="wap-text">
-                    <div className="wap-text-left">
-                      <h5>{item.title}</h5>
-                      <p>{item.subtitle}</p>
+                      <span className="ow-banner-tag">{item.tag}</span>
+                    </div>
+                    <div className="wap-text">
+                      <div className="wap-text-left">
+                        <h5>{item.title}</h5>
+                        <p>{item.subtitle}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="right">
-                  <div className="fw-right-top">
-                    <h4>
-                      {item.stat.value}
-                      <span>{item.stat.suffix}</span>
-                    </h4>
-                    <p>{item.stat.label}</p>
-                  </div>
-                  <div className="fw-right-bottom">
-                    <p className="eye-head">WHAT WE DID</p>
-                    <div className="fw-points-wrap">
-                      {item.whatWeDid.map((point) => (
-                        <p key={point}>{point}</p>
-                      ))}
+                  <div className="right">
+                    <div className="fw-right-top">
+                      <h4>
+                        {item.stat.value}
+                        <span>{item.stat.suffix}</span>
+                      </h4>
+                      <p>{item.stat.label}</p>
+                    </div>
+                    <div className="fw-right-bottom">
+                      <p className="eye-head">WHAT WE DID</p>
+                      <div className="fw-points-wrap">
+                        {item.whatWeDid.map((point) => (
+                          <p key={point}>{point}</p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
+      {/* Cursor-follow "View Case Study" circle. Fixed + hidden by
+          default (see CSS); setupCursorCta() reveals it and drives its
+          position once whichever item's image has finished growing. */}
       <a href="#" className="ow-banner-cursor-cta" ref={cursorCtaRef}>
         <span>View Case</span>
         <span>Study</span>
       </a>
     </section>
   );
-}
 
-// Same cursor-follow behaviour OurWorkBanner used to have for its single
-// image — generalized to accept whichever element is currently grown.
-function setupCursorCta(cta, hoverTarget) {
-  if (!cta || !hoverTarget) return () => {};
+  // Sets up the cursor-follower on `hoverTarget` (a grown clone). Returns
+  // a cleanup function that removes the listeners.
+  function setupCursorCta(hoverTarget) {
+    const cta = cursorCtaRef.current;
+    if (!cta || !hoverTarget) return () => {};
 
-  let lastX = -9999;
-  let lastY = -9999;
-  let isHovering = false;
+    gsap.set(cta, { xPercent: -50, yPercent: -50 });
 
-  const showCta = () => {
-    isHovering = true;
-    cta.style.transition = "transform .45s cubic-bezier(0.17,0.89,0.32,1.49), opacity .45s ease";
-    cta.style.transform = "translate(-50%, -50%) scale(1)";
-    cta.style.opacity = "1";
-    hoverTarget.style.cursor = "none";
-  };
+    const xTo = gsap.quickTo(cta, "x", { duration: 0.5, ease: "power3" });
+    const yTo = gsap.quickTo(cta, "y", { duration: 0.5, ease: "power3" });
 
-  const hideCta = () => {
-    isHovering = false;
-    cta.style.transition = "transform .3s ease, opacity .3s ease";
-    cta.style.transform = "translate(-50%, -50%) scale(0.4)";
-    cta.style.opacity = "0";
-    hoverTarget.style.cursor = "";
-  };
+    let lastX = -9999;
+    let lastY = -9999;
+    let isHovering = false;
 
-  const moveCta = (x, y) => {
-    cta.style.left = `${x}px`;
-    cta.style.top = `${y}px`;
-  };
+    const showCta = () => {
+      isHovering = true;
+      gsap.to(cta, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.7)" });
+      hoverTarget.style.cursor = "none";
+    };
 
-  const trackPosition = (e) => {
-    lastX = e.clientX;
-    lastY = e.clientY;
-  };
+    const hideCta = () => {
+      isHovering = false;
+      gsap.to(cta, { scale: 0.4, opacity: 0, duration: 0.3, ease: "power2.in" });
+      hoverTarget.style.cursor = "";
+    };
 
-  const handleMove = (e) => {
-    trackPosition(e);
-    moveCta(lastX, lastY);
-  };
+    const trackPosition = (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+    };
 
-  const handleEnter = (e) => {
-    trackPosition(e);
-    cta.style.transition = "none";
-    moveCta(lastX, lastY);
-    showCta();
-  };
+    const handleMove = (e) => {
+      trackPosition(e);
+      xTo(lastX);
+      yTo(lastY);
+    };
 
-  const handleLeave = () => hideCta();
-
-  const handleScroll = () => {
-    const rect = hoverTarget.getBoundingClientRect();
-    const isInside =
-      lastX >= rect.left && lastX <= rect.right && lastY >= rect.top && lastY <= rect.bottom;
-
-    if (isInside && !isHovering) {
-      moveCta(lastX, lastY);
+    const handleEnter = (e) => {
+      trackPosition(e);
+      gsap.set(cta, { x: lastX, y: lastY });
       showCta();
-    } else if (!isInside && isHovering) {
-      hideCta();
-    }
-  };
+    };
 
-  window.addEventListener("mousemove", trackPosition, { passive: true });
-  hoverTarget.addEventListener("mouseenter", handleEnter);
-  hoverTarget.addEventListener("mousemove", handleMove);
-  hoverTarget.addEventListener("mouseleave", handleLeave);
-  window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleLeave = () => hideCta();
 
-  return () => {
-    window.removeEventListener("mousemove", trackPosition);
-    hoverTarget.removeEventListener("mouseenter", handleEnter);
-    hoverTarget.removeEventListener("mousemove", handleMove);
-    hoverTarget.removeEventListener("mouseleave", handleLeave);
-    window.removeEventListener("scroll", handleScroll);
-    hoverTarget.style.cursor = "";
-  };
+    const handleScroll = () => {
+      const rect = hoverTarget.getBoundingClientRect();
+      const isInside =
+        lastX >= rect.left && lastX <= rect.right && lastY >= rect.top && lastY <= rect.bottom;
+
+      if (isInside && !isHovering) {
+        gsap.set(cta, { x: lastX, y: lastY });
+        showCta();
+      } else if (!isInside && isHovering) {
+        hideCta();
+      }
+    };
+
+    window.addEventListener("mousemove", trackPosition, { passive: true });
+    hoverTarget.addEventListener("mouseenter", handleEnter);
+    hoverTarget.addEventListener("mousemove", handleMove);
+    hoverTarget.addEventListener("mouseleave", handleLeave);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", trackPosition);
+      hoverTarget.removeEventListener("mouseenter", handleEnter);
+      hoverTarget.removeEventListener("mousemove", handleMove);
+      hoverTarget.removeEventListener("mouseleave", handleLeave);
+      window.removeEventListener("scroll", handleScroll);
+
+      // This teardown runs when the card shrinks back down (see
+      // shrinkItem) — at that point there's no listener left to ever hide
+      // the CTA again, so if it was showing it would otherwise stay
+      // frozen on screen until the user happens to hover a re-grown card.
+      // Snap it hidden immediately (no easing) rather than leaving it
+      // stuck mid-fade.
+      if (isHovering) {
+        isHovering = false;
+        gsap.set(cta, { scale: 0.4, opacity: 0 });
+      }
+      hoverTarget.style.cursor = "";
+    };
+  }
 }

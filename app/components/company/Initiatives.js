@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getImageUrl } from "../getImageUrl";
 
@@ -13,16 +13,125 @@ const PLAY_ICON = (
 const isVideo = (media) =>
   media?.mime?.toLowerCase().startsWith("video/");
 
-function MediaBlock({ media, alt }) {
-  const videoRef = useRef(null);
+// Matches youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID, and
+// youtube.com/shorts/ID — returns null for anything else (e.g. a direct
+// .mp4 URL), which is how we tell "YouTube link" apart from "video file".
+function getYouTubeId(url) {
+  if (!url) return null;
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/
+  );
+  return match?.[1] ?? null;
+}
+
+// The YouTube iframe API script is loaded once and shared across every
+// MediaBlock instance on the page — loading it per-instance would race
+// multiple <script> tags against the same global `onYouTubeIframeAPIReady`.
+let youTubeApiPromise = null;
+function loadYouTubeIframeAPI() {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.YT?.Player) return Promise.resolve();
+  if (youTubeApiPromise) return youTubeApiPromise;
+
+  youTubeApiPromise = new Promise((resolve) => {
+    const previousReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      previousReady?.();
+      resolve();
+    };
+
+    const script = document.createElement("script");
+    script.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(script);
+  });
+
+  return youTubeApiPromise;
+}
+
+// `image` and `videoUrl` are separate sibling fields from the API (see
+// e.g. our-team's `great_work_section.videourl` + `.image`) — NOT one
+// media object with a mime type. `videoUrl` decides whether this renders
+// as a play-button-over-thumbnail video (YouTube link or direct file) or
+// a plain image; `image` is either the thumbnail (video case) or the
+// media itself (image-only case, no videoUrl at all).
+function MediaBlock({ image, videoUrl, alt }) {
   const [playing, setPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const youTubePlayerRef = useRef(null);
+  const youTubeContainerRef = useRef(null);
 
-  if (!media) return null;
+  const youTubeId = videoUrl ? getYouTubeId(videoUrl) : null;
+  const isDirectVideoFile = Boolean(videoUrl) && !youTubeId;
+  // Back-compat: a page that still puts an uploaded video file straight
+  // in `image` (no separate `videoUrl`) keeps working the same as before.
+  const isUploadedVideoFallback = !videoUrl && isVideo(image);
 
-  if (isVideo(media)) {
+  const thumbnailUrl = image ? getImageUrl(image) : undefined;
+
+  // Only relevant for the YouTube case — creates a real YT.Player once
+  // "play" is clicked (not on mount), and tears it down when playback
+  // ends or the component moves on, so it can't keep firing events for a
+  // player that's no longer shown.
+  useEffect(() => {
+    if (!playing || !youTubeId) return undefined;
+
+    let cancelled = false;
+
+    loadYouTubeIframeAPI().then(() => {
+      if (cancelled || !youTubeContainerRef.current) return;
+
+      youTubePlayerRef.current = new window.YT.Player(youTubeContainerRef.current, {
+        videoId: youTubeId,
+        playerVars: { autoplay: 1, playsinline: 1 },
+        events: {
+          onStateChange: (event) => {
+            if (event.data === window.YT.PlayerState.ENDED) {
+              setPlaying(false);
+            }
+          },
+        },
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      youTubePlayerRef.current?.destroy?.();
+      youTubePlayerRef.current = null;
+    };
+  }, [playing, youTubeId]);
+
+  if (!videoUrl && !image) return null;
+
+  if (youTubeId) {
+    return (
+      <div className="for-good-video-wrap">
+        {playing ? (
+          <div className="img yt-player-wrap">
+            <div ref={youTubeContainerRef} className="yt-player" />
+          </div>
+        ) : (
+          <>
+            <img src={thumbnailUrl} alt={alt || "Video thumbnail"} className="img" />
+            <button
+              type="button"
+              className="video-play-btn"
+              onClick={() => setPlaying(true)}
+              aria-label="Play video"
+            >
+              {PLAY_ICON}
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  if (isDirectVideoFile || isUploadedVideoFallback) {
+    const src = isDirectVideoFile ? videoUrl : getImageUrl(image);
+    const poster = isDirectVideoFile ? thumbnailUrl : undefined;
+
     const handlePlay = async () => {
       setPlaying(true);
-
       try {
         await videoRef.current?.play();
       } catch (err) {
@@ -35,7 +144,6 @@ function MediaBlock({ media, alt }) {
         videoRef.current.pause();
         videoRef.current.currentTime = 0;
       }
-
       setPlaying(false);
     };
 
@@ -43,12 +151,8 @@ function MediaBlock({ media, alt }) {
       <div className="for-good-video-wrap">
         <video
           ref={videoRef}
-          src={getImageUrl(media)}
-          poster={
-            media?.poster
-              ? getImageUrl(media.poster)
-              : media?.previewUrl || undefined
-          }
+          src={src}
+          poster={poster}
           className="img"
           playsInline
           preload="metadata"
@@ -70,13 +174,7 @@ function MediaBlock({ media, alt }) {
     );
   }
 
-  return (
-    <img
-      src={getImageUrl(media)}
-      alt={alt || "Media"}
-      className="img"
-    />
-  );
+  return <img src={thumbnailUrl} alt={alt || "Media"} className="img" />;
 }
 
 export default function Initiatives({ id, data }) {
@@ -99,7 +197,8 @@ export default function Initiatives({ id, data }) {
           <div className="spFor-good-grid">
             <div className="for-good-img">
               <MediaBlock
-                media={data?.image}
+                image={data?.image}
+                videoUrl={data?.videourl}
                 alt={title}
               />
             </div>

@@ -71,6 +71,27 @@
 }
 
 
+#jurassic-fruit .work-c7 + .work-c7 .work-c7__content {
+  order: 2;
+}
+#jurassic-fruit .work-c7 + .work-c7 .work-c7__image {
+  order: 1;
+}
+
+
+@media screen and (min-width: 768px) {
+  #jurassic-fruit .work-c7:has(+ .work-c7) .work-c7__image {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: calc(40.28% - 35px);
+    max-width: none;
+    margin: 0;
+  }
+}
+
+
 
 
 .not-full-width{

@@ -192,6 +192,43 @@
   height: 20px;
 }
 
+/* Initiatives.js's video case (thumbnail + play button, YouTube or a
+   direct file) — needs an explicit box since, unlike the plain <img>
+   fallback, a wrapper <div> has no intrinsic size of its own to fall
+   back on. */
+.for-good-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #000;
+}
+
+.for-good-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.for-good-video-wrap .yt-player-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* YT.Player REPLACES the .yt-player div with its own <iframe> (it doesn't
+   render inside it), so the iframe ends up a direct child of
+   .yt-player-wrap, not nested inside .yt-player — target the iframe via
+   the wrapper, not the (by-then-gone) .yt-player div itself. */
+.for-good-video-wrap .yt-player-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .bringing-clarity {
   background-color: var(--sp-red);
   padding: 100px 0;
@@ -330,7 +367,7 @@
 }
 
 .like-what-you-see .heading h2 {
-  max-width: 30ch;
+  max-width: 28ch;
   font-size: 32px;
 }
 
@@ -393,26 +430,27 @@
   font-family: var(--newsreader);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(40px, 5.5vw, 88px);
+  font-size: clamp(40px, 5.5vw, 64px);
   color: #fff;
-  line-height: 90%;
+  line-height: 100%;
   animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  letter-spacing: -10%;
+  letter-spacing: -4%;
   display: block;
   /* width: fit-content; */
 }
 
 /* label */
 .counter-block p {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.75);
-  letter-spacing: 0.04em;
+  line-height: 120%;
+  color: #fff;
+  letter-spacing: 1%;
   margin-top: 6px;
-  text-transform: uppercase;
+  text-transform: capitalize;
   animation: counter-rise 2.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   width: fit-content;
-  max-width: 153px;
+  max-width: 15ch;
 }
 
 /* stagger per block */
@@ -2037,6 +2075,10 @@
   overflow: hidden;
 }
 
+.awards-section .heading{
+  margin-bottom: 0;
+}
+
 .ticker-wrapper {
   overflow: hidden;
   width: 100%;
@@ -2089,10 +2131,12 @@
 }
 
 .fold-wrap.hrzntl-scroll-company .left .wap-img {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
-  max-height: 400px;
+  /* max-height: 400px; */
   margin-bottom: 20px;
+  display: flex;
+  overflow: hidden;
 }
 
 .fold-wrap.hrzntl-scroll-company .right {
@@ -3046,6 +3090,20 @@ a.custom-btn.cta {
 
 .our-work-banner{
   background-color: var(--sp-red);
+  overflow: visible;
+  position: relative;
+}
+
+.ow-banner-head-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.our-work-banner-cards {
+  margin-top: -100vh;
   overflow: hidden;
 }
 
@@ -3053,19 +3111,19 @@ a.custom-btn.cta {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  z-index: 5; /* paint above .ow-banner-head-sticky (z-index: 2) */
 
   display: flex;
   /* flex-direction: column; */
   align-items: center;
 
   max-width: calc(100% - 140px);
-  margin: 80px auto 0;
+  margin: 0 auto;
 }
 
 .we-are-proud-company-card.ow-banner-card{
   margin: 0 auto;
-  /* height: 80vh; */
-  overflow: hidden;
+  overflow: visible;
 }
 
 .ofw-img {
@@ -3171,7 +3229,7 @@ a.custom-btn.cta {
   left: 0;
   right: 0;
   bottom: -40px; /* start here, adjust to taste */
-  z-index: 5; /* must stay below the grown image (z-index: 20) */
+  z-index: 2; /* must stay below .ow-item-media (z-index: 5), compact or grown */
   pointer-events: none;
 }
  
@@ -3314,6 +3372,22 @@ a.custom-btn.cta {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* One-time entrance for the first card only (see OurWorkBanner.js) — starts
+   above the section and slides down to its resting, centered position.
+   Once this settles, the same clip-path grow used for scroll-pause (above)
+   kicks in automatically to cover the section, then the normal scroll-driven
+   grow/shrink takes over as soon as the user scrolls. */
+.ow-intro-card {
+  opacity: 0;
+  transform: translateY(-45vh);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
+}
+
+.ow-intro-card.ow-intro-card-entered {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media screen and (max-width: 900px) {
