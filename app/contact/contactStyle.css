@@ -426,3 +426,14 @@
   }
   
 }
+@media screen and (max-width: 479px) {
+  .contact-tabs{
+    display: flex;
+    justify-content: space-between;
+  }
+  .contact-tab{
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+  }
+}

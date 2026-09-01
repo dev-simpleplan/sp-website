@@ -481,6 +481,27 @@
     row-gap: 60px;
     grid-template-columns: 1fr;
   }
+
+
+  .counter-wrap{
+    gap: 10px;
+  }
+  .counter-block p{
+    font-size: 16px;
+  }
+
+  .awards-section .heading{
+    margin-bottom: 40px;
+  }
+
+  .we-are-proud-in-company > a:last-child{
+    height: auto;
+    margin-bottom: 150px;
+  }
+
+  #ReadyToBuild{
+    height: auto;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -495,7 +516,7 @@
   }
 
   section#service-banner {
-    padding: 180px 0 60px;
+    padding: 50px 0 60px;
   }
 
   .ticker-track {
@@ -524,6 +545,7 @@
 
   .counter-wrap {
     flex-direction: column;
+    gap: 30px;
   }
 
   /* .your-brands-fold h2 {
@@ -748,10 +770,10 @@
     margin-left: 0;
   }
 
-  #ReadyToBuild {
+  /* #ReadyToBuild {
     height: auto;
     padding: 100px 0;
-  }
+  } */
 
   .standards-section {
     padding-top: 80px;
@@ -832,6 +854,12 @@
   .all-work__card--half .all-work__image-wrap{
     max-height: 300px;
   }
+
+  .we-are-proud-in-company > a:last-child{
+    height: 100vh;
+    margin-bottom: 0;
+  }
+
 }
 
 @media screen and (max-width: 991px) {
@@ -971,6 +999,7 @@
     width: 100%;
     background-color: var(--sp-red);
     padding-top: 20px;
+    height: 100vh;
   }
 
   .we-are-proud-work .fold-wrap {
@@ -1022,6 +1051,7 @@
   .fold-wrap.hrzntl-scroll-company .left .wap-img {
     overflow: hidden;
     height: auto;
+    max-height: 300px;
   }
 
   .we-are-proud-company .wap-text h5,
