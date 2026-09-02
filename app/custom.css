@@ -97,7 +97,7 @@
   color: #fff;
   max-width: 70ch;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .home-b-cta {
@@ -157,6 +157,31 @@
   transform: translate(-50%, -50%) !important;
   border: none !important;
   pointer-events: none !important;
+}
+
+/* VideoAnimated's own play/pause button — white background, black icon
+   (the icon is fill="currentColor", so `color` alone recolors it).
+   .video-play-btn is shared by several other components (Initiatives,
+   htsu-video, etc.), so this stays scoped to .video-animated-inner
+   rather than changing the shared rule. */
+.video-animated-inner .video-play-btn {
+  background: #fff;
+  border-color: #fff;
+  color: #111;
+}
+
+.video-animated-inner .video-play-btn:hover {
+  background: #fff;
+}
+
+/* Covers YouTube's own (unclickable, pointer-events:none) center
+   play/pause icon while paused — see VideoAnimated.js. Sits above the
+   iframe (z-index 0) but below .video-play-btn (z-index 10). */
+.video-pause-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background-color: #000;
 }
 
 /* play / pause button */
@@ -227,6 +252,20 @@
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+/* Same white background / black icon treatment as VideoAnimated's play
+   button — .video-play-btn is shared with other components too, so this
+   stays scoped to .for-good-video-wrap rather than changing the shared
+   rule. */
+.for-good-video-wrap .video-play-btn {
+  background: #fff;
+  border-color: #fff;
+  color: #111;
+}
+
+.for-good-video-wrap .video-play-btn:hover {
+  background: #fff;
 }
 
 .bringing-clarity {
@@ -534,15 +573,19 @@
   margin-bottom: 48px;
 }
 
-/* two-column grid fills remaining height */
+/* two-column grid fills remaining height. Gap tightened (was 80px) so
+   the content column sits close to the image; content itself is capped
+   below (.wds-right) so it doesn't stretch out to the far edge of its
+   1fr track, leaving open space on the right instead, per Figma. */
 .we-do-stand-in {
   flex: 1;
   min-height: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 40px;
   align-items: start;
-  height: 60vh;
+  max-width: 1124px;
+  /* height: 60vh; */
 }
 
 /* mobile-only paired card list (see WeDoStand.js) — hidden on desktop */
@@ -550,15 +593,17 @@
   display: none;
 }
 
-/* LEFT — image stack, stays put because section is pinned */
+/* LEFT — image stack, stays put because section is pinned. Sized by its
+   own aspect-ratio (matches Figma) rather than stretching to fill the
+   grid row height. */
 .wds-left {
-  height: 100%;
+  height: auto;
 }
 
 .wds-img-stack {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1/1.3; /* Figma: 449 x 561.25 */
   overflow: hidden;
 }
 
@@ -574,17 +619,18 @@
   display: block;
 }
 
-/* RIGHT — overflow:hidden wrap clips items as they slide in/out */
 .wds-right {
   height: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .wds-items-wrap {
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .wds-item {
@@ -592,7 +638,7 @@
   top: 0;
   left: 0;
   right: 0;
-  padding: 40px 0;
+  padding: 0 0 40px;
 }
 
 .wds-item-top {
@@ -604,8 +650,8 @@
 
 .wds-item-top h3 {
   font-family: var(--font-aspekta);
-  font-size: clamp(22px, 2.6vw, 44px);
-  font-weight: 700;
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: #fff;
@@ -673,15 +719,15 @@
 .meet-the-simp-in {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
+  gap: 20px;
+  /* align-items: center; */
 }
 
 /* video container */
 .meet-simp-video {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2/1.5;
   overflow: hidden;
   background: #000;
 }
@@ -731,6 +777,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-top: 20px;
 }
 
 .meet-the-simp .right p {
@@ -1058,10 +1105,19 @@
   align-items: end;
 }
 
-/* LEFT — portrait media box */
+/* LEFT — portrait media box. Needs an explicit width: it's a flex item
+   with the default flex-basis:auto, and its only child (.ttb-media) is
+   sized with a PERCENTAGE width — percentages don't contribute to a flex
+   item's auto/content-based size (a classic flexbox gotcha), so without
+   this .ttb-left (and everything inside it, image or video) collapsed to
+   0x0 and was invisible regardless of any opacity/display rule on its
+   contents. */
 .ttb-left {
   display: flex;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 360px;
+  flex-shrink: 0;
 }
 
 .ttb-media {
@@ -1086,6 +1142,34 @@
   width: 100%;
   height: 100%;
   border: none;
+}
+
+/* ToolsToBuild's video fold (see ToolsToBuild.js's VideoFold): the
+   thumbnail is always in the DOM and the iframe is layered on top of it
+   the moment a video URL resolves (now basically always, since it falls
+   back to FALLBACK_VIDEO_URL) — so without this, the iframe permanently
+   covers the thumbnail via the generic `.ttb-media iframe` rule above,
+   regardless of whether the video has actually been played yet.
+   `.is-hidden`/`.is-playing` are the toggle classes VideoFold already
+   applies based on its `playing` state; they just had no CSS before. */
+.ttb-video-thumbnail.is-hidden {
+  display: none;
+}
+
+.ttb-video-iframe {
+  /* Deliberately no opacity transition here: VideoFold changes this
+     iframe's `src` (autoplay=0 -> 1) in the same render that adds
+     .is-playing, which kicks off a fresh navigation inside the iframe —
+     animating opacity across that moment was unreliable (the iframe
+     could end up stuck invisible even once fully loaded and playing).
+     An instant toggle sidesteps that entirely. */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ttb-video-iframe.is-playing {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* centered play button on video fold */
@@ -1604,7 +1688,7 @@
 .approach-sec-in {
   display: flex;
   flex-direction: column;
-  gap: 190px;
+  gap: 100px;
 }
 
 .approach-sec-in .heading {
@@ -1627,6 +1711,7 @@
 
 .approach-sec-in .approach-description {
   max-width: 34ch;
+  font-size: 24px;
 }
 
 
@@ -1711,7 +1796,11 @@
 .htsu-text {
   flex: 1;
   padding-top: 16px;
-  max-width: 440px;
+  max-width: 50ch;
+}
+
+.htsu-text p{
+  font-size: 18px;
 }
 
 .htsu-foot {

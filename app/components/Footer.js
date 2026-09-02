@@ -140,7 +140,10 @@ export default function Footer() {
                 {contactLinks.map((link) => (
                   <li key={link.id}>
                     <a href={normalizeLink(link.item_link)} className={styles.spFooterLink}>
-                      {link.item_name}
+                      <span className={styles.spFooterTextWrap}>
+                        <span className={styles.spFooterText1}>{link.item_name}</span>
+                        <span className={styles.spFooterText2}>{link.item_name}</span>
+                      </span>
                     </a>
                   </li>
                 ))}

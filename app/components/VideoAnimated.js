@@ -153,6 +153,32 @@ export default function VideoAnimated({ id, data }) {
               />
             )}
 
+            {/* YouTube renders its own big center play/pause icon inside
+                the iframe whenever the video is paused — controls=0 only
+                hides the bottom control bar, not that overlay. Since the
+                iframe has pointer-events:none (see CSS), that icon is
+                purely visual and can't be clicked, so it's just confusing
+                next to our own corner button. We can't reach into the
+                cross-origin iframe to hide it directly, so instead we
+                cover the whole frame with the poster image while paused —
+                same idea as a native <video>'s poster reappearing on
+                pause — leaving only our corner button visible/clickable. */}
+            {!isPlaying && (
+              <div
+                className="video-pause-overlay"
+                aria-hidden="true"
+                style={
+                  thumbnail
+                    ? {
+                        backgroundImage: `url(${thumbnail})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }
+                    : {}
+                }
+              />
+            )}
+
             <button
               className="video-play-btn"
               onClick={togglePlay}
