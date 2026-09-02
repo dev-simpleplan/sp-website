@@ -82,50 +82,65 @@ export default function OurWorkBanner({ id, isReady = true }) {
   // section. The original wrapper just goes opacity: 0 in place, so the
   // card's title/stats layout never moves.
   function growItem(itemId, onGrown) {
-    if (!itemId || grownIdsRef.current.has(itemId) || cloneRefs.current[itemId]) return;
+    if (!itemId || grownIdsRef.current.has(itemId)) return;
 
     const bannerEl = bannerRefs.current[itemId];
     const wrapEl = wrapRefs.current[itemId];
     if (!bannerEl || !wrapEl) return;
 
-    const wrapRect = wrapEl.getBoundingClientRect();
-    const bannerRect = bannerEl.getBoundingClientRect();
-    const computed = window.getComputedStyle(wrapEl);
+    // A clone can already exist here mid-shrink: shrinkItem's tween
+    // (0.7s) outlives SCROLL_PAUSE_MS (0.35s), so a scroll that
+    // interrupts a grow can still be mid-shrink when the next pause
+    // fires growItem again. Bailing out in that case (the old behavior)
+    // silently dropped the regrow — nothing else was scheduled to retry
+    // it, so the item stayed shrunk until another scroll happened. Reuse
+    // the existing clone and redirect it back into growing instead — the
+    // gsap.to below automatically overwrites/kills the in-flight shrink
+    // tween on the same element, so this just reverses direction
+    // mid-animation rather than dropping the request.
+    let clone = cloneRefs.current[itemId];
 
-    const clone = wrapEl.cloneNode(true);
-    clone.classList.add("ow-banner-img-wrap-clone");
-    clone.removeAttribute("id");
+    if (!clone) {
+      const wrapRect = wrapEl.getBoundingClientRect();
+      const bannerRect = bannerEl.getBoundingClientRect();
+      const computed = window.getComputedStyle(wrapEl);
 
-    gsap.set(clone, {
-      position: "absolute",
-      top: wrapRect.top - bannerRect.top,
-      left: wrapRect.left - bannerRect.left,
-      width: wrapRect.width,
-      height: wrapRect.height,
-      margin: 0,
-      borderRadius: computed.borderRadius,
-      zIndex: 20,
-    });
+      clone = wrapEl.cloneNode(true);
+      clone.classList.add("ow-banner-img-wrap-clone");
+      clone.removeAttribute("id");
 
-    bannerEl.appendChild(clone);
-    cloneRefs.current[itemId] = clone;
+      gsap.set(clone, {
+        position: "absolute",
+        top: wrapRect.top - bannerRect.top,
+        left: wrapRect.left - bannerRect.left,
+        width: wrapRect.width,
+        height: wrapRect.height,
+        margin: 0,
+        borderRadius: computed.borderRadius,
+        zIndex: 20,
+      });
 
-    // Force stacking + position on the clone's children via inline styles
-    // (not relying on external CSS), so the tag stays visible, on top, and
-    // pinned to the same corner of the image for the whole grow animation.
-    const cloneImg = clone.querySelector(".ow-banner-img");
-    const cloneTag = clone.querySelector(".ow-banner-tag");
+      bannerEl.appendChild(clone);
+      cloneRefs.current[itemId] = clone;
 
-    if (cloneImg) {
-      gsap.set(cloneImg, { position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 });
+      // Force stacking + position on the clone's children via inline
+      // styles (not relying on external CSS), so the tag stays visible,
+      // on top, and pinned to the same corner of the image for the
+      // whole grow animation.
+      const cloneImg = clone.querySelector(".ow-banner-img");
+      const cloneTag = clone.querySelector(".ow-banner-tag");
+
+      if (cloneImg) {
+        gsap.set(cloneImg, { position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 });
+      }
+      if (cloneTag) {
+        gsap.set(cloneTag, { position: "absolute", top: 16, right: 16, zIndex: 999, opacity: 1 });
+      }
+
+      // Hide the original — its box stays exactly as-is, so nothing
+      // around it moves.
+      gsap.set(wrapEl, { opacity: 0 });
     }
-    if (cloneTag) {
-      gsap.set(cloneTag, { position: "absolute", top: 16, right: 16, zIndex: 999, opacity: 1 });
-    }
-
-    // Hide the original — its box stays exactly as-is, so nothing around
-    // it moves.
-    gsap.set(wrapEl, { opacity: 0 });
 
     grownIdsRef.current.add(itemId);
 

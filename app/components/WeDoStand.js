@@ -8,9 +8,10 @@ export default function WeDoStand({ id, data }) {
   const imgRefs = useRef([]);
   const itemRefs = useRef([]);
   const wrapRef = useRef(null);
+  const stageRef = useRef(null); // .wds-left — items reveal/clip against ITS height, not their own
   const items = data?.projects || [];
 
-  useStickyStepStack(sectionRef, itemRefs, imgRefs, wrapRef, items.length);
+  useStickyStepStack(sectionRef, itemRefs, imgRefs, wrapRef, items.length, stageRef);
 
   return (
     <section ref={sectionRef} className="we-do-stand" id={id} data-sticky-section>
@@ -27,7 +28,7 @@ export default function WeDoStand({ id, data }) {
                 all images first, then all text, instead of pairing them. */}
             <div className="we-do-stand-in gap-left">
               {/* LEFT — image stack, stays in place while section is pinned */}
-              <div className="wds-left">
+              <div className="wds-left" ref={stageRef}>
                 <div className="wds-img-stack">
                   {items.map((item, i) => (
                     <div
