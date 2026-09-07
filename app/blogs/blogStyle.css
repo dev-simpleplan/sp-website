@@ -157,89 +157,312 @@
 }
 
 .blog-view-more {
-  display: block;
   margin: 56px auto 0;
-  font-family: var(--font-aspekta), Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #fff;
-  background: #111;
-  border: none;
-  padding: 16px 28px;
   cursor: pointer;
-  transition: opacity 0.2s ease;
 }
 
-.blog-view-more:hover {
-  opacity: 0.85;
+.custom-btn.custom-btn--black {
+  background: #111;
+  border-color: #111;
+  color: #fff;
 }
 
-/* ── Blog post (inner) page ──
-   The "Join Our Newsletter" section is NOT built here — that's the
-   shared pre-footer CTA every page uses (see page.js's useSetPreFooter
-   call + Footer.js), fed with this single-type's `our_newsletter` data. */
+.custom-btn.custom-btn--black:hover {
+  background: transparent;
+  color: #111;
+}
+
+/* ── Blog post (inner) page ── */
 .blog-post {
   background-color: #fff;
   padding-bottom: 100px;
 }
 
-.blog-post-header {
-  padding: 120px 0 40px;
+.blog-post-banner-wrap {
+  max-width: calc(100% - 140px);
+  margin: 0 auto;
+  padding: 0;
+  padding-top: 100px;
+  border-radius: 0px;
+}
+
+.blog-post-banner {
+  background: #111;
+  overflow: hidden;
+  aspect-ratio: 2.4 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-post-banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.blog-post-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-aspekta);
+  font-size: 14px;
+  font-weight: 400;
+  color: #8a8a8a;
+  margin-top: 32px;
+}
+
+.blog-post-breadcrumb a {
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.blog-post-breadcrumb a:hover {
+  color: #111;
+}
+
+.blog-post-breadcrumb-sep {
+  display: inline-flex;
+  align-items: center;
+  color: #c2c2c2;
+}
+
+.blog-post-breadcrumb .is-current {
+  color: #111;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+.blog-post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 64px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.blog-post-main {
+  max-width: 720px;
+  min-width: 0;
 }
 
 .blog-post-title {
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(32px, 5vw, 56px);
-  line-height: 1.15;
-  margin: 0;
+  font-size: clamp(36px, 3.6vw, 40px);
+  line-height: 1.2;
+  margin: 0 0 12px;
   color: #111;
-  max-width: 900px;
+  text-transform: none; /* see .blog-post-heading's note on globals.css's h1-h6 capitalize rule */
 }
 
-.blog-post-cover-wrap {
-  max-width: 1400px;
-  margin: 0 auto 56px;
-  padding: 0 70px;
-}
-
-.blog-post-cover {
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  object-fit: cover;
-  border-radius: 4px;
-  display: block;
+.blog-post-meta {
+  /* font-family: var(--font-aspekta); */
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #6a6a6a;
+  margin: 0 0 32px;
+  text-transform: uppercase;
 }
 
 .blog-post-body {
-  max-width: 780px;
   font-family: var(--font-aspekta), Arial, sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
-  color: #222;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.blog-post-section + .blog-post-section {
+  margin-top: 8px;
 }
 
 .blog-post-paragraph {
-  margin: 0 0 24px;
+  margin: 0 0 20px;
+  color: #111;
+}
+
+.blog-post-paragraph a{
+  color: var(--sp-red);
+  text-decoration: underline;
 }
 
 .blog-post-heading {
   font-family: var(--font-newsreader), Georgia, serif;
   font-style: italic;
   font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px);
   color: #111;
   margin: 40px 0 16px;
+  /* Overrides globals.css's h1-h6 { text-transform: capitalize } — these
+     are real sentences/questions from the CMS ("What is Branding?"), not
+     short stylized taglines, so capitalizing every word mangles them
+     ("What Is Branding?", "Branding Vs. Brand"). */
+  text-transform: none;
+  /* This is the element the TOC's smooth scroll (handleTocClick in
+     page.js) actually targets via id={target_id} — without this, the
+     heading lands flush with the top of the viewport, right under the
+     fixed site header (see .spHeader { position: fixed }). */
+  scroll-margin-top: 110px;
+}
+
+.blog-post-heading:first-child {
+  margin-top: 0;
+}
+
+.blog-post-eyebrow {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sp-red);
+  margin: 0 0 12px;
+  display: none;
+}
+
+.blog-post-richtext {
+  display: contents;
+}
+
+/* h3/h4 nodes inside a blog.content-part's rich text — bold sans-serif
+   numbered subheadings (e.g. "1. Establishing Identity:"), distinct from
+   .blog-post-heading's big italic serif section titles. */
+.blog-post-subheading {
+  font-family: var(--font-aspekta);
+  font-style: normal;
+  color: #111;
+  margin: 28px 0 10px;
+  text-transform: none; /* see .blog-post-heading's note on globals.css's h1-h6 capitalize rule */
+}
+
+h2.blog-post-heading{
+  text-align: center;
+  background-color: #EBEBEB;
+  border-radius: 7px;
+  padding: 10px 40px;
+  text-align: center;
+  font-style: italic;
+  line-height: 120%;
+  color: #D8031D;
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: -1px;
+}
+
+/* Level-2 headings inside a blog.content-part's own rich text (e.g. "Key
+   Takeaways") — distinct from both the numbered h3/h4 subheadings below
+   and from h2.blog-post-heading's pill-box style (that one is reserved
+   for blog.table-of-content-title's section titles, a different block
+   type entirely, even though it also happens to render as an <h2>). */
+.blog-post-subheading--h2 {
+  font-size: 30px;
+  font-weight: 700;
+  font-family: var(--font-aspekta);
+  color: #111;
+}
+
+.blog-post-subheading--h3 {
+  font-size: 26px;
+  font-weight: 700;
+  font-family: var(--font-aspekta);
+  /* font-style: italic; */
+  color: var(--sp-red);
+}
+
+.blog-post-subheading--h4 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.blog-post-learnmore-icon {
+  color: var(--sp-red);
+  flex-shrink: 0;
+}
+
+.blog-post-learnmore-icon .second-shape{
+  transform: translateX(-1.5px);
+}
+
+.blog-post-subheading a {
+  color: var(--sp-red);
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+/* blog.small-content — a short emphasized callout line, larger/lighter
+   than a normal paragraph. */
+.blog-post-small-content {
+  /* font-family: var(--font-newsreader), Georgia, serif; */
+  /* font-style: italic; */
+  /* font-size: 20px;
+  line-height: 1.5; */
+  color: #111;
+  /* margin: 0 0 20px; */
+}
+
+/* blog.table-content — only carries its two column labels (no row data
+   from the API yet), shown as a simple two-up comparison heading. */
+.blog-post-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.blog-post-table-content {
+  display: flex;
+  gap: 8px;
+}
+
+.blog-post-table-content span {
+  flex: 1;
+  background: var(--sp-red);
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.blog-post-table-row {
+  display: flex;
+  gap: 8px;
+}
+
+.blog-post-table-row p {
+  flex: 1;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 0;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #111;
 }
 
 .blog-post-list {
-  margin: 0 0 24px;
-  padding-left: 22px;
+  margin: 0 0 20px;
+  padding-left: 20px;
 }
 
 .blog-post-list li {
   margin-bottom: 8px;
+  color: #111;
 }
 
 .blog-post-quote {
@@ -247,14 +470,243 @@
   padding-left: 24px;
   border-left: 3px solid var(--sp-red);
   font-style: italic;
-  color: #444;
+  color: #111;
+}
+
+.blog-post-figure {
+  margin: 8px 0 24px;
 }
 
 .blog-post-inline-image {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border-radius: 4px;
-  margin: 32px 0;
   display: block;
+  background: #111;
+}
+
+.blog-post-figure figcaption {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+
+/* ── mid-article & final CTA blocks ── */
+.blog-post-cta {
+  background: #f7f7f7;
+  border-radius: 4px;
+  padding: 32px;
+  margin: 8px 0 40px;
+}
+
+.blog-post-cta-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.4vw, 26px);
+  color: #111;
+  margin: 0 0 20px;
+}
+
+/* .blog-post-cta-title span {
+  color: var(--sp-red);
+} */
+
+.blog-post-cta-subtitle {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  color: #6a6a6a;
+  margin: -12px 0 20px;
+}
+
+.blog-post-cta--final {
+  background: #f7f7f7;
+  text-align: left;
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.custom-btn.custom-btn--red {
+  background: var(--sp-red);
+  border-color: var(--sp-red);
+  color: #fff;
+}
+
+.custom-btn.custom-btn--red:hover {
+  background: transparent;
+  color: var(--sp-red);
+}
+
+/* ── FAQ ── */
+.blog-post-faq {
+  margin: 24px 0 40px;
+}
+
+.blog-post-faq-item {
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
+}
+
+.blog-post-faq-item:last-child {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-post-faq-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 16px;
+  color: #111;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+.blog-post-faq-icon {
+  flex-shrink: 0;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.blog-post-faq-icon::before,
+.blog-post-faq-icon::after {
+  content: "";
+  position: absolute;
+  background: #111;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blog-post-faq-icon::before {
+  width: 12px;
+  height: 1.5px;
+}
+
+.blog-post-faq-icon::after {
+  width: 1.5px;
+  height: 12px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.blog-post-faq-item.is-open .blog-post-faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+/* The actual smooth-open/close animation: grid-template-rows 0fr -> 1fr
+   is a CSS-only way to animate "auto" height without measuring the
+   content's pixel height in JS. overflow:hidden on both the row and its
+   child keep the collapsed panel's content clipped, and the child's own
+   min-height:0 is required for the row track to actually reach 0 (a
+   grid item won't shrink below its content's intrinsic min-height
+   otherwise). */
+.blog-post-faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+  overflow: hidden;
+}
+
+.blog-post-faq-item.is-open .blog-post-faq-panel {
+  grid-template-rows: 1fr;
+}
+
+.blog-post-faq-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.blog-post-faq-item p {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6a6a6a;
+  margin: 16px 0 0;
+}
+
+/* ── sidebar: table of contents + share ── */
+.blog-post-sidebar {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.blog-post-toc {
+  background: #FAFAFA;
+  /* border-radius: 4px; */
+  padding: 32px 24px;
+  border: 1px solid #DEDEDE;
+}
+
+.blog-post-toc-title {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #111111;
+  margin: 0 0 16px;
+}
+
+.blog-post-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.blog-post-toc a {
+  font-family: var(--font-aspekta);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #111111;
+  text-decoration: none;
+}
+
+.blog-post-toc a:hover {
+  color: var(--sp-red);
+}
+
+.blog-post-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #111;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.blog-post-share svg {
+  color: var(--sp-red);
+  flex-shrink: 0;
+}
+
+/* ── Other Blogs ── */
+.blog-post-related {
+  padding: 80px 0 40px;
+  background-color: #fff;
 }
 
 .blog-post-not-found {
@@ -269,11 +721,45 @@
   .blog-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .blog-post-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .blog-post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-post-sidebar {
+    position: static;
+    order: -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .blog-post-toc {
+    width: 100%;
+  }
+
+  .blog-container{
+    padding: 0 40px;
+  }
+  .blog-post-banner-wrap{
+    max-width: 100%;
+    padding-top: 100px;
+  }
+  .blog-post-main{
+    max-width: 100%;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .blog-container {
-    padding: 0 24px;
+    padding: 0 20px;
   }
 
   .blog-hero {
@@ -290,16 +776,27 @@
     gap: 40px;
   }
 
-  .blog-post-header {
-    padding: 100px 0 32px;
+  .blog-post-banner-wrap {
+    padding-top: 100px;
   }
 
-  .blog-post-cover-wrap {
-    padding: 0 24px;
-    margin-bottom: 40px;
+  .blog-post-banner {
+    aspect-ratio: 4 / 3;
   }
 
-  .blog-post-body {
-    padding: 0 24px;
+  .blog-post-cta {
+    padding: 24px;
+  }
+
+  .blog-post-subheading--h2,
+  .blog-post-subheading--h3,
+  .blog-post-subheading--h4{
+    font-size: 20px;
+  }
+  h2.blog-post-heading{
+    font-size: 28px;
+  }
+  .blog-post-body{
+    gap: 10px;
   }
 }

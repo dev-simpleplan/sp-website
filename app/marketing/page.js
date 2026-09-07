@@ -11,8 +11,10 @@ import OurApproach from '../components/OurApproach';
 import WeAreProud from '../components/WeAreProud';
 import HowThisShowUp from '../components/service/HowThisShowsUp';
 
-// TODO: point this at the marketing-specific API endpoint once it exists —
-// using the branding endpoint as a placeholder for now.
+// TODO: field keys below (branding_outer_banner, branding_approach, etc.)
+// still need to be updated to match the real marketing-service-outer
+// response shape once it's confirmed — see app/api/marketing-service-outer
+// for the route this now calls.
 export default function MarketingServicePage(){
 
 const [sections, setSections] = useState({});
@@ -20,7 +22,7 @@ const [sections, setSections] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/branding-service-outer?populate=*')
+    axios.get('/api/marketing-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*')
       .then(response => {
         if (response.data && response.data.data) {
           setSections(response.data.data);

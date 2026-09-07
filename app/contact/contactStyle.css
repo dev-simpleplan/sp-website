@@ -225,12 +225,20 @@
   justify-content: center;
   background: #111;
   color: #fff;
-  border: none;
+  border: 1px solid #111;
   padding: 18px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   cursor: pointer;
+}
+
+/* .custom-btn's default hover (background: transparent, color: #fff) reads
+   as invisible white-on-white here since this button sits on a white
+   section — swap to a black-outline/black-text hover instead. */
+.contact-submit-btn:hover {
+  background: transparent;
+  color: #111;
 }
 
 .contact-submit-btn:disabled {
