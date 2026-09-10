@@ -32,7 +32,12 @@ const Card = ({ b }) => {
   // /service/[slug] route from it rather than using it as a raw href.
   if (b.cta_link) {
     return (
-      <Link href={`/service/${b.cta_link}`} className="block-box">
+      <Link
+        href={`/service/${b.cta_link}`}
+        className="block-box"
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
+      >
         {content}
       </Link>
     );
@@ -115,10 +120,18 @@ export default function OurApproach({ id, data }) {
   const blocks = section.cards;
 
     useEffect(() => {
-  const check = () => {
-  setIsSlider(true);
-  setShowDragCursor(blocks.length > 4);
-};
+    const check = () => {
+      setIsSlider(true);
+
+      const slidesVisible =
+        window.innerWidth >= 1200
+          ? 4
+          : window.innerWidth >= 768
+          ? 2
+          : 1;
+
+      setShowDragCursor(blocks.length > slidesVisible);
+    };
 
   check();
   window.addEventListener("resize", check);
@@ -240,7 +253,7 @@ useEffect(() => {
         <div className="our-approach-in gap-left">
           {isSlider ? (
             <div
-  className={`block-box-swiper project-delievered-slider${showDragCursor ? " has-custom-cursor" : ""}`}
+  className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
   ref={sliderRef}
 >
   {showDragCursor && (

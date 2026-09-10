@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import Wayfinding from "../components/Wayfinding";
+import RightSideLine from "../components/RightSideLine"; 
 import ServiceBanner from "../components/ServiceBanner";
 import LikeWhatYouSee from '../components/LikeWhatYouSee';
 import ApproachBranding from '../components/service/ApproachBranding';
 import OurApproach from '../components/OurApproach';
-import WeAreProud from '../components/WeAreProud';
+import ServiceWeAreProud from "../components/ServiceWeAreProud";
 import HowThisShowUp from '../components/service/HowThisShowsUp';
 
 export default function BrandingServicePage(){
@@ -115,11 +116,12 @@ const [sections, setSections] = useState({});
   return (
     <>
       <Wayfinding sections={HOME_SECTIONS} />
+      <RightSideLine id="rightLine"/>
       <ServiceBanner data={sections?.branding_outer_banner} id="service-banner"/>
       <LikeWhatYouSee id="like-what-you-see" data={sections?.stats} stats={sections?.stats}/>
       <ApproachBranding data={sections?.branding_approach} id="approach-branding"/>
       <OurApproach  id="our-approach" data={sections?.scope_work}/>
-      <WeAreProud id="we-are-proud" data={sections?.transformation}/>
+      <ServiceWeAreProud id="we-are-proud" data={sections?.transformation}/>
       <HowThisShowUp id="how-this-show-up" data={sections?.work_shows_up}/>
     </>
   );

@@ -25,8 +25,8 @@ export default function TestimonialSection({ id, data }) {
             rewind={true}
             breakpoints={{
               // 480:  { slidesPerView: 1, spaceBetween: 0 },
-              768:  { slidesPerView: 1.5, spaceBetween: 48 },
-              1024: { slidesPerView: 2.2, spaceBetween: 56 },
+              768:  { slidesPerView: 1.4, spaceBetween: 50 },
+              1024: { slidesPerView: 1.7, spaceBetween: 100 },
             }}
           >
             {testimonials.map((t) => (

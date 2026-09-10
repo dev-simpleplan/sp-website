@@ -7,20 +7,30 @@ import { getImageUrl } from "../components/getImageUrl";
 // Real API fields, confirmed against the culture_banner response — each
 // corner is its own named field, not an array.
 const FLOAT_SLOTS = [
-  { key: "left_top_image", className: "cb-float-tl", format: "thumbnail", floatRange: 14 },
-  { key: "right_top_image", className: "cb-float-tr", format: "thumbnail", floatRange: 16 },
-  { key: "left_bottom_image", className: "cb-float-bl", format: "thumbnail", floatRange: 12 },
-  { key: "right_bottom_image", className: "cb-float-br", format: "small", floatRange: 10 },
+  { key: "left_top_image", className: "cb-float-tl", format: "thumbnail", floatRange: 20, scrollFactor: 0.08 },
+  { key: "right_top_image", className: "cb-float-tr", format: "thumbnail", floatRange: 23, scrollFactor: 0.12 },
+  { key: "left_bottom_image", className: "cb-float-bl", format: "thumbnail", floatRange: 18, scrollFactor: 0.06 },
+  { key: "right_bottom_image", className: "cb-float-br", format: "small", floatRange: 16, scrollFactor: 0.1 },
 ];
 
 export default function CultureBanner({ id, data }) {
   const sectionRef = useRef(null);
-  const floatItems = useRef([]); // [{ el, floatRange }]
-  floatItems.current = [];
+  const floatItems = useRef([]); // [{ key, el, motionEl, floatRange, scrollFactor }]
 
-  const addFloatRef = (el, floatRange) => {
+  const addFloatRef = (el, slot) => {
+    if (!el) {
+      floatItems.current = floatItems.current.filter((item) => item.key !== slot.key);
+      return;
+    }
+
     if (el && !floatItems.current.some((item) => item.el === el)) {
-      floatItems.current.push({ el, floatRange });
+      floatItems.current.push({
+        key: slot.key,
+        el,
+        motionEl: el.querySelector(".cb-float-motion"),
+        floatRange: slot.floatRange,
+        scrollFactor: slot.scrollFactor,
+      });
     }
   };
 
@@ -30,6 +40,8 @@ export default function CultureBanner({ id, data }) {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+
+    let cleanupParallax;
 
     const ctx = gsap.context(() => {
       const els = floatItems.current.map((item) => item.el);
@@ -52,8 +64,8 @@ export default function CultureBanner({ id, data }) {
       // slightly-offset float per image so they don't move in unison.
       if (!reduceMotion) {
         entrance.eventCallback("onComplete", () => {
-          floatItems.current.forEach(({ el, floatRange }, i) => {
-            gsap.to(el, {
+          floatItems.current.forEach(({ motionEl, floatRange }, i) => {
+            gsap.to(motionEl, {
               y: `+=${floatRange}`,
               x: `+=${floatRange / 3}`,
               duration: gsap.utils.random(3, 5),
@@ -65,9 +77,49 @@ export default function CultureBanner({ id, data }) {
           });
         });
       }
+
+      if (!reduceMotion) {
+        const section = sectionRef.current;
+        const scrollTweens = floatItems.current.map(({ el, scrollFactor }) => ({
+          el,
+          scrollFactor,
+          setY: gsap.quickTo(el, "y", {
+            duration: 0.8,
+            ease: "power3.out",
+            overwrite: "auto",
+          }),
+        }));
+
+        let sectionTop = section.getBoundingClientRect().top + window.scrollY;
+
+        const updateScrollParallax = () => {
+          const distance = Math.max(0, window.scrollY - sectionTop);
+          scrollTweens.forEach(({ setY, scrollFactor }) => {
+            setY(-distance * scrollFactor);
+          });
+        };
+
+        const refreshSectionTop = () => {
+          sectionTop = section.getBoundingClientRect().top + window.scrollY;
+          updateScrollParallax();
+        };
+
+        updateScrollParallax();
+        window.addEventListener("scroll", updateScrollParallax, { passive: true });
+        window.addEventListener("resize", refreshSectionTop);
+
+        cleanupParallax = () => {
+          window.removeEventListener("scroll", updateScrollParallax);
+          window.removeEventListener("resize", refreshSectionTop);
+          gsap.killTweensOf(scrollTweens.map(({ el }) => el));
+        };
+      }
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      cleanupParallax?.();
+      ctx.revert();
+    };
   }, [data]);
 
   if (!data) return null;
@@ -83,15 +135,17 @@ export default function CultureBanner({ id, data }) {
             return (
               <div
                 key={slot.key}
-                ref={(el) => addFloatRef(el, slot.floatRange)}
+                ref={(el) => addFloatRef(el, slot)}
                 className={`cb-float-img ${slot.className}`}
               >
-                <img
-                  src={getImageUrl(media, slot.format)}
-                  alt={media?.alternativeText || ""}
-                  className="img"
-                  draggable="false"
-                />
+                <div className="cb-float-motion">
+                  <img
+                    src={getImageUrl(media, slot.format)}
+                    alt={media?.alternativeText || ""}
+                    className="img"
+                    draggable="false"
+                  />
+                </div>
               </div>
             );
           })}
