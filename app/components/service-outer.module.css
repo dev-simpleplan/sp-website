@@ -1,16 +1,16 @@
 :root {
-  --sp-red: #d8031d;
-  --sp-black: #111111;
-  --sp-white: #ffffff;
-  --bg-grey: #fafafa;
-  --bg-red: #ba0319;
-  --stroke-red: #ff7b8b;
-  --stroke-grey: #dedede;
-  --sub-text: #6a6a6a;
-  --border: rgba(0, 0, 0, 0.08);
-  --body-font: var(--font-aspekta), Arial, Helvetica, sans-serif;
-  --heading-font: "Newsreader", Georgia, serif;
-  --newsreader: "Newsreader", Georgia, serif;
+    --sp-red: #d8031d;
+    --sp-black: #111111;
+    --sp-white: #ffffff;
+    --bg-grey: #fafafa;
+    --bg-red: #ba0319;
+    --stroke-red: #ff7b8b;
+    --stroke-grey: #dedede;
+    --sub-text: #6a6a6a;
+    --border: rgba(0, 0, 0, 0.08);
+    --body-font: var(--font-aspekta), Arial, Helvetica, sans-serif;
+    --heading-font: "Newsreader", Georgia, serif;
+    --newsreader: "Newsreader", Georgia, serif;
 }
 
 .spServiceBanner {
@@ -90,7 +90,7 @@
     background-color: #8f0f22;
 }
 
-.spVideoWrap iframe{
+.spVideoWrap iframe {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -215,9 +215,10 @@
 /* Responsive */
 
 @media (max-width: 1100px) {
-    .spServiceBanner{
+    .spServiceBanner {
         height: auto;
     }
+
     .spServiceBannerInner {
         gap: 48px;
         padding: 0px;
@@ -265,6 +266,7 @@
         flex-direction: column;
         /* height: 500px; */
     }
+
     .spVideoWrap {
         width: 100%;
         max-width: 400px;
@@ -278,7 +280,7 @@
         padding: 0 0 60px;
     }
 
-    .spContent{
+    .spContent {
         padding-top: 0;
     }
 
@@ -291,14 +293,14 @@
         justify-content: center;
     }
 
-    .spServiceBannerInner{
+    .spServiceBannerInner {
         gap: 30px;
     }
 
     .spVideoWrap {
         width: 100%;
         max-width: 100%;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 1/1.2;
     }
 
     .spOverlayText {

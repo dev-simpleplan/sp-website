@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { getImageUrl } from "../components/getImageUrl";
 import { useSetPreFooter } from "../context/PreFooterContext";
+import LeftSideLine from "../components/LeftSideLine";
+import RightSideLine from "../components/RightSideLine";
 import "./blogStyle.css";
 
 const PAGE_SIZE = 9;
@@ -131,6 +133,11 @@ export default function Blogs() {
 
   return (
     <>
+      <div className="blog-side-lines" aria-hidden="true">
+        <LeftSideLine light />
+        <RightSideLine light />
+      </div>
+
       <section className="blog-hero">
         <div className="blog-container">
           <h1 className="blog-hero-title">Featured Blogs</h1>

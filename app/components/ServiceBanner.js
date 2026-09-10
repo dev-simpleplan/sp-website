@@ -33,7 +33,7 @@ function loadYouTubeIframeApi() {
   return ytApiPromise;
 }
 
-export default function ServiceBanner({ data }) {
+export default function ServiceBanner({ data , id }) {
   const iframeRef = useRef(null);
   const playerRef = useRef(null);
   const [started, setStarted] = useState(false);
@@ -110,7 +110,7 @@ export default function ServiceBanner({ data }) {
   }
 
   return (
-    <section className={styles.spServiceBanner}>
+    <section className={styles.spServiceBanner} id={id}>
       <div className="container">
         <div className={styles.spServiceBannerInner}>
           <div className={styles.spContent}>

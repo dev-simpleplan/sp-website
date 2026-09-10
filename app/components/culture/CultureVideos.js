@@ -126,7 +126,6 @@ function VideoCard({ v }) {
           <a
             href={v.cta_link || "#"}
             className="video-card-cta custom-cta-link"
-            onClick={handlePlay}
           >
             <span className="text-wrap">
                 <span className="text text-1">{v.cta_text}</span>

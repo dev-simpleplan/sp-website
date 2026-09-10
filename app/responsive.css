@@ -1,6 +1,7 @@
 @media screen and (max-width: 1300px) {
+
   .all-work__card--full .all-work__image-wrap,
-  .all-work__card--half .all-work__image-wrap{
+  .all-work__card--half .all-work__image-wrap {
     max-height: 500px;
   }
 }
@@ -9,11 +10,12 @@
   .meet-the-simp .heading {
     margin-bottom: 40px;
   }
+
   .meet-the-simp .heading h2 {
     margin-bottom: 20px;
   }
 
-  .ttb-media{
+  .ttb-media {
     aspect-ratio: unset;
   }
 
@@ -84,39 +86,41 @@
   /* ===================================== */
   /* ---------- CULTURE PAGE ------------- */
 
-  .employeePOV-section .testimonial-slider-wrap.gap-left{
+  .employeePOV-section .testimonial-slider-wrap.gap-left {
     padding-left: 0;
   }
 
-  .culture-videos-in .ttb-drag-cursor{
+  .culture-videos-in .ttb-drag-cursor {
     display: none;
   }
 
-  .culture-videos-in .swiper-wrapper .video-card{
+  .culture-videos-in .swiper-wrapper .video-card {
     display: flex;
     flex-direction: column;
   }
 
-  .video-card-media{
+  .video-card-media {
     aspect-ratio: 16/9;
   }
 
-  
+
   /* ---------------------- */
   /* ==== OUR WORK PAGE === */
-  .our-work-banner-in{
+  .our-work-banner-in {
     max-width: calc(100% - 40px);
   }
-  .we-are-proud-company-card.ow-banner-card{
+
+  .we-are-proud-company-card.ow-banner-card {
     width: 90%;
   }
-  .ow-banner-cursor-cta{
+
+  .ow-banner-cursor-cta {
     display: none;
   }
 
 
 
-  .all-work-in{
+  .all-work-in {
     max-width: 100%;
   }
 
@@ -418,7 +422,7 @@
   /* ===================================== */
   /* ---------- CULTURE PAGE ------------- */
 
-  .culture-banner{
+  .culture-banner {
     padding: 0;
   }
 
@@ -446,7 +450,7 @@
     min-height: auto;
   }
 
-  .culture-videos-in .swiper-wrapper .video-card{
+  .culture-videos-in .swiper-wrapper .video-card {
     gap: 20px;
   }
 
@@ -454,7 +458,7 @@
     padding: 60px 0;
   }
 
-  .ts-brand-logo .quoteIcon{
+  .ts-brand-logo .quoteIcon {
     width: 25px;
     height: auto;
   }
@@ -473,33 +477,34 @@
 
 
   .all-work__card--full .all-work__image-wrap,
-  .all-work__card--half .all-work__image-wrap{
+  .all-work__card--half .all-work__image-wrap {
     max-height: 400px;
   }
 
-  .all-work__grid{
+  .all-work__grid {
     row-gap: 60px;
     grid-template-columns: 1fr;
   }
 
 
-  .counter-wrap{
+  .counter-wrap {
     gap: 10px;
   }
-  .counter-block p{
+
+  .counter-block p {
     font-size: 16px;
   }
 
-  .awards-section .heading{
+  .awards-section .heading {
     margin-bottom: 40px;
   }
 
-  .we-are-proud-in-company > a:last-child{
+  .we-are-proud-in-company>a:last-child {
     height: auto;
     margin-bottom: 150px;
   }
 
-  #ReadyToBuild{
+  #ReadyToBuild {
     height: auto;
   }
 }
@@ -516,7 +521,7 @@
   }
 
   section#service-banner {
-    padding: 50px 0 60px;
+    padding: 100px 0 0px;
   }
 
   .ticker-track {
@@ -626,7 +631,7 @@
     margin-bottom: 20px;
   }
 
-  .we-do-stand{
+  .we-do-stand {
     padding: 50px 0;
   }
 
@@ -810,52 +815,57 @@
   /* ==================================== */
   /* ----------- CULTURE PAGE ----------- */
 
-  .custom-banner-cntnt{
+  .custom-banner-cntnt {
     gap: 40px;
   }
-  .culture-banner-in p{
+
+  .culture-banner-in p {
     margin-top: 20px;
   }
 
-  #principles{
+  #principles {
     padding-top: 140px;
   }
-  #join_team{
+
+  #join_team {
     padding-top: 50px;
   }
-  #culture_videos{
+
+  #culture_videos {
     padding: 100px 0;
   }
 
-  .or-tab{
+  .or-tab {
     gap: 6px;
   }
+
   .or-tabs {
     gap: 18px;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
   }
-  .or-tab-dot{
+
+  .or-tab-dot {
     width: 6px;
     height: 6px;
   }
 
 
-  .all-work-in{
+  .all-work-in {
     gap: 40px;
   }
 
-  .all-work__header{
+  .all-work__header {
     gap: 40px;
   }
 
   .all-work__card--full .all-work__image-wrap,
-  .all-work__card--half .all-work__image-wrap{
+  .all-work__card--half .all-work__image-wrap {
     max-height: 300px;
   }
 
-  .we-are-proud-in-company > a:last-child{
+  .we-are-proud-in-company>a:last-child {
     height: 100vh;
     margin-bottom: 0;
   }
@@ -1029,7 +1039,7 @@
   }
 
   .like-what-you-see {
-    padding: 50px 0;
+    padding: 20px 0;
   }
 
   .ready-to-build-in p {
@@ -1102,6 +1112,11 @@
 
   .ttb-fold {
     top: 30px;
+  }
+
+  .service-we-are-proud .we-are-proud-in .fold-wrap .right {
+    justify-content: flex-start;
+    gap: 0;
   }
 
 }
