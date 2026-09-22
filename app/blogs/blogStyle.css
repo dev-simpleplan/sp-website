@@ -298,6 +298,7 @@
   color: #111;
 }
 
+.blog-post-list li a,
 .blog-post-paragraph a {
   color: var(--sp-red);
   text-decoration: underline;
@@ -488,7 +489,8 @@ h2.blog-post-heading {
 
 .blog-post-inline-image {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  max-height: 400px;
+  /* aspect-ratio: 16 / 9; */
   object-fit: cover;
   border-radius: 4px;
   display: block;

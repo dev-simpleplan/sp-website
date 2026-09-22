@@ -184,17 +184,28 @@ function renderContentBlocks(blocks) {
           </div>
         );
 
-      case "blog.image":
-        return block.image ? (
+      case "blog.image": {
+        if (!block.image) return null;
+        const img = (
+          <img
+            src={getImageUrl(block.image)}
+            alt={block.image?.alternativeText || ""}
+            className="blog-post-inline-image"
+          />
+        );
+        return (
           <figure key={key} className="blog-post-figure">
-            <img
-              src={getImageUrl(block.image)}
-              alt={block.image?.alternativeText || ""}
-              className="blog-post-inline-image"
-            />
+            {block.image_link ? (
+              <Link href={block.image_link} className="blog-post-image-link">
+                {img}
+              </Link>
+            ) : (
+              img
+            )}
             {block.image?.caption && <figcaption>{block.image.caption}</figcaption>}
           </figure>
-        ) : null;
+        );
+      }
 
       case "blog.small-content":
         return block.short_description ? (

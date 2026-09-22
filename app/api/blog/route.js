@@ -6,7 +6,7 @@
 export async function GET() {
   try {
     const res = await fetch(
-      "http://72.61.235.119:1337/api/blog?populate[featured_blogs][populate]=*&populate[our_newsletter][populate]=*",
+      "http://72.61.235.119:1337/api/blog?populate[featured_blogs][populate][blog_posts][populate]=*&populate[our_newsletter][populate]=*",
       {
         headers: {
           Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
