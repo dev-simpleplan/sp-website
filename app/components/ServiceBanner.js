@@ -11,6 +11,9 @@ const PLAY_ICON = (
   </svg>
 );
 
+const isDirectVideo = (url) =>
+  !!url && /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+
 // Loads the YouTube IFrame Player API script once and shares the same
 // promise across every ServiceBanner instance on the page.
 let ytApiPromise = null;
@@ -36,6 +39,7 @@ function loadYouTubeIframeApi() {
 export default function ServiceBanner({ data , id }) {
   const iframeRef = useRef(null);
   const playerRef = useRef(null);
+  const videoRef = useRef(null);
   const [started, setStarted] = useState(false);
 
   const banner = data || {};
@@ -56,19 +60,32 @@ export default function ServiceBanner({ data , id }) {
       thumbnail = rawThumbUrl;
     } else if (apiUrl) {
       thumbnail = `${apiUrl}${rawThumbUrl}`;
-    } else {
-      console.warn(
-        "NEXT_PUBLIC_API_URL is not set — falling back to placeholder thumbnail. Check .env.local."
-      );
-    }
+    } 
+    // else {
+    //   console.warn(
+    //     "NEXT_PUBLIC_API_URL is not set — falling back to placeholder thumbnail. Check .env.local."
+    //   );
+    // }
+
   }
 
   const thumbnailAlt = banner.video_thumbnail?.alternativeText || title || "Video thumbnail";
 
-  const videoId = banner.videourl
-    ? banner.videourl.match(
+  const rawVideoUrl = banner.videourl || "";
+
+  // YouTube id (empty if the URL is not a YouTube link)
+  const videoId = rawVideoUrl
+    ? rawVideoUrl.match(
         /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/
       )?.[1] || ""
+    : "";
+
+  // Strapi uploaded / direct video file
+  const isFile = !videoId && isDirectVideo(rawVideoUrl);
+  const fileUrl = isFile
+    ? rawVideoUrl.startsWith("http")
+      ? rawVideoUrl
+      : `${apiUrl}${rawVideoUrl}`
     : "";
 
   // Create the real YouTube player once, when the iframe first mounts.
@@ -106,7 +123,23 @@ export default function ServiceBanner({ data , id }) {
 
   function handlePlayClick() {
     setStarted(true); // hides thumbnail + play button immediately
+
+    if (isFile) {
+      const video = videoRef.current;
+      if (!video) return;
+      // make sure audio is on; play() must run inside the click handler
+      video.muted = false;
+      video.volume = 1;
+      video.play().catch(() => {});
+      return;
+    }
+
     playerRef.current?.playVideo?.();
+  }
+
+  function handleFileEnded() {
+    if (videoRef.current) videoRef.current.currentTime = 0;
+    setStarted(false); // back to default: thumbnail + play button
   }
 
   return (
@@ -139,6 +172,7 @@ export default function ServiceBanner({ data , id }) {
           </div>
 
           <div className={styles.spVideoWrap}>
+            {/* YouTube */}
             {videoId && (
               <iframe
                 ref={iframeRef}
@@ -147,6 +181,22 @@ export default function ServiceBanner({ data , id }) {
                 allowFullScreen
                 title={title || "Showreel"}
                 className={styles.spVideoIframe}
+              />
+            )}
+
+            {/* Strapi uploaded / direct video file */}
+            {isFile && (
+              <video
+                ref={videoRef}
+                src={fileUrl}
+                controls
+                playsInline
+                preload="metadata"
+                className={styles.spVideoIframe}
+                style={{ objectFit: "cover" }}
+                onPlay={() => setStarted(true)}
+                onEnded={handleFileEnded}
+                title={title || "Showreel"}
               />
             )}
 

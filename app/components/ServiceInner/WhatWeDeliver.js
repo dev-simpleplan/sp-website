@@ -164,13 +164,13 @@ export default function WhatWeDeliver({ id, data }) {
   className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
   ref={sliderRef}
 >
-              {/* {showDragCursor && (
+              {showDragCursor && (
                 <div ref={cursorRef} className="ttb-drag-cursor">
                   <div className="custom-cursor">
                     <img src="/drag.svg" alt="Drag" />
                   </div>
                 </div>
-              )} */}
+              )}
 
               <Swiper
   onSwiper={(swiper) => (swiperRef.current = swiper)}
