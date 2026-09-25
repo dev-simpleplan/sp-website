@@ -211,7 +211,7 @@ export default function C14({ id, data }) {
     <section
       className={`work-c14 ${data?.colour_code_bg ? "fill-bg" : ""} ${isGutly ? "gutly-c14" : ""}`}
       style={{
-        backgroundColor: data?.colour_code_bg || "transparent",
+        backgroundColor: data?.colour_code_bg,
       }}
     >
 

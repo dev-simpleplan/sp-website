@@ -1,31 +1,89 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getImageUrl } from "./getImageUrl";
 import useStickyHorizontalTrack from "../hooks/useStickyHorizontalTrack";
 
-// Temporary fallback until the backend adds a dedicated video URL field on
-// tools_section cards (fold?.video_url). Once that field exists in the API
-// response, it will automatically take priority over this fallback.
+// Used only when a card has no video link in Strapi at all.
 const FALLBACK_VIDEO_URL = "https://www.youtube.com/watch?v=a7yNYcLgU_8";
+
+const getYoutubeId = (url) => {
+  if (!url) return "";
+  const match = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/
+  );
+  return match ? match[1] : "";
+};
+
+const isDirectVideo = (url) =>
+  !!url && /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+
+// Full URL (http/https) stays as is; relative Strapi paths (/uploads/..) get resolved.
+const resolveVideoUrl = (url) => {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  return getImageUrl(url);
+};
 
 function VideoFold({ videoUrl, thumbnail }) {
   const [playing, setPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const iframeRef = useRef(null);
 
-  const getYoutubeId = (url) => {
-    if (!url) return "";
+  const youtubeId = getYoutubeId(videoUrl);
+  const isFile = !youtubeId && isDirectVideo(videoUrl);
+  const hasVideo = !!youtubeId || isFile;
 
-    const match = url.match(
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&]+)/
+  // YouTube: listen for the "ended" state so the thumbnail can come back
+  useEffect(() => {
+    if (!youtubeId) return;
+
+    const onMessage = (e) => {
+      if (e.source !== iframeRef.current?.contentWindow) return;
+      let d = e.data;
+      if (typeof d === "string") {
+        try {
+          d = JSON.parse(d);
+        } catch {
+          return;
+        }
+      }
+      if (!d) return;
+
+      const ended =
+        (d.event === "onStateChange" && d.info === 0) ||
+        (d.event === "infoDelivery" && d.info?.playerState === 0);
+
+      if (ended) setPlaying(false); // src goes back to autoplay=0 -> player resets
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [youtubeId]);
+
+  // Tell the YouTube iframe we want its state events
+  const handleIframeLoad = () => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "listening", id: 1, channel: "widget" }),
+      "*"
     );
-
-    return match ? match[1] : "";
   };
 
-  const videoId = getYoutubeId(videoUrl);
-
   const handlePlay = () => {
-    if (!videoId) return;
+    if (!hasVideo) return;
     setPlaying(true);
+    if (isFile) {
+      const video = videoRef.current;
+      if (!video) return;
+      // make sure audio is on; play() must be called inside the click handler
+      video.muted = false;
+      video.volume = 1;
+      video.play().catch(() => {});
+    }
+  };
+
+  const handleFileEnded = () => {
+    setPlaying(false);
+    if (videoRef.current) videoRef.current.currentTime = 0;
   };
 
   return (
@@ -34,21 +92,34 @@ function VideoFold({ videoUrl, thumbnail }) {
       <img
         src={thumbnail}
         alt="Video thumbnail"
-        className={`img ttb-video-thumbnail ${
-          playing ? "is-hidden" : ""
-        }`}
+        className={`img ttb-video-thumbnail ${playing ? "is-hidden" : ""}`}
       />
 
-      {/* Video sits above the thumbnail */}
-      {videoId && (
+      {/* YouTube video */}
+      {youtubeId && (
         <iframe
+          ref={iframeRef}
+          onLoad={handleIframeLoad}
           className={`ttb-video-iframe ${playing ? "is-playing" : ""}`}
-          src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&enablejsapi=1&autoplay=${
+          src={`https://www.youtube.com/embed/${youtubeId}?controls=1&rel=0&enablejsapi=1&autoplay=${
             playing ? "1" : "0"
           }`}
           allow="autoplay; encrypted-media"
           allowFullScreen
           title="Video"
+        />
+      )}
+
+      {/* Strapi uploaded / direct video file */}
+      {isFile && (
+        <video
+          ref={videoRef}
+          className={`ttb-video-iframe ${playing ? "is-playing" : ""}`}
+          src={videoUrl}
+          controls
+          playsInline
+          preload="metadata"
+          onEnded={handleFileEnded}
         />
       )}
 
@@ -102,7 +173,11 @@ export default function ToolsToBuild({ id, data }) {
                           </div>
                         ) : (
                           <VideoFold
-                            videoUrl={fold?.video_url || FALLBACK_VIDEO_URL}
+                            videoUrl={
+                              resolveVideoUrl(
+                                fold?.video_link || fold?.video_url
+                              ) || FALLBACK_VIDEO_URL
+                            }
                             thumbnail={getImageUrl(fold?.image)}
                           />
                         )}

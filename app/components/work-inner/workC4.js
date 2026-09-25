@@ -6,7 +6,11 @@ export default function C4ThreeImageSplit({ data }) {
   const third = data?.third_image_for_desktop;
 
   return (
-    <section className="work-c4">
+    <section className={`work-c4 ${data?.colour_code_bg ? "fill-bg" : ""}`}
+      style={{
+        backgroundColor: data?.colour_code_bg,
+      }}
+    >
       <div className="three-col-img not-full-width">
         {first && (
           <img src={getImageUrl(first)} alt={first.alternativeText || ""} className="work-c4__image" />

@@ -49,34 +49,104 @@
 }
 
 
-#jurassic-fruit .work-component-title h2,
+
+/* #jurassic-fruit .work-component-title h2,
 #jurassic-fruit .work-c14__heading{
   color: var(--jurassicFruit-color);
+} */
+/* #jurassic-fruit .work-c14__content p,
+#jurassic-fruit .work-c14__stats-block{
+    color: var(--theme-title);
+} */
+#jurassic-fruit .work-c14.fill-bg .theme-color-para span,
+#jurassic-fruit .work-c14.fill-bg .work-c14__stats-block span{
+    color: #CBC69E;
 }
-#jurassic-fruit .work-c14__content p{
-    color: #111111;
-}
-#jurassic-fruit .work-c7{
-    background-color: #1A1A1A;
-}
-#jurassic-fruit .work-c7__title {
-  color: #CBC69E;
-}
-/* #jurassic-fruit .work-c7__intro p, */
+
 #jurassic-fruit .work-c7__block-content p {
   color: #B2B2B2;
 }
 #jurassic-fruit .work-c7__block-content .is-bold {
   color: #ffffff;
 }
-
-
 #jurassic-fruit .work-c7 + .work-c7 .work-c7__content {
   order: 2;
 }
 #jurassic-fruit .work-c7 + .work-c7 .work-c7__image {
   order: 1;
 }
+#jurassic-fruit .fill-bg .fill-bg-title-color,
+#jurassic-fruit .fill-bg .fill-bg-title-color h2 {
+  color: #CBC69E;
+}
+
+#jurassic-fruit .fill-bg .fill-bg-para-color {
+  color: #ffffff;
+}
+
+#jurassic-fruit .work-c14.fill-bg .fill-bg-title-color,
+#jurassic-fruit .work-c14.fill-bg .fill-bg-title-color h2 {
+  color: #ffffff;
+}
+
+#jurassic-fruit .work-c14.fill-bg .fill-bg-para-color span{
+  color: #CBC69E;
+}
+
+#jurassic-fruit .work-c10 .work-c10__sub-text,
+#jurassic-fruit .work-c10__paragraph{
+  color: #111111;
+}
+
+
+
+#gutly .fill-bg .fill-bg-title-color,
+#gutly .fill-bg .fill-bg-title-color h2 {
+  color: var(--theme-title);
+}
+
+#gutly .fill-bg .fill-bg-para-color {
+  color: #111111;
+}
+#gutly .work-c14.fill-bg .fill-bg-title-color,
+#gutly .work-c14.fill-bg .fill-bg-title-color h2 {
+  color: #111111;
+}
+
+#gutly .work-c14.fill-bg .fill-bg-para-color {
+  color: var(--theme-title);
+}
+
+
+
+
+#noah .work-c7.fill-bg .fill-bg-title-color,
+#noah .work-c8.fill-bg .fill-bg-title-color,
+#noah .work-c8.fill-bg .fill-bg-title-color h2 {
+  color: var(--theme-bg);
+}
+#noah .work-c7.fill-bg .fill-bg-para-color,
+#noah .work-c8.fill-bg .fill-bg-para-color {
+  color: var(--theme-bg);
+}
+
+
+
+#lumired .work-c10.fill-bg .theme-title-color,
+#lumired .work-c10.fill-bg .theme-color-para,
+#lumired .work-c7.fill-bg .fill-bg-title-color,
+#lumired .work-c7.fill-bg .fill-bg-para-color,
+#lumired .work-c8.fill-bg .fill-bg-title-color,
+#lumired .work-c8.fill-bg .fill-bg-title-color h2,
+#lumired .work-c8.fill-bg .fill-bg-para-color,
+#lumired .work-c10.fill-bg .work-c10__heading{
+  color: var(--theme-bg)
+}
+#lumired .work-c10.fill-bg .work-c10__quote-icon svg {
+  fill: var(--theme-bg);
+}
+
+
 
 
 @media screen and (min-width: 768px) {
@@ -120,34 +190,7 @@
 }
 
 
-/* WORK 8 - Fill Background Color Apply */
 
-#jurassic-fruit .fill-bg .fill-bg-title-color,
-#jurassic-fruit .fill-bg .fill-bg-title-color h2 {
-  color: #F7DFC1;
-}
-
-#jurassic-fruit .fill-bg .fill-bg-para-color {
-  color: #FFFFFF;
-}
-
-
-#gutly .fill-bg .fill-bg-title-color,
-#gutly .fill-bg .fill-bg-title-color h2 {
-  color: var(--theme-title);
-}
-
-#gutly .fill-bg .fill-bg-para-color {
-  color: #111111;
-}
-#gutly .work-c14.fill-bg .fill-bg-title-color,
-#gutly .work-c14.fill-bg .fill-bg-title-color h2 {
-  color: #111111;
-}
-
-#gutly .work-c14.fill-bg .fill-bg-para-color {
-  color: var(--theme-title);
-}
 
 
 
@@ -167,6 +210,7 @@ picture{
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 /* ------ C2 - Component ------ */
@@ -296,20 +340,28 @@ picture{
 .work-c7__block-title {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 10px;
     font: 600 18px var(--font-aspekta);
     line-height: 97%;
     letter-spacing: 2px;
     text-transform: capitalize;
 }
 
-.work-c7__block-icon {
+/* .work-c7__block-icon {
   width: 8px;
   height: 10px;
   display: inline-block;
   flex: 0 0 auto;
   border-radius: 50% 50% 45% 45%;
   background: currentColor;
+} */
+
+.work-c7__block-icon {
+  width: 16px;
+  /* height: 16px; */
+  display: inline-block;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 
@@ -462,9 +514,14 @@ picture{
 .fill-bg.gutly-c8 {
   background-color: transparent !important;
   background-image: url("../components/images/gutly-star.png");
-  background-position: 50.2% 12.8%;
+  background-position: top;
   background-repeat: no-repeat;
-  background-size: 129%;
+  background-size: 140%;
+  margin-top: 100px;
+}
+
+#gutly .fill-bg.gutly-c8 .work-c8__container{
+  margin-top: 320px;
 }
 
 
@@ -621,6 +678,7 @@ picture{
     line-height: 150%;
     letter-spacing: 2px;
     text-transform: uppercase;
+    color: var(--theme-title);
 }
 
 .work-c14__content{
@@ -684,13 +742,14 @@ picture{
 .gutly-c14 .work-c14__container {
   position: relative;
   z-index: 2;
+  margin-bottom: 100px;
 }
 .gutly-c14 {
   background-color: transparent !important;
   background-image: url("../components/images/gutly-star.png");
-  background-position: 47.2% 86.7%;
+  background-position: bottom;
   background-repeat: no-repeat;
-  background-size: 129%;
+  background-size: 120%;  
 }
 
 
@@ -863,7 +922,9 @@ picture{
     gap: 20px;
   }
 
-
+  #gutly .fill-bg.gutly-c8 .work-c8__container{
+    margin-top: 130px;
+  }
 
 
   .work-c10__heading{
@@ -923,6 +984,9 @@ picture{
   .work-c7__intro p{
     font-size: 16px;
   }
+  #jurassic-fruit .work-c7 .work-c7__image{
+    display: none;
+  }
 
 
   .work-c8__container{
@@ -948,6 +1012,12 @@ picture{
   .work-c8__stats-unit{
     font-size: 40px;
   }
+  .fill-bg.gutly-c8{
+    background-size: 250%;
+  }
+  #gutly .fill-bg.gutly-c8 .work-c8__container{
+    margin-top: 100px;
+  }
 
 
   .work-c10__content{
@@ -958,6 +1028,19 @@ picture{
   }
   .work-c10__paragraph{
     font-size: 16px;
+  }
+
+  .work-c11__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .work-c11__right {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    gap: 5px;
   }
 
 
@@ -975,6 +1058,9 @@ picture{
   }
   .work-c14__content p{
     font-size: 16px;
+  }
+  .gutly-c14{
+    background-size: 250%;
   }
 
 
@@ -1034,6 +1120,9 @@ picture{
 
   .work-c8__container{
     padding: 60px 20px;
+  }
+  #gutly .fill-bg.gutly-c8 .work-c8__container{
+    margin-top: 50px;
   }
   
   .work-c14__container{
