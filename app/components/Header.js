@@ -81,8 +81,16 @@ function isPlaceholderLink(link) {
   return !link || link === "#" || link === "#!";
 }
 
+// Strapi sends slugs like "service/logo-and-visual" with no leading slash;
+// as a bare href that resolves against the CURRENT path (so it stacks
+// "/service" on every click). Force root-relative unless already absolute.
+function toRootRelative(link) {
+  if (/^([a-z][a-z0-9+.-]*:|\/\/|\/|#)/i.test(link)) return link;
+  return `/${link}`;
+}
+
 function normalizeLink(link, fallback) {
-  return isPlaceholderLink(link) ? fallback : link;
+  return isPlaceholderLink(link) ? fallback : toRootRelative(link);
 }
 
 export default function Header() {
@@ -519,7 +527,7 @@ useEffect(() => {
             <div className={styles.spMegaMenuColumns}>
               {whatWeDoColumns.map((column) => (
                 <div className={styles.spMegaMenuColumn} key={column.id}>
-                  <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
+                  <a href={normalizeLink(column.page_url, "#")} className={styles.spMegaMenuColumnTitle}>
                     <span>{column.page_name}</span>
                     <span className={styles.spMegaMenuColumnArrow}>
                       {CHEVRON_RIGHT}
@@ -528,7 +536,7 @@ useEffect(() => {
                   <ul className={styles.spMegaMenuLinkList}>
                     {(column.sub_pages || []).map((sub) => (
                       <li key={sub.id}>
-                        <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
+                        <a href={normalizeLink(sub.page_url, "#")} className={styles.spMegaMenuLink}>
                             <span>{sub.page_name}</span>
                         </a>
                       </li>
@@ -566,7 +574,7 @@ useEffect(() => {
             <div className={styles.spMegaMenuColumns}>
               {aboutUsColumns.map((column) => (
                 <div className={styles.spMegaMenuColumn} key={column.id}>
-                  <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
+                  <a href={normalizeLink(column.page_url, "#")} className={styles.spMegaMenuColumnTitle}>
                     <span>{column.page_name}</span>
                     <span className={styles.spMegaMenuColumnArrow}>
                       {CHEVRON_RIGHT}
@@ -575,7 +583,7 @@ useEffect(() => {
                   <ul className={styles.spMegaMenuLinkList}>
                     {(column.sub_pages || []).map((sub) => (
                       <li key={sub.id}>
-                        <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
+                        <a href={normalizeLink(sub.page_url, "#")} className={styles.spMegaMenuLink}>
                             <span>{sub.page_name}</span>
                         </a>
                       </li>
@@ -698,7 +706,7 @@ useEffect(() => {
             <div className={styles.spMobileSubList}>
               {whatWeDoColumns.map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
-                  <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
+                  <a href={normalizeLink(column.page_url, "#")} className={styles.spMobileGroupTitle}>
                     <span>{column.page_name}</span>
                     <span className={styles.spMobileChevron}>
                       {CHEVRON_RIGHT}
@@ -708,7 +716,7 @@ useEffect(() => {
                     {(column.sub_pages || []).map((sub) => (
                       <li key={sub.id}>
                         <a
-                          href={sub.page_url || "#"}
+                          href={normalizeLink(sub.page_url, "#")}
                           className={styles.spMobileGroupLink}
                           onClick={closeMobileMenu}
                         >
@@ -741,7 +749,7 @@ useEffect(() => {
               <div className={styles.spMobileSubList}>
                 {aboutUsColumns.map((column) => (
                   <div className={styles.spMobileGroup} key={column.id}>
-                    <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
+                    <a href={normalizeLink(column.page_url, "#")} className={styles.spMobileGroupTitle}>
                       <span>{column.page_name}</span>
                       <span className={styles.spMobileChevron}>
                         {CHEVRON_RIGHT}
@@ -751,7 +759,7 @@ useEffect(() => {
                       {(column.sub_pages || []).map((sub) => (
                         <li key={sub.id}>
                           <a
-                            href={sub.page_url || "#"}
+                            href={normalizeLink(sub.page_url, "#")}
                             className={styles.spMobileGroupLink}
                             onClick={closeMobileMenu}
                           >
