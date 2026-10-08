@@ -26,7 +26,7 @@ section.video-animated-section.service-inner .video-animated-inner {
 }
 
 
-.video-animated-inner video{
+.video-animated-inner video {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -94,7 +94,7 @@ section.what-we-deliver {
 
 .what-we-deliver .block-box {
     transition: transform 0.35s ease, box-shadow 0.35s ease;
-    cursor: pointer;
+    cursor: unset;
 }
 
 .what-we-deliver .block-box .img {

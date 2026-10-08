@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getImageUrl } from "./getImageUrl";
 
 const getYoutubeId = (url) =>
@@ -35,12 +35,46 @@ export default function MeetTheSimp({ id, data }) {
     (VIDEO_ID ? `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg` : "");
 
   // YouTube iframe control
-  const postCmd = (func) => {
+  const postCmd = (func, args = []) => {
     iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: "command", func, args: [] }),
+      JSON.stringify({ event: "command", func, args }),
       "*"
     );
   };
+
+  // Video finished: bring the thumbnail back so the next play starts over
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setStarted(false);
+  };
+
+  // Ask the YouTube player to report state changes, and catch "ended" (0)
+  const subscribeToYoutube = () => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "listening", id: 1 }),
+      "*"
+    );
+  };
+
+  useEffect(() => {
+    if (isFile || !VIDEO_ID) return;
+
+    const onMessage = (e) => {
+      if (e.source !== iframeRef.current?.contentWindow) return;
+      let msg;
+      try {
+        msg = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+      } catch {
+        return;
+      }
+      const state =
+        msg?.event === "onStateChange" ? msg.info : msg?.info?.playerState;
+      if (state === 0) handleEnded();
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [isFile, VIDEO_ID]);
 
   const togglePlay = () => {
     // Direct video file (Strapi upload)
@@ -48,6 +82,7 @@ export default function MeetTheSimp({ id, data }) {
       const video = videoRef.current;
       if (!video) return;
       if (video.paused) {
+        if (video.ended) video.currentTime = 0;
         setStarted(true);
         video.play().catch(() => {});
       } else {
@@ -62,7 +97,11 @@ export default function MeetTheSimp({ id, data }) {
       setStarted(true);
       setIsPlaying(true);
       // Small delay so iframe is interactive after thumbnail unmounts
-      setTimeout(() => postCmd("playVideo"), 100);
+      // seekTo(0) restarts the video when replaying after it ended
+      setTimeout(() => {
+        postCmd("seekTo", [0, true]);
+        postCmd("playVideo");
+      }, 100);
       return;
     }
     const next = !isPlaying;
@@ -95,7 +134,7 @@ export default function MeetTheSimp({ id, data }) {
                   preload="metadata"
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
-                  onEnded={() => setIsPlaying(false)}
+                  onEnded={handleEnded}
                   style={{
                     position: "absolute",
                     inset: 0,
@@ -111,6 +150,7 @@ export default function MeetTheSimp({ id, data }) {
                 <iframe
                   ref={iframeRef}
                   src={YT_SRC}
+                  onLoad={subscribeToYoutube}
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                   title="Meet the Simps"

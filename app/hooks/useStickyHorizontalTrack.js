@@ -3,6 +3,9 @@ import { useEffect } from "react";
 
 const DESKTOP_QUERY = "(min-width: 768px)";
 
+// Scroll distance (px) held still at each end of the pinned section.
+const HOLD_PX = 300;
+
 // Drives a horizontally-scrolling track from page-scroll position, with the
 // section pinned via native CSS `position: sticky` (the section must be
 // taller than 100vh, with a `position: sticky; top: 0; height: 100vh;`
@@ -39,10 +42,11 @@ export default function useStickyHorizontalTrack(sectionRef, trackRef, deps = []
 
       const scrollableDistance = section.offsetHeight - viewportH;
 
-      const progress =
-        scrollableDistance > 0
-          ? Math.min(1, Math.max(0, -rect.top / scrollableDistance))
-          : 0;
+      // Pixels scrolled while the section is pinned
+      const scrolled = Math.min(
+        scrollableDistance,
+        Math.max(0, -rect.top)
+      );
 
       const firstCard = track.firstElementChild;
       const lastCard = track.lastElementChild;
@@ -58,23 +62,17 @@ export default function useStickyHorizontalTrack(sectionRef, trackRef, deps = []
       // Distance between first and last card
       const maxTranslate = Math.max(0, endX - startX);
 
-      // 15% scroll before animation starts
-      const START_DELAY = 0.12;
+      // The section stays pinned with the track still for ~3 wheel
+      // notches at the start and at the end, so the cards never glide while
+      // the page is already scrolling away (or in). Capped so short
+      // runways still have room to move.
+      const HOLD = Math.min(HOLD_PX, scrollableDistance * 0.25);
+      const movable = scrollableDistance - HOLD * 2;
 
-      // 15% scroll after animation finishes
-      const END_DELAY = 0.12;
-
-      let movementProgress = 0;
-
-      if (progress <= START_DELAY) {
-        movementProgress = 0;
-      } else if (progress >= 1 - END_DELAY) {
-        movementProgress = 1;
-      } else {
-        movementProgress =
-          (progress - START_DELAY) /
-          (1 - START_DELAY - END_DELAY);
-      }
+      const movementProgress =
+        movable > 0
+          ? Math.min(1, Math.max(0, (scrolled - HOLD) / movable))
+          : 0;
 
       targetX = -(movementProgress * maxTranslate);
     }
