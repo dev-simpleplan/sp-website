@@ -10,11 +10,10 @@ const getYoutubeId = (url) =>
 const isDirectVideo = (url) =>
   !!url && /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
 
-// Full URL stays as is; relative Strapi paths (/uploads/..) get resolved.
+// https URLs stay as is; Strapi (http) and relative paths go through the proxy.
 const resolveUrl = (url) => {
   if (!url) return "";
-  if (/^https?:\/\//i.test(url)) return url;
-  return getImageUrl(url);
+  return getImageUrl({ url });
 };
 
 export default function MeetTheSimp({ id, data }) {
