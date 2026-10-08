@@ -114,6 +114,12 @@ section.what-we-deliver {
     overflow: hidden;
 }
 
+.block-box-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .what-we-deliver .block-box h4 {
     text-transform: uppercase;
     letter-spacing: -2%;
@@ -155,7 +161,7 @@ section.our-proud-work {
 }
 
 section.we-are-proud-section .we-are-proud-head {
-    margin-bottom: 260px;
+    margin-bottom: 100px;
     padding-top: 130px;
 }
 

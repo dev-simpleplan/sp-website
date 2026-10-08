@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "./getImageUrl";
 import styles from "./service-outer.module.css";
 
 const PLAY_ICON = (
@@ -50,24 +51,10 @@ export default function ServiceBanner({ data , id }) {
   const ctaText = banner.cta_text || "Start A Branding Project";
   const ctaHref = banner.cta_link || "#";
 
-  const rawThumbUrl = banner.video_thumbnail?.url || "";
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
-  let thumbnail = "/service-banner.png"; // fallback
-  if (rawThumbUrl) {
-    if (rawThumbUrl.startsWith("http")) {
-      // Strapi already returned a full URL
-      thumbnail = rawThumbUrl;
-    } else if (apiUrl) {
-      thumbnail = `${apiUrl}${rawThumbUrl}`;
-    } 
-    // else {
-    //   console.warn(
-    //     "NEXT_PUBLIC_API_URL is not set — falling back to placeholder thumbnail. Check .env.local."
-    //   );
-    // }
-
-  }
+  const thumbnail = banner.video_thumbnail?.url
+    ? getImageUrl(banner.video_thumbnail)
+    : "/service-banner.png";
 
   const thumbnailAlt = banner.video_thumbnail?.alternativeText || title || "Video thumbnail";
 
@@ -83,9 +70,7 @@ export default function ServiceBanner({ data , id }) {
   // Strapi uploaded / direct video file
   const isFile = !videoId && isDirectVideo(rawVideoUrl);
   const fileUrl = isFile
-    ? rawVideoUrl.startsWith("http")
-      ? rawVideoUrl
-      : `${apiUrl}${rawVideoUrl}`
+    ? getImageUrl({ url: rawVideoUrl }) // proxied: Strapi is http-only
     : "";
 
   // Create the real YouTube player once, when the iframe first mounts.
@@ -206,6 +191,7 @@ export default function ServiceBanner({ data , id }) {
                   src={thumbnail}
                   alt={thumbnailAlt}
                   fill
+                  unoptimized // proxied URL has a query string next/image doesn't allow
                   className={styles.spThumbnail}
                   sizes="(max-width: 900px) 100vw, 50vw"
                   priority

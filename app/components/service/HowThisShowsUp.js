@@ -164,6 +164,8 @@ export default function HowThisShowsUp({ id, data }) {
             <Link
               href={data?.cta_link || "#!"}
               className="custom-cta-link"
+              target={data?.cta_link ? "_blank" : undefined}
+              rel={data?.cta_link ? "noopener noreferrer" : undefined}
             >
               <span className="text-wrap">
                 <span className="text text-1">

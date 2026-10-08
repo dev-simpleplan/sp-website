@@ -30,18 +30,29 @@ export async function GET(request) {
   }
 
   try {
-    const upstream = await fetch(resolved.toString(), { cache: "no-store" });
+    // Forward Range so uploaded videos can seek and play in Safari/iOS,
+    // which refuses media that doesn't answer byte-range requests.
+    const range = request.headers.get("range");
+    const upstream = await fetch(resolved.toString(), {
+      cache: "no-store",
+      headers: range ? { Range: range } : undefined,
+    });
 
     if (!upstream.ok || !upstream.body) {
       return new Response("Image not found", { status: 404 });
     }
 
-    return new Response(upstream.body, {
-      headers: {
-        "Content-Type": upstream.headers.get("content-type") || "application/octet-stream",
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
+    const headers = {
+      "Content-Type": upstream.headers.get("content-type") || "application/octet-stream",
+      "Cache-Control": "public, max-age=31536000, immutable",
+      "Accept-Ranges": "bytes",
+    };
+    for (const name of ["content-length", "content-range"]) {
+      const value = upstream.headers.get(name);
+      if (value) headers[name] = value;
+    }
+
+    return new Response(upstream.body, { status: upstream.status, headers });
   } catch (error) {
     console.error("image-proxy error:", error);
     return new Response("Failed to fetch image", { status: 502 });
