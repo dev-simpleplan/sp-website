@@ -2,41 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import gutlyImage from "./images/we-are-p4.png";
-import orbeImage from "./images/ttb-img.png";
-import lumiredImage from "./images/bl1.png";
-import juicySallyImage from "./images/bl3.png";
-import crawfordImage from "./images/bl2.png";
-import gravetteImage from "./images/we-are-p2.png";
 import arrowIcon from "./images/arrow-down.png";
-
-const workItems = [
-  { id: "gutly", title: "Gutly", category: "Fashion & Beauty", description: "Lorem ipsum dolor sit amet consectetur.", image: gutlyImage },
-  { id: "orbe", title: "Orbe", category: "Fashion & Beauty", description: "Lorem ipsum dolor sit amet consectetur.", image: orbeImage },
-  { id: "lumired", title: "LumiRed", category: "Fashion & Beauty", description: "Lorem ipsum dolor sit amet consectetur.", image: lumiredImage },
-  { id: "juicy-sally", title: "Juicy Sally", category: "Health & Wellness", description: "Lorem ipsum dolor sit amet consectetur.", image: juicySallyImage },
-  { id: "crawford", title: "Crawford", category: "Health & Wellness", description: "Lorem ipsum dolor sit amet consectetur.", image: crawfordImage },
-  { id: "gravette", title: "Gravette", category: "SaaS / Technology", description: "Lorem ipsum dolor sit amet consectetur.", image: gravetteImage },
-  { id: "althera", title: "Althera", category: "Health & Wellness", description: "Lorem ipsum dolor sit amet consectetur.", image: gutlyImage },
-  { id: "orielle", title: "Orielle", category: "Luxury & Jewellery", description: "Lorem ipsum dolor sit amet consectetur.", image: orbeImage },
-  { id: "osin", title: "OSIN", category: "SaaS / Technology", description: "Lorem ipsum dolor sit amet consectetur.", image: lumiredImage },
-  { id: "aukera", title: "Aukera", category: "Luxury & Jewellery", description: "Lorem ipsum dolor sit amet consectetur.", image: juicySallyImage },
-  { id: "sagenext", title: "SageNext", category: "SaaS / Technology", description: "Lorem ipsum dolor sit amet consectetur.", image: crawfordImage },
-  { id: "nuraz", title: "Nuraz", category: "Luxury & Jewellery", description: "Lorem ipsum dolor sit amet consectetur.", image: gravetteImage },
-];
-
-const CATEGORIES = [
-  "All",
-  "Fashion & Beauty",
-  "Health & Wellness",
-  "SaaS / Technology",
-  "Luxury & Jewellery",
-];
+import { getImageUrl } from "./getImageUrl";
 
 const BATCH_SIZE = 6;
 const LOCK_DURATION = 1000; // ms - how long the scroll feels "stuck"
 
 export default function AllWork() {
+  const [workItems, setWorkItems] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const [isLocked, setIsLocked] = useState(false);
@@ -60,14 +35,51 @@ export default function AllWork() {
     setIsDropdownOpen(false);
     };
 
+  // Fetch works + categories from Strapi
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const [worksRes, catsRes] = await Promise.all([
+          fetch("/api/works"),
+          fetch("/api/work-categories"),
+        ]);
+        const worksJson = worksRes.ok ? await worksRes.json() : { data: [] };
+        const catsJson = catsRes.ok ? await catsRes.json() : { data: [] };
+        if (cancelled) return;
+
+        setWorkItems(
+          (worksJson.data || []).map((w) => ({
+            id: w.slug,
+            title: w.title,
+            categories: (w.work_categories || []).map((c) => c.name),
+            description: w.short_description,
+            image: getImageUrl(w.featured_image, "large"),
+          }))
+        );
+        setCategories(["All", ...(catsJson.data || []).map((c) => c.name)]);
+      } catch (error) {
+        console.error("AllWork fetch error:", error);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const sentinelRef = useRef(null);
   const lockActiveRef = useRef(false); // prevents re-triggering while already locked/loading
   const preventScrollRef = useRef(null); // stores the handler so we can remove the exact same reference
 
   const filteredItems = useMemo(() => {
     if (activeCategory === "All") return workItems;
-    return workItems.filter((item) => item.category === activeCategory);
-  }, [activeCategory]);
+    return workItems.filter((item) => item.categories.includes(activeCategory));
+  }, [activeCategory, workItems]);
 
   useEffect(() => {
     setVisibleCount(BATCH_SIZE);
@@ -157,7 +169,7 @@ export default function AllWork() {
                     <ul
                         className={"custom-select__list" + (isDropdownOpen ? " is-open" : "")}
                     >
-                    {CATEGORIES.map((category) => (
+                    {categories.map((category) => (
                         <li key={category}>
                         <button
                             type="button"
@@ -176,7 +188,9 @@ export default function AllWork() {
             </div>
           </div>
 
-          {filteredItems.length === 0 ? (
+          {isLoading ? (
+            <p className="all-work__empty">Loading projects...</p>
+          ) : filteredItems.length === 0 ? (
             <p className="all-work__empty">No projects found in this category.</p>
           ) : (
             <>
@@ -195,11 +209,13 @@ export default function AllWork() {
                     >
                       <div className="all-work__image-wrap">
                         <img
-                          src={item.image.src}
+                          src={item.image}
                           alt={item.title}
                           className="all-work__image"
                         />
-                        <span className="all-work__tag">{item.category}</span>
+                        {item.categories[0] && (
+                          <span className="all-work__tag">{item.categories[0]}</span>
+                        )}
                       </div>
 
                       <div className="all-work-cardInfo">

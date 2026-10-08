@@ -9,36 +9,37 @@ const extractText = (description = []) =>
   description.map((block) => (block.children || []).map((c) => c.text).join("")).join("\n");
 
 const Card = ({ b }) => {
-  const content = (
-    <>
+  return (
+    <article
+      className="block-box"
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+    >
       <div className="bb-top">
         <img
           src={getImageUrl(b.image)}
-          alt={b.title}
+          alt={b.image?.alternativeText || b.title}
           className="img"
           draggable={false}
           onDragStart={(e) => e.preventDefault()}
         />
       </div>
-      <h4>{b.title}</h4>
-      <p>{extractText(b.description)}</p>
-    </>
+      <div className="block-box-content">
+        <h4>{b.title}</h4>
+        <p>{extractText(b.description)}</p>
+        {b.cta_link && (
+          <a
+            href={b.cta_link}
+            className="block-box-cta"
+            draggable={false}
+            onDragStart={(e) => e.preventDefault()}
+          >
+            <span>{b.cta_text || "Learn More"}</span>
+          </a>
+        )}
+      </div>
+    </article>
   );
-
-  if (b.cta_link) {
-    return (
-      <a
-        href={b.cta_link}
-        className="block-box"
-        draggable={false}
-        onDragStart={(e) => e.preventDefault()}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return <div className="block-box">{content}</div>;
 };
 
 export default function WhatWeDeliver({ id, data }) {
@@ -100,7 +101,10 @@ export default function WhatWeDeliver({ id, data }) {
       ? 1.8
       : 1.1;
 
-  setShowDragCursor(blocks.length > Math.floor(slidesVisible));
+  // Custom cursor only on devices with a real mouse/trackpad
+  const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  setShowDragCursor(hasMouse && blocks.length > Math.floor(slidesVisible));
 };
 
     check();
@@ -137,15 +141,21 @@ export default function WhatWeDeliver({ id, data }) {
     };
 
     slider.addEventListener("mouseenter", onMouseEnter);
-    slider.addEventListener("mousemove", onMouseMove);
     slider.addEventListener("mouseleave", onMouseLeave);
+    // Track pointermove on window instead of mousemove on the slider: while
+    // a button is held (dragging) the browser stops firing mousemove but
+    // keeps firing pointermove, so mousemove goes stale and the cursor
+    // jumps to the old spot on release.
+    window.addEventListener("pointermove", onMouseMove, true);
+    window.addEventListener("pointerup", onMouseMove, true);
 
     return () => {
       slider.removeEventListener("mouseenter", onMouseEnter);
-      slider.removeEventListener("mousemove", onMouseMove);
       slider.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("pointermove", onMouseMove, true);
+      window.removeEventListener("pointerup", onMouseMove, true);
     };
-  }, [showDragCursor]);
+  }, [showDragCursor, updateCursorPosition]);
 
   if (!data) return null;
 
@@ -163,6 +173,7 @@ export default function WhatWeDeliver({ id, data }) {
             <div
   className={`block-box-swiper project-delievered-slider no-select${showDragCursor ? " has-custom-cursor" : ""}`}
   ref={sliderRef}
+  onDragStart={(event) => event.preventDefault()}
 >
               {showDragCursor && (
                 <div ref={cursorRef} className="ttb-drag-cursor">
@@ -175,7 +186,7 @@ export default function WhatWeDeliver({ id, data }) {
               <Swiper
   onSwiper={(swiper) => (swiperRef.current = swiper)}
   modules={[Mousewheel, FreeMode]}
-  simulateTouch={false}
+  simulateTouch
   mousewheel={{
     forceToAxis: true, // only react to horizontal wheel/trackpad movement
     sensitivity: 1,
