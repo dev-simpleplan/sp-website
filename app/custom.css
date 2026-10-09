@@ -147,14 +147,13 @@
   width: 100%;
 }
 
-/* cover the inner box at all aspect ratios */
+/* fill the 16:9 inner box exactly, so the video is never cropped */
 .video-animated-inner iframe {
   position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  width: max(100%, 177.78vh) !important;
-  height: max(100%, 56.25vw) !important;
-  transform: translate(-50%, -50%) !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
   border: none !important;
   pointer-events: none !important;
 }

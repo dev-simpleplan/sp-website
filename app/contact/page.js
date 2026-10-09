@@ -6,6 +6,7 @@ import axios from "axios";
 import { getImageUrl } from "../components/getImageUrl";
 import LeftSideLine from "../components/LeftSideLine";
 import RightSideLine from "../components/RightSideLine";
+import GoogleMap from "../components/GoogleMap";
 import Wayfinding from "../components/Wayfinding";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import "./contactStyle.css";
@@ -152,9 +153,10 @@ export default function ContactPage() {
 
             <div className="find-us-grid">
               <div className="find-us-map">
-                {findUs?.map_image && (
+                {/* {findUs?.map_image && (
                   <img src={getImageUrl(findUs.map_image)} alt="SimplePlan Media location map" />
-                )}
+                )} */}
+                <GoogleMap />
               </div>
 
               <div className="find-us-info">

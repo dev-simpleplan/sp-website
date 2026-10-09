@@ -11,8 +11,16 @@ export default function VideoAnimated({ id, data }) {
   const innerRef = useRef(null);
   const iframeRef = useRef(null);
 
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  // started: user has pressed play at least once (iframe stays mounted after).
+  // isPlaying: video is meant to be playing; otherwise thumbnail + play icon.
+  const [started, setStarted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const startedRef = useRef(false);
+  const isPlayingRef = useRef(false);
+  const inViewRef = useRef(false);
+  const userPausedRef = useRef(false);
+  const playedRef = useRef(false); // YouTube has reported "playing"
 
   // ===============================
   // API DATA
@@ -31,6 +39,7 @@ export default function VideoAnimated({ id, data }) {
       )?.[1] || ""
     : "";
 
+  // Starts muted (always allowed to autoplay); sound is applied via the API.
   const YT_SRC = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
 
   const postCmd = (func) => {
@@ -44,33 +53,105 @@ export default function VideoAnimated({ id, data }) {
     );
   };
 
-  const togglePlay = () => {
-    const next = !isPlaying;
-    postCmd(next ? "playVideo" : "pauseVideo");
-    setIsPlaying(next);
+  const setPlaying = (v) => {
+    isPlayingRef.current = v;
+    setIsPlaying(v);
   };
 
-  // Defer mounting the (heavy, autoplaying) YouTube iframe until the section
-  // is actually near the viewport — loading it eagerly on page mount competes
-  // with initial ScrollTrigger/image setup for the main thread and shows up
-  // as scroll jank/jumping in this and other sticky sections.
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
+  // Sound only while the user is inside this section and it is playing.
+  const applyAudio = () => {
+    postCmd(inViewRef.current && isPlayingRef.current ? "unMute" : "mute");
+  };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setShouldLoadVideo(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "600px 0px" }
+  // Play, or resume from the current timestamp.
+  const resume = () => {
+    userPausedRef.current = false;
+    setPlaying(true);
+
+    if (!startedRef.current) {
+      startedRef.current = true;
+      setStarted(true); // mounts the iframe; load/retry handlers start it
+      return;
+    }
+
+    postCmd("playVideo");
+    applyAudio();
+  };
+
+  const togglePlay = () => {
+    if (isPlayingRef.current) {
+      userPausedRef.current = true;
+      postCmd("pauseVideo");
+      setPlaying(false);
+    } else {
+      resume();
+    }
+  };
+
+  const handleIframeLoad = () => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "listening", id: 1, channel: "widget" }),
+      "*"
     );
+    if (isPlayingRef.current) {
+      postCmd("playVideo");
+      applyAudio();
+    }
+  };
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  // Commands sent before the fresh iframe's player is ready are dropped, so
+  // keep asking it to play until it reports "playing".
+  useEffect(() => {
+    if (!started) return;
+
+    const onMessage = (e) => {
+      if (e.source !== iframeRef.current?.contentWindow) return;
+
+      let d = e.data;
+      if (typeof d === "string") {
+        try {
+          d = JSON.parse(d);
+        } catch {
+          return;
+        }
+      }
+
+      const state =
+        d?.event === "onStateChange"
+          ? d.info
+          : d?.event === "infoDelivery"
+          ? d.info?.playerState
+          : undefined;
+
+      if (state === 1) {
+        playedRef.current = true;
+        applyAudio();
+      }
+    };
+
+    window.addEventListener("message", onMessage);
+
+    let tries = 0;
+    const retry = setInterval(() => {
+      tries += 1;
+
+      if (playedRef.current || tries > 20 || userPausedRef.current) {
+        clearInterval(retry);
+        return;
+      }
+
+      if (isPlayingRef.current) {
+        postCmd("playVideo");
+        applyAudio();
+      }
+    }, 400);
+
+    return () => {
+      window.removeEventListener("message", onMessage);
+      clearInterval(retry);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -117,7 +198,35 @@ export default function VideoAnimated({ id, data }) {
       return () => ctx.revert();
     });
 
-    return () => mm.revert();
+    const audioTrigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top 70%",
+      end: "bottom 30%",
+      onToggle: (self) => {
+        inViewRef.current = self.isActive;
+
+        if (!startedRef.current) return;
+
+        if (self.isActive) {
+          // Coming back: continue from the same timestamp unless the user
+          // paused it themselves.
+          if (!userPausedRef.current) resume();
+        } else {
+          applyAudio();
+          // Leaving without pausing: pause in place and show the thumbnail.
+          if (isPlayingRef.current) {
+            postCmd("pauseVideo");
+            setPlaying(false);
+          }
+        }
+      },
+    });
+
+    return () => {
+      mm.revert();
+      audioTrigger.kill();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -143,12 +252,13 @@ export default function VideoAnimated({ id, data }) {
                 : {}
             }
           >
-            {shouldLoadVideo && (
+            {started && videoId && (
               <iframe
                 ref={iframeRef}
                 src={YT_SRC}
                 allow="autoplay; encrypted-media"
                 allowFullScreen
+                onLoad={handleIframeLoad}
                 title={sectionLabel || "SimplePlan Reel"}
               />
             )}
