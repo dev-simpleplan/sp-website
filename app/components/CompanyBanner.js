@@ -22,12 +22,9 @@ function isDirectVideo(url) {
 function getVideoFileUrl(url) {
   if (!url) return "";
 
-  if (url.startsWith("http")) {
-    return url;
-  }
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-  return `${apiUrl}${url}`;
+  // Route through the same-origin proxy so the http-only Strapi backend
+  // doesn't get blocked as mixed content on the https site.
+  return getImageUrl({ url });
 }
 
 export default function CompanyBanner({ id, data, loading }) {
@@ -54,6 +51,14 @@ export default function CompanyBanner({ id, data, loading }) {
   const handleMediaLoad = () => {
     setMediaLoaded(true);
   };
+
+  // Never leave the red reveal panels stuck: if nothing loads (no media,
+  // broken URL, slow network), open the banner anyway after a short wait.
+  useEffect(() => {
+    if (loading || mediaLoaded) return;
+    const t = setTimeout(() => setMediaLoaded(true), hasVideo || imageSrc ? 4000 : 0);
+    return () => clearTimeout(t);
+  }, [loading, mediaLoaded, hasVideo, imageSrc]);
 
   // Autoplay Strapi uploaded video after the video element mounts.
   useEffect(() => {
@@ -125,6 +130,7 @@ export default function CompanyBanner({ id, data, loading }) {
             loop
             preload="auto"
             onLoadedData={handleMediaLoad}
+            onError={handleMediaLoad}
             title={title || "Company Banner Video"}
           />
         )}
@@ -134,6 +140,7 @@ export default function CompanyBanner({ id, data, loading }) {
             src={imageSrc}
             alt={title || "Company Banner"}
             onLoad={handleMediaLoad}
+            onError={handleMediaLoad}
           />
         )}
 
