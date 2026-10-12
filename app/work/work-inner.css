@@ -148,6 +148,70 @@
 
 
 
+/* AUKERA */
+#aukera .work-c8.fill-bg .fill-bg-title-color,
+#aukera .work-c8.fill-bg .fill-bg-title-color h2,
+#aukera .work-c8.fill-bg .fill-bg-para-color{
+  color: #fff;
+}
+#aukera .work-c10.fill-bg .work-c10__quote-icon svg {
+  fill: #fff;
+}
+#aukera .work-c10.fill-bg .work-c10__heading,
+#aukera .work-c10.fill-bg .work-c10__sub-text.theme-title-color{
+  color: #fff;
+}
+
+
+
+/* chateau-shuette */
+#chateau-shuette .work-c14.fill-bg .work-c14__heading,
+#chateau-shuette .work-c10.fill-bg .work-c10__quote-icon svg{
+  color: #B7A18B;
+  fill: #B7A18B;
+}
+#chateau-shuette .work-c14.fill-bg .fill-bg-title-color,
+#chateau-shuette .work-c14.fill-bg .fill-bg-title-color h2,
+#chateau-shuette .work-c14.fill-bg .work-c14__content p{
+  color: #fff;
+}
+#chateau-shuette .work-c10.fill-bg .work-c10__heading,
+#chateau-shuette .work-c10.fill-bg .work-c10__sub-text.theme-title-color,
+#chateau-shuette .work-c10.fill-bg .work-c10__paragraph{
+  color: #fff;
+}
+#chateau-shuette .work-c7.fill-bg .fill-bg-title-color,
+#chateau-shuette .work-c7.fill-bg .fill-bg-para-color,
+#chateau-shuette .work-c8.fill-bg .fill-bg-title-color h2,
+#chateau-shuette .work-c8.fill-bg .fill-bg-para-color{
+  color: #FCFDF6;
+}
+
+
+
+
+/* PLATI */
+#plati .work-c7.fill-bg .fill-bg-title-color,
+#plati .work-c7.fill-bg .fill-bg-para-color,
+#plati .work-c8.fill-bg .fill-bg-title-color,
+#plati .work-c8.fill-bg .fill-bg-title-color h2,
+#plati .work-c8.fill-bg .fill-bg-para-color{
+  color: #ffffff;
+}
+#plati .work-c14.fill-bg .fill-bg-title-color,
+#plati .work-c14.fill-bg .fill-bg-title-color h2,
+#plati .work-c14.fill-bg .work-c14__content p{
+  color: #fff;
+}
+#plati .work-c14.fill-bg .work-c14__heading,
+#plati .work-c10 .work-c10__quote-icon svg{
+  color: #FF7636;
+  fill: #FF7636;
+}
+
+
+
+
 
 @media screen and (min-width: 768px) {
   #jurassic-fruit .work-c7:has(+ .work-c7) .work-c7__image {
@@ -537,7 +601,7 @@ picture{
 
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 10px;
 }
 
 .work-c10__sub-text {
@@ -582,6 +646,21 @@ picture{
 .work-c10__paragraph.wide_paragraph{
     max-width: 84ch;
     margin: 0 auto;
+}
+
+/* Multiple paragraphs: tighter spacing than the section gap */
+/* .work-c10__paragraph + .work-c10__paragraph{
+    margin-top: -20px;
+} */
+
+/* Label + paragraph layout (no main heading) */
+.work-c10__sub-text--label{
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+.work-c10.fill-bg .work-c10__sub-text--label,
+.work-c10.fill-bg .work-c10__sub-text--label ~ .work-c10__paragraph{
+    color: #fff;
 }
 
 

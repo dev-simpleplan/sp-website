@@ -475,12 +475,17 @@ h2.blog-post-heading {
   color: #111;
 }
 
+/* Bold digits in numbered lists */
+ol.blog-post-list li::marker {
+  font-weight: 700;
+}
+
 .blog-post-quote {
   margin: 32px 0;
   padding-left: 24px;
   border-left: 3px solid var(--sp-red);
   font-style: italic;
-  color: #111;
+  color: var(--sp-red);
 }
 
 .blog-post-figure {

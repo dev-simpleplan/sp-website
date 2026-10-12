@@ -17,9 +17,10 @@ export default function C10({ data }) {
   const heading = description[headingIndex];
   const subText = description[subTextIndex];
 
-  const paragraph = description.find(
-    (item) => item.type === "paragraph"
+  const paragraphs = description.filter(
+    (item) => item.type === "paragraph" && getText(item)
   );
+  const paragraph = paragraphs[0];
 
   const isTopSubText =
     subTextIndex !== -1 &&
@@ -31,8 +32,12 @@ export default function C10({ data }) {
     headingIndex !== -1 &&
     subTextIndex > headingIndex;
 
+  // Short label (h5) followed by a paragraph, with no h3 heading
+  const isLabelOnly =
+    subTextIndex !== -1 && headingIndex === -1 && !!paragraph;
+
   return (
-    <section className={`work-c10 ${data?.colour_code_bg ? "fill-bg" : ""}`} 
+    <section className={`work-c10 ${data?.colour_code_bg ? "fill-bg" : ""}`}
       style={{
         backgroundColor:
           data?.colour_code_bg || "var(--theme-bg)",
@@ -43,6 +48,13 @@ export default function C10({ data }) {
         {/* Top Sub Text */}
         {isTopSubText && (
           <div className="work-c10__sub-text work-c10__sub-text--top theme-title-color">
+            {getText(subText)}
+          </div>
+        )}
+
+        {/* Label + paragraph only (no main heading) */}
+        {isLabelOnly && (
+          <div className="work-c10__sub-text work-c10__sub-text--label theme-title-color">
             {getText(subText)}
           </div>
         )}
@@ -72,17 +84,17 @@ export default function C10({ data }) {
         )}
 
         {/* Paragraph */}
-        {!isBottomSubText && heading && paragraph && (
-          <p className="work-c10__paragraph narrow_paragraph theme-color-para">
-            {getText(paragraph)}
+        {!isBottomSubText && heading && paragraphs.map((item, i) => (
+          <p key={i} className="work-c10__paragraph narrow_paragraph theme-color-para">
+            {getText(item)}
           </p>
-        )}
+        ))}
         {/* Paragraph */}
-        {!isBottomSubText && !isTopSubText && !heading && paragraph && (
-          <p className="work-c10__paragraph wide_paragraph theme-color-para fill-bg-para-color">
-            {getText(paragraph)}
+        {!isBottomSubText && !isTopSubText && !heading && paragraphs.map((item, i) => (
+          <p key={i} className="work-c10__paragraph wide_paragraph theme-color-para fill-bg-para-color">
+            {getText(item)}
           </p>
-        )}
+        ))}
 
       </div>
     </section>
