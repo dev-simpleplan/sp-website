@@ -3,10 +3,11 @@ import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import brandImg from "./images/test-brand-img.svg";
+import reviewStarImg from "./images/review-star.svg";
 import { getImageUrl } from "./getImageUrl";
 
 
-export default function TestimonialSection({ id, data }) {
+export default function TestimonialSection({ id, data, showReviewStars = false }) {
   const swiperRef = useRef(null);
 
   if (!data) return null;
@@ -34,18 +35,24 @@ export default function TestimonialSection({ id, data }) {
                 <div className="testimonial-block">
                   <div className="ts-platform">
                     <div className="ts-brand-logo">
-                      <img src={brandImg.src} alt="Platform" className="icon" />
+                      {showReviewStars ? (
+                        <img src={reviewStarImg.src} alt="5 star review" className="icon ts-star-icon" />
+                      ) : (
+                        <img src={brandImg.src} alt="Platform" className="icon" />
+                      )}
                     </div>
                   </div>
                   <p className="ts-quote">{t.testimonial_text?.[0]?.children?.[0]?.text}</p>
                   <div className="author">
-                    <div className="author-img">
-                      <img
-                        src={getImageUrl(t.user_image)}
-                        alt={t.user_name}
-                        className="img"
-                      />
-                    </div>
+                    {t.user_image?.url && (
+                      <div className="author-img">
+                        <img
+                          src={getImageUrl(t.user_image)}
+                          alt={t.user_name}
+                          className="img"
+                        />
+                      </div>
+                    )}
                     <div className="author-details">
                       <p className="author-name">{t.user_name}</p>
                       <p className="author-desig">{t.user_designation}</p>
