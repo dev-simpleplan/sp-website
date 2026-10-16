@@ -1647,6 +1647,11 @@
   filter: brightness(0) invert(1);
 }
 
+.ts-brand-logo .ts-star-icon {
+  max-width: 100%;
+  object-fit: contain;
+}
+
 .ts-quote {
   font-size: 28px;
   color: #fff;

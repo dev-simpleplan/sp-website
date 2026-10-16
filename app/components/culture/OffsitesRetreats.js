@@ -83,7 +83,7 @@ export default function OffsitesRetreats({ id, data }) {
                 {tickerImages.map((image, index) => (
                   <div className="or-item" key={`${image.id}-${index}`}>
                     <img
-                      src={getImageUrl(image, "small")}
+                      src={getImageUrl(image)}
                       alt=""
                       className="img"
                       draggable="false"

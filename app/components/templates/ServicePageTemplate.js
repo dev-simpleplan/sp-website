@@ -144,7 +144,7 @@ export default function ServicePageTemplate({ slug }) {
       <WhatWeDeliver id="what-we-deliver" data={sections.what_we_deliver} />
       <OurProudWork id="our-proud-work" data={sections.our_proud_work} />
       <ReadyToBuild id="get-in-touch" data={sections.simple_choice} />
-      <TestimonialSection id="testimonials" data={sections.testimonials_section} />
+      <TestimonialSection id="testimonials" data={sections.testimonials_section} showReviewStars />
       <AiTools id="ai-tools" data={sections.ai_tools} />
       <ProductsSection id="products" data={sections.products_section} />
       <OtherServices id="other-services" data={sections.other_services} />

@@ -30,7 +30,7 @@ export default function MeetTheSimp({ id, data }) {
   const YT_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`;
 
   const THUMBNAIL =
-    getImageUrl(data?.thumbnail, "small") ||
+    getImageUrl(data?.thumbnail) ||
     (VIDEO_ID ? `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg` : "");
 
   // YouTube iframe control

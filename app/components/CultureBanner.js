@@ -7,10 +7,10 @@ import { getImageUrl } from "../components/getImageUrl";
 // Real API fields, confirmed against the culture_banner response — each
 // corner is its own named field, not an array.
 const FLOAT_SLOTS = [
-  { key: "left_top_image", className: "cb-float-tl", format: "thumbnail", floatRange: 20, scrollFactor: 0.08 },
-  { key: "right_top_image", className: "cb-float-tr", format: "thumbnail", floatRange: 23, scrollFactor: 0.12 },
-  { key: "left_bottom_image", className: "cb-float-bl", format: "thumbnail", floatRange: 18, scrollFactor: 0.06 },
-  { key: "right_bottom_image", className: "cb-float-br", format: "small", floatRange: 16, scrollFactor: 0.1 },
+  { key: "left_top_image", className: "cb-float-tl", floatRange: 20, scrollFactor: 0.08 },
+  { key: "right_top_image", className: "cb-float-tr", floatRange: 23, scrollFactor: 0.12 },
+  { key: "left_bottom_image", className: "cb-float-bl", floatRange: 18, scrollFactor: 0.06 },
+  { key: "right_bottom_image", className: "cb-float-br", floatRange: 16, scrollFactor: 0.1 },
 ];
 
 export default function CultureBanner({ id, data }) {
@@ -140,7 +140,7 @@ export default function CultureBanner({ id, data }) {
               >
                 <div className="cb-float-motion">
                   <img
-                    src={getImageUrl(media, slot.format)}
+                    src={getImageUrl(media)}
                     alt={media?.alternativeText || ""}
                     className="img"
                     draggable="false"
