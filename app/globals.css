@@ -29,8 +29,8 @@
 }
 
 *::selection {
-  background-color: var(--sp-white);
-  color: var(--sp-black);
+  background-color: var(--selection-bg, var(--sp-white));
+  color: var(--selection-color, var(--sp-black));
 }
 
 html {

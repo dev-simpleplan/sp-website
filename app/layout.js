@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AnimationProvider from "./components/AnimationProvider"
 import SideRailVisibilityWatcher from "./components/SideRailVisibilityWatcher";
+import SelectionColorWatcher from "./components/SelectionColorWatcher";
 import { PreFooterProvider } from "./context/PreFooterContext";
 
 const aspekta = localFont({
@@ -44,6 +45,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning>
         <SideRailVisibilityWatcher />
+        <SelectionColorWatcher />
         <Header />
         {/* <LenisProvider><main><AnimationProvider />{children}</main></LenisProvider> */}
         <PreFooterProvider>
