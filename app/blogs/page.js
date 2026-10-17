@@ -6,6 +6,7 @@ import { getImageUrl } from "../components/getImageUrl";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import LeftSideLine from "../components/LeftSideLine";
 import RightSideLine from "../components/RightSideLine";
+import { getFirstParagraph } from "./getFirstParagraph";
 import "./blogStyle.css";
 
 const PAGE_SIZE = 9;
@@ -13,9 +14,9 @@ const EXCERPT_LENGTH = 140;
 
 // Field names confirmed against the live /api/blog-posts and /api/categories
 // responses: title, slug, featured_image, categories ([{ Name, Slug }] —
-// note the capitalized keys), body_content (a plain string, not a Strapi
-// "blocks" array). There's no dedicated excerpt/summary field, so the card
-// preview text is a truncated body_content instead.
+// note the capitalized keys). There's no dedicated excerpt/summary field, so
+// the card preview is the first paragraph of the post's inner content
+// (blog_inner_page_contents), truncated.
 const getPostTitle = (post) => post?.title || "Untitled";
 
 // Strapi "blocks" rich-text fields come back as an array of nodes
@@ -35,8 +36,7 @@ const asPlainText = (value) => {
 };
 
 const getPostExcerpt = (post) => {
-  const text = asPlainText(post?.body_content).replace(/\s+/g, " ").trim();
-  if (!text) return "";
+  const text = getFirstParagraph(post);
   return text.length > EXCERPT_LENGTH ? `${text.slice(0, EXCERPT_LENGTH).trim()}…` : text;
 };
 

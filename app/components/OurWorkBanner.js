@@ -1,14 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import cardImg from "./images/we-are-p.png";
 
 // Static placeholder data — once the CMS has multiple case studies this
 // array should be replaced with `data` mapped from the API response.
+// `href` is where the grown image / "View Case Study" circle navigates —
+// "#" means "no destination yet" (click does nothing); swap it for the
+// case study's inner-page path (e.g. `/work/${slug}`) once it comes from
+// the API.
 const WORK_ITEMS = [
   {
     id: "invouge",
+    href: "#",
     tag: "Fashion & Beauty",
     title: "invouge",
     subtitle: "Lorem ipsum dolor sit amet consectetur.",
@@ -18,6 +24,7 @@ const WORK_ITEMS = [
   },
   {
     id: "lumen",
+    href: "#",
     tag: "Wellness",
     title: "lumen",
     subtitle: "Lorem ipsum dolor sit amet consectetur.",
@@ -27,6 +34,7 @@ const WORK_ITEMS = [
   },
   {
     id: "atlas",
+    href: "#",
     tag: "Technology",
     title: "atlas",
     subtitle: "Lorem ipsum dolor sit amet consectetur.",
@@ -36,6 +44,7 @@ const WORK_ITEMS = [
   },
   {
     id: "nova",
+    href: "#",
     tag: "Retail",
     title: "nova",
     subtitle: "Lorem ipsum dolor sit amet consectetur.",
@@ -63,6 +72,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
   // Per-item DOM refs, keyed by item id — plain objects (not state) since
   // none of this needs to trigger a re-render; GSAP drives the DOM
   // directly, same as the original single-card version.
+  const router = useRouter();
   const bannerRefs = useRef({}); // .our-work-banner-in — image expands to cover THIS
   const cardRefs = useRef({});
   const wrapRefs = useRef({}); // .ow-banner-img-wrap — the compact image+tag box
@@ -70,6 +80,19 @@ export default function OurWorkBanner({ id, isReady = true }) {
   const cloneCleanupRefs = useRef({}); // cursor-cta cleanup for that item's clone
   const headingRef = useRef(null);
   const cursorCtaRef = useRef(null); // shared "View Case Study" circle, follows whichever clone is grown
+
+  // Last known cursor position, tracked from mount (not from when a card
+  // finishes growing) so a grow that completes under an already-resting
+  // cursor can still tell whether the cursor is over it.
+  const mousePosRef = useRef({ x: -9999, y: -9999 });
+
+  useEffect(() => {
+    const onMove = (e) => {
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
 
   const hasPlayedIntroRef = useRef(false);
   const grownIdsRef = useRef(new Set()); // every item currently grown — can be more than one at once
@@ -82,7 +105,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
   // section. The original wrapper just goes opacity: 0 in place, so the
   // card's title/stats layout never moves.
   function growItem(itemId, onGrown) {
-    if (!itemId || grownIdsRef.current.has(itemId)) return;
+    if (!itemId) return;
 
     const bannerEl = bannerRefs.current[itemId];
     const wrapEl = wrapRefs.current[itemId];
@@ -99,6 +122,11 @@ export default function OurWorkBanner({ id, isReady = true }) {
     // tween on the same element, so this just reverses direction
     // mid-animation rather than dropping the request.
     let clone = cloneRefs.current[itemId];
+
+    // Already grown (or growing) with a live clone — nothing to do. Checked
+    // against the clone too, not just the id set, so a stale id can never
+    // block a regrow.
+    if (clone && grownIdsRef.current.has(itemId)) return;
 
     if (!clone) {
       const wrapRect = wrapEl.getBoundingClientRect();
@@ -144,6 +172,13 @@ export default function OurWorkBanner({ id, isReady = true }) {
 
     grownIdsRef.current.add(itemId);
 
+    // gsap.to does NOT auto-overwrite an in-flight tween on the same
+    // element (GSAP 3 default is overwrite: false). Without this, an
+    // interrupted shrink kept running alongside the grow, finished later,
+    // and its onComplete removed the clone — leaving the card stuck in
+    // the shrunk state with the grow request already "consumed". Kill it.
+    gsap.killTweensOf(clone);
+
     gsap.to(clone, {
       top: 0,
       left: 0,
@@ -158,7 +193,8 @@ export default function OurWorkBanner({ id, isReady = true }) {
         // resurrect the cursor CTA or "grown" bookkeeping for a clone
         // that's already been torn down.
         if (cloneRefs.current[itemId] !== clone) return;
-        cloneCleanupRefs.current[itemId] = setupCursorCta(clone);
+        const href = WORK_ITEMS.find((item) => item.id === itemId)?.href;
+        cloneCleanupRefs.current[itemId] = setupCursorCta(clone, href);
         onGrown?.();
       },
     });
@@ -180,6 +216,9 @@ export default function OurWorkBanner({ id, isReady = true }) {
 
     const wrapRect = wrapEl.getBoundingClientRect();
     const bannerRect = bannerEl.getBoundingClientRect();
+
+    // Same reason as in growItem: stop any in-flight grow before shrinking.
+    gsap.killTweensOf(clone);
 
     gsap.to(clone, {
       top: wrapRect.top - bannerRect.top,
@@ -365,7 +404,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
 
   // Sets up the cursor-follower on `hoverTarget` (a grown clone). Returns
   // a cleanup function that removes the listeners.
-  function setupCursorCta(hoverTarget) {
+  function setupCursorCta(hoverTarget, href) {
     const cta = cursorCtaRef.current;
     if (!cta || !hoverTarget) return () => {};
 
@@ -374,9 +413,23 @@ export default function OurWorkBanner({ id, isReady = true }) {
     const xTo = gsap.quickTo(cta, "x", { duration: 0.5, ease: "power3" });
     const yTo = gsap.quickTo(cta, "y", { duration: 0.5, ease: "power3" });
 
-    let lastX = -9999;
-    let lastY = -9999;
+    let lastX = mousePosRef.current.x;
+    let lastY = mousePosRef.current.y;
     let isHovering = false;
+
+    const hasLink = !!href && href !== "#";
+
+    // Keep the circle's own href in sync so it reads as a real link
+    // (status bar / a11y); the circle itself is pointer-events: none, so
+    // the click lands on the grown image and is handled below.
+    cta.setAttribute("href", href || "#");
+
+    const handleClick = (e) => {
+      e.preventDefault();
+      if (!hasLink) return;
+      if (/^https?:\/\//.test(href)) window.location.href = href;
+      else router.push(href);
+    };
 
     const showCta = () => {
       isHovering = true;
@@ -397,6 +450,14 @@ export default function OurWorkBanner({ id, isReady = true }) {
 
     const handleMove = (e) => {
       trackPosition(e);
+      // mouseenter doesn't reliably fire when the clone grows underneath
+      // an already-resting cursor, so the first move over it has to be
+      // able to reveal the CTA too, not just reposition it.
+      if (!isHovering) {
+        gsap.set(cta, { x: lastX, y: lastY });
+        showCta();
+        return;
+      }
       xTo(lastX);
       yTo(lastY);
     };
@@ -427,8 +488,15 @@ export default function OurWorkBanner({ id, isReady = true }) {
     hoverTarget.addEventListener("mousemove", handleMove);
     hoverTarget.addEventListener("mouseleave", handleLeave);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    hoverTarget.addEventListener("click", handleClick);
+
+    // The grow just finished — if the cursor is already resting over the
+    // card, reveal the CTA now instead of waiting for a mouseenter that
+    // the browser won't send until the cursor leaves and re-enters.
+    handleScroll();
 
     return () => {
+      hoverTarget.removeEventListener("click", handleClick);
       window.removeEventListener("mousemove", trackPosition);
       hoverTarget.removeEventListener("mouseenter", handleEnter);
       hoverTarget.removeEventListener("mousemove", handleMove);
