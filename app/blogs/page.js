@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { getImageUrl } from "../components/getImageUrl";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import LeftSideLine from "../components/LeftSideLine";
 import RightSideLine from "../components/RightSideLine";
-import { getFirstParagraph } from "./getFirstParagraph";
 import "./blogStyle.css";
 
 const PAGE_SIZE = 9;
 const EXCERPT_LENGTH = 140;
+
+// Card short-description (first paragraph of the post's inner content).
+// Switched off for now — flip to true to re-enable. Excerpts are fetched
+// lazily for the visible + featured cards via /api/blog-posts/excerpts.
+const SHOW_EXCERPT = true;
 
 // Field names confirmed against the live /api/blog-posts and /api/categories
 // responses: title, slug, featured_image, categories ([{ Name, Slug }] —
@@ -35,8 +39,8 @@ const asPlainText = (value) => {
   return "";
 };
 
-const getPostExcerpt = (post) => {
-  const text = getFirstParagraph(post);
+const getPostExcerpt = (post, excerpts) => {
+  const text = excerpts?.[post?.slug] || post?.excerpt || "";
   return text.length > EXCERPT_LENGTH ? `${text.slice(0, EXCERPT_LENGTH).trim()}…` : text;
 };
 
@@ -56,6 +60,7 @@ export default function Blogs() {
   const [sections, setSections] = useState({});
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [excerpts, setExcerpts] = useState({}); // slug -> excerpt, fetched lazily for visible cards
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -104,6 +109,35 @@ export default function Blogs() {
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredPosts.length;
 
+  // Excerpts come from each post's inner content, which is slow to load
+  // for the whole list — so fetch them in batches, and only the ones missing.
+  // The cards on screen (featured + visible page) go first; the NEXT page is
+  // prefetched right after, so "View more" shows its excerpts immediately
+  // instead of a few seconds later.
+  const requestedRef = useRef(new Set());
+  useEffect(() => {
+    if (!SHOW_EXCERPT) return;
+
+    const fetchExcerpts = (list) => {
+      const wanted = [...new Set(list.map((post) => post?.slug))].filter(
+        (slug) => slug && !requestedRef.current.has(slug)
+      );
+      if (!wanted.length) return;
+      wanted.forEach((slug) => requestedRef.current.add(slug));
+
+      axios
+        .get(`/api/blog-posts/excerpts?slugs=${encodeURIComponent(wanted.join(","))}`)
+        .then((res) => setExcerpts((prev) => ({ ...prev, ...(res.data?.data || {}) })))
+        .catch((err) => {
+          console.error("Error fetching blog excerpts:", err);
+          wanted.forEach((slug) => requestedRef.current.delete(slug)); // allow a retry
+        });
+    };
+
+    fetchExcerpts([...featuredBlogs, ...visiblePosts]);
+    fetchExcerpts(filteredPosts.slice(visibleCount, visibleCount + PAGE_SIZE));
+  }, [featuredBlogs, visiblePosts, filteredPosts, visibleCount]);
+
   const handleCategoryChange = (e) => {
     setActiveCategory(e.target.value);
     setVisibleCount(PAGE_SIZE); // reset paging whenever the filter changes
@@ -145,7 +179,7 @@ export default function Blogs() {
           {featuredBlogs.length > 0 && (
             <div className="blog-featured-grid">
               {featuredBlogs.map((post) => (
-                <BlogCard key={getPostSlug(post)} post={post} variant="featured" />
+                <BlogCard key={getPostSlug(post)} post={post} excerpts={excerpts} variant="featured" />
               ))}
             </div>
           )}
@@ -177,7 +211,7 @@ export default function Blogs() {
 
           <div className="blog-grid">
             {visiblePosts.map((post) => (
-              <BlogCard key={getPostSlug(post)} post={post} />
+              <BlogCard key={getPostSlug(post)} post={post} excerpts={excerpts} />
             ))}
           </div>
 
@@ -212,9 +246,9 @@ export default function Blogs() {
   );
 }
 
-function BlogCard({ post, variant }) {
+function BlogCard({ post, excerpts, variant }) {
   const title = getPostTitle(post);
-  const excerpt = getPostExcerpt(post);
+  const excerpt = SHOW_EXCERPT ? getPostExcerpt(post, excerpts) : "";
   const image = getPostImage(post);
   const slug = getPostSlug(post);
 

@@ -125,6 +125,8 @@ function VideoCard({ v }) {
         {v.cta_text && (
           <a
             href={v.cta_link || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="video-card-cta custom-cta-link"
           >
             <span className="text-wrap">

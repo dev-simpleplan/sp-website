@@ -27,3 +27,25 @@ export function getFirstParagraph(post) {
   }
   return "";
 }
+
+// Server-side slimming for the blog listing routes: the card only needs
+// the excerpt + a few image fields, not every content block (images, FAQs,
+// tables) of every post — those made the list payload and load time much
+// bigger. Replaces blog_inner_page_contents with a plain `excerpt` string.
+const slimImage = (image) =>
+  image && {
+    url: image.url,
+    alternativeText: image.alternativeText,
+    width: image.width,
+    height: image.height,
+  };
+
+export function slimPost(post) {
+  if (!post) return post;
+  const { blog_inner_page_contents, ...rest } = post;
+  return {
+    ...rest,
+    excerpt: getFirstParagraph(post),
+    featured_image: slimImage(post.featured_image),
+  };
+}
