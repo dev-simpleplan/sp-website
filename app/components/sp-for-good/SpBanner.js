@@ -1,9 +1,19 @@
 "use client";
-import Link from "next/link";
 import { getImageUrl } from "../getImageUrl";
+
+// Id of the partnership form section further down the same page.
+const FORM_SECTION_ID = "partnership";
 
 export default function SpBanner({ id, data }) {
   if (!data) return null;
+
+  // Smooth-scroll to the form on the same page. A <button> (not a link) so
+  // the browser doesn't show a URL in the status bar on hover.
+  const handleCtaClick = () => {
+    document
+      .getElementById(FORM_SECTION_ID)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <section className="home-banner sp-for-good" id={id}>
@@ -14,7 +24,12 @@ export default function SpBanner({ id, data }) {
             {data.description?.[0]?.children?.[0]?.text}
           </p>
           <div className="home-b-cta">
-            <Link href={data?.cta_link} className="custom-btn">
+            <button
+              type="button"
+              onClick={handleCtaClick}
+              className="custom-btn"
+              style={{ cursor: "pointer", fontFamily: "inherit" }}
+            >
               <span>{data?.cta_text}</span>
               <span className="arrow-wrap">
                   <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"
@@ -31,7 +46,7 @@ export default function SpBanner({ id, data }) {
                             fill="currentColor" />
                   </svg>
               </span>
-            </Link>
+            </button>
           </div>
         </div>
         <div className="custom-banner-media">

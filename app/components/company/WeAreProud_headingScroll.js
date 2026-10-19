@@ -49,7 +49,7 @@ export default function WeAreProud_headingScroll({ id, data }) {
 
                   return (
                     <a
-                      href={card.case_study_url ? `/case-study/${card.case_study_url}` : "#"}
+                      href={card.case_study_url ? `/work/${card.case_study_url}` : "#"}
                       key={card.id}
                       className="we-are-proud-company-card"
                     >

@@ -228,15 +228,20 @@ export default function ThinkBeforeBuild({ id, data }) {
                     <span className="ttb-date">{formatDate(post.publishing_date)}</span>
                     <p className="ttb-title">{post.title}</p>
                   </div>
-                  <div className="ttb-card-img">
+                  <a
+                    href={`/blogs/${post.slug}`}
+                    className="ttb-card-img"
+                    draggable="false"
+                    aria-label={post.title}
+                  >
                     <img
                       src={post.image_src || getImageUrl(post.featured_image)}
                       alt={post.featured_image?.alternativeText || post.title}
                       className="img"
                       draggable="false"
                     />
-                  </div>
-                  <a href={`/blog/${post.slug}`} className="ttb-read-more">Read More</a>
+                  </a>
+                  <a href={`/blogs/${post.slug}`} className="ttb-read-more">Read More</a>
                 </div>
               </SwiperSlide>
             ))}

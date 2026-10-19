@@ -7,6 +7,19 @@ import { getImageUrl } from "../getImageUrl";
 const extractText = (description = []) =>
   description.map((block) => (block.children || []).map((c) => c.text).join("")).join("\n");
 
+// CMS `service_link` holds the service slug with a leading slash ("/positioning"),
+// while the page lives at /service/[slug]. Full URLs are left untouched.
+const getServiceHref = (service) => {
+  const raw = service.service_link?.trim();
+  if (raw) {
+    if (/^(https?:)?\/\//.test(raw)) return raw;
+    const slug = raw.replace(/^\/+|\/+$/g, "");
+    if (slug) return `/service/${slug}`;
+  }
+  if (service.cta_link || service.link) return service.cta_link || service.link;
+  return service.slug ? `/service/${service.slug}` : null;
+};
+
 const ServiceCard = ({ service }) => {
   const content = (
     <>
@@ -27,11 +40,16 @@ const ServiceCard = ({ service }) => {
     </>
   );
 
-  const link = service.cta_link || service.link || (service.slug ? `/services/${service.slug}` : null);
+  const link = getServiceHref(service);
 
   if (link) {
     return (
-      <a href={link} className="other-service-card">
+      <a
+        href={link}
+        className="other-service-card"
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
+      >
         {content}
       </a>
     );

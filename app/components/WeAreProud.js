@@ -1,7 +1,18 @@
 "use client";
 import { useRef } from "react";
+import Link from "next/link";
 import { getImageUrl } from "./getImageUrl";
 import useStickyHorizontalTrack from "../hooks/useStickyHorizontalTrack";
+
+// Work inner page for a card, from the CMS `case_study_url` field. It may hold
+// a bare slug ("invogue") or a full path/URL ("/work/invogue"); a bare slug is
+// prefixed with /work/. Falls back to the work listing when it's empty.
+const getWorkHref = (card) => {
+  const url = card.case_study_url?.trim();
+  if (!url) return "/our-work";
+  if (/^(https?:)?\/\//.test(url) || url.startsWith("/")) return url;
+  return `/work/${url}`;
+};
 
 // Sticky + scroll-driven horizontal track — CSS `position: sticky` (native,
 // like VideoAnimated.js) handles "stay in view" instead of a GSAP pin.
@@ -29,8 +40,8 @@ export default function WeAreProud({ id, data }) {
             <div className="slider-wrapper-inner">
               <div className="we-are-proud-in" ref={trackRef}>
                 {cards.map((card) => (
-                  <a
-                    href={card.href || "#!"}
+                  <Link
+                    href={getWorkHref(card)}
                     key={card.id}
                     className="fold-wrap"
                     draggable="false"
@@ -73,7 +84,7 @@ export default function WeAreProud({ id, data }) {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

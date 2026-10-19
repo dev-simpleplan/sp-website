@@ -14,7 +14,7 @@ import cardImg from "./images/we-are-p.png";
 const WORK_ITEMS = [
   {
     id: "invouge",
-    href: "#",
+    href: "/work/invogue",
     tag: "Fashion & Beauty",
     title: "invouge",
     subtitle: "Lorem ipsum dolor sit amet consectetur.",
