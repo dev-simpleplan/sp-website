@@ -16,30 +16,18 @@ const getPostTitle = (post) => post?.title || "Untitled";
 const getPostImage = (post) => post?.featured_image;
 const getPostSlug = (post) => post?.slug || post?.id;
 
-// TEMP: blog.table-content only carries its two column headings
-// (left_side_title/right_side_tille) — there's no row-data field on it in
-// the API yet. Until the CMS adds one, every table-content block reuses
-// this same hardcoded set of rows so the section isn't just a bare
-// heading. Swap this out for real per-block row data once that field
-// exists (see the "blog.table-content" case in renderContentBlocks).
-const DEMO_TABLE_ROWS = [
-  {
-    left: "Branding is the process of creating a distinct identity for a product, service, or company through various marketing strategies.",
-    right: "A brand is the overall perception and emotional response a customer has towards a product, service, or company.",
-  },
-  {
-    left: "The focus of branding is external, outward communication to the target audience.",
-    right: "A brand is internal and external, involving both how the company presents itself and how customers perceive it.",
-  },
-  {
-    left: "Since it involves visual and physical elements, branding becomes tangible.",
-    right: "As it deals with perceptions, emotions, and customer experiences, a brand becomes intangible.",
-  },
-  {
-    left: "Examples: Designing a logo, creating an advertising campaign, defining a unique selling point.",
-    right: "Examples: Apple’s brand is associated with innovation, simplicity and premium quality. Nike is synonymous with inspiration, athleticism and empowerment.",
-  },
-];
+// blog.table-content is a two-column comparison: left_side_conent and
+// right_side_conent (field names as spelled in the CMS) are parallel lists
+// of { title }, paired up by index into rows. If one side is shorter, its
+// cell is left empty.
+const getTableRows = (block) => {
+  const left = block?.left_side_conent || [];
+  const right = block?.right_side_conent || [];
+  return Array.from({ length: Math.max(left.length, right.length) }, (_, i) => ({
+    left: left[i]?.title || "",
+    right: right[i]?.title || "",
+  }));
+};
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -221,8 +209,7 @@ function renderContentBlocks(blocks) {
           </blockquote>
         ) : null;
 
-      // Only carries the two column labels, no row data — rendered as a
-      // simple two-up comparison heading.
+      // Two-column comparison: column headings + rows from the block's data.
       case "blog.table-content":
         return (
           <div key={key} className="blog-post-table">
@@ -230,9 +217,7 @@ function renderContentBlocks(blocks) {
               <span>{block.left_side_title}</span>
               <span>{block.right_side_tille}</span>
             </div>
-            {/* DEMO_TABLE_ROWS — see its own comment above for why this
-                is hardcoded rather than read from `block`. */}
-            {DEMO_TABLE_ROWS.map((row, j) => (
+            {getTableRows(block).map((row, j) => (
               <div key={j} className="blog-post-table-row">
                 <p>{row.left}</p>
                 <p>{row.right}</p>
