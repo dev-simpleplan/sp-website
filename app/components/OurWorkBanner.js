@@ -1,60 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
-import cardImg from "./images/we-are-p.png";
+import { getImageUrl } from "./getImageUrl";
 
-// Static placeholder data — once the CMS has multiple case studies this
-// array should be replaced with `data` mapped from the API response.
-// `href` is where the grown image / "View Case Study" circle navigates —
-// "#" means "no destination yet" (click does nothing); swap it for the
-// case study's inner-page path (e.g. `/work/${slug}`) once it comes from
-// the API.
-const WORK_ITEMS = [
-  {
-    id: "invouge",
-    href: "/work/invogue",
-    tag: "Fashion & Beauty",
-    title: "invouge",
-    subtitle: "Lorem ipsum dolor sit amet consectetur.",
-    stat: { value: "1.2", suffix: "x", label: "Revenue Growth" },
-    whatWeDid: ["Brand Positioning"],
-    image: cardImg.src,
-  },
-  {
-    id: "lumen",
-    href: "#",
-    tag: "Wellness",
-    title: "lumen",
-    subtitle: "Lorem ipsum dolor sit amet consectetur.",
-    stat: { value: "2.4", suffix: "x", label: "Engagement" },
-    whatWeDid: ["Visual Identity"],
-    image: cardImg.src,
-  },
-  {
-    id: "atlas",
-    href: "#",
-    tag: "Technology",
-    title: "atlas",
-    subtitle: "Lorem ipsum dolor sit amet consectetur.",
-    stat: { value: "3.1", suffix: "x", label: "User Growth" },
-    whatWeDid: ["Web Design"],
-    image: cardImg.src,
-  },
-  {
-    id: "nova",
-    href: "#",
-    tag: "Retail",
-    title: "nova",
-    subtitle: "Lorem ipsum dolor sit amet consectetur.",
-    stat: { value: "4.8", suffix: "x", label: "Conversion" },
-    whatWeDid: ["Campaign Design"],
-    image: cardImg.src,
-  },
-];
+const getText = (blocks) =>
+  (blocks || [])
+    .map((block) => (block.children || []).map((child) => child.text).join(""))
+    .join(" ")
+    .trim();
 
-const FIRST_ITEM_ID = WORK_ITEMS[0]?.id ?? null;
+// "1.2x" -> { value: "1.2", suffix: "x" }; anything without a leading
+// number is shown as-is with no suffix.
+const splitStat = (text = "") => {
+  const match = text.trim().match(/^([\d.,]+)\s*(.*)$/);
+  return match ? { value: match[1], suffix: match[2] } : { value: text, suffix: "" };
+};
+
+// Where the grown image / "View Case Study" circle navigates, from the CMS
+// `redirection_link` field: a bare slug ("invogue") becomes /work/invogue, a
+// path or full URL is used as-is. "#" means "no destination" (click does
+// nothing).
+const getWorkHref = (item) => {
+  const url = item.redirection_link?.trim();
+  if (!url) return "#";
+  if (/^(https?:)?\/\//.test(url) || url.startsWith("/")) return url;
+  return `/work/${url}`;
+};
+
+// Maps the CMS featured_work entries to the shape this banner renders.
+// The first `we_did` paragraph is the "WHAT WE DID" label, the rest are the
+// points.
+const toWorkItem = (item) => ({
+  id: String(item.documentId || item.id),
+  href: getWorkHref(item),
+  tag: item.image_tag,
+  title: item.title,
+  subtitle: getText(item.description),
+  stat: { ...splitStat(item.subtitle), label: item.subtext },
+  whatWeDid: (item.we_did || [])
+    .slice(1)
+    .map((block) => getText([block]))
+    .filter(Boolean),
+  image: getImageUrl(item.image),
+});
 
 // How much of each section's height the grown image should cover. Full
 // (1) height, so adjacent cards' grown images sit flush edge-to-edge with
@@ -68,7 +58,16 @@ const IMAGE_COVER_HEIGHT_RATIO = 1;
 // user pausing, not a scheduled animation.
 const SCROLL_PAUSE_MS = 350;
 
-export default function OurWorkBanner({ id, isReady = true }) {
+export default function OurWorkBanner({ id, data, isReady = true }) {
+  const workItems = useMemo(
+    () => (data?.featured_work || []).map(toWorkItem),
+    [data]
+  );
+  // Read from effects / GSAP callbacks, which are set up once on mount.
+  const workItemsRef = useRef(workItems);
+  workItemsRef.current = workItems;
+  const firstItemId = workItems[0]?.id ?? null;
+
   // Per-item DOM refs, keyed by item id — plain objects (not state) since
   // none of this needs to trigger a re-render; GSAP drives the DOM
   // directly, same as the original single-card version.
@@ -193,7 +192,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
         // resurrect the cursor CTA or "grown" bookkeeping for a clone
         // that's already been torn down.
         if (cloneRefs.current[itemId] !== clone) return;
-        const href = WORK_ITEMS.find((item) => item.id === itemId)?.href;
+        const href = workItemsRef.current.find((item) => item.id === itemId)?.href;
         cloneCleanupRefs.current[itemId] = setupCursorCta(clone, href);
         onGrown?.();
       },
@@ -248,15 +247,15 @@ export default function OurWorkBanner({ id, isReady = true }) {
       if (hasPlayedIntroRef.current) return;
       hasPlayedIntroRef.current = true;
 
-      const card = cardRefs.current[FIRST_ITEM_ID];
-      if (!card || !FIRST_ITEM_ID) return;
+      const card = cardRefs.current[firstItemId];
+      if (!card || !firstItemId) return;
 
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       tl.set(card, { y: "-100vh", opacity: 0 }).to(card, { y: 0, opacity: 1, duration: 1 });
 
       tl.add(() => {
-        growItem(FIRST_ITEM_ID, () => {
+        growItem(firstItemId, () => {
           introPlayingRef.current = false;
         });
 
@@ -300,7 +299,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
 
       clearTimeout(pauseTimer);
       pauseTimer = setTimeout(() => {
-        WORK_ITEMS.forEach((item) => growItem(item.id));
+        workItemsRef.current.forEach((item) => growItem(item.id));
       }, SCROLL_PAUSE_MS);
     };
 
@@ -325,7 +324,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
       <div className="ow-banner-head-sticky">
         <div className="ow-banner-head" ref={headingRef}>
           <div className="ow-banner-title">
-            <h1>Our Featured work</h1>
+            <h1>{data?.bottom_title}</h1>
           </div>
         </div>
       </div>
@@ -333,7 +332,7 @@ export default function OurWorkBanner({ id, isReady = true }) {
       {/* Pulled up to overlap the heading's reserved space — see CSS —
           so the section's total scroll length is just N x 100vh. */}
       <div className="our-work-banner-cards">
-        {WORK_ITEMS.map((item) => {
+        {workItems.map((item) => {
           return (
             <div
               key={item.id}
@@ -420,16 +419,36 @@ export default function OurWorkBanner({ id, isReady = true }) {
     const hasLink = !!href && href !== "#";
 
     // Keep the circle's own href in sync so it reads as a real link
-    // (status bar / a11y); the circle itself is pointer-events: none, so
-    // the click lands on the grown image and is handled below.
+    // (a11y); the circle itself is pointer-events: none.
     cta.setAttribute("href", href || "#");
 
-    const handleClick = (e) => {
-      e.preventDefault();
-      if (!hasLink) return;
-      if (/^https?:\/\//.test(href)) window.location.href = href;
-      else router.push(href);
-    };
+    // A real <a href> laid over the grown image, so hovering it shows the
+    // destination in the browser's status bar like any other link. Plain
+    // clicks go through the router (no full reload); modified clicks
+    // (cmd/ctrl/shift, middle button) keep their default browser behavior.
+    let linkEl = null;
+    let handleLinkClick = null;
+    if (hasLink) {
+      linkEl = document.createElement("a");
+      linkEl.href = href;
+      linkEl.setAttribute("aria-label", "View case study");
+      linkEl.draggable = false;
+      Object.assign(linkEl.style, {
+        position: "absolute",
+        inset: "0",
+        zIndex: "1000",
+        cursor: "none",
+      });
+      hoverTarget.appendChild(linkEl);
+
+      handleLinkClick = (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        if (/^(https?:)?\/\//.test(href)) return; // external: normal navigation
+        e.preventDefault();
+        router.push(href);
+      };
+      linkEl.addEventListener("click", handleLinkClick);
+    }
 
     const showCta = () => {
       isHovering = true;
@@ -488,7 +507,6 @@ export default function OurWorkBanner({ id, isReady = true }) {
     hoverTarget.addEventListener("mousemove", handleMove);
     hoverTarget.addEventListener("mouseleave", handleLeave);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    hoverTarget.addEventListener("click", handleClick);
 
     // The grow just finished — if the cursor is already resting over the
     // card, reveal the CTA now instead of waiting for a mouseenter that
@@ -496,7 +514,10 @@ export default function OurWorkBanner({ id, isReady = true }) {
     handleScroll();
 
     return () => {
-      hoverTarget.removeEventListener("click", handleClick);
+      if (linkEl) {
+        linkEl.removeEventListener("click", handleLinkClick);
+        linkEl.remove();
+      }
       window.removeEventListener("mousemove", trackPosition);
       hoverTarget.removeEventListener("mouseenter", handleEnter);
       hoverTarget.removeEventListener("mousemove", handleMove);

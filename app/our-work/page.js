@@ -19,8 +19,15 @@ export default function OurWork(){
 const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [workBanner, setWorkBanner] = useState(null);
 
   useSetPreFooter(sections?.pre_footer);
+
+  useEffect(() => {
+    axios.get('/api/our-work')
+      .then(response => setWorkBanner(response.data?.data?.work_banner || null))
+      .catch(error => console.error('Error fetching work banner:', error));
+  }, []);
 
   useEffect(() => {
     axios.get('/api/branding-service-outer?populate[branding_outer_banner][populate]=*&populate[stats][populate]=*&populate[branding_approach][populate]=*&populate[scope_work][populate]=*&populate[transformation][populate][case_study_cards][populate]=*&populate[work_shows_up][populate]=*&populate[pre_footer][populate]=*')
@@ -119,7 +126,7 @@ const [sections, setSections] = useState({});
     <>
       <LeftSideLine/>
       <RightSideLine/>
-      <OurWorkBanner data={sections?.work_banner} id="service-banner"/>
+      {workBanner && <OurWorkBanner data={workBanner} id="service-banner"/>}
       <AllWork id="all-work"/>
     </>
   );

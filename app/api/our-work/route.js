@@ -1,9 +1,9 @@
-// app/api/home-page/route.js
+// app/api/our-work/route.js
 
 export async function GET() {
   try {
     const res = await fetch(
-      "http://72.61.235.119:1337/api/our-work?populate[work_banner][populate]=*",
+      "http://72.61.235.119:1337/api/our-work?populate[work_banner][populate][featured_work][populate]=*&populate[work_banner][populate]=",
       {
         headers: {
           Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
@@ -22,7 +22,7 @@ export async function GET() {
     const data = await res.json();
     return Response.json(data);
   } catch (error) {
-    console.error("home-page route error:", error);
+    console.error("our-work route error:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }
