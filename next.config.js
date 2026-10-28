@@ -29,6 +29,16 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Keep the *.vercel.app deployment URLs (staging / preview copies)
+        // out of Google. Header-based so it needs no dynamic rendering, and
+        // host-matched so a custom production domain stays indexable.
+        // Don't also Disallow this in robots.txt: Google has to be able to
+        // crawl the page to see the noindex.
+        source: "/:path*",
+        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
 };
