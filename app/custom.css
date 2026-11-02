@@ -709,6 +709,112 @@
   margin-top: 8px;
 }
 
+/* ── WeDoStand slider controls ───────────────────────────── */
+/* The layout itself reuses the .wds-* rules above; only the Prev/Next
+   buttons, the single-item (non-absolute) text, and the step fade are new. */
+.wds-items-wrap--static {
+  height: auto;
+  overflow: visible;
+}
+
+.wds-item--static {
+  position: static;
+}
+
+.wds-slider__controls {
+  display: flex;
+  gap: 7px;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+/* Desktop: arrows below the image + content row (hidden <=767px, where the
+   mobile card list has its own set). */
+.wds-controls-desktop .wds-slider__controls {
+  margin-top: 24px;
+}
+
+@media (max-width: 767px) {
+  .wds-controls-desktop {
+    display: none;
+  }
+}
+
+.wds-slider__controls button {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--sp-white);
+  color: var(--sp-white);
+  cursor: pointer;
+  display: flex;
+  height: 35px;
+  justify-content: center;
+  width: 35px;
+  overflow: hidden;
+}
+
+.wds-slider__controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.wds-slider__controls button svg {
+  fill: none;
+  height: 18px;
+  width: 18px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  transition: transform 0.35s ease;
+}
+
+.wds-slider__controls button:first-child:hover:not(:disabled) svg {
+  transform: translateX(-4px);
+}
+
+.wds-slider__controls button:last-child:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+/* The wrapper used to be a fixed 100vh pinned box (overflow hidden). Now that
+   the section doesn't pin, a fixed height would clip the arrows on shorter
+   screens (e.g. a 1024x768 landscape tablet), so it grows with its content and
+   is still at least one screen tall. <=767px keeps its own stacked rules. */
+@media (min-width: 768px) {
+  .we-do-stand .we-do-stand-sticky.wds-fit {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    padding: 40px 0;
+  }
+}
+
+/* <=767px: one card + arrows, so the old stacked-cards behaviour (sticky
+   cards, 40px between cards) isn't wanted. */
+@media (max-width: 767px) {
+  .we-do-stand .wds-mobile-list {
+    gap: 24px;
+  }
+
+  .we-do-stand .wds-mobile-card {
+    position: static;
+    padding-bottom: 0;
+  }
+
+  .we-do-stand .wds-mobile-list .wds-slider__controls {
+    margin-top: 0;
+  }
+}
+
+@keyframes wds-slide-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.wds-slide-in {
+  animation: wds-slide-in 0.45s ease;
+}
+
 /* ── Ready to Build ─────────────────────────────────────── */
 .ready-to-build {
   background-color: var(--sp-red);
