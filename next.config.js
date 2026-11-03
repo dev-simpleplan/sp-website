@@ -27,6 +27,10 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          // Site is behind a password gate (see proxy.js) while it's not
+          // meant to be publicly discoverable — keep it out of search
+          // indexes on top of that, in case anything ever leaks through.
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
       {
