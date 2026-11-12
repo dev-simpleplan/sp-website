@@ -44,7 +44,7 @@ export async function GET(request) {
 
     const headers = {
       "Content-Type": upstream.headers.get("content-type") || "application/octet-stream",
-      "Cache-Control": "public, max-age=31536000, immutable",
+      "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=300",
       "Accept-Ranges": "bytes",
     };
     for (const name of ["content-length", "content-range"]) {
