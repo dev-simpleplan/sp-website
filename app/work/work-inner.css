@@ -69,10 +69,12 @@
 #jurassic-fruit .work-c7__block-content .is-bold {
   color: #ffffff;
 }
-#jurassic-fruit .work-c7 + .work-c7 .work-c7__content {
+#jurassic-fruit .work-c7 + .work-c7 .work-c7__content,
+#aunty-cherish .work-c7 + .work-c7 .work-c7__content {
   order: 2;
 }
-#jurassic-fruit .work-c7 + .work-c7 .work-c7__image {
+#jurassic-fruit .work-c7 + .work-c7 .work-c7__image,
+#aunty-cherish .work-c7 + .work-c7 .work-c7__image {
   order: 1;
 }
 #jurassic-fruit .fill-bg .fill-bg-title-color,
@@ -209,12 +211,43 @@
   fill: #FF7636;
 }
 
+/* UPKRAMA */
+#upkrama .work-c7.fill-bg .fill-bg-title-color,
+#upkrama .work-c7.fill-bg .fill-bg-para-color{
+  color: #fff;
+}
+#upkrama .work-c10 .work-c10__quote-icon svg{
+  fill: #0158F4;
+}
+#upkrama .work-c10.fill-bg .work-c10__heading,
+#upkrama .work-c14.fill-bg .work-c14__heading{
+  color: #F4CE00;
+}
+#upkrama .work-c10.fill-bg .work-c10__paragraph,
+#upkrama .work-c14.fill-bg .work-c14__content p,
+#upkrama .work-c14.fill-bg .work-c14__stats-value,
+#upkrama .work-c14.fill-bg .work-c14__stats-unit,
+#upkrama .work-c14.fill-bg .work-c14__stats-description{
+  color: #fff;
+}
+
+/* AUNTY CHERISH */
+#aunty-cherish .work-c10 .work-c10__quote-icon svg{
+  fill: #111111;
+}
+#aunty-cherish .work-c10 .work-c10__heading{
+  color: #fff;
+}
+#aunty-cherish .work-c10 .work-c10__sub-text.theme-title-color{
+  color: #111111;
+}
+
 
 
 
 
 @media screen and (min-width: 768px) {
-  #jurassic-fruit .work-c7:has(+ .work-c7) .work-c7__image {
+  #jurassic-fruit .work-c7:has(+ .work-c7) .work-c7__image{
     position: absolute;
     top: 50%;
     right: 0;
@@ -440,8 +473,14 @@ picture{
     line-height: 150%;
 }
 
-.work-c7__block-content .is-bold {
+.work-c7__block-content .is-bold,
+.work-c7__intro .is-bold {
   font-weight: 700;
+}
+
+.work-c7__block-content .is-italic,
+.work-c7__intro .is-italic {
+  font-style: italic;
 }
 
 
@@ -508,9 +547,6 @@ picture{
 
 .work-c8__info-description {
     max-width: 59ch;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
 }
 
 .work-c8__description{
