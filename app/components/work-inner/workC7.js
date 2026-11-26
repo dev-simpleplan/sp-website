@@ -15,6 +15,21 @@ export default function C7({ data }) {
   const getText = (children = []) =>
     children.map((child) => child.text || "").join("");
 
+  // Keep inline bold/italic from the CMS so a paragraph with some bold
+  // words stays one inline paragraph.
+  const renderText = (item) =>
+    item?.children?.map((child, index) => {
+      if (!child.text) return null;
+      const classes = [child.bold && "is-bold", child.italic && "is-italic"]
+        .filter(Boolean)
+        .join(" ");
+      return (
+        <span key={index} className={classes || undefined}>
+          {child.text}
+        </span>
+      );
+    });
+
   const hasText = (item) => {
     return getText(item?.children).trim() !== "";
   };
@@ -83,7 +98,7 @@ export default function C7({ data }) {
                     key={index}
                     className="theme-color-para fill-bg-para-color"
                   >
-                    {getText(item.children)}
+                    {renderText(item)}
                   </p>
                 ))}
               </div>
@@ -114,16 +129,7 @@ export default function C7({ data }) {
                     {block.paragraphs.map(
                       (paragraph, paragraphIndex) => (
                         <p key={paragraphIndex}>
-                          {paragraph.children?.map(
-                            (child, childIndex) => (
-                              <span
-                                key={childIndex}
-                                className={child.bold ? "is-bold" : ""}
-                              >
-                                {child.text}
-                              </span>
-                            )
-                          )}
+                          {renderText(paragraph)}
                         </p>
                       )
                     )}

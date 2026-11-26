@@ -108,11 +108,16 @@ export default function C8TextCol({ id, data }) {
      * Bold   = unit
      */
 
-    const isStat = block.children?.some(
-      (child) =>
-        child?.italic === true ||
-        child?.bold === true
+    // A stat is a short line that is *entirely* italic/bold. A normal
+    // sentence that merely contains some bold words (mixed with plain
+    // text) is an info paragraph, not a stat.
+    const styledChildren = (block.children || []).filter((child) =>
+      child?.text?.trim()
     );
+    const isStat =
+      styledChildren.length > 0 &&
+      styledChildren.every((child) => child.italic === true || child.bold === true) &&
+      getText(block).length <= 24;
 
     if (isStat) {
       pendingStat = {
